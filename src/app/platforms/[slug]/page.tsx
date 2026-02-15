@@ -16,9 +16,9 @@ import { WAITLIST_STATUS_COLORS } from '@/lib/constants';
 import PlatformCard from '@/components/PlatformCard';
 
 interface PlatformPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -29,7 +29,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PlatformPageProps): Promise<Metadata> {
-  const platform = await getPlatformBySlug(params.slug);
+  const { slug } = await params;
+  const platform = await getPlatformBySlug(slug);
   
   if (!platform) {
     return {
@@ -44,7 +45,8 @@ export async function generateMetadata({ params }: PlatformPageProps): Promise<M
 }
 
 export default async function PlatformPage({ params }: PlatformPageProps) {
-  const platform = await getPlatformBySlug(params.slug);
+  const { slug } = await params;
+  const platform = await getPlatformBySlug(slug);
   
   if (!platform) {
     notFound();
