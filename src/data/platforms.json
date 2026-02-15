@@ -1,0 +1,201 @@
+[
+  {
+    "id": "ezcater",
+    "slug": "ezcater",
+    "name": "ezCater",
+    "description": "Deliver catering orders from restaurants to offices and events. Known for higher pay and larger orders. Popular platform for catering delivery specialists.",
+    "logoUrl": "/logos/ezcater.png",
+    "websiteUrl": "https://www.ezcater.com/drivers",
+    "iosAppUrl": "https://apps.apple.com/us/app/ezcater-for-drivers",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ezcater.driver",
+    "categories": ["catering_delivery"],
+    "minAge": 21,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": ["car", "suv", "van"],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": ["insulated bag", "smartphone"],
+    "otherRequirements": "Clean driving record, reliable vehicle",
+    "countries": ["USA"],
+    "regions": {
+      "USA": {
+        "status": "Available in major cities",
+        "cities": ["New York", "Los Angeles", "Chicago", "Boston", "San Francisco", "Dallas", "Atlanta"],
+        "waitlistStatus": "open"
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedPayMin": 15,
+    "estimatedPayMax": 40,
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 35,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "scheduled",
+    "setupRequired": true,
+    "lastUpdated": "2024-02-15",
+    "dataSources": ["official_website", "driver_forums"],
+    "verificationStatus": "verified"
+  },
+  {
+    "id": "deliverthat",
+    "slug": "deliverthat",
+    "name": "DeliverThat",
+    "description": "Catering delivery platform focused on business meals and large orders. Requires larger vehicles and provides scheduled delivery windows.",
+    "logoUrl": "/logos/deliverthat.png",
+    "websiteUrl": "https://www.deliverthat.com/driver",
+    "iosAppUrl": "https://apps.apple.com/us/app/deliverthat-driver",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.deliverthat.driver",
+    "categories": ["catering_delivery"],
+    "minAge": 21,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": ["suv", "van"],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": ["insulated bag", "smartphone", "dolly or cart"],
+    "otherRequirements": "Vehicle must pass inspection, professional appearance",
+    "countries": ["USA"],
+    "regions": {
+      "USA": {
+        "status": "Available in select markets",
+        "cities": ["Phoenix", "Denver", "Seattle", "Portland", "Austin", "Houston"],
+        "waitlistStatus": "waitlist"
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedPayMin": 20,
+    "estimatedPayMax": 50,
+    "estimatedHourlyMin": 20,
+    "estimatedHourlyMax": 40,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "scheduled",
+    "setupRequired": true,
+    "lastUpdated": "2024-02-15",
+    "dataSources": ["official_website"],
+    "verificationStatus": "verified"
+  },
+  {
+    "id": "doordash",
+    "slug": "doordash",
+    "name": "DoorDash",
+    "description": "Leading food delivery platform connecting restaurants with customers. Flexible scheduling and widespread availability make it one of the most accessible gig opportunities.",
+    "logoUrl": "/logos/doordash.png",
+    "websiteUrl": "https://www.doordash.com/dasher/signup",
+    "iosAppUrl": "https://apps.apple.com/us/app/doordash-dasher",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.doordash.driver",
+    "categories": ["food_delivery"],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": ["bike", "car", "scooter"],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": ["smartphone", "insulated bag"],
+    "otherRequirements": "Red Card provided for certain orders",
+    "countries": ["USA", "Canada", "Australia"],
+    "regions": {
+      "USA": {
+        "status": "Available nationwide",
+        "waitlistStatus": "open"
+      },
+      "Canada": {
+        "status": "Available in major cities",
+        "waitlistStatus": "open"
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedPayMin": 2,
+    "estimatedPayMax": 10,
+    "estimatedHourlyMin": 15,
+    "estimatedHourlyMax": 25,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "on_demand",
+    "setupRequired": false,
+    "lastUpdated": "2024-02-15",
+    "dataSources": ["official_website", "driver_forums"],
+    "verificationStatus": "verified"
+  },
+  {
+    "id": "ubereats",
+    "slug": "uber-eats",
+    "name": "Uber Eats",
+    "description": "Food delivery service from Uber. Deliver restaurant orders on your schedule. Can combine with Uber rideshare driving for maximum flexibility.",
+    "logoUrl": "/logos/ubereats.png",
+    "websiteUrl": "https://www.uber.com/us/en/deliver/",
+    "iosAppUrl": "https://apps.apple.com/us/app/uber-eats-driver",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.eats.driver",
+    "categories": ["food_delivery"],
+    "minAge": 19,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": ["bike", "car", "scooter", "none"],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": ["smartphone", "insulated bag"],
+    "otherRequirements": "Can deliver on foot in some cities",
+    "countries": ["USA", "Canada", "UK", "Australia"],
+    "regions": {
+      "USA": {
+        "status": "Available nationwide",
+        "waitlistStatus": "open"
+      },
+      "Canada": {
+        "status": "Available in major cities",
+        "waitlistStatus": "open"
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedPayMin": 3,
+    "estimatedPayMax": 12,
+    "estimatedHourlyMin": 12,
+    "estimatedHourlyMax": 20,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "on_demand",
+    "setupRequired": false,
+    "lastUpdated": "2024-02-15",
+    "dataSources": ["official_website"],
+    "verificationStatus": "verified"
+  },
+  {
+    "id": "instacart",
+    "slug": "instacart",
+    "name": "Instacart",
+    "description": "Shop for and deliver groceries from popular stores. Choose between full-service shopping or delivery-only batches. Flexible hours and competitive pay.",
+    "logoUrl": "/logos/instacart.png",
+    "websiteUrl": "https://shoppers.instacart.com/",
+    "iosAppUrl": "https://apps.apple.com/us/app/instacart-shopper",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.instacart.shopper",
+    "categories": ["grocery_delivery"],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": ["car"],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": ["smartphone", "insulated bags"],
+    "otherRequirements": "Ability to lift 50+ lbs, smartphone with data plan",
+    "countries": ["USA", "Canada"],
+    "regions": {
+      "USA": {
+        "status": "Available in 5,500+ cities",
+        "waitlistStatus": "open"
+      },
+      "Canada": {
+        "status": "Available in major cities",
+        "waitlistStatus": "waitlist"
+      }
+    },
+    "payModel": "per_order",
+    "estimatedPayMin": 7,
+    "estimatedPayMax": 25,
+    "estimatedHourlyMin": 15,
+    "estimatedHourlyMax": 30,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "on_demand",
+    "setupRequired": false,
+    "lastUpdated": "2024-02-15",
+    "dataSources": ["official_website", "shopper_community"],
+    "verificationStatus": "verified"
+  }
+]

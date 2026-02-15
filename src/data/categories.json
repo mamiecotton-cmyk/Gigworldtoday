@@ -1,0 +1,66 @@
+[
+  {
+    "id": "catering_delivery",
+    "name": "Catering Delivery",
+    "slug": "catering",
+    "description": "Deliver catering orders to offices and events. Higher pay, larger vehicles often required.",
+    "icon": "🍱",
+    "sortOrder": 1
+  },
+  {
+    "id": "food_delivery",
+    "name": "Food Delivery",
+    "slug": "food-delivery",
+    "description": "Deliver restaurant orders to customers. Most popular gig category.",
+    "icon": "🍔",
+    "sortOrder": 2
+  },
+  {
+    "id": "grocery_delivery",
+    "name": "Grocery Delivery",
+    "slug": "grocery",
+    "description": "Shop for and deliver groceries to customers' homes.",
+    "icon": "🛒",
+    "sortOrder": 3
+  },
+  {
+    "id": "rideshare",
+    "name": "Rideshare",
+    "slug": "rideshare",
+    "description": "Drive passengers to their destinations. Vehicle and insurance requirements.",
+    "icon": "🚗",
+    "sortOrder": 4
+  },
+  {
+    "id": "package_delivery",
+    "name": "Package Delivery",
+    "slug": "package-delivery",
+    "description": "Deliver packages and parcels for e-commerce and logistics companies.",
+    "icon": "📦",
+    "sortOrder": 5
+  },
+  {
+    "id": "quick_commerce",
+    "name": "Quick Commerce",
+    "slug": "quick-commerce",
+    "description": "Fast delivery of convenience items, snacks, and everyday essentials.",
+    "icon": "⚡",
+    "sortOrder": 6
+  },
+  {
+    "id": "task_based",
+    "name": "Task-Based",
+    "slug": "tasks",
+    "description": "Help with furniture assembly, moving, cleaning, and handyman tasks.",
+    "icon": "🔧",
+    "sortOrder": 7
+  },
+  {
+    "id": "pet_care",
+    "name": "Pet Care",
+    "slug": "pet-care",
+    "description": "Walk dogs, pet sit, and provide pet care services in your area.",
+    "icon": "🐾",
+    "sortOrder": 8
+  }
+]
