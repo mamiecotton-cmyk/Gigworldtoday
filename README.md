@@ -28,9 +28,19 @@ Gig World Today is a comprehensive directory website that helps gig workers disc
 - Task-Based (TaskRabbit, Handy)
 - Pet Care (Rover, Wag)
 
-## 🚀 Tech Stack
+## 🚀 Quick Start
 
-- **Framework:** Next.js 14 (App Router)
+**Want to see the website right now?** Check out the [QUICKSTART.md](QUICKSTART.md) guide!
+
+```bash
+npm install
+npm run dev
+# Open http://localhost:3000
+```
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 15 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
 - **Database:** PostgreSQL (Supabase-ready)
