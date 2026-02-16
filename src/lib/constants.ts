@@ -45,5 +45,5 @@ export const WAITLIST_STATUS_COLORS = {
   open: { bg: 'bg-green-100', text: 'text-green-800', label: 'Accepting' },
   waitlist: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Waitlist' },
   closed: { bg: 'bg-red-100', text: 'text-red-800', label: 'Closed' },
-  unknown: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Unknown' },
+  unknown: { bg: '', text: '', label: '' },
 } as const;

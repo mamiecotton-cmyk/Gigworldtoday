@@ -7,6 +7,7 @@ export interface Platform {
   description: string;
   logoUrl: string;
   websiteUrl: string;
+  applyUrl?: string;
   iosAppUrl?: string;
   androidAppUrl?: string;
   
@@ -40,6 +41,7 @@ export interface Platform {
   estimatedHourlyMax?: number;
   tipsAllowed: boolean;
   paymentFrequency: string;
+  rating?: number;
   
   // Work details
   deliveryType: 'on_demand' | 'scheduled' | 'both';
@@ -61,10 +63,9 @@ export interface Category {
 }
 
 export interface FilterOptions {
-  location?: string;
+  search?: string;
+  vehicles?: string[];
   categories?: string[];
-  waitlistStatus?: ('open' | 'waitlist' | 'closed' | 'unknown')[];
-  vehicleTypes?: string[];
-  minAge?: number;
-  backgroundCheck?: boolean;
+  countries?: string[];
+  statuses?: string[];
 }

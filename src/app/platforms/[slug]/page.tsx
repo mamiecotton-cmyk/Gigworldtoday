@@ -54,6 +54,8 @@ export default async function PlatformPage({ params }: PlatformPageProps) {
 
   const waitlistStatus = platform.regions[platform.countries[0]]?.waitlistStatus || 'unknown';
   const statusConfig = WAITLIST_STATUS_COLORS[waitlistStatus];
+  const showWaitlistBadge = waitlistStatus !== 'unknown';
+  const applyHref = platform.applyUrl;
   
   const allPlatforms = await getAllPlatforms();
   const relatedPlatforms = allPlatforms
@@ -87,24 +89,41 @@ export default async function PlatformPage({ params }: PlatformPageProps) {
                   {platform.name}
                 </h1>
                 <div className="flex items-center space-x-3">
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusConfig.bg} ${statusConfig.text}`}>
-                    {statusConfig.label}
-                  </span>
+                  {showWaitlistBadge && (
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusConfig.bg} ${statusConfig.text}`}>
+                      {statusConfig.label}
+                    </span>
+                  )}
                   <span className="text-gray-500">
                     {platform.categories[0]?.replace('_', ' ')}
                   </span>
                 </div>
               </div>
             </div>
-            <a
-              href={platform.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium flex items-center"
-            >
-              Apply Now
-              <ExternalLink className="ml-2" size={18} />
-            </a>
+            <div className="flex flex-wrap items-center gap-3">
+              {applyHref && (
+                <a
+                  href={applyHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium flex items-center"
+                >
+                  Apply Now
+                  <ExternalLink className="ml-2" size={18} />
+                </a>
+              )}
+              {platform.websiteUrl && (
+                <a
+                  href={platform.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white text-primary-700 border border-primary-200 px-6 py-3 rounded-lg hover:bg-primary-50 transition-colors font-medium flex items-center"
+                >
+                  Visit Website
+                  <ExternalLink className="ml-2" size={18} />
+                </a>
+              )}
+            </div>
           </div>
           
           <p className="text-lg text-gray-700 mb-6">
