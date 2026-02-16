@@ -45,11 +45,12 @@ export default function PlatformsPage() {
         // Check if platform has any of the selected vehicle types
         // "none" means no vehicle required (empty vehicleTypes array or includes 'none')
         if (filters.vehicleTypes.includes('none')) {
-          if (platform.vehicleTypes.length === 0 || platform.vehicleTypes.includes('none')) {
+          if (platform.vehicleTypes.length === 0 || 
+              platform.vehicleTypes.some(vType => vType.toLowerCase() === 'none')) {
             return true;
           }
         }
-        // Check for overlap between platform's vehicle types and selected filters
+        // Check for overlap between platform's vehicle types and selected filters (case-insensitive)
         return platform.vehicleTypes.some(vType => 
           filters.vehicleTypes.includes(vType.toLowerCase())
         );
