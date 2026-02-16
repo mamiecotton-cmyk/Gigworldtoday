@@ -1,0 +1,126 @@
+-- Seed data for Gig World Today
+-- Sample data for testing and development
+
+-- Insert categories
+INSERT INTO categories (slug, name, description, icon, sort_order) VALUES
+  ('catering', 'Catering Delivery', 'Deliver catering orders to offices and events. Higher pay, larger vehicles often required.', '🍱', 1),
+  ('food-delivery', 'Food Delivery', 'Deliver restaurant orders to customers. Most popular gig category.', '🍔', 2),
+  ('grocery', 'Grocery Delivery', 'Shop for and deliver groceries to customers'' homes.', '🛒', 3),
+  ('rideshare', 'Rideshare', 'Drive passengers to their destinations. Vehicle and insurance requirements.', '🚗', 4),
+  ('package-delivery', 'Package Delivery', 'Deliver packages and parcels for e-commerce and logistics companies.', '📦', 5),
+  ('quick-commerce', 'Quick Commerce', 'Fast delivery of convenience items, snacks, and everyday essentials.', '⚡', 6),
+  ('tasks', 'Task-Based', 'Help with furniture assembly, moving, cleaning, and handyman tasks.', '🔧', 7),
+  ('pet-care', 'Pet Care', 'Walk dogs, pet sit, and provide pet care services in your area.', '🐾', 8);
+
+-- Insert sample platforms
+INSERT INTO platforms (
+  slug, name, description, logo_url, website_url, ios_app_url, android_app_url,
+  categories, min_age, background_check_required, vehicle_types, license_required,
+  insurance_required, equipment_needed, other_requirements, countries, regions,
+  pay_model, estimated_pay_min, estimated_pay_max, estimated_hourly_min, estimated_hourly_max,
+  tips_allowed, payment_frequency, delivery_type, setup_required, last_updated,
+  data_sources, verification_status
+) VALUES
+  (
+    'ezcater',
+    'ezCater',
+    'Deliver catering orders from restaurants to offices and events. Known for higher pay and larger orders.',
+    '/logos/ezcater.png',
+    'https://www.ezcater.com/drivers',
+    'https://apps.apple.com/us/app/ezcater-for-drivers',
+    'https://play.google.com/store/apps/details?id=com.ezcater.driver',
+    ARRAY['catering_delivery'],
+    21,
+    true,
+    ARRAY['car', 'suv', 'van'],
+    true,
+    true,
+    ARRAY['insulated bag', 'smartphone'],
+    'Clean driving record, reliable vehicle',
+    ARRAY['USA'],
+    '{"USA": {"status": "Available in major cities", "cities": ["New York", "Los Angeles", "Chicago", "Boston"], "waitlistStatus": "open"}}'::jsonb,
+    'per_delivery',
+    15.00,
+    40.00,
+    18.00,
+    35.00,
+    true,
+    'weekly',
+    'scheduled',
+    true,
+    NOW(),
+    ARRAY['official_website', 'driver_forums'],
+    'verified'
+  ),
+  (
+    'doordash',
+    'DoorDash',
+    'Leading food delivery platform connecting restaurants with customers. Flexible scheduling and widespread availability.',
+    '/logos/doordash.png',
+    'https://www.doordash.com/dasher/signup',
+    'https://apps.apple.com/us/app/doordash-dasher',
+    'https://play.google.com/store/apps/details?id=com.doordash.driver',
+    ARRAY['food_delivery'],
+    18,
+    true,
+    ARRAY['bike', 'car', 'scooter'],
+    false,
+    false,
+    ARRAY['smartphone', 'insulated bag'],
+    'Red Card provided for certain orders',
+    ARRAY['USA', 'Canada', 'Australia'],
+    '{"USA": {"status": "Available nationwide", "waitlistStatus": "open"}, "Canada": {"status": "Available in major cities", "waitlistStatus": "open"}}'::jsonb,
+    'per_delivery',
+    2.00,
+    10.00,
+    15.00,
+    25.00,
+    true,
+    'weekly',
+    'on_demand',
+    false,
+    NOW(),
+    ARRAY['official_website', 'driver_forums'],
+    'verified'
+  ),
+  (
+    'instacart',
+    'Instacart',
+    'Shop for and deliver groceries from popular stores. Choose between full-service shopping or delivery-only batches.',
+    '/logos/instacart.png',
+    'https://shoppers.instacart.com/',
+    'https://apps.apple.com/us/app/instacart-shopper',
+    'https://play.google.com/store/apps/details?id=com.instacart.shopper',
+    ARRAY['grocery_delivery'],
+    18,
+    true,
+    ARRAY['car'],
+    true,
+    true,
+    ARRAY['smartphone', 'insulated bags'],
+    'Ability to lift 50+ lbs, smartphone with data plan',
+    ARRAY['USA', 'Canada'],
+    '{"USA": {"status": "Available in 5,500+ cities", "waitlistStatus": "open"}, "Canada": {"status": "Available in major cities", "waitlistStatus": "waitlist"}}'::jsonb,
+    'per_order',
+    7.00,
+    25.00,
+    15.00,
+    30.00,
+    true,
+    'weekly',
+    'on_demand',
+    false,
+    NOW(),
+    ARRAY['official_website', 'shopper_community'],
+    'verified'
+  );
+
+-- Verification query to check data
+SELECT 
+  p.name,
+  p.categories,
+  p.min_age,
+  p.estimated_hourly_min || '-' || p.estimated_hourly_max as hourly_pay,
+  p.waitlist_status
+FROM platforms p
+ORDER BY p.name;
