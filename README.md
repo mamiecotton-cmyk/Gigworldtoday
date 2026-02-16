@@ -28,14 +28,30 @@ Gig World Today is a comprehensive directory website that helps gig workers disc
 - Task-Based (TaskRabbit, Handy)
 - Pet Care (Rover, Wag)
 
-## 🚀 Quick Start
+## 📚 Documentation & Guides
 
-**Want to see the website right now?** Check out the [QUICKSTART.md](QUICKSTART.md) guide!
+**New to the project?** Start here:
+- **[TESTING.md](TESTING.md)** - Complete guide for testing your website
+- **[UPDATING.md](UPDATING.md)** - How to add/edit platforms and customize content
+
+**Technical documentation:**
+- [SETUP.md](docs/SETUP.md) - Detailed installation and setup
+- [DATABASE.md](docs/DATABASE.md) - Database configuration
+- [DEPLOYMENT.md](docs/DEPLOYMENT.md) - Deploy to production
+
+## 🚀 Quick Commands
 
 ```bash
+# Start development server
 npm install
 npm run dev
-# Open http://localhost:3000
+# Then open http://localhost:3000
+
+# Build for production
+npm run build
+
+# Run linter
+npm run lint
 ```
 
 ## 🛠️ Tech Stack
@@ -146,6 +162,8 @@ See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed deployment instructions.
 
 ## 📚 Documentation
 
+- **[TESTING.md](TESTING.md)** - Test your website changes
+- **[UPDATING.md](UPDATING.md)** - Add platforms and customize content
 - [SETUP.md](docs/SETUP.md) - Detailed setup instructions
 - [DATABASE.md](docs/DATABASE.md) - Database configuration guide
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) - Deployment guide
