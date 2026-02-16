@@ -77,6 +77,12 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
 
   const activeCount = getActiveFilterCount();
 
+  const statusLabels: Record<string, string> = {
+    open: 'Accepting',
+    waitlist: 'Waitlist',
+    closed: 'Closed'
+  };
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6">
       <div className="flex justify-between items-center mb-4">
@@ -102,7 +108,7 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
                   onChange={() => handleWaitlistChange(status)}
                   className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                 />
-                <span className="ml-2 text-sm text-gray-700 capitalize">{status === 'open' ? 'Accepting' : status}</span>
+                <span className="ml-2 text-sm text-gray-700">{statusLabels[status]}</span>
               </label>
             ))}
           </div>

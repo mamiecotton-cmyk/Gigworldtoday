@@ -57,6 +57,7 @@ export default function PlatformsPage() {
     }
 
     // Filter by age requirement
+    // User selects their age (e.g., 21+), show platforms they qualify for (minAge <= user's age)
     if (filters.minAge !== null) {
       filtered = filtered.filter(platform => platform.minAge <= filters.minAge!);
     }
