@@ -197,5 +197,42 @@
     "lastUpdated": "2024-02-15",
     "dataSources": ["official_website", "shopper_community"],
     "verificationStatus": "verified"
+  },
+  {
+    "id": "postmates",
+    "slug": "postmates",
+    "name": "Postmates",
+    "description": "Postmates (now part of Uber Eats) offers flexible delivery via car, bike, scooter, or on foot. Earn per delivery plus 100% of tips with weekly payouts and instant cashout options.",
+    "logoUrl": "/logos/postmates.png",
+    "websiteUrl": "https://www.uber.com/us/en/deliver/",
+    "iosAppUrl": "https://apps.apple.com/app/uber-eats-driver/id1131342792",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.eats.driver",
+    "categories": ["food_delivery"],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": ["car", "bike", "scooter", "none"],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": ["Smartphone (iOS 11+ or Android 5.0+)", "Valid ID"],
+    "otherRequirements": "21+ in some cities for alcohol delivery. Vehicle insurance required if using motorized vehicle. No vehicle inspection required. Social Security number needed.",
+    "countries": ["USA"],
+    "regions": {
+      "USA": {
+        "status": "available",
+        "waitlistStatus": "open"
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedPayMin": 12,
+    "estimatedPayMax": 25,
+    "estimatedHourlyMin": 12,
+    "estimatedHourlyMax": 25,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "on_demand",
+    "setupRequired": true,
+    "lastUpdated": "2026-02-16",
+    "dataSources": ["https://www.uber.com/us/en/deliver/", "Driver reviews"],
+    "verificationStatus": "verified"
   }
 ]
