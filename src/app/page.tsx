@@ -8,6 +8,7 @@ import platformsData from "@/data/platforms.json";
 import ZIP_TO_CITY from "@/data/zip-to-city";
 import US_CITY_TO_STATE from "@/data/us-city-to-state";
 import { CITY_TO_STATE } from "@/lib/searchUtils";
+import Link from "next/link";
 
 export default function HomePage() {
   const router = useRouter();
@@ -162,6 +163,12 @@ export default function HomePage() {
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
               Discover platforms. Track changes. Maximize earnings.
             </p>
+
+            <div className="mb-6">
+              <Link href="/blog" className="inline-block px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold text-sm hover:bg-emerald-700 transition">
+                Read the Blog
+              </Link>
+            </div>
 
             {/* SEARCH FORM (KEEP EXISTING LOGIC) */}
             <form
