@@ -1,19 +1,43 @@
 'use client';
 
-import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import SmartSearchBar from './SmartSearchBar';
+import platformsData from '@/data/platforms.json';
 
 export default function Hero() {
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState('');
+  const [query, setQuery] = useState('');
+  const [radius, setRadius] = useState(60);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchInput.trim()) {
-      router.push(`/platforms?search=${encodeURIComponent(searchInput)}`);
+  // Memoize all unique 'City, State' strings from platforms
+  const allLocations = useMemo(() => {
+    const platforms = Array.isArray(platformsData) ? platformsData : [];
+    return Array.from(new Set(
+      platforms
+        .filter((p: any) => p.city && p.state)
+        .map((p: any) => `${p.city}, ${p.state}`)
+    ));
+  }, []);
+
+  useEffect(() => {
+    if (!query) {
+      setSuggestions([]);
+      return;
     }
-  };
+    const q = query.toLowerCase();
+    setSuggestions(
+      allLocations.filter(loc => loc.toLowerCase().includes(q)).slice(0, 5)
+    );
+  }, [query, allLocations]);
+
+  const handleSearch = useCallback((searchValue?: string) => {
+    const q = typeof searchValue === 'string' ? searchValue : query;
+    if (q.trim()) {
+      router.push(`/platforms?search=${encodeURIComponent(q)}&radius=${radius}`);
+    }
+  }, [query, radius, router]);
 
   return (
     <div className="bg-gradient-to-br from-primary-50 to-primary-100 py-16 sm:py-20">
@@ -29,16 +53,22 @@ export default function Hero() {
           </p>
           
           <div className="max-w-2xl mx-auto">
-            <form onSubmit={handleSearch} className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={24} />
-              <input
-                type="text"
-                placeholder="Enter your city or ZIP code..."
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-200 rounded-lg focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-              />
-            </form>
+            <SmartSearchBar
+              value={query}
+              onChange={setQuery}
+              radius={radius}
+              onRadiusChange={setRadius}
+              suggestions={suggestions}
+              // Handle Enter key
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSearch();
+                }
+              }}
+              // Handle suggestion click
+              onSuggestionSelect={handleSearch}
+            />
             <p className="mt-4 text-sm text-gray-500">
               🔍 Find platforms accepting new workers in your area
             </p>

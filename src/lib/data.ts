@@ -3,8 +3,41 @@ import { Platform, Category } from './types';
 import platformsData from '@/data/platforms.json';
 import categoriesData from '@/data/categories.json';
 
+/**
+ * Returns all platforms that are currently active (not absorbed, merged, rebranded, or shut down),
+ * unless a search query is present. Platforms with driverStatus of 'absorbed', 'merged', 'rebranded', or 'shut_down'
+ * are excluded from the main list.
+ */
 export async function getAllPlatforms(): Promise<Platform[]> {
-  return platformsData as Platform[];
+  const inactiveStatuses = [
+    'absorbed',
+    'merged',
+    'rebranded',
+    'shut_down',
+    'shutdown',
+    'permanently_closed',
+    'no_longer_hiring',
+    'not_hiring',
+    'closed',
+    'inactive',
+    'defunct',
+    'acquired',
+    'out_of_business',
+    'retired',
+    'discontinued',
+    'suspended',
+    'paused',
+    'terminated',
+    'ended',
+    'legacy',
+    'archived'
+  ];
+  return (platformsData as Platform[]).filter(
+    (p) => {
+      const status = (p.driverStatus || '').toLowerCase();
+      return !inactiveStatuses.includes(status);
+    }
+  );
 }
 
 export async function getPlatformBySlug(slug: string): Promise<Platform | null> {

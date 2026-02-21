@@ -29,6 +29,7 @@ export interface Platform {
     [country: string]: {
       status: string;
       cities?: string[];
+      counties?: { county: string; state: string }[];
       waitlistStatus: 'open' | 'waitlist' | 'closed' | 'unknown';
     };
   };
@@ -51,6 +52,20 @@ export interface Platform {
   lastUpdated: string;
   dataSources: string[];
   verificationStatus: 'verified' | 'community' | 'needs_verification';
+  // Optional fields for special platform statuses and UI
+  usesThirdPartyDelivery?: boolean;
+  deliveryPartners?: string[];
+  driverStatus?: string;
+  mergedWith?: string;
+  redirectMessage?: string;
+  instantPayAvailable?: boolean;
+  instantPayLimit?: string;
+  proTierProgram?: string;
+  proTierBenefits?: string;
+  notes?: string;
+  // Add these for compatibility with autosuggestions/search
+  cities?: string[];
+  locations?: string[];
 }
 
 export interface Category {
@@ -68,4 +83,6 @@ export interface FilterOptions {
   categories?: string[];
   countries?: string[];
   statuses?: string[];
+  deliveryType?: string;
+  availability?: string;
 }

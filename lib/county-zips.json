@@ -1,0 +1,8 @@
+{
+  "90210": { "county": "Los Angeles", "state": "CA" },
+  "10001": { "county": "New York", "state": "NY" },
+  "30301": { "county": "Fulton", "state": "GA" },
+  "60606": { "county": "Cook", "state": "IL" },
+  "94101": { "county": "San Francisco", "state": "CA" }
+  // ... Add more ZIPs as needed or generate from a public dataset
+}

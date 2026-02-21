@@ -82,7 +82,7 @@ export default function RootLayout({
               </div>
             </div>
             <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-              <p>&copy; 2024 Gig World Today. All rights reserved.</p>
+              <p>&copy; 2025 Gig World Today. All rights reserved.</p><p className="mt-2 text-xs text-gray-500">ZIP code data by <a href="https://simplemaps.com/data/us-zips" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-300">simplemaps.com</a></p>
             </div>
           </div>
         </footer>

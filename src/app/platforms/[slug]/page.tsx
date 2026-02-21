@@ -1,342 +1,447 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { 
-  MapPin, 
-  DollarSign, 
-  Clock, 
-  Car, 
-  CheckCircle, 
-  XCircle, 
+"use client";
+
+import React from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import {
+  MapPin,
+  DollarSign,
+  Clock,
+  Car,
+  CheckCircle,
+  XCircle,
   ExternalLink,
-  Calendar
-} from 'lucide-react';
-import { getPlatformBySlug, getAllPlatforms } from '@/lib/data';
-import { WAITLIST_STATUS_COLORS } from '@/lib/constants';
-import PlatformCard from '@/components/PlatformCard';
+  ArrowLeft,
+  Smartphone,
+  Shield,
+  Star,
+} from "lucide-react";
+import platformsData from "@/data/platforms.json";
+import { Platform } from "@/lib/types";
 
-interface PlatformPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
+const inactiveStatuses = [
+  "no_longer_hiring",
+  "shut_down",
+  "acquired",
+  "merged",
+  "rebranded",
+  "shutdown",
+  "permanently_closed",
+  "closed",
+  "inactive",
+  "defunct",
+  "out_of_business",
+];
 
-export async function generateStaticParams() {
-  const platforms = await getAllPlatforms();
-  return platforms.map((platform) => ({
-    slug: platform.slug,
-  }));
-}
+export default function PlatformDetailPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
 
-export async function generateMetadata({ params }: PlatformPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const platform = await getPlatformBySlug(slug);
-  
+  const platforms = platformsData as unknown as Platform[];
+  const platform = platforms.find(
+    (p) => p.slug === slug || p.id === slug
+  );
+
   if (!platform) {
-    return {
-      title: 'Platform Not Found',
-    };
+    return (
+      <div className="max-w-4xl mx-auto py-16 text-center">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+          Platform Not Found
+        </h1>
+        <p className="text-gray-500 mb-8">
+          We couldn&apos;t find a platform matching &quot;{slug}&quot;.
+        </p>
+        <Link
+          href="/platforms"
+          className="inline-flex items-center gap-2 text-[#00C9B1] hover:underline"
+        >
+          <ArrowLeft size={18} />
+          Back to All Platforms
+        </Link>
+      </div>
+    );
   }
 
-  return {
-    title: `${platform.name} - Gig Platform Details`,
-    description: platform.description,
+  const isInactive = inactiveStatuses.includes(
+    (platform.driverStatus || "").toLowerCase()
+  );
+
+  const usaRegion = platform.regions?.USA || platform.regions?.US;
+  const waitlistStatus = usaRegion?.waitlistStatus || "unknown";
+  const regionStatus = usaRegion?.status || "";
+  const cities = usaRegion?.cities || [];
+
+  const payRange =
+    platform.estimatedHourlyMin && platform.estimatedHourlyMax
+      ? `$${platform.estimatedHourlyMin}–$${platform.estimatedHourlyMax}/hr`
+      : platform.estimatedPayMin && platform.estimatedPayMax
+      ? `$${platform.estimatedPayMin}–$${platform.estimatedPayMax}`
+      : null;
+
+  const waitlistColors: Record<string, { bg: string; text: string; label: string }> = {
+    open: { bg: "bg-green-100", text: "text-green-800", label: "Hiring" },
+    waitlist: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Waitlist" },
+    closed: { bg: "bg-red-100", text: "text-red-800", label: "Closed" },
+    unknown: { bg: "bg-gray-100", text: "text-gray-600", label: "Unknown" },
   };
-}
 
-export default async function PlatformPage({ params }: PlatformPageProps) {
-  const { slug } = await params;
-  const platform = await getPlatformBySlug(slug);
-  
-  if (!platform) {
-    notFound();
-  }
+  const statusStyle = waitlistColors[waitlistStatus] || waitlistColors.unknown;
 
-  const waitlistStatus = platform.regions[platform.countries[0]]?.waitlistStatus || 'unknown';
-  const statusConfig = WAITLIST_STATUS_COLORS[waitlistStatus];
-  const showWaitlistBadge = waitlistStatus !== 'unknown';
-  const applyHref = platform.applyUrl;
-  
-  const allPlatforms = await getAllPlatforms();
-  const relatedPlatforms = allPlatforms
-    .filter(p => 
-      p.id !== platform.id && 
-      p.categories.some(cat => platform.categories.includes(cat))
+  // Related platforms (same category, exclude current)
+  const relatedPlatforms = platforms
+    .filter(
+      (p) =>
+        p.id !== platform.id &&
+        !inactiveStatuses.includes((p.driverStatus || "").toLowerCase()) &&
+        p.categories?.some((c) => platform.categories?.includes(c))
     )
-    .slice(0, 3);
+    .slice(0, 4);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav className="mb-6 text-sm">
-          <Link href="/" className="text-primary-600 hover:underline">Home</Link>
-          <span className="mx-2 text-gray-400">/</span>
-          <Link href="/platforms" className="text-primary-600 hover:underline">Platforms</Link>
-          <span className="mx-2 text-gray-400">/</span>
-          <span className="text-gray-600">{platform.name}</span>
-        </nav>
+      <div className="max-w-4xl mx-auto px-4">
+        {/* Back link */}
+        <Link
+          href="/platforms"
+          className="inline-flex items-center gap-2 text-gray-500 hover:text-[#00C9B1] mb-6 text-sm"
+        >
+          <ArrowLeft size={16} />
+          Back to All Platforms
+        </Link>
+
+        {/* Inactive banner */}
+        {isInactive && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p className="text-red-800 font-medium">
+              This platform is no longer active
+              {platform.driverStatus && ` (${platform.driverStatus.replace(/_/g, " ")})`}.
+              {platform.mergedWith && (
+                <>
+                  {" "}It has merged with{" "}
+                  <strong>{platform.mergedWith}</strong>.
+                </>
+              )}
+              {platform.redirectMessage && ` ${platform.redirectMessage}`}
+            </p>
+          </div>
+        )}
 
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-4xl">
-                {platform.logoUrl ? '🏢' : '📱'}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex items-start gap-4">
+            {platform.logoUrl ? (
+              <img
+                src={platform.logoUrl}
+                alt={platform.name}
+                className="w-16 h-16 rounded-lg object-contain bg-gray-50 border"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-400">
+                {platform.name?.charAt(0)}
               </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            )}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 flex-wrap">
+                <h1 className="text-2xl font-bold text-gray-900">
                   {platform.name}
                 </h1>
-                <div className="flex items-center space-x-3">
-                  {showWaitlistBadge && (
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusConfig.bg} ${statusConfig.text}`}>
-                      {statusConfig.label}
-                    </span>
-                  )}
-                  <span className="text-gray-500">
-                    {platform.categories[0]?.replace('_', ' ')}
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-semibold ${statusStyle.bg} ${statusStyle.text}`}
+                >
+                  {statusStyle.label}
+                </span>
+                {platform.rating && (
+                  <span className="flex items-center gap-1 text-sm text-yellow-600">
+                    <Star size={14} fill="currentColor" />
+                    {platform.rating}
+                  </span>
+                )}
+              </div>
+              <p className="text-gray-500 text-sm mt-1">
+                {platform.categories?.map(c => c.replace(/_/g, " ")).join(", ")}
+              </p>
+              <p className="text-gray-700 mt-3">{platform.description}</p>
+            </div>
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-wrap gap-3 mt-6">
+            {platform.applyUrl && !isInactive && (
+              <a
+                href={platform.applyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00C9B1] text-white rounded-lg font-semibold hover:bg-[#00b5a0] transition"
+              >
+                Apply Now <ExternalLink size={16} />
+              </a>
+            )}
+            {platform.websiteUrl && (
+              <a
+                href={platform.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+              >
+                Visit Website <ExternalLink size={16} />
+              </a>
+            )}
+            {platform.iosAppUrl && (
+              <a
+                href={platform.iosAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-sm"
+              >
+                <Smartphone size={16} /> iOS App
+              </a>
+            )}
+            {platform.androidAppUrl && (
+              <a
+                href={platform.androidAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-sm"
+              >
+                <Smartphone size={16} /> Android App
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Info Grid */}
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          {/* Pay & Compensation */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h2 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
+              <DollarSign size={20} className="text-[#00C9B1]" />
+              Pay & Compensation
+            </h2>
+            <div className="space-y-3 text-sm">
+              {payRange && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Estimated Pay</span>
+                  <span className="font-medium text-gray-900">{payRange}</span>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <span className="text-gray-500">Pay Model</span>
+                <span className="font-medium text-gray-900">
+                  {platform.payModel || "Not specified"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Tips</span>
+                <span className="font-medium text-gray-900">
+                  {platform.tipsAllowed ? "Yes" : "No"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Payment Frequency</span>
+                <span className="font-medium text-gray-900">
+                  {platform.paymentFrequency || "Not specified"}
+                </span>
+              </div>
+              {platform.instantPayAvailable && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Instant Pay</span>
+                  <span className="font-medium text-green-700">
+                    Available{platform.instantPayLimit && ` (${platform.instantPayLimit})`}
                   </span>
                 </div>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-              {applyHref && (
-                <a
-                  href={applyHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium flex items-center"
-                >
-                  Apply Now
-                  <ExternalLink className="ml-2" size={18} />
-                </a>
-              )}
-              {platform.websiteUrl && (
-                <a
-                  href={platform.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-primary-700 border border-primary-200 px-6 py-3 rounded-lg hover:bg-primary-50 transition-colors font-medium flex items-center"
-                >
-                  Visit Website
-                  <ExternalLink className="ml-2" size={18} />
-                </a>
               )}
             </div>
           </div>
-          
-          <p className="text-lg text-gray-700 mb-6">
-            {platform.description}
-          </p>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {platform.estimatedHourlyMin && platform.estimatedHourlyMax && (
-              <div className="flex items-center space-x-2">
-                <DollarSign className="text-primary-600" size={20} />
-                <div>
-                  <div className="text-sm text-gray-500">Estimated Pay</div>
-                  <div className="font-semibold">${platform.estimatedHourlyMin}-${platform.estimatedHourlyMax}/hr</div>
+
+          {/* Requirements */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h2 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
+              <Shield size={20} className="text-[#00C9B1]" />
+              Requirements
+            </h2>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Minimum Age</span>
+                <span className="font-medium text-gray-900">
+                  {platform.minAge || "Not specified"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Background Check</span>
+                <span className="font-medium text-gray-900">
+                  {platform.backgroundCheckRequired ? (
+                    <span className="flex items-center gap-1">
+                      <CheckCircle size={14} className="text-green-600" /> Required
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1">
+                      <XCircle size={14} className="text-gray-400" /> Not required
+                    </span>
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Vehicle</span>
+                <span className="font-medium text-gray-900">
+                  {platform.vehicleTypes?.join(", ") || "None"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">License Required</span>
+                <span className="font-medium text-gray-900">
+                  {platform.licenseRequired ? "Yes" : "No"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Insurance Required</span>
+                <span className="font-medium text-gray-900">
+                  {platform.insuranceRequired ? "Yes" : "No"}
+                </span>
+              </div>
+              {platform.equipmentNeeded && platform.equipmentNeeded.length > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Equipment</span>
+                  <span className="font-medium text-gray-900">
+                    {platform.equipmentNeeded.join(", ")}
+                  </span>
                 </div>
-              </div>
-            )}
-            <div className="flex items-center space-x-2">
-              <Clock className="text-primary-600" size={20} />
-              <div>
-                <div className="text-sm text-gray-500">Payment</div>
-                <div className="font-semibold capitalize">{platform.paymentFrequency}</div>
-              </div>
+              )}
+              {platform.otherRequirements && (
+                <div className="pt-2 border-t">
+                  <span className="text-gray-500 block mb-1">Other</span>
+                  <span className="text-gray-700">{platform.otherRequirements}</span>
+                </div>
+              )}
             </div>
-            <div className="flex items-center space-x-2">
-              <Car className="text-primary-600" size={20} />
-              <div>
-                <div className="text-sm text-gray-500">Vehicle</div>
-                <div className="font-semibold capitalize">{platform.vehicleTypes[0]}</div>
+          </div>
+
+          {/* Availability */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h2 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
+              <MapPin size={20} className="text-[#00C9B1]" />
+              Availability
+            </h2>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Countries</span>
+                <span className="font-medium text-gray-900">
+                  {platform.countries?.join(", ") || "Not specified"}
+                </span>
               </div>
+              {regionStatus && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">USA Status</span>
+                  <span className="font-medium text-gray-900">{regionStatus}</span>
+                </div>
+              )}
+              {cities.length > 0 && (
+                <div className="pt-2 border-t">
+                  <span className="text-gray-500 block mb-2">Cities</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {cities.map((city) => (
+                      <span
+                        key={city}
+                        className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded text-xs"
+                      >
+                        {city}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="flex items-center space-x-2">
-              <MapPin className="text-primary-600" size={20} />
-              <div>
-                <div className="text-sm text-gray-500">Countries</div>
-                <div className="font-semibold">{platform.countries.join(', ')}</div>
+          </div>
+
+          {/* Work Details */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h2 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
+              <Clock size={20} className="text-[#00C9B1]" />
+              Work Details
+            </h2>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Delivery Type</span>
+                <span className="font-medium text-gray-900">
+                  {platform.deliveryType?.replace(/_/g, " ") || "Not specified"}
+                </span>
               </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Setup Required</span>
+                <span className="font-medium text-gray-900">
+                  {platform.setupRequired ? "Yes" : "No"}
+                </span>
+              </div>
+              {platform.usesThirdPartyDelivery && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Third-Party Delivery</span>
+                  <span className="font-medium text-gray-900">
+                    {platform.deliveryPartners?.join(", ") || "Yes"}
+                  </span>
+                </div>
+              )}
+              {platform.proTierProgram && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Pro Program</span>
+                  <span className="font-medium text-gray-900">
+                    {platform.proTierProgram}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Requirements */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Requirements</h2>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <CheckCircle className="text-green-500 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  <div>
-                    <span className="font-medium">Age:</span> {platform.minAge}+ years old
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  {platform.backgroundCheckRequired ? (
-                    <CheckCircle className="text-green-500 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  ) : (
-                    <XCircle className="text-gray-400 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  )}
-                  <div>
-                    <span className="font-medium">Background Check:</span>{' '}
-                    {platform.backgroundCheckRequired ? 'Required' : 'Not Required'}
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  {platform.licenseRequired ? (
-                    <CheckCircle className="text-green-500 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  ) : (
-                    <XCircle className="text-gray-400 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  )}
-                  <div>
-                    <span className="font-medium">Driver's License:</span>{' '}
-                    {platform.licenseRequired ? 'Required' : 'Not Required'}
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  {platform.insuranceRequired ? (
-                    <CheckCircle className="text-green-500 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  ) : (
-                    <XCircle className="text-gray-400 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  )}
-                  <div>
-                    <span className="font-medium">Vehicle Insurance:</span>{' '}
-                    {platform.insuranceRequired ? 'Required' : 'Not Required'}
-                  </div>
-                </div>
-                {platform.equipmentNeeded.length > 0 && (
-                  <div className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-3 mt-0.5 flex-shrink-0" size={20} />
-                    <div>
-                      <span className="font-medium">Equipment Needed:</span>{' '}
-                      {platform.equipmentNeeded.join(', ')}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Compensation */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Compensation</h2>
-              <div className="space-y-3">
-                <div className="flex justify-between py-2 border-b">
-                  <span className="text-gray-600">Pay Model</span>
-                  <span className="font-medium capitalize">{platform.payModel.replace('_', ' ')}</span>
-                </div>
-                {platform.estimatedPayMin && platform.estimatedPayMax && (
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-gray-600">Per Delivery</span>
-                    <span className="font-medium">${platform.estimatedPayMin} - ${platform.estimatedPayMax}</span>
-                  </div>
-                )}
-                {platform.estimatedHourlyMin && platform.estimatedHourlyMax && (
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-gray-600">Hourly Estimate</span>
-                    <span className="font-medium">${platform.estimatedHourlyMin} - ${platform.estimatedHourlyMax}/hr</span>
-                  </div>
-                )}
-                <div className="flex justify-between py-2 border-b">
-                  <span className="text-gray-600">Tips</span>
-                  <span className="font-medium">{platform.tipsAllowed ? 'Yes' : 'No'}</span>
-                </div>
-                <div className="flex justify-between py-2">
-                  <span className="text-gray-600">Payment Frequency</span>
-                  <span className="font-medium capitalize">{platform.paymentFrequency}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Availability */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Availability</h2>
-              {Object.entries(platform.regions).map(([country, details]) => (
-                <div key={country} className="mb-4">
-                  <h3 className="font-semibold text-lg mb-2">{country}</h3>
-                  <p className="text-gray-600 mb-2">{details.status}</p>
-                  {details.cities && details.cities.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {details.cities.map((city) => (
-                        <span key={city} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
-                          {city}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4 space-y-6">
-              {/* Quick Actions */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="font-semibold text-lg mb-4">Quick Actions</h3>
-                <div className="space-y-3">
-                  <a
-                    href={platform.websiteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full text-center bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium"
-                  >
-                    Visit Website
-                  </a>
-                  {platform.iosAppUrl && (
-                    <a
-                      href={platform.iosAppUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full text-center border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Download iOS App
-                    </a>
-                  )}
-                  {platform.androidAppUrl && (
-                    <a
-                      href={platform.androidAppUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full text-center border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Download Android App
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              {/* Metadata */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="font-semibold text-lg mb-4">Information</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-center text-gray-600">
-                    <Calendar className="mr-2" size={16} />
-                    Last updated: {new Date(platform.lastUpdated).toLocaleDateString()}
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Verification:</span>{' '}
-                    <span className="capitalize">{platform.verificationStatus.replace('_', ' ')}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* Metadata */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex items-center justify-between text-xs text-gray-400">
+            <span>Last updated: {platform.lastUpdated || "Unknown"}</span>
+            <span className="flex items-center gap-1">
+              {platform.verificationStatus === "verified" ? (
+                <>
+                  <CheckCircle size={12} className="text-green-500" /> Verified
+                </>
+              ) : platform.verificationStatus === "community" ? (
+                "Community sourced"
+              ) : (
+                "Needs verification"
+              )}
+            </span>
           </div>
         </div>
 
         {/* Related Platforms */}
         {relatedPlatforms.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Similar Platforms</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedPlatforms.map((relatedPlatform) => (
-                <PlatformCard key={relatedPlatform.id} platform={relatedPlatform} />
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
+              Similar Platforms
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              {relatedPlatforms.map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/platforms/${p.slug || p.id}`}
+                  className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition"
+                >
+                  <div className="flex items-center gap-3">
+                    {p.logoUrl ? (
+                      <img
+                        src={p.logoUrl}
+                        alt={p.name}
+                        className="w-10 h-10 rounded object-contain bg-gray-50"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center text-lg font-bold text-gray-400">
+                        {p.name?.charAt(0)}
+                      </div>
+                    )}
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{p.name}</h3>
+                      <p className="text-xs text-gray-500">
+                        {p.categories?.map((c) => c.replace(/_/g, " ")).join(", ")}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
