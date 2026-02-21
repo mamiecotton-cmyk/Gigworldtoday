@@ -14,6 +14,7 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-1">
             <Link href="/platforms" className="px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-all">Browse Platforms</Link>
             <Link href="/categories" className="px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-all">Categories</Link>
+            <Link href="/compare" className="px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-emerald-600/10 transition-all">Compare</Link>
             <div className="w-px h-6 bg-white/20 mx-2" />
             <Link href="/platforms" className="px-5 py-2.5 rounded-xl bg-[#00C9B1] text-white text-sm font-semibold shadow-lg shadow-[#00C9B1]/25 hover:shadow-[#00C9B1]/40 hover:bg-[#00b5a0] transition-all hover:-translate-y-0.5">Find Gigs</Link>
           </div>
