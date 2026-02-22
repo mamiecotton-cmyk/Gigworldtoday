@@ -30,7 +30,9 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
                 {platform.name}
               </h3>
               <p className="text-sm text-gray-500">
-                {platform.categories.length > 0 ? platform.categories[0].replace('_', ' ') : 'Gig Work'}
+                {Array.isArray(platform.categories) && platform.categories.length > 0
+                  ? platform.categories[0].replace('_', ' ')
+                  : 'Gig Work'}
               </p>
             </div>
           </div>

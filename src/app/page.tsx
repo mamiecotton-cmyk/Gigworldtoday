@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,6 +8,16 @@ import ZIP_TO_CITY from "@/data/zip-to-city";
 import US_CITY_TO_STATE from "@/data/us-city-to-state";
 import { CITY_TO_STATE } from "@/lib/searchUtils";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
+
+async function getTopRated() {
+  const { data } = await supabase
+    .from("platform_ratings")
+    .select("*")
+    .order("average_rating", { ascending: false })
+    .limit(3);
+  return data || [];
+}
 
 export default function HomePage() {
   const router = useRouter();
@@ -136,11 +145,54 @@ export default function HomePage() {
   /* ===============================
      RENDER
   =============================== */
-  return (
 
-    <div className="min-h-screen bg-black font-sans">
+  const [topRated, setTopRated] = useState<any[]>([]);
+
+  useEffect(() => {
+    getTopRated().then((data) => {
+      console.log("TOP RATED DATA:", data);
+      setTopRated(data);
+    });
+  }, []);
+
+  return (
+    <div className="min-h-screen font-sans">
       {/* HERO SECTION */}
       <section className="relative min-h-[60vh] flex items-center overflow-hidden">
+              {/* TOP RATED PLATFORMS SECTION */}
+              <section className="max-w-6xl mx-auto px-6 py-16">
+                <h2 className="text-3xl font-bold mb-8">
+                  Top Rated Platforms
+                </h2>
+
+                <div className="grid md:grid-cols-3 gap-6">
+                  {topRated.map((platform) => (
+                    <div
+                      key={platform.platform_slug}
+                      className="p-6 border rounded-lg"
+                    >
+                      <h3 className="text-xl font-semibold mb-2">
+                        {platform.platform_slug.replace("-", " ")}
+                      </h3>
+
+                      <p className="text-2xl font-bold">
+                        ⭐ {Number(platform.average_rating).toFixed(1)}
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        {platform.rating_count} ratings
+                      </p>
+
+                      <Link
+                        href={`/platforms/${platform.platform_slug}`}
+                        className="text-blue-600 mt-4 inline-block"
+                      >
+                        View Platform →
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </section>
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/90 z-0" />
         <div className="absolute inset-0 z-0">
           <Image

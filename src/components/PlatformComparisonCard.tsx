@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import StarRating from "@/components/StarRating";
 
 export type Platform = {
   name: string;
@@ -35,12 +36,15 @@ const fieldLabels: { [key: string]: string } = {
 };
 
 export const PlatformComparisonCard: React.FC<PlatformComparisonCardProps> = ({ platform, highlight = {} }) => {
+  // Determine platformSlug: use platform.slug if available, else fallback to name lowercased with spaces removed
+  const platformSlug = (platform as any).slug || platform.name.toLowerCase().replace(/\s/g, "");
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-md flex flex-col items-center w-full max-w-xs mx-auto">
       {platform.logoUrl && (
         <Image src={platform.logoUrl} alt={platform.name} width={64} height={64} className="mb-4 rounded-full" />
       )}
       <h2 className="text-xl font-bold mb-2 text-center">{platform.name}</h2>
+      <StarRating platformSlug={platformSlug} />
       <div className="w-full">
         <table className="w-full text-sm">
           <tbody>
