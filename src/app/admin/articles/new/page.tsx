@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 
+
 export default function NewArticle() {
   const router = useRouter();
 
@@ -12,75 +13,97 @@ export default function NewArticle() {
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [bodyImageFile, setBodyImageFile] = useState<File | null>(null);
+  const [bodyImageUrl, setBodyImageUrl] = useState<string | null>(null);
+  const [bodyImageUploading, setBodyImageUploading] = useState(false);
 
-  const handleSubmit = async () => {
-    const { data, error } = await supabase
-      .from("articles")
-      .insert({
-        title,
-        slug,
-        excerpt,
-        content,
-        published,
-      });
+  const handleBodyImageUpload = async () => {
+    if (!bodyImageFile) return;
 
-    if (error) {
-      console.error("Insert error:", error);
-      alert("Error saving article: " + error.message);
+    const maxSize = 2 * 1024 * 1024;
+    if (bodyImageFile.size > maxSize) {
+      alert("Image must be under 2MB");
       return;
     }
 
-    alert("Article saved successfully");
-    router.push("/admin");
+    setBodyImageUploading(true);
+
+    const fileExt = bodyImageFile.name.split(".").pop();
+    const fileName = `body-${Date.now()}.${fileExt}`;
+
+    const { error } = await supabase.storage
+      .from("article-images")
+      .upload(fileName, bodyImageFile);
+
+    if (error) {
+      alert("Upload failed");
+      setBodyImageUploading(false);
+      return;
+    }
+
+    const { data } = supabase.storage
+      .from("article-images")
+      .getPublicUrl(fileName);
+
+    setContent((prev) =>
+      prev + `\n\n<img src="${data.publicUrl}" alt="Article image" />\n\n`
+    );
+
+    setBodyImageUploading(false);
   };
 
-  return (
-    <div className="max-w-4xl mx-auto px-6 py-16 space-y-4">
-      <h1 className="text-3xl font-bold">New Article</h1>
+  const uploadBodyImage = async () => {
+    if (!bodyImageFile) return;
 
-      <input
-        placeholder="Title"
-        className="w-full border p-2"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+    const maxSize = 2 * 1024 * 1024;
+    if (bodyImageFile.size > maxSize) {
+      alert("Image must be under 2MB");
+      return;
+    }
 
-      <input
-        placeholder="Slug (example: uber-vs-doordash-2026)"
-        className="w-full border p-2"
-        value={slug}
-        onChange={(e) => setSlug(e.target.value)}
-      />
+    const fileExt = bodyImageFile.name.split(".").pop();
+    const fileName = `body-${Date.now()}.${fileExt}`;
 
-      <textarea
-        placeholder="Excerpt"
-        className="w-full border p-2"
-        value={excerpt}
-        onChange={(e) => setExcerpt(e.target.value)}
-      />
+    const { error } = await supabase.storage
+      .from("article-images")
+      .upload(fileName, bodyImageFile);
 
-      <textarea
-        placeholder="Content (HTML allowed)"
-        className="w-full border p-2 h-64"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
+    if (error) {
+      alert("Upload failed");
+      return;
+    }
 
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={published}
-          onChange={(e) => setPublished(e.target.checked)}
-        />
-        Publish
-      </label>
+    const { data } = supabase.storage
+      .from("article-images")
+      .getPublicUrl(fileName);
 
-      <button
-        onClick={handleSubmit}
-        className="px-4 py-2 bg-black text-white rounded"
-      >
-        Save Article
-      </button>
-    </div>
-  );
-}
+    setBodyImageUrl(data.publicUrl);
+  };
+
+  const handleSubmit = async () => {
+    let imageUrl = null;
+
+    if (imageFile) {
+      setUploading(true);
+
+      const fileExt = imageFile.name.split(".").pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+
+
+            // Handle image upload and article creation logic here
+            // Remove the misplaced import and component definition
+      
+            setUploading(false);
+          }
+        };
+      
+        return (
+          <div>
+            <h1>Create New Article</h1>
+            {/* Add your form fields and handlers here */}
+          </div>
+        );
+      }
+

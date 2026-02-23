@@ -1,33 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAdmin = async () => {
-      const { data } = await supabase.auth.getSession();
-      const user = data.session?.user;
+    async function checkUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      if (!user || user.email !== "mamiecotton@gmail.com") {
+      if (!user) {
         router.push("/login");
       } else {
         setLoading(false);
       }
-    };
+    }
 
-    checkAdmin();
-  }, []);
+    checkUser();
+  }, [router]);
 
-  if (loading) return <div className="p-10">Loading...</div>;
+  if (loading) return null;
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 }
+

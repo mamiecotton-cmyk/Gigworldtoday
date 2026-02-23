@@ -82,7 +82,12 @@ export default function Header() {
                 </Link>
               )}
             </div>
-            <Link href="/platforms" className="px-5 py-2.5 rounded-xl bg-[#00C9B1] text-white text-sm font-semibold shadow-lg shadow-[#00C9B1]/25 hover:shadow-[#00C9B1]/40 hover:bg-[#00b5a0] transition-all hover:-translate-y-0.5">Find Gigs</Link>
+            <Link
+              href="/blog"
+              className="px-5 py-2.5 rounded-xl bg-[#00C9B1] text-white text-sm font-semibold shadow-lg shadow-[#00C9B1]/25 hover:shadow-[#00C9B1]/40 hover:bg-[#00b5a0] transition-all hover:-translate-y-0.5"
+            >
+              Blog
+            </Link>
           </div>
           <div className="md:hidden">
             <button className="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-all">

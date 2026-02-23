@@ -4,46 +4,24 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://gigworldtoday.com'),
-  title: {
-    default: 'Gig World Today - Find Gig Apps Hiring Near You',
-    template: '%s | Gig World Today'
-  },
-  description: 'Discover 30+ gig economy platforms. Compare requirements, pay, and availability for food delivery, catering, rideshare, and more. Find gig work in your area.',
-  keywords: ['gig economy', 'food delivery', 'rideshare', 'doordash', 'uber eats', 'instacart', 'gig work', 'side hustle', 'delivery driver'],
-  authors: [{ name: 'Gig World Today' }],
+  title: "GigWorldToday – Gig Economy Intelligence",
+  description:
+    "News, platform comparisons, tutorials, and ratings for modern gig workers.",
+  metadataBase: new URL("https://gigworldtoday.com"),
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://gigworldtoday.com',
-    siteName: 'Gig World Today',
-    title: 'Gig World Today - Find Gig Apps Hiring Near You',
-    description: 'Discover 30+ gig economy platforms. Compare requirements, pay, and availability for food delivery, catering, rideshare, and more.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Gig World Today',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Gig World Today - Find Gig Apps Hiring Near You',
-    description: 'Discover 30+ gig economy platforms. Compare requirements, pay, and availability.',
-    images: ['/og-image.png'],
+    title: "GigWorldToday",
+    description:
+      "The intelligence hub for gig workers.",
+    url: "https://gigworldtoday.com",
+    siteName: "GigWorldToday",
+    type: "website",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+    'max-video-preview': -1,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
   },
 };
 

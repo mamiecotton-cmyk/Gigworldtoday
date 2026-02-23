@@ -1,30 +1,22 @@
-import { MetadataRoute } from 'next';
-import { getAllPlatforms } from '@/lib/data';
+import { supabase } from "@/lib/supabaseClient";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const platforms = await getAllPlatforms();
-  const baseUrl = 'https://gigworldtoday.com';
+export default async function sitemap() {
+  const { data } = await supabase
+    .from("articles")
+    .select("slug, published_at")
+    .eq("published", true);
 
-  const platformUrls = platforms.map((platform) => ({
-    url: `${baseUrl}/platforms/${platform.slug}`,
-    lastModified: new Date(platform.lastUpdated),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }));
+  const articleUrls =
+    data?.map((article) => ({
+      url: `https://gigworldtoday.com/blog/${article.slug}`,
+      lastModified: article.published_at,
+    })) ?? [];
 
   return [
     {
-      url: baseUrl,
+      url: "https://gigworldtoday.com",
       lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
     },
-    {
-      url: `${baseUrl}/platforms`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    ...platformUrls,
+    ...articleUrls,
   ];
 }
