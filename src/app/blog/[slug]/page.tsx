@@ -1,72 +1,36 @@
-import DiscussionSection from "@/components/DiscussionSection";
+import ArticleRenderer from "@/components/ArticleRenderer";
 import { supabase } from "@/lib/supabaseClient";
-import Link from "next/link";
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  // Fetch article
+export default async function BlogArticlePage({ params }: { params: { slug: string } }) {
   const { data: article } = await supabase
     .from("articles")
-    .select(`
-      *,
-      article_categories (
-        categories ( name, slug )
-      )
-    `)
+    .select("title, slug, excerpt, featured_image, content, content_json, content_version, published_at")
     .eq("slug", params.slug)
+    .eq("published", true)
     .single();
 
-  if (!article) return <div>Article not found</div>;
-
-  // Fetch comments
-  const { data: comments } = await supabase
-    .from("comments")
-    .select(`
-      id,
-      content,
-      created_at,
-      profiles ( full_name )
-    `)
-    .eq("article_id", article.id)
-    .eq("approved", true)
-    .order("created_at", { ascending: false });
+  if (!article) {
+    return <div className="p-6">Not found</div>;
+  }
 
   return (
-    <article className="max-w-3xl mx-auto px-6 py-20">
-      {/* Article Title */}
-      <h1 className="text-4xl font-semibold tracking-tight mb-6">
-        {article.title}
-      </h1>
+    <main className="mx-auto max-w-3xl p-6">
+      <h1 className="text-3xl font-bold">{article.title}</h1>
 
-      {/* Category Badges */}
-      {article.article_categories?.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-6">
-          {article.article_categories.map((ac: any) => (
-            <Link
-              href={`/blog/category/${ac.categories.slug}`}
-              key={ac.categories.slug}
-              className="text-xs uppercase tracking-wide border px-3 py-1 rounded-full text-neutral-600 hover:bg-neutral-100 transition"
-            >
-              {ac.categories.name}
-            </Link>
-          ))}
-        </div>
-      )}
+      {article.featured_image ? (
+        <img
+          src={article.featured_image}
+          alt=""
+          className="mt-4 w-full rounded-xl"
+        />
+      ) : null}
 
-      {/* Article Body */}
-      <div
-        className="prose prose-neutral max-w-2xl mx-auto"
-        dangerouslySetInnerHTML={{ __html: article.content }}
-      />
-
-      {/* Discussion Section */}
-      <DiscussionSection
-        articleId={article.id}
-        comments={comments ?? []}
-      />
-    </article>
+      <div className="mt-8">
+        <ArticleRenderer
+          contentJson={article.content_json}
+          legacyHtml={article.content}
+        />
+      </div>
+    </main>
   );
 }

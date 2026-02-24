@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 import { notFound } from "next/navigation";
 import ArticleForm from "@/components/ArticleForm";
+import DeleteArticleButton from "./DeleteArticleButton";
 
 export default async function EditArticle({
   params,
@@ -11,7 +12,7 @@ export default async function EditArticle({
 
   const { data: article } = await supabase
     .from("articles")
-    .select("*")
+    .select("id, title, slug, excerpt, content_json, content_version")
     .eq("id", id)
     .single();
 
@@ -24,9 +25,14 @@ export default async function EditArticle({
       </h1>
 
       <ArticleForm
-        initialContent={article.content || ""}
+        initialContent={article.content_json || []}
         articleId={article.id}
+        initialTitle={article.title}
+        initialSlug={article.slug}
+        initialExcerpt={article.excerpt}
       />
+
+      <DeleteArticleButton id={article.id} />
     </div>
   );
 }

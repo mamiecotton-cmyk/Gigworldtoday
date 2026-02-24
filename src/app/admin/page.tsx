@@ -1,25 +1,44 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
   const [articles, setArticles] = useState<any[]>([]);
+  const router = useRouter();
+
+  const fetchArticles = async () => {
+    const { data } = await supabase
+      .from("articles")
+      .select("*")
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false });
+
+    setArticles(data || []);
+  };
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      const { data } = await supabase
-        .from("articles")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      setArticles(data || []);
-    };
-
     fetchArticles();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    const confirmText = prompt("Type DELETE to remove this article:");
+    if (confirmText !== "DELETE") return;
+
+    const { error } = await supabase
+      .from("articles")
+      .update({ deleted_at: new Date().toISOString() })
+      .eq("id", id);
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    fetchArticles();
+  };
 
   const publishedCount = articles.filter(a => a.published).length;
   const draftCount = articles.filter(a => !a.published).length;
@@ -75,12 +94,21 @@ export default function AdminDashboard() {
                 </p>
               </div>
 
-              <Link
-                href={`/admin/articles/${article.id}`}
-                className="text-blue-600"
-              >
-                Edit
-              </Link>
+              <div className="flex gap-4 items-center">
+                <Link
+                  href={`/admin/articles/${article.id}`}
+                  className="text-blue-600"
+                >
+                  Edit
+                </Link>
+
+                <button
+                  onClick={() => handleDelete(article.id)}
+                  className="text-red-600"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
