@@ -1,10 +1,11 @@
-import { supabase } from "@/lib/supabaseClient";
+import { createServerSupabase } from "@/lib/supabaseServer";
 
-export default async function sitemap() {
+  const supabase = createServerSupabase();
   const { data } = await supabase
     .from("articles")
     .select("slug, published_at")
-    .eq("published", true);
+    .eq("published", true)
+    .is("deleted_at", null);
 
   const articleUrls =
     data?.map((article) => ({

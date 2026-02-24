@@ -1,13 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { supabase } from "@/lib/supabaseClient";
+import { createServerSupabase } from "@/lib/supabaseServer";
 
+export default async function Page() {
+  const supabase = createServerSupabase();
 
-export default async function BlogPage() {
   const { data: articlesData } = await supabase
     .from("articles")
     .select("*")
     .eq("published", true)
+    .is("deleted_at", null)
     .order("published_at", { ascending: false });
 
   const articles = articlesData ?? [];

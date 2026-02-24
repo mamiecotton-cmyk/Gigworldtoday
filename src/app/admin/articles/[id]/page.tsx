@@ -12,7 +12,7 @@ export default async function EditArticle({
 
   const { data: article } = await supabase
     .from("articles")
-    .select("id, title, slug, excerpt, content_json, content_version")
+    .select("id, title, slug, excerpt, content_json, content_version, published")
     .eq("id", id)
     .single();
 
@@ -30,6 +30,7 @@ export default async function EditArticle({
         initialTitle={article.title}
         initialSlug={article.slug}
         initialExcerpt={article.excerpt}
+        initialPublished={article.published}
       />
 
       <DeleteArticleButton id={article.id} />

@@ -1,13 +1,33 @@
-import ArticleRenderer from "@/components/ArticleRenderer";
-import { supabase } from "@/lib/supabaseClient";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default async function BlogArticlePage({ params }: { params: { slug: string } }) {
+import ArticleRenderer from "@/components/ArticleRenderer";
+import { createServerSupabase } from "@/lib/supabaseServer";
+
+export default async function BlogArticlePage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
+  const supabase = createServerSupabase();
+
   const { data: article } = await supabase
     .from("articles")
-    .select("title, slug, excerpt, featured_image, content, content_json, content_version, published_at")
-    .eq("slug", params.slug)
+    .select(`
+      id,
+      slug,
+      title,
+      featured_image,
+      content_json,
+      published,
+      deleted_at
+    `)
+    .eq("slug", slug)
     .eq("published", true)
-    .single();
+    .is("deleted_at", null)
+    .maybeSingle();
 
   if (!article) {
     return <div className="p-6">Not found</div>;
@@ -15,22 +35,19 @@ export default async function BlogArticlePage({ params }: { params: { slug: stri
 
   return (
     <main className="mx-auto max-w-3xl p-6">
-      <h1 className="text-3xl font-bold">{article.title}</h1>
+      <h1 className="text-4xl font-bold mb-6">
+        {article.title}
+      </h1>
 
-      {article.featured_image ? (
+      {article.featured_image && (
         <img
           src={article.featured_image}
           alt=""
-          className="mt-4 w-full rounded-xl"
+          className="w-full rounded-xl mb-8"
         />
-      ) : null}
+      )}
 
-      <div className="mt-8">
-        <ArticleRenderer
-          contentJson={article.content_json}
-          legacyHtml={article.content}
-        />
-      </div>
+      <ArticleRenderer contentJson={article.content_json} />
     </main>
   );
 }
