@@ -58,7 +58,7 @@ export default async function ArticlePage({
 
       {/* Article Body */}
       <div
-        className="prose prose-neutral max-w-none"
+        className="prose prose-neutral max-w-2xl mx-auto"
         dangerouslySetInnerHTML={{ __html: article.content }}
       />
 

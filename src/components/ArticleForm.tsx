@@ -1,180 +1,116 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef } from "react";
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
 import { supabase } from "@/lib/supabaseClient";
-import { useRouter } from "next/navigation";
 
-type Article = {
-  id?: string;
-  title?: string;
-  slug?: string;
-  excerpt?: string;
-  content?: string;
-  featured_image?: string | null;
-  published?: boolean;
+type ArticleFormProps = {
+  initialContent?: string;
+  articleId: string;
 };
 
+export default function ArticleForm({
+  initialContent = "",
+  articleId,
+}: ArticleFormProps) {
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const quillRef = useRef<Quill | null>(null);
+  const hasInitialized = useRef(false);
 
-export default function ArticleForm({ article }: { article?: Article }) {
-  const router = useRouter();
+  useEffect(() => {
+    if (!editorRef.current) return;
 
-  const [title, setTitle] = useState(article?.title || "");
-  const [slug, setSlug] = useState(article?.slug || "");
-  const [excerpt, setExcerpt] = useState(article?.excerpt || "");
-  const [content, setContent] = useState(article?.content || "");
-  const [published, setPublished] = useState(article?.published || false);
-  const [saving, setSaving] = useState(false);
-  const [featuredImageFile, setFeaturedImageFile] = useState<File | null>(null);
-  const [featuredImageUrl, setFeaturedImageUrl] = useState<string | null>(article?.featured_image || null);
-  const [uploadingImage, setUploadingImage] = useState(false);
+    // Prevent Strict Mode double initialization
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
 
-  const handleFeaturedImageUpload = async () => {
-    if (!featuredImageFile) return;
+    const imageHandler = async () => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.click();
 
-    const maxSize = 2 * 1024 * 1024;
-    if (featuredImageFile.size > maxSize) {
-      alert("Image must be under 2MB");
-      return;
-    }
+      input.onchange = async () => {
+        const file = input.files?.[0];
+        if (!file) return;
 
-    setUploadingImage(true);
+        if (file.size > 2 * 1024 * 1024) {
+          alert("Image must be under 2MB");
+          return;
+        }
 
-    const fileExt = featuredImageFile.name.split(".").pop();
-    const fileName = `featured-${Date.now()}.${fileExt}`;
+        const fileName = `article-${Date.now()}.${file.name.split(".").pop()}`;
 
-    const { error } = await supabase.storage
-      .from("article-images")
-      .upload(fileName, featuredImageFile);
+        const { error } = await supabase.storage
+          .from("article-images")
+          .upload(fileName, file);
 
-    if (error) {
-      alert("Upload failed");
-      setUploadingImage(false);
-      return;
-    }
+        if (error) {
+          alert(error.message);
+          return;
+        }
 
-    const { data } = supabase.storage
-      .from("article-images")
-      .getPublicUrl(fileName);
+        const { data } = supabase.storage
+          .from("article-images")
+          .getPublicUrl(fileName);
 
-    setFeaturedImageUrl(data.publicUrl);
-    setUploadingImage(false);
-  };
+        const range = quillRef.current?.getSelection(true);
+        if (range) {
+          quillRef.current?.insertEmbed(range.index, "image", data.publicUrl);
+        }
+      };
+    };
 
-  const handleSubmit = async () => {
-    setSaving(true);
-
-    if (article?.id) {
-      await supabase
-        .from("articles")
-        .update({
-          title,
-          slug,
-          excerpt,
-          content,
-          published,
-          featured_image: featuredImageUrl,
-        })
-        .eq("id", article.id);
-    } else {
-      await supabase.from("articles").insert([
-        {
-          title,
-          slug,
-          excerpt,
-          content,
-          published,
-          featured_image: featuredImageUrl,
+    const quill = new Quill(editorRef.current, {
+      theme: "snow",
+      modules: {
+        toolbar: {
+          container: [
+            [{ header: [1, 2, false] }],
+            ["bold", "italic", "underline"],
+            ["link", "image"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["clean"],
+          ],
+          handlers: {
+            image: imageHandler,
+          },
         },
-      ]);
-    }
+      },
+    });
 
-    setSaving(false);
-    router.push("/admin");
-  };
+    quill.root.innerHTML = initialContent;
+
+    quillRef.current = quill;
+  }, []);
+
+  // Save handler
+  async function handleSave() {
+    if (!quillRef.current) return;
+    const content = quillRef.current.root.innerHTML;
+    const { error } = await supabase
+      .from("articles")
+      .update({ content })
+      .eq("id", articleId);
+    if (error) {
+      alert("Failed to save article: " + error.message);
+    } else {
+      alert("Article saved!");
+    }
+  }
+
+
 
   return (
-    <div className="space-y-6">
-
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full border p-3 rounded"
-      />
-
-      <input
-        type="text"
-        placeholder="Slug"
-        value={slug}
-        onChange={(e) => setSlug(e.target.value)}
-        className="w-full border p-3 rounded"
-      />
-
-
-      <textarea
-        placeholder="Excerpt"
-        value={excerpt}
-        onChange={(e) => setExcerpt(e.target.value)}
-        className="w-full border p-3 rounded"
-      />
-
-      {/* Featured Image Upload UI */}
-      <div className="border-t pt-6 mt-6">
-        <label className="block text-sm font-medium mb-2">
-          Featured Image
-        </label>
-        {featuredImageUrl && (
-          <img
-            src={featuredImageUrl}
-            alt="Featured"
-            className="mb-4 rounded-lg max-h-60"
-          />
-        )}
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              setFeaturedImageFile(e.target.files[0]);
-            }
-          }}
-          className="mb-3"
-        />
-        <button
-          type="button"
-          onClick={handleFeaturedImageUpload}
-          disabled={uploadingImage}
-          className="bg-neutral-800 text-white px-4 py-2 rounded"
-        >
-          {uploadingImage ? "Uploading..." : "Upload Image"}
-        </button>
-      </div>
-
-      <textarea
-        placeholder="Content (HTML supported)"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="w-full border p-3 rounded h-64"
-      />
-
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={published}
-          onChange={(e) => setPublished(e.target.checked)}
-        />
-        Publish
-      </label>
-
+    <div className="bg-white border border-neutral-200 rounded-lg">
+      <div ref={editorRef} />
       <button
-        onClick={handleSubmit}
-        disabled={saving}
-        className="bg-black text-white px-6 py-2 rounded"
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+        onClick={handleSave}
       >
-        {saving ? "Saving..." : article?.id ? "Update Article" : "Create Article"}
+        Save
       </button>
-
     </div>
   );
 }

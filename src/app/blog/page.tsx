@@ -2,90 +2,89 @@ import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 
-type Article = {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  featured_image: string | null;
-  published_at: string | null;
-  reading_time: number | null;
-  category_id: string | null;
-};
 
-export default async function BlogPage({
-  searchParams,
-}: {
-  searchParams?: { category?: string };
-}) {
-  const categorySlug = searchParams?.category;
-
-  let query = supabase
+export default async function BlogPage() {
+  const { data: articlesData } = await supabase
     .from("articles")
-    .select(`
-      *,
-      categories ( slug )
-    `)
+    .select("*")
     .eq("published", true)
     .order("published_at", { ascending: false });
 
-  if (categorySlug) {
-    query = query.eq("categories.slug", categorySlug);
-  }
+  const articles = articlesData ?? [];
 
-  const { data } = await query;
-
-  const articles: Article[] = (data ?? []) as Article[];
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("id, name, slug")
+    .order("name");
 
   return (
-    <div className="space-y-16">
+    <div className="max-w-6xl mx-auto px-6">
 
-      {articles.map((article) => (
-        <Link key={article.id} href={`/blog/${article.slug}`} className="block group">
-          <div className="border-b border-neutral-200 pb-12">
+      {/* Header */}
+      <header className="pt-10 pb-8">
+        <h1 className="text-4xl font-semibold tracking-tight">
+          Gig Economy Intelligence
+        </h1>
+        <p className="mt-3 text-lg text-neutral-600 max-w-2xl">
+          News, strategy, and tutorials for serious gig workers.
+        </p>
+      </header>
 
+      {/* Category Navigation */}
+      <div className="flex flex-wrap gap-6 mt-6 mb-10 border-b border-neutral-200 pb-4">
+        <Link
+          href="/blog"
+          className="text-sm text-neutral-700 hover:text-black transition"
+        >
+          All
+        </Link>
+        {categories?.map((category) => (
+          <Link
+            key={category.id}
+            href={`/blog/category/${category.slug}`}
+            className="text-sm text-neutral-700 hover:text-black transition"
+          >
+            {category.name}
+          </Link>
+        ))}
+      </div>
+
+      {/* Article Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 pb-20">
+        {articles.map((article) => (
+          <Link
+            key={article.id}
+            href={`/blog/${article.slug}`}
+            className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-neutral-100"
+          >
             {article.featured_image && (
-              <div className="relative h-72 w-full mb-6">
+              <div className="relative h-[180px] w-full overflow-hidden">
                 <Image
                   src={article.featured_image}
                   alt={article.title}
                   fill
-                  className="object-cover rounded-lg"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             )}
 
-            <h2 className="text-2xl font-semibold tracking-tight group-hover:underline">
-              {article.title}
-            </h2>
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:underline">
+                {article.title}
+              </h3>
 
-            {article.excerpt && (
-              <p className="mt-4 text-neutral-600 max-w-2xl">
+              <p className="mt-3 text-sm text-neutral-600 line-clamp-3">
                 {article.excerpt}
               </p>
-            )}
 
-            <div className="mt-4 flex gap-6 text-sm text-neutral-500">
-              {article.published_at && (
-                <span>
-                  {new Date(article.published_at).toLocaleDateString()}
-                </span>
-              )}
-              {article.reading_time && (
-                <span>{article.reading_time} min read</span>
-              )}
+              <p className="mt-4 text-xs text-neutral-500">
+                {article.published_at &&
+                  new Date(article.published_at).toLocaleDateString()}
+              </p>
             </div>
-
-          </div>
-        </Link>
-      ))}
-
-      {articles.length === 0 && (
-        <p className="text-neutral-500">
-          No articles found in this category.
-        </p>
-      )}
-
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

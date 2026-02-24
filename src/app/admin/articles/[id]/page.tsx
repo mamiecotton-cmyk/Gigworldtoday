@@ -5,12 +5,14 @@ import ArticleForm from "@/components/ArticleForm";
 export default async function EditArticle({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const { data: article } = await supabase
     .from("articles")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (!article) return notFound();
@@ -21,7 +23,10 @@ export default async function EditArticle({
         Edit Article
       </h1>
 
-      <ArticleForm article={article} />
+      <ArticleForm
+        initialContent={article.content || ""}
+        articleId={article.id}
+      />
     </div>
   );
 }
