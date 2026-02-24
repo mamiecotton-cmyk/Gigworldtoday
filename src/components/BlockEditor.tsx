@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { supabase } from "@/lib/supabaseClient";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -10,7 +11,6 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-// Dynamic import to avoid SSR issues with Quill
 const QuillEditor = dynamic(() => import("./QuillEditor"), { ssr: false });
 
 export type Block =
@@ -24,6 +24,8 @@ export type Block =
       type: "image";
       src: string;
       layout: "full" | "left" | "right" | "center";
+      widthPercent?: number;
+      objectPosition?: string;
       alt: string;
       caption: string;
     };
@@ -31,6 +33,233 @@ export type Block =
 interface Props {
   blocks: Block[];
   setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
+}
+
+function ResizableImageBlock({
+  block,
+  setBlocks,
+}: {
+  block: Extract<Block, { type: "image" }>;
+  setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [resizing, setResizing] = useState(false);
+  const [repositioning, setRepositioning] = useState(false);
+  const [showReposition, setShowReposition] = useState(false);
+  const widthPercent = block.widthPercent || 100;
+  const objectPosition = block.objectPosition || "center center";
+
+  // --- Resize handle ---
+  const handleResizeDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setResizing(true);
+    const startX = e.clientX;
+    const containerWidth = containerRef.current?.parentElement?.offsetWidth || 600;
+    const startPercent = widthPercent;
+
+    const handleMouseMove = (ev: MouseEvent) => {
+      const delta = ev.clientX - startX;
+      const deltaPercent = (delta / containerWidth) * 100;
+      const newPercent = Math.max(20, Math.min(100, startPercent + deltaPercent));
+      const snapped = Math.round(newPercent / 5) * 5;
+      setBlocks((prev) =>
+        prev.map((b) =>
+          b.id === block.id ? { ...b, widthPercent: snapped } : b
+        )
+      );
+    };
+
+    const handleMouseUp = () => {
+      setResizing(false);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  // --- Reposition (drag image within frame) ---
+  const handleRepositionDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setRepositioning(true);
+
+    const imgEl = e.currentTarget as HTMLElement;
+    const rect = imgEl.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    // Parse current position
+    const parts = objectPosition.split(" ");
+    const startPosX = parseFloat(parts[0]) || 50;
+    const startPosY = parseFloat(parts[1]) || 50;
+
+    const handleMouseMove = (ev: MouseEvent) => {
+      const deltaX = ev.clientX - startX;
+      const deltaY = ev.clientY - startY;
+
+      // Convert pixel movement to percentage (inverted — drag right moves image left)
+      const pctX = Math.max(0, Math.min(100, startPosX - (deltaX / rect.width) * 100));
+      const pctY = Math.max(0, Math.min(100, startPosY - (deltaY / rect.height) * 100));
+
+      const rounded = `${Math.round(pctX)}% ${Math.round(pctY)}%`;
+
+      setBlocks((prev) =>
+        prev.map((b) =>
+          b.id === block.id ? { ...b, objectPosition: rounded } : b
+        )
+      );
+    };
+
+    const handleMouseUp = () => {
+      setRepositioning(false);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  return (
+    <div className="space-y-3">
+      {!block.src && (
+        <input
+          type="text"
+          placeholder="Paste image URL or drag & drop an image above"
+          className="w-full border rounded px-3 py-2 text-sm"
+          onChange={(e) =>
+            setBlocks((prev) =>
+              prev.map((b) =>
+                b.id === block.id ? { ...b, src: e.target.value } : b
+              )
+            )
+          }
+        />
+      )}
+
+      {block.src && (
+        <div ref={containerRef} className="relative">
+          <div
+            style={{ width: `${widthPercent}%` }}
+            className="relative group transition-[width] duration-75"
+          >
+            {/* Toggle between full view and crop/reposition mode */}
+            {showReposition ? (
+              /* Crop mode: fixed height container, object-fit cover, draggable */
+              <div
+                className="relative overflow-hidden rounded-xl"
+                style={{ height: 300 }}
+              >
+                <img
+                  src={block.src}
+                  alt={block.alt || ""}
+                  className={`w-full h-full object-cover ${repositioning ? "cursor-grabbing" : "cursor-grab"}`}
+                  style={{ objectPosition }}
+                  draggable={false}
+                  onMouseDown={handleRepositionDown}
+                />
+                {repositioning && (
+                  <div className="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                    Position: {objectPosition}
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Normal view */
+              <img
+                src={block.src}
+                alt={block.alt || ""}
+                className={`w-full h-auto rounded-xl ${resizing ? "select-none pointer-events-none" : ""}`}
+                draggable={false}
+              />
+            )}
+
+            {/* Resize handle — right edge */}
+            <div
+              onMouseDown={handleResizeDown}
+              className="absolute top-0 right-[-6px] w-3 h-full cursor-ew-resize flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <div className="w-1 h-12 bg-teal-500 rounded-full shadow" />
+            </div>
+
+            {/* Width indicator while resizing */}
+            {resizing && (
+              <div className="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                {widthPercent}%
+              </div>
+            )}
+          </div>
+
+          {/* Controls bar */}
+          <div className="flex items-center gap-2 mt-2">
+            <button
+              type="button"
+              onClick={() => setShowReposition(!showReposition)}
+              className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
+                showReposition
+                  ? "bg-teal-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {showReposition ? "✓ Done Positioning" : "↔ Reposition"}
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setBlocks((prev) =>
+                  prev.map((b) =>
+                    b.id === block.id
+                      ? { ...b, objectPosition: "center center", widthPercent: 100 }
+                      : b
+                  )
+                )
+              }
+              className="px-2.5 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200"
+            >
+              Reset
+            </button>
+            <span className="text-[11px] text-gray-400 ml-auto">
+              {widthPercent}% wide
+            </span>
+          </div>
+        </div>
+      )}
+
+      {block.src && (
+        <div className="grid grid-cols-2 gap-2">
+          <input
+            type="text"
+            placeholder="Alt text"
+            value={block.alt || ""}
+            className="border rounded px-2 py-1.5 text-sm"
+            onChange={(e) =>
+              setBlocks((prev) =>
+                prev.map((b) =>
+                  b.id === block.id ? { ...b, alt: e.target.value } : b
+                )
+              )
+            }
+          />
+          <input
+            type="text"
+            placeholder="Caption (optional)"
+            value={block.caption || ""}
+            className="border rounded px-2 py-1.5 text-sm"
+            onChange={(e) =>
+              setBlocks((prev) =>
+                prev.map((b) =>
+                  b.id === block.id ? { ...b, caption: e.target.value } : b
+                )
+              )
+            }
+          />
+        </div>
+      )}
+    </div>
+  );
 }
 
 function SortableBlock({
@@ -62,7 +291,6 @@ function SortableBlock({
       style={style}
       className="border p-4 rounded bg-white space-y-3"
     >
-      {/* Drag Handle */}
       <div className="flex items-center justify-between">
         <div
           ref={setActivatorNodeRef}
@@ -94,12 +322,8 @@ function SortableBlock({
         />
       )}
 
-      {block.type === "image" && block.src && (
-        <img
-          src={block.src}
-          alt={block.alt || ""}
-          className="w-full h-auto rounded-xl"
-        />
+      {block.type === "image" && (
+        <ResizableImageBlock block={block} setBlocks={setBlocks} />
       )}
     </div>
   );
@@ -131,7 +355,6 @@ export default function BlockEditor({ blocks, setBlocks }: Props) {
     setBlocks((prev) => prev.filter((b) => b.id !== id));
   };
 
-  // FIX: Use prev callback to avoid stale state
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;

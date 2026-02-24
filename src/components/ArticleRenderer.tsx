@@ -34,13 +34,26 @@ export default function ArticleRenderer({ contentJson }: Props) {
 function ImageBlock({ block }: { block: Extract<Block, { type: "image" }> }) {
   if (!block.src) return null;
 
+  const widthPercent = (block as any).widthPercent || 100;
+
   const baseImage = (
     <img
       src={block.src}
       alt={block.alt || ""}
-      className="rounded-xl"
+      className="w-full rounded-xl"
     />
   );
+
+  if (widthPercent < 100) {
+    return (
+      <div style={{ width: `${widthPercent}%` }}>
+        {baseImage}
+        {block.caption && (
+          <p className="text-sm text-gray-500 mt-2">{block.caption}</p>
+        )}
+      </div>
+    );
+  }
 
   switch (block.layout) {
     case "full":
