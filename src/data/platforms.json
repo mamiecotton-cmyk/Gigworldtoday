@@ -54,7 +54,8 @@
       "official_website",
       "news"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "setupRequired": false
   },
   {
     "id": "jitsu",
@@ -103,13 +104,13 @@
           "Dallas",
           "Houston",
           "Chicago",
-          "New York",
           "Phoenix",
           "Atlanta",
           "Washington DC",
           "Baltimore",
           "Philadelphia",
-          "Detroit"
+          "Detroit",
+          "New York"
         ]
       }
     },
@@ -140,7 +141,8 @@
       "news"
     ],
     "verificationStatus": "verified",
-    "notes": "Formerly AxleHire. Routes are pre-planned with guaranteed pay. Drivers with larger vehicles earn significantly more. Some driver reviews mention long wait times at warehouses and inconsistent route availability."
+    "notes": "Formerly AxleHire. Routes are pre-planned with guaranteed pay. Drivers with larger vehicles earn significantly more. Some driver reviews mention long wait times at warehouses and inconsistent route availability.",
+    "setupRequired": false
   },
   {
     "id": "senpex",
@@ -214,6 +216,40 @@
           "Oregon",
           "Arkansas",
           "Massachusetts"
+        ],
+        "states": [
+          "California",
+          "Washington",
+          "Texas",
+          "Florida",
+          "Georgia",
+          "New York",
+          "Ohio",
+          "North Carolina",
+          "New Jersey",
+          "Pennsylvania",
+          "Illinois",
+          "Virginia",
+          "South Carolina",
+          "Arizona",
+          "Maryland",
+          "Nevada",
+          "Michigan",
+          "Tennessee",
+          "Indiana",
+          "Alabama",
+          "Louisiana",
+          "Missouri",
+          "Connecticut",
+          "Mississippi",
+          "Minnesota",
+          "Kentucky",
+          "Colorado",
+          "Oklahoma",
+          "Utah",
+          "Oregon",
+          "Arkansas",
+          "Massachusetts"
         ]
       }
     },
@@ -253,7 +289,8 @@
       "indeed"
     ],
     "verificationStatus": "verified",
-    "notes": "Senpex is more B2B focused than consumer platforms like DoorDash. Drivers report inconsistent order volume especially outside California. App support has received mixed reviews. Best for drivers with larger vehicles (vans/trucks) who want specialized or catering deliveries."
+    "notes": "Senpex is more B2B focused than consumer platforms like DoorDash. Drivers report inconsistent order volume especially outside California. App support has received mixed reviews. Best for drivers with larger vehicles (vans/trucks) who want specialized or catering deliveries.",
+    "setupRequired": false
   },
   {
     "id": "deliverthat",
@@ -267,8 +304,15 @@
     "categories": [
       "catering_delivery"
     ],
-    "vehicleTypes": [],
-    "equipmentNeeded": [],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
+    "equipmentNeeded": [
+      "smartphone",
+      "insulated catering bags"
+    ],
     "minAge": 18,
     "payModel": "per_delivery",
     "regions": {
@@ -277,66 +321,153 @@
         "cities": []
       }
     },
-    "lastUpdated": "2024-02-15"
+    "lastUpdated": "2024-02-15",
+    "paymentFrequency": "weekly",
+    "driverStatus": "active",
+    "backgroundCheckRequired": false,
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "tipsAllowed": false,
+    "setupRequired": false,
+    "verificationStatus": "needs_verification",
+    "countries": [
+      "USA"
+    ],
+    "dataSources": [],
+    "deliveryType": "scheduled",
+    "estimatedHourlyMin": 0,
+    "estimatedHourlyMax": 0,
+    "otherRequirements": "Larger vehicles preferred for catering orders.",
+    "instantPayAvailable": false
   },
   {
     "id": "doordash",
     "slug": "doordash",
     "name": "DoorDash",
+    "description": "Leading food delivery platform connecting restaurants with customers. Flexible scheduling and widespread availability make it one of the most accessible gig opportunities.",
     "logoUrl": "/logos/doordash.png",
-    "category": "Food Delivery",
-    "description": "Deliver food from local restaurants and stores. Flexible hours, fast payouts, and high order volume in most cities.",
-    "vehicleTypes": [
-      "car",
-      "bike",
-      "scooter"
+    "websiteUrl": "https://www.doordash.com/dasher/signup",
+    "iosAppUrl": "https://apps.apple.com/us/app/doordash-dasher",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.doordash.driver",
+    "categories": [
+      "food_delivery",
+      "alcohol_delivery",
+      "grocery_delivery",
+      "same_day_delivery",
+      "prescription_delivery"
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "bike",
+      "car",
+      "scooter"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone",
+      "insulated bag"
+    ],
+    "otherRequirements": "Red Card provided for certain orders",
+    "countries": [
+      "USA",
+      "Canada",
+      "Australia"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Available nationwide",
+        "waitlistStatus": "unknown"
+      },
+      "Canada": {
+        "status": "Available in major cities",
+        "waitlistStatus": "unknown"
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedPayMin": 2,
+    "estimatedPayMax": 10,
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 25,
-    "averageHourly": 20,
-    "schedulingType": "Scheduled + Dash Now",
-    "vehicleRequired": true,
-    "tipsIncluded": true,
-    "payoutSpeed": "Instant (Fast Pay)",
-    "signupDifficulty": "Easy",
-    "rating": 4.2,
-    "categories": [
-      "food_delivery",
-      "package_delivery"
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "on_demand",
+    "setupRequired": false,
+    "lastUpdated": "2024-02-15",
+    "dataSources": [
+      "official_website",
+      "driver_forums"
     ],
-    "websiteUrl": "https://www.doordash.com/dasher/signup/"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "DasherDirect card or Fast Pay ($1.99 fee)",
+    "instantPayFee": "$1.99"
   },
   {
     "id": "ubereats",
     "slug": "ubereats",
     "name": "Uber Eats",
+    "description": "Food delivery service from Uber. Deliver restaurant orders on your schedule. Can combine with Uber rideshare driving for maximum flexibility.",
     "logoUrl": "/logos/ubereats.png",
-    "category": "Food Delivery",
-    "description": "Deliver food and groceries with Uber Eats. Work anytime, anywhere, and get paid quickly. High demand in most urban areas.",
-    "vehicleTypes": [
-      "car",
-      "bike",
-      "scooter"
-    ],
-    "minAge": 18,
-    "backgroundCheckRequired": true,
-    "estimatedHourlyMin": 14,
-    "estimatedHourlyMax": 22,
-    "averageHourly": 16,
-    "schedulingType": "Open Anytime",
-    "vehicleRequired": true,
-    "tipsIncluded": true,
-    "payoutSpeed": "Instant (Instant Pay)",
-    "signupDifficulty": "Easy",
-    "rating": 4.1,
+    "websiteUrl": "https://www.uber.com/us/en/deliver/",
+    "iosAppUrl": "https://apps.apple.com/us/app/uber-eats-driver",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.eats.driver",
     "categories": [
       "food_delivery",
-      "grocery_delivery",
-      "alcohol_delivery"
+      "alcohol_delivery",
+      "prescription_delivery"
     ],
-    "websiteUrl": "https://www.ubereats.com/"
+    "minAge": 19,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "bike",
+      "car",
+      "scooter",
+      "none"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone",
+      "insulated bag"
+    ],
+    "otherRequirements": "Can deliver on foot in some cities",
+    "countries": [
+      "USA",
+      "Canada",
+      "UK",
+      "Australia"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Available nationwide",
+        "waitlistStatus": "unknown"
+      },
+      "Canada": {
+        "status": "Available in major cities",
+        "waitlistStatus": "unknown"
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedPayMin": 3,
+    "estimatedPayMax": 12,
+    "estimatedHourlyMin": 12,
+    "estimatedHourlyMax": 20,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "deliveryType": "on_demand",
+    "setupRequired": false,
+    "lastUpdated": "2024-02-15",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant Pay to debit card, up to 5x/day",
+    "instantPayFee": "small fee"
   },
   {
     "id": "instacart",
@@ -350,7 +481,8 @@
     "categories": [
       "grocery_delivery",
       "alcohol_delivery",
-      "same_day_delivery"
+      "same_day_delivery",
+      "prescription_delivery"
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
@@ -392,7 +524,11 @@
       "official_website",
       "shopper_community"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant Cashout via Stripe ($0.50 fee, $5 min)",
+    "instantPayFee": "$0.50"
   },
   {
     "id": "expedite",
@@ -427,10 +563,9 @@
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": [
-          "180-200 markets nationwide"
-        ],
-        "waitlistStatus": "unknown"
+        "cities": [],
+        "waitlistStatus": "unknown",
+        "coverageNote": "180-200 markets nationwide"
       },
       "Canada": {
         "status": "Available",
@@ -452,7 +587,11 @@
       "press_releases",
       "app_store_listings"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant payouts after delivery",
+    "instantPayFee": "none reported"
   },
   {
     "id": "zifty",
@@ -461,8 +600,8 @@
     "description": "Zifty offers scheduled catering delivery routes with competitive pay. Most deliveries are weekday lunch hours with advance scheduling, providing consistent income.",
     "logoUrl": "/logos/zifty.png",
     "websiteUrl": "https://jobs.zifty.com/",
-    "iosAppUrl": "",
-    "androidAppUrl": "",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
     "categories": [
       "catering_delivery"
     ],
@@ -514,7 +653,9 @@
       "official_website",
       "driver_review_sites"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "picnic",
@@ -524,8 +665,8 @@
     "logoUrl": "/logos/picnic.png",
     "websiteUrl": "https://trypicnic.com/drivers",
     "applyUrl": "https://kitchen-request.typeform.com/to/iPcnarXz?typeform-source=trypicnic.com",
-    "iosAppUrl": "",
-    "androidAppUrl": "",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
     "categories": [
       "catering_delivery"
     ],
@@ -582,7 +723,9 @@
       "official_website",
       "official_job_postings"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "foodja",
@@ -592,8 +735,8 @@
     "logoUrl": "/logos/foodja.png",
     "websiteUrl": "https://foodja.com/drive/",
     "applyUrl": "https://driver.foodja.com/",
-    "iosAppUrl": "",
-    "androidAppUrl": "",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
     "categories": [
       "catering_delivery"
     ],
@@ -633,7 +776,9 @@
       "official_website",
       "driver_portal"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "grubhub",
@@ -686,7 +831,11 @@
       "official_website",
       "support_docs"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant Cash Out, up to $500/day",
+    "instantPayFee": "small fee"
   },
   {
     "id": "shipt",
@@ -699,7 +848,8 @@
     "iosAppUrl": "https://apps.apple.com/app/shipt-shopper/id1093137434",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.shipt.shopper",
     "categories": [
-      "grocery_delivery"
+      "grocery_delivery",
+      "prescription_delivery"
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
@@ -737,7 +887,11 @@
       "official_website",
       "driver_guides"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Shipt Instant Pay after completing orders",
+    "instantPayFee": "small fee"
   },
   {
     "id": "amazon-flex",
@@ -794,7 +948,11 @@
       "official_website",
       "driver_requirements"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Amazon Flex card instant withdrawal",
+    "instantPayFee": "none reported"
   },
   {
     "id": "gopuff",
@@ -845,7 +1003,11 @@
       "official_website",
       "help_center"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant Cash Out ($1.99 fee, $5,000 daily limit)",
+    "instantPayFee": "$1.99"
   },
   {
     "id": "uber",
@@ -898,7 +1060,11 @@
       "official_website",
       "requirements_page"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant Pay to debit card, up to 5x/day",
+    "instantPayFee": "small fee"
   },
   {
     "id": "lyft",
@@ -950,7 +1116,11 @@
       "official_website",
       "driver_application_requirements"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Express Pay or Lyft Direct debit card (free)",
+    "instantPayFee": "free with Lyft Direct, small fee with Express Pay"
   },
   {
     "id": "roadie",
@@ -963,7 +1133,8 @@
     "iosAppUrl": "https://apps.apple.com/us/app/roadie/id958501631",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.roadie.driver",
     "categories": [
-      "package_delivery"
+      "package_delivery",
+      "prescription_delivery"
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
@@ -986,10 +1157,9 @@
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": [
-          "All 50 states"
-        ],
-        "waitlistStatus": "unknown"
+        "cities": [],
+        "waitlistStatus": "unknown",
+        "coverageNote": "All 50 states"
       }
     },
     "payModel": "per_delivery",
@@ -1006,7 +1176,11 @@
       "official_website",
       "driver_review_sites"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant Pay (requires 5+ completed gigs, 7+ days active)",
+    "instantPayFee": "small fee"
   },
   {
     "id": "taskrabbit",
@@ -1057,7 +1231,11 @@
       "official_website",
       "support_docs"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Direct deposit after task completion",
+    "instantPayFee": "none"
   },
   {
     "id": "cornershop",
@@ -1067,8 +1245,8 @@
     "logoUrl": "/logos/cornershop.png",
     "websiteUrl": "https://www.cornershopapp.com/become-a-shopper",
     "applyUrl": "https://www.cornershopapp.com/become-a-shopper",
-    "iosAppUrl": "",
-    "androidAppUrl": "",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
     "categories": [
       "grocery_delivery"
     ],
@@ -1114,7 +1292,8 @@
       "official_website"
     ],
     "verificationStatus": "verified",
-    "driverStatus": "no_longer_hiring"
+    "driverStatus": "no_longer_hiring",
+    "instantPayAvailable": false
   },
   {
     "id": "wag",
@@ -1151,7 +1330,7 @@
         "waitlistStatus": "unknown"
       }
     },
-    "payModel": "per_walk",
+    "payModel": "per_service",
     "estimatedPayMin": 15,
     "estimatedPayMax": 40,
     "estimatedHourlyMin": 15,
@@ -1165,7 +1344,9 @@
       "official_website",
       "driver_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "handy",
@@ -1215,7 +1396,9 @@
     "dataSources": [
       "official_website"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "goshare",
@@ -1271,7 +1454,9 @@
       "official_website",
       "driver_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "caviar",
@@ -1298,10 +1483,10 @@
     "payModel": "not_hiring",
     "vehicleTypes": [],
     "equipmentNeeded": [],
-    "estimatedPayMin": null,
-    "estimatedPayMax": null,
-    "estimatedHourlyMin": null,
-    "estimatedHourlyMax": null,
+    "estimatedPayMin": 0,
+    "estimatedPayMax": 0,
+    "estimatedHourlyMin": 0,
+    "estimatedHourlyMax": 0,
     "tipsAllowed": false,
     "paymentFrequency": "n/a",
     "usesThirdPartyDelivery": true,
@@ -1316,7 +1501,14 @@
       "official_website",
       "news"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "backgroundCheckRequired": false,
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "setupRequired": false,
+    "deliveryType": "on_demand",
+    "minAge": 18,
+    "instantPayAvailable": false
   },
   {
     "id": "favor",
@@ -1351,11 +1543,12 @@
     ],
     "regions": {
       "USA": {
-        "status": "Available",
+        "status": "Texas only",
         "cities": [
           "Texas statewide"
         ],
-        "waitlistStatus": "unknown"
+        "waitlistStatus": "unknown",
+        "coverageNote": "Texas statewide"
       }
     },
     "payModel": "per_delivery",
@@ -1372,7 +1565,11 @@
       "official_website",
       "driver_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Same-day pay available",
+    "instantPayFee": "none reported"
   },
   {
     "id": "dumpling",
@@ -1423,7 +1620,9 @@
       "official_website",
       "platform_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "rover",
@@ -1470,7 +1669,7 @@
     "estimatedHourlyMin": 20,
     "estimatedHourlyMax": 40,
     "tipsAllowed": true,
-    "paymentFrequency": "per_booking",
+    "paymentFrequency": "per_completion",
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
@@ -1478,7 +1677,11 @@
       "official_website",
       "platform_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Daily withdrawal option",
+    "instantPayFee": "none reported"
   },
   {
     "id": "dolly",
@@ -1515,10 +1718,9 @@
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": [
-          "45-50 cities nationwide"
-        ],
-        "waitlistStatus": "unknown"
+        "cities": [],
+        "waitlistStatus": "unknown",
+        "coverageNote": "45-50 cities nationwide"
       }
     },
     "payModel": "per_job",
@@ -1535,7 +1737,11 @@
       "official_website",
       "platform_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Quick withdrawal to bank card",
+    "instantPayFee": "small fee"
   },
   {
     "id": "drizly",
@@ -1550,7 +1756,7 @@
     "categories": [
       "alcohol_delivery"
     ],
-    "minAge": null,
+    "minAge": 18,
     "backgroundCheckRequired": false,
     "vehicleTypes": [],
     "licenseRequired": false,
@@ -1567,10 +1773,10 @@
       }
     },
     "payModel": "not_hiring",
-    "estimatedPayMin": null,
-    "estimatedPayMax": null,
-    "estimatedHourlyMin": null,
-    "estimatedHourlyMax": null,
+    "estimatedPayMin": 0,
+    "estimatedPayMax": 0,
+    "estimatedHourlyMin": 0,
+    "estimatedHourlyMax": 0,
     "tipsAllowed": false,
     "paymentFrequency": "n/a",
     "usesThirdPartyDelivery": false,
@@ -1586,7 +1792,8 @@
     ],
     "verificationStatus": "verified",
     "deliveryType": "on_demand",
-    "setupRequired": true
+    "setupRequired": true,
+    "instantPayAvailable": false
   },
   {
     "id": "thumbtack",
@@ -1629,7 +1836,7 @@
     "estimatedHourlyMin": 30,
     "estimatedHourlyMax": 80,
     "tipsAllowed": true,
-    "paymentFrequency": "immediate",
+    "paymentFrequency": "instant",
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
@@ -1637,7 +1844,9 @@
       "official_website",
       "pro_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "bellhop",
@@ -1691,7 +1900,9 @@
       "official_website",
       "driver_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "postmates",
@@ -1707,7 +1918,7 @@
       "food_delivery",
       "grocery_delivery"
     ],
-    "minAge": null,
+    "minAge": 18,
     "backgroundCheckRequired": false,
     "vehicleTypes": [],
     "licenseRequired": false,
@@ -1724,10 +1935,10 @@
       }
     },
     "payModel": "not_hiring",
-    "estimatedPayMin": null,
-    "estimatedPayMax": null,
-    "estimatedHourlyMin": null,
-    "estimatedHourlyMax": null,
+    "estimatedPayMin": 0,
+    "estimatedPayMax": 0,
+    "estimatedHourlyMin": 0,
+    "estimatedHourlyMax": 0,
     "tipsAllowed": false,
     "paymentFrequency": "n/a",
     "usesThirdPartyDelivery": false,
@@ -1740,7 +1951,10 @@
       "official_website",
       "news"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "deliveryType": "on_demand",
+    "instantPayAvailable": false
   },
   {
     "id": "spark",
@@ -1794,7 +2008,9 @@
       "official_website",
       "platform_docs"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "veho",
@@ -1838,10 +2054,10 @@
           "Denver",
           "Houston",
           "Los Angeles",
-          "New York",
           "Philadelphia",
           "San Francisco",
-          "Washington DC"
+          "Washington DC",
+          "New York"
         ],
         "waitlistStatus": "unknown"
       }
@@ -1860,7 +2076,9 @@
       "official_website",
       "driver_guides"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "workwhile",
@@ -1893,10 +2111,9 @@
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": [
-          "30-40+ major metro areas"
-        ],
-        "waitlistStatus": "unknown"
+        "cities": [],
+        "waitlistStatus": "unknown",
+        "coverageNote": "30-40+ major metro areas"
       }
     },
     "payModel": "hourly",
@@ -1913,7 +2130,9 @@
       "official_website",
       "platform_info"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "curri",
@@ -1969,7 +2188,9 @@
       "help_center",
       "driver_reviews"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "frayt",
@@ -2017,7 +2238,7 @@
     "estimatedHourlyMin": 20,
     "estimatedHourlyMax": 30,
     "tipsAllowed": true,
-    "paymentFrequency": "48_hours",
+    "paymentFrequency": "within_48_hours",
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
@@ -2025,7 +2246,9 @@
       "official_website",
       "driver_job_listings"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "metrobi",
@@ -2089,7 +2312,9 @@
       "https://metrobi.com/driver/",
       "Job listings"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   },
   {
     "id": "dispatch",
@@ -2149,18 +2374,22 @@
       "https://www.dispatchit.com/drivers",
       "Official knowledge base"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Instant pay option available",
+    "instantPayFee": "none reported"
   },
   {
     "id": "courial",
     "slug": "courial",
     "name": "Courial",
-    "description": "Courial is a concierge-style delivery platform offering competitive pay and professional service. Earn $18-25/hour with flexible vehicle options including cars, bikes, scooters, or walking. Known for supporting EV drivers.",
+    "description": "Courial is a concierge-style delivery platform offering competitive pay and professional service. Earn $18-25/hour with flexible vehicle options including cars, bikes, scooters, or on foot. Known for supporting EV drivers.",
     "logoUrl": "/logos/courial.png",
     "websiteUrl": "https://www.courial.com/",
     "applyUrl": "https://www.courial.com/jobs",
-    "iosAppUrl": "",
-    "androidAppUrl": "",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
     "categories": [
       "package_delivery",
       "food_delivery"
@@ -2211,6 +2440,8 @@
       "https://www.courial.com/jobs",
       "Help documentation"
     ],
-    "verificationStatus": "verified"
+    "verificationStatus": "verified",
+    "driverStatus": "active",
+    "instantPayAvailable": false
   }
 ]
