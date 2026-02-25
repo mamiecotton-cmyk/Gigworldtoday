@@ -37,7 +37,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const VEHICLE_LABELS: Record<string, string> = {
-  none: 'On Foot', walking: 'Walking', bike: 'Bicycle', scooter: 'Scooter',
+  none: 'Walking', walking: 'Walking', bike: 'Bicycle', scooter: 'Scooter',
   motorcycle: 'Motorcycle', car: 'Car', sedan: 'Sedan', mid_size: 'Mid-Size',
   suv: 'SUV', minivan: 'Minivan', van: 'Van', cargo_van: 'Cargo Van',
   sprinter_van: 'Sprinter', pickup: 'Pickup', truck: 'Truck', box_truck: 'Box Truck',
