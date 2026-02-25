@@ -1,6 +1,32 @@
+'use client';
+
 import Link from 'next/link';
 import { useState } from 'react';
 import { Platform } from '@/lib/types';
+
+// Fallback domains for platforms missing websiteUrl
+const DOMAIN_OVERRIDES: Record<string, string> = {
+  doordash: 'doordash.com',
+  'uber-eats': 'ubereats.com',
+  drizly: 'drizly.com',
+  postmates: 'postmates.com',
+};
+
+function getDomain(platform: Platform): string | null {
+  if (DOMAIN_OVERRIDES[platform.id]) return DOMAIN_OVERRIDES[platform.id];
+  if (!platform.websiteUrl) return null;
+  try {
+    const url = new URL(platform.websiteUrl);
+    // Strip subdomains like "shoppers.", "driver.", "web.", "flex." etc
+    const parts = url.hostname.replace(/^www\./, '').split('.');
+    if (parts.length > 2) {
+      return parts.slice(-2).join('.');
+    }
+    return parts.join('.');
+  } catch {
+    return null;
+  }
+}
 
 interface PlatformCardProps {
   platform: Platform;
@@ -8,6 +34,8 @@ interface PlatformCardProps {
 
 export default function PlatformCard({ platform }: PlatformCardProps) {
   const [imgError, setImgError] = useState(false);
+  const domain = getDomain(platform);
+  const logoSrc = domain ? `https://logo.clearbit.com/${domain}` : null;
 
   const category =
     Array.isArray(platform.categories) && platform.categories.length > 0
@@ -25,9 +53,9 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
       {/* Logo + Name + Category */}
       <div className="flex items-center gap-3 mt-2 mb-4">
         <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
-          {platform.logoUrl && !imgError ? (
+          {logoSrc && !imgError ? (
             <img
-              src={platform.logoUrl}
+              src={logoSrc}
               alt={platform.name}
               className="w-10 h-10 object-contain"
               onError={() => setImgError(true)}
