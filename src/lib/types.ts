@@ -42,6 +42,8 @@ export interface Platform {
   estimatedHourlyMax?: number;
   tipsAllowed: boolean;
   paymentFrequency: string;
+  payFrequency?: string;
+  instantPayoutAvailable?: boolean;
   rating?: number;
   
   // Work details
@@ -84,5 +86,7 @@ export interface FilterOptions {
   countries?: string[];
   statuses?: string[];
   deliveryType?: string;
+  payFrequency?: string[];
+  instantPayout?: boolean | undefined;
   availability?: string;
 }

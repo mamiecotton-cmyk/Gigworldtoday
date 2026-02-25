@@ -23,7 +23,41 @@ export default function PlatformsPage() {
 
   // Load platforms
   useEffect(() => {
-    setPlatforms(platformsData as unknown as Platform[]);
+    const normalized = (platformsData as unknown as Platform[]).map((p) => {
+      const vehicleTypes = (p.vehicleTypes || []).map((v) => {
+        if (v === 'none') return 'walking';
+        if (v === 'mid_size' || v === 'midsize' || v === 'mid-size') return 'sedan';
+        return v;
+      });
+
+      // derive payFrequency and instantPayoutAvailable from existing fields when missing
+      const freq = (p.paymentFrequency || '').toLowerCase();
+      let payFrequency = (p as any).payFrequency || '';
+      const instantPayoutAvailable = !!(p as any).instantPayAvailable || !!(p as any).instantPayoutAvailable || false;
+
+      if (!payFrequency) {
+        if ((p as any).payModel === 'per_delivery' || freq === 'per_delivery') {
+          payFrequency = 'per_delivery';
+        } else if (freq === 'twice_weekly') {
+          payFrequency = 'twice_weekly';
+        } else if (freq === 'daily') {
+          payFrequency = 'daily';
+        } else if (freq === 'weekly') {
+          payFrequency = 'weekly';
+        } else {
+          payFrequency = 'weekly';
+        }
+      }
+
+      return {
+        ...p,
+        vehicleTypes,
+        payFrequency,
+        instantPayoutAvailable,
+      };
+    });
+
+    setPlatforms(normalized);
     setLoading(false);
   }, []);
 
@@ -88,6 +122,14 @@ export default function PlatformsPage() {
       );
     }
 
+    if (filters.payFrequency?.length) {
+      list = list.filter((p) => (p as any).payFrequency && filters.payFrequency!.includes((p as any).payFrequency));
+    }
+
+    if (typeof filters.instantPayout !== 'undefined') {
+      list = list.filter((p) => !!(p as any).instantPayoutAvailable === !!filters.instantPayout);
+    }
+
     if (filters.availability) {
       list = list.filter(
         (p) => (p as any).availability === filters.availability
@@ -148,6 +190,22 @@ export default function PlatformsPage() {
     { value: "both", label: "Both" },
   ];
 
+  const payFrequencyOptions = useMemo(
+    () =>
+      Array.from(new Set(platforms.map((p) => (p as any).payFrequency || 'weekly'))).map((s) => ({
+        value: s,
+        label:
+          s === 'per_delivery'
+            ? 'Per Delivery'
+            : s === 'twice_weekly'
+            ? 'Twice Weekly'
+            : s === 'daily'
+            ? 'Daily'
+            : 'Weekly',
+      })),
+    [platforms]
+  );
+
   const availabilityOptions = [
     { value: "24/7", label: "24/7" },
     { value: "daytime", label: "Daytime" },
@@ -179,6 +237,7 @@ export default function PlatformsPage() {
                 categoryOptions={categoryOptions}
                 countryOptions={countryOptions}
                 statusOptions={statusOptions}
+                payFrequencyOptions={payFrequencyOptions}
                 deliveryTypeOptions={deliveryTypeOptions}
                 availabilityOptions={availabilityOptions}
               />

@@ -10,20 +10,21 @@ interface FilterSidebarProps {
   categoryOptions: Array<{ value: string; label: string }>;
   countryOptions: Array<{ value: string; label: string }>;
   statusOptions: Array<{ value: string; label: string }>;
+  payFrequencyOptions?: Array<{ value: string; label: string }>;
   deliveryTypeOptions?: Array<{ value: string; label: string }>;
   availabilityOptions?: Array<{ value: string; label: string }>;
 }
 
 // Group categories into logical sections
 const CATEGORY_GROUPS: Record<string, string[]> = {
-  'Delivery': ['food_delivery', 'grocery_delivery', 'alcohol_delivery', 'package_delivery', 'ecommerce_delivery', 'same_day_delivery', 'quick_commerce', 'last_mile', 'auto_parts_delivery', 'catering_delivery'],
+  'Delivery': ['food_delivery', 'grocery_delivery', 'alcohol_delivery', 'package_delivery', 'ecommerce_delivery', 'same_day_delivery', 'quick_commerce', 'last_mile', 'catering_delivery'],
   'Services': ['rideshare', 'task_based', 'pet_care', 'moving', 'courier'],
 };
 
 // Group vehicles into logical sections
 const VEHICLE_GROUPS: Record<string, string[]> = {
   'No Vehicle Needed': ['none', 'walking', 'bike', 'scooter'],
-  'Car / Sedan': ['car', 'sedan', 'mid_size', 'motorcycle'],
+  'Car / Sedan': ['car', 'sedan', 'motorcycle'],
   'SUV / Van': ['suv', 'minivan', 'van', 'cargo_van', 'sprinter_van'],
   'Truck / Large': ['pickup', 'truck', 'box_truck', 'flatbed', 'suv_trailer', 'refrigerated_van'],
 };
@@ -37,8 +38,8 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const VEHICLE_LABELS: Record<string, string> = {
-  none: 'Walking', walking: 'Walking', bike: 'Bicycle', scooter: 'Scooter',
-  motorcycle: 'Motorcycle', car: 'Car', sedan: 'Sedan', mid_size: 'Mid-Size',
+  none: 'No vehicle', walking: 'Walking', bike: 'Bicycle', scooter: 'Scooter',
+  motorcycle: 'Motorcycle', car: 'Car', sedan: 'Sedan',
   suv: 'SUV', minivan: 'Minivan', van: 'Van', cargo_van: 'Cargo Van',
   sprinter_van: 'Sprinter', pickup: 'Pickup', truck: 'Truck', box_truck: 'Box Truck',
   flatbed: 'Flatbed', suv_trailer: 'SUV + Trailer', refrigerated_van: 'Refrigerated',
@@ -115,10 +116,13 @@ export default function FilterSidebar({
   vehicleOptions,
   categoryOptions,
   countryOptions,
+  payFrequencyOptions,
 }: FilterSidebarProps) {
   const selectedVehicles = new Set(filters.vehicles || []);
   const selectedCategories = new Set(filters.categories || []);
   const selectedCountries = new Set(filters.countries || []);
+  const selectedPayFreq = new Set(filters.payFrequency || []);
+  const instantFilter = typeof filters.instantPayout === 'boolean' ? filters.instantPayout : undefined;
 
   const toggle = (set: Set<string>, value: string) => {
     const next = new Set(set);
@@ -223,6 +227,43 @@ export default function FilterSidebar({
                 onClick={() => onFilterChange('deliveryType', opt.value)}
               />
             ))}
+          </div>
+        </Section>
+
+        {/* Pay Frequency */}
+        <Section title="Pay Frequency" count={filters.payFrequency?.length || 0}>
+          <div className="flex flex-wrap gap-1.5">
+            {(payFrequencyOptions || [
+              { value: 'weekly', label: 'Weekly' },
+              { value: 'twice_weekly', label: 'Twice Weekly' },
+              { value: 'daily', label: 'Daily' },
+              { value: 'per_delivery', label: 'Per Delivery' },
+            ]).map((opt) => (
+              <Pill
+                key={opt.value}
+                label={opt.label}
+                selected={selectedPayFreq.has(opt.value)}
+                onClick={() => onFilterChange('payFrequency', selectedPayFreq.has(opt.value) ? Array.from(selectedPayFreq).filter((v) => v !== opt.value) : [...Array.from(selectedPayFreq), opt.value])}
+              />
+            ))}
+          </div>
+        </Section>
+
+        {/* Instant Cash Out Available */}
+        <Section title="Instant Cash Out Available" count={instantFilter ? 1 : 0}>
+          <div className="flex flex-wrap gap-1.5">
+            <Pill
+              key="instant_yes"
+              label="Yes"
+              selected={instantFilter === true}
+              onClick={() => onFilterChange('instantPayout', instantFilter === true ? undefined : true)}
+            />
+            <Pill
+              key="instant_no"
+              label="No"
+              selected={instantFilter === false}
+              onClick={() => onFilterChange('instantPayout', instantFilter === false ? undefined : false)}
+            />
           </div>
         </Section>
 

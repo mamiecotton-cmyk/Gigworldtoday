@@ -98,8 +98,9 @@ export default function PlatformDetailPage() {
     .slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen py-12">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10">
         {/* Back link */}
         <Link
           href="/platforms"
@@ -480,6 +481,7 @@ export default function PlatformDetailPage() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

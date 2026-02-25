@@ -1,5 +1,6 @@
 import { createServerSupabase } from "@/lib/supabaseServer";
 
+export default async function sitemap() {
   const supabase = createServerSupabase();
   const { data } = await supabase
     .from("articles")

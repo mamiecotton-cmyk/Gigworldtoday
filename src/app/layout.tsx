@@ -39,7 +39,7 @@ export default function RootLayout({
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-white/40"></div>
+          <div className="absolute inset-0 bg-white/30"></div>
         </div>
         <Header />
         <main className="pt-20">{children}</main>

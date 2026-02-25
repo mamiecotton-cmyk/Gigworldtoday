@@ -8,8 +8,9 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-6 py-16">
+    <div className="min-h-screen py-12">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10">
         <h1 className="text-4xl font-bold mb-6">
           About GigWorldToday
         </h1>
@@ -63,6 +64,7 @@ export default function AboutPage() {
           context, transparency, and reliable information without
           noise.
         </p>
+        </div>
       </div>
     </div>
   );

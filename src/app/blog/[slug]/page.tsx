@@ -34,7 +34,8 @@ export default async function BlogArticlePage({
   }
 
   return (
-    <main className="mx-auto max-w-3xl p-6">
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10">
       <h1 className="text-4xl font-bold mb-6">
         {article.title}
       </h1>
@@ -48,6 +49,7 @@ export default async function BlogArticlePage({
       )}
 
       <ArticleRenderer contentJson={article.content_json} />
-    </main>
+        </div>
+      </main>
   );
 }

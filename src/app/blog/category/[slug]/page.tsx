@@ -4,9 +4,9 @@ import { createServerSupabase } from "@/lib/supabaseServer";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function CategoryPage(
-  { params }: { params: { slug: string } }
-) {
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+
   const supabase = createServerSupabase();
 
   const { data: articles } = await supabase
@@ -14,11 +14,12 @@ export default async function CategoryPage(
     .select("id, title, slug, published_at")
     .eq("published", true)
     .is("deleted_at", null)
-    .contains("tags", [params.slug])
+    .contains("tags", [slug])
     .order("published_at", { ascending: false });
 
   return (
-    <main className="mx-auto max-w-4xl p-6 space-y-6">
+    <main className="mx-auto max-w-4xl px-6 py-12">
+      <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10 space-y-6">
       <h1 className="text-3xl font-bold capitalize">
         Category: {params.slug}
       </h1>
@@ -38,6 +39,7 @@ export default async function CategoryPage(
         ) : (
           <p>No articles found.</p>
         )}
+      </div>
       </div>
     </main>
   );
