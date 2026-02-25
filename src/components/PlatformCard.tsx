@@ -1,131 +1,92 @@
 import Link from 'next/link';
-import { WAITLIST_STATUS_COLORS } from '@/lib/constants';
+import { useState } from 'react';
+import { Platform } from '@/lib/types';
+
 interface PlatformCardProps {
   platform: Platform;
 }
 
 export default function PlatformCard({ platform }: PlatformCardProps) {
-  let waitlistStatus = 'unknown';
-  if (platform.countries && platform.countries.length > 0 && platform.regions && platform.regions[platform.countries[0]]) {
-    waitlistStatus = platform.regions[platform.countries[0]]?.waitlistStatus || 'unknown';
-  }
-  const normalizedStatus = waitlistStatus in WAITLIST_STATUS_COLORS ? waitlistStatus : 'unknown';
-  const statusConfig = WAITLIST_STATUS_COLORS[normalizedStatus as keyof typeof WAITLIST_STATUS_COLORS];
-  const showWaitlistBadge = Boolean(statusConfig?.label);
+  const [imgError, setImgError] = useState(false);
 
-  // Styling
-  const isFeatured = platform.featured;
-  const cardClass = `
-    relative
-    rounded-2xl
-    border
-    border-slate-200
-    bg-gradient-to-br
-    from-white
-    via-blue-50
-    to-blue-100/40
-    shadow-lg
-    hover:shadow-xl
-    transition
-    duration-300
-    p-6
-    flex
-    flex-col
-  `;
+  const category =
+    Array.isArray(platform.categories) && platform.categories.length > 0
+      ? platform.categories[0].replace(/_/g, ' ')
+      : 'Gig Work';
 
   return (
-    <div className={cardClass}>
-      {/* Brand strip */}
-      <div className="h-[3px] rounded-full mb-4 bg-gradient-to-r from-sky-400 via-blue-500 to-cyan-400" />
+    <Link
+      href={`/platforms/${platform.slug}`}
+      className="group relative rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-300 transition-all duration-300 p-5 flex flex-col overflow-hidden"
+    >
+      {/* Teal top accent */}
+      <div className="absolute top-0 left-4 right-4 h-[3px] rounded-b-full bg-gradient-to-r from-teal-400 to-teal-500" />
 
-      {/* Featured badge */}
-      {isFeatured && (
-        <span className="absolute top-3 right-4 text-xs font-semibold bg-blue-100/80 text-blue-800 rounded-full px-2.5 py-1 z-10">
-          Featured
-        </span>
-      )}
-
-      {/* Header row */}
-      <div className="flex items-center gap-4 mb-2">
-        <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-2xl">
-          {platform.logoUrl
-            ? <img src={platform.logoUrl} alt={platform.name} className="w-10 h-10 object-contain rounded-xl" />
-            : '📱'}
+      {/* Logo + Name + Category */}
+      <div className="flex items-center gap-3 mt-2 mb-4">
+        <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+          {platform.logoUrl && !imgError ? (
+            <img
+              src={platform.logoUrl}
+              alt={platform.name}
+              className="w-10 h-10 object-contain"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <span className="text-lg font-bold text-teal-600">
+              {platform.name.charAt(0)}
+            </span>
+          )}
         </div>
-        <div className="flex-1 min-w-0">
-          <Link href={`/platforms/${platform.slug}`} className="block focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-lg min-w-0">
-            <h3 className="text-xl font-semibold text-slate-900 mb-2">
-              {platform.name}
-            </h3>
-            <p className="text-sm text-slate-500 truncate">
-              {Array.isArray(platform.categories) && platform.categories.length > 0
-                ? platform.categories[0].replace('_', ' ')
-                : 'Gig Work'}
-            </p>
-          </Link>
+        <div className="min-w-0">
+          <h3 className="text-lg font-bold text-gray-900 leading-tight group-hover:text-teal-600 transition-colors">
+            {platform.name}
+          </h3>
+          <p className="text-sm text-gray-400 capitalize">{category}</p>
         </div>
-        {showWaitlistBadge && (
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusConfig.bg} ${statusConfig.text}`}>
-            {statusConfig.label}
-          </span>
-        )}
       </div>
 
-      {/* Earnings badge */}
+      {/* Pay range */}
       {platform.estimatedHourlyMin && platform.estimatedHourlyMax && (
-        <span className="bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold rounded-full px-4 py-1.5 text-sm">
-          ${platform.estimatedHourlyMin}-{platform.estimatedHourlyMax}/hr estimated
-        </span>
+        <div className="mb-3">
+          <span className="inline-block bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold rounded-full px-3.5 py-1 text-sm">
+            ${platform.estimatedHourlyMin}–${platform.estimatedHourlyMax}/hr estimated
+          </span>
+        </div>
       )}
 
-      {/* Tags/requirements */}
-      <div className="flex flex-wrap gap-2 mb-2">
+      {/* Requirements tags */}
+      <div className="flex flex-wrap gap-1.5 mb-3">
         {platform.minAge && (
-          <span className="rounded-full bg-slate-100/80 text-slate-600 text-xs px-2.5 py-1">
+          <span className="rounded-full bg-gray-100 text-gray-600 text-xs px-2.5 py-1 font-medium">
             {platform.minAge}+ years
           </span>
         )}
-        {platform.vehicleTypes && platform.vehicleTypes.length > 0 && platform.vehicleTypes[0] !== 'none' && (
-          <span className="rounded-full bg-slate-100/80 text-slate-600 text-xs px-2.5 py-1">
-            {platform.vehicleTypes[0]}
-          </span>
-        )}
+        {platform.vehicleTypes &&
+          platform.vehicleTypes.length > 0 &&
+          platform.vehicleTypes[0] !== 'none' && (
+            <span className="rounded-full bg-gray-100 text-gray-600 text-xs px-2.5 py-1 font-medium capitalize">
+              {platform.vehicleTypes[0].replace(/_/g, ' ')}
+            </span>
+          )}
         {platform.backgroundCheckRequired && (
-          <span className="rounded-full bg-slate-100/80 text-slate-600 text-xs px-2.5 py-1">
+          <span className="rounded-full bg-gray-100 text-gray-600 text-xs px-2.5 py-1 font-medium">
             Background check
-            {platform.id === "dispatch" && (
-              <span className="text-orange-500"> ($40 fee may apply)</span>
-            )}
           </span>
         )}
       </div>
 
       {/* Description */}
-      <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-5">
+      <p className="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-5 flex-grow">
         {platform.description}
       </p>
 
-      {/* Third-party delivery info */}
-      {(platform.usesThirdPartyDelivery || platform.id === 'cornershop') && (
-        <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 rounded-xl">
-          {/* ...existing info... */}
-        </div>
-      )}
-
-      {/* Closed/merged info */}
-      {(platform.id === 'drizly' || platform.id === 'postmates') && (
-        <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4 rounded-xl">
-          {/* ...existing info... */}
-        </div>
-      )}
-
-      <div className="mt-auto pt-6 border-t border-slate-200">
-        <div>
-          <Link href={`/platforms/${platform.slug}`} className="mt-auto bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg px-5 py-2.5 transition">
-            View Details
-          </Link>
-        </div>
+      {/* View Details button */}
+      <div className="mt-auto">
+        <span className="block w-full text-center bg-orange-500 group-hover:bg-orange-600 text-white font-semibold rounded-lg px-5 py-2.5 transition-colors">
+          View Details →
+        </span>
       </div>
-    </div>
+    </Link>
   );
 }
