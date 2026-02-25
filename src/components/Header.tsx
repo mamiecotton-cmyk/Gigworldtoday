@@ -1,12 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
-import Link from 'next/link';
-import { Menu } from 'lucide-react';
+import Link from "next/link";
+import { Menu } from "lucide-react";
 
 export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -29,44 +32,83 @@ export default function Header() {
     setUser(null);
     setOpen(false);
   };
+
+  const headerBg = "bg-white shadow-sm border-b border-gray-100";
+
+  const linkColor = "text-orange-700 hover:text-orange-900 hover:bg-orange-50";
+
+  const dividerColor = "bg-orange-200";
+
+  const accountBorder = "border-orange-300 text-orange-700 hover:bg-orange-50";
+
+  const menuColor = "text-orange-700 hover:text-orange-900 hover:bg-orange-50";
+
   return (
-    <header className="fixed top-0 left-0 w-full z-40 bg-gradient-to-b from-black/50 to-transparent">
+    <header className={`fixed top-0 left-0 w-full z-40 ${headerBg}`}>
       <nav className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo/Home link */}
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <img src="/logos/logo-dark.svg" alt="Gig World Today" className="h-10 w-auto" />
+            <img
+              src="/logos/logo.svg"
+              alt="GigWorldToday"
+              className="h-14 w-auto"
+            />
             <span className="sr-only">Home</span>
           </Link>
+
+          {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
-            <Link href="/platforms" className="px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-all">Browse Platforms</Link>
-            <Link href="/categories" className="px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-all">Categories</Link>
-            <Link href="/compare" className="px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-emerald-600/10 transition-all">Compare</Link>
-            <Link href="/about" className="hover:underline px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-all">About</Link>
-            <div className="w-px h-6 bg-white/20 mx-2" />
+            <Link
+              href="/platforms"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+            >
+              Browse Platforms
+            </Link>
+            <Link
+              href="/categories"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+            >
+              Categories
+            </Link>
+            <Link
+              href="/compare"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+            >
+              Compare
+            </Link>
+            <Link
+              href="/about"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+            >
+              About
+            </Link>
+
+            <div className={`w-px h-6 mx-2 ${dividerColor}`} />
+
+            {/* Account */}
             <div className="relative">
               {user ? (
                 <>
                   <button
                     onClick={() => setOpen(!open)}
-                    className="px-4 py-2 rounded-xl border text-sm font-semibold hover:bg-gray-100 transition-all"
+                    className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-all ${accountBorder}`}
                   >
                     Account ▾
                   </button>
 
                   {open && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg">
+                    <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg z-50">
                       <Link
                         href="/admin"
-                        className="block px-4 py-2 text-sm hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => setOpen(false)}
                       >
                         Dashboard
                       </Link>
-
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Logout
                       </button>
@@ -76,12 +118,13 @@ export default function Header() {
               ) : (
                 <Link
                   href="/login"
-                  className="px-4 py-2 rounded-xl border text-sm font-semibold hover:bg-gray-100 transition-all"
+                  className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-all ${accountBorder}`}
                 >
                   Sign In
                 </Link>
               )}
             </div>
+
             <Link
               href="/blog"
               className="px-5 py-2.5 rounded-xl bg-[#00C9B1] text-white text-sm font-semibold shadow-lg shadow-[#00C9B1]/25 hover:shadow-[#00C9B1]/40 hover:bg-[#00b5a0] transition-all hover:-translate-y-0.5"
@@ -89,8 +132,10 @@ export default function Header() {
               Blog
             </Link>
           </div>
+
+          {/* Mobile menu */}
           <div className="md:hidden">
-            <button className="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-all">
+            <button className={`p-2 rounded-lg transition-all ${menuColor}`}>
               <Menu size={24} />
             </button>
           </div>

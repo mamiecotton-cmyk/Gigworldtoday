@@ -147,6 +147,7 @@ export default function HomePage() {
   =============================== */
 
   const [topRated, setTopRated] = useState<any[]>([]);
+  const [latestArticles, setLatestArticles] = useState<any[]>([]);
 
   useEffect(() => {
     getTopRated().then((data) => {
@@ -155,44 +156,21 @@ export default function HomePage() {
     });
   }, []);
 
+  useEffect(() => {
+    supabase
+      .from("articles")
+      .select("title, slug, featured_image, excerpt, published_at")
+      .eq("published", true)
+      .is("deleted_at", null)
+      .order("published_at", { ascending: false })
+      .limit(3)
+      .then(({ data }) => setLatestArticles(data || []));
+  }, []);
+
   return (
     <div className="min-h-screen font-sans">
       {/* HERO SECTION */}
-      <section className="relative min-h-[60vh] flex items-center overflow-hidden">
-              {/* TOP RATED PLATFORMS SECTION */}
-              <section className="max-w-6xl mx-auto px-6 py-16">
-                <h2 className="text-3xl font-bold mb-8">
-                  Top Rated Platforms
-                </h2>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  {topRated.map((platform) => (
-                    <div
-                      key={platform.platform_slug}
-                      className="p-6 border rounded-lg"
-                    >
-                      <h3 className="text-xl font-semibold mb-2">
-                        {platform.platform_slug.replace("-", " ")}
-                      </h3>
-
-                      <p className="text-2xl font-bold">
-                        ⭐ {Number(platform.average_rating).toFixed(1)}
-                      </p>
-
-                      <p className="text-sm text-gray-500">
-                        {platform.rating_count} ratings
-                      </p>
-
-                      <Link
-                        href={`/platforms/${platform.platform_slug}`}
-                        className="text-blue-600 mt-4 inline-block"
-                      >
-                        View Platform →
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </section>
+      <section className="relative min-h-[40vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/90 z-0" />
         <div className="absolute inset-0 z-0">
           <Image
@@ -204,25 +182,16 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="relative z-10 container mx-auto px-8 py-24 flex flex-row items-center justify-between w-full">
-          {/* LEFT CONTENT - MODERNIZED */}
+        <div className="relative z-10 container mx-auto px-8 py-16 flex flex-row items-center justify-between w-full">
           <div className="relative z-10 max-w-2xl w-full">
-            <div className="absolute -left-20 -top-20 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-3 text-white tracking-tight">
               The Hub for Modern Gig Workers
             </h1>
 
-            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+            <p className="text-lg text-gray-300 mb-5 leading-relaxed">
               Discover platforms. Track changes. Maximize earnings.
             </p>
 
-            <div className="mb-6">
-              <Link href="/blog" className="inline-block px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold text-sm hover:bg-emerald-700 transition">
-                Read the Blog
-              </Link>
-            </div>
-
-            {/* SEARCH FORM (KEEP EXISTING LOGIC) */}
             <form
               className="flex items-center w-full max-w-md bg-white/95 rounded-xl shadow-2xl p-2 gap-2 border border-white/30 backdrop-blur-md"
               onSubmit={e => {
@@ -275,55 +244,170 @@ export default function HomePage() {
               </button>
             </form>
 
-            <p className="text-white/70 text-sm mt-4">
+            <p className="text-white/70 text-sm mt-3">
               Built by a working gig driver for fellow gig workers.
             </p>
           </div>
         </div>
       </section>
 
+      {/* TOP RATED PLATFORMS */}
+      {topRated.length > 0 && (
+        <section className="bg-white py-12">
+          <div className="container mx-auto px-8">
+            <h2 className="text-2xl font-bold mb-6">⭐ Top Rated Platforms</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {topRated.map((tr: any) => {
+                const p = platforms.find((x: any) => x.slug === tr.platform_slug || x.id === tr.platform_slug);
+                const LOCAL: Record<string, string> = {
+                  doordash: '/logos/doordash.svg', ubereats: '/logos/ubereats.svg',
+                  instacart: '/logos/instacart.svg', uber: '/logos/uber.svg',
+                  lyft: '/logos/lyft.svg', thumbtack: '/logos/thumbtack.svg',
+                };
+                const DOMS: Record<string, string> = {
+                  doordash: 'doordash.com', ubereats: 'ubereats.com',
+                };
+                let domain = (p && DOMS[p.id]) || null;
+                if (!domain && p?.websiteUrl) {
+                  try { const h = new URL(p.websiteUrl).hostname.replace(/^www\./,'').split('.'); domain = h.length > 2 ? h.slice(-2).join('.') : h.join('.'); } catch {}
+                }
+                const logoSrc = (p && LOCAL[p.id]) || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
+
+                return (
+                  <Link
+                    key={tr.platform_slug}
+                    href={`/platforms/${tr.platform_slug}`}
+                    className="group flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:shadow-lg hover:border-teal-300 transition-all"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {logoSrc ? (
+                        <img src={logoSrc} alt="" className="w-8 h-8 object-contain" />
+                      ) : (
+                        <span className="text-lg font-bold text-teal-600">{tr.platform_slug.charAt(0).toUpperCase()}</span>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 group-hover:text-teal-600 transition-colors capitalize">
+                        {p?.name || tr.platform_slug.replace(/-/g, " ")}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        ⭐ {Number(tr.average_rating).toFixed(1)} · {tr.rating_count} ratings
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* DIRECTORY SECTION */}
-      <section className="bg-gradient-to-b from-white to-gray-50 py-20">
+      <section className="bg-gradient-to-b from-white to-gray-50 py-12">
         <div className="container mx-auto px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold tracking-tight mb-10">Explore Gig Platforms</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold tracking-tight">Explore Gig Platforms</h2>
             <span className="text-sm text-gray-500">{totalPlatforms} Platforms Listed</span>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {platforms.slice(0, 6).map((platform: any, idx: number) => (
-              <div
-                key={idx}
-                className="group border border-gray-100 rounded-2xl p-6 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative"
-              >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-teal-500/5 to-emerald-500/5 rounded-2xl transition duration-300" />
-                <h3 className="text-lg font-semibold mb-2">{platform.name}</h3>
-                <div className="text-sm text-gray-500 mb-3">{platform.category || "Gig Platform"}</div>
-                <div className={`inline-flex items-center px-3 py-1 text-xs rounded-full font-semibold ${
-                  platform.driverStatus === "active"
-                    ? "bg-emerald-100 text-emerald-700"
-                    : platform.driverStatus === "limited"
-                    ? "bg-amber-100 text-amber-700"
-                    : "bg-red-100 text-red-700"
-                }`}>
-                  {platform.driverStatus || "Unknown"}
-                </div>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-3 gap-6">
+            {platforms.slice(0, 6).map((platform: any, idx: number) => {
+              const LOCAL: Record<string, string> = {
+                doordash: '/logos/doordash.svg', ubereats: '/logos/ubereats.svg',
+                instacart: '/logos/instacart.svg', uber: '/logos/uber.svg',
+                lyft: '/logos/lyft.svg', thumbtack: '/logos/thumbtack.svg',
+              };
+              const DOMS: Record<string, string> = {
+                doordash: 'doordash.com', ubereats: 'ubereats.com',
+              };
+              let domain = DOMS[platform.id] || null;
+              if (!domain && platform.websiteUrl) {
+                try { const h = new URL(platform.websiteUrl).hostname.replace(/^www\./,'').split('.'); domain = h.length > 2 ? h.slice(-2).join('.') : h.join('.'); } catch {}
+              }
+              const logoSrc = LOCAL[platform.id] || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
+              const category = Array.isArray(platform.categories) && platform.categories.length > 0
+                ? platform.categories[0].replace(/_/g, ' ')
+                : 'Gig Platform';
+
+              return (
+                <Link
+                  key={idx}
+                  href={`/platforms/${platform.slug}`}
+                  className="group relative border border-gray-200 rounded-2xl p-5 bg-white shadow-sm hover:shadow-xl hover:border-teal-300 transition-all duration-300 flex flex-col overflow-hidden"
+                >
+                  <div className="absolute top-0 left-4 right-4 h-[3px] rounded-b-full bg-gradient-to-r from-teal-400 to-teal-500" />
+                  <div className="flex items-center gap-3 mt-2 mb-3">
+                    <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {logoSrc ? (
+                        <img src={logoSrc} alt={platform.name} className="w-8 h-8 object-contain" />
+                      ) : (
+                        <span className="text-lg font-bold text-teal-600">{platform.name.charAt(0)}</span>
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{platform.name}</h3>
+                      <p className="text-sm text-gray-400 capitalize">{category}</p>
+                    </div>
+                  </div>
+                  {platform.estimatedHourlyMin && platform.estimatedHourlyMax && (
+                    <span className="inline-block bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold rounded-full px-3 py-1 text-sm mb-3 w-fit">
+                      ${platform.estimatedHourlyMin}–${platform.estimatedHourlyMax}/hr estimated
+                    </span>
+                  )}
+                  <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow">{platform.description}</p>
+                  <span className="block w-full text-center bg-orange-500 group-hover:bg-orange-600 text-white font-semibold rounded-lg px-5 py-2.5 transition-colors mt-auto">
+                    View Details →
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+          <div className="text-center mt-8">
+            <Link href="/platforms" className="inline-block px-6 py-3 rounded-xl bg-teal-500 text-white font-semibold hover:bg-teal-600 transition">
+              Browse All {totalPlatforms} Platforms →
+            </Link>
           </div>
         </div>
       </section>
 
       {/* BLOG PREVIEW SECTION */}
-      <section className="bg-black py-20">
+      <section className="bg-black py-16">
         <div className="container mx-auto px-8">
-          <h2 className="text-3xl font-bold mb-10 text-white tracking-tight">Gig Insights & Platform Updates</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[1,2,3].map((item) => (
-              <div key={item} className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition duration-300">
-                <h3 className="font-semibold mb-2 text-white">Platform Update Example</h3>
-                <p className="text-sm text-gray-300 leading-relaxed">Changes, strategies, and earnings insights for gig workers.</p>
-              </div>
-            ))}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-white tracking-tight">Gig Insights & Platform Updates</h2>
+            <Link href="/blog" className="text-teal-400 hover:text-teal-300 text-sm font-semibold">
+              View All Articles →
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {latestArticles.length > 0 ? latestArticles.map((article: any) => (
+              <Link
+                key={article.slug}
+                href={`/blog/${article.slug}`}
+                className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition duration-300"
+              >
+                {article.featured_image && (
+                  <div className="relative h-[160px] w-full overflow-hidden">
+                    <Image
+                      src={article.featured_image}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div className="p-5">
+                  <h3 className="font-semibold text-white group-hover:text-teal-400 transition-colors mb-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-gray-400 line-clamp-2">{article.excerpt}</p>
+                  <p className="text-xs text-gray-500 mt-3">
+                    {new Date(article.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </p>
+                </div>
+              </Link>
+            )) : (
+              <p className="text-gray-500 col-span-3 text-center py-8">No articles published yet.</p>
+            )}
           </div>
         </div>
       </section>

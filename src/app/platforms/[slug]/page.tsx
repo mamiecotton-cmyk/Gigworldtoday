@@ -129,17 +129,41 @@ export default function PlatformDetailPage() {
         {/* Header */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex items-start gap-4">
-            {platform.logoUrl ? (
-              <img
-                src={platform.logoUrl}
-                alt={platform.name}
-                className="w-16 h-16 rounded-lg object-contain bg-gray-50 border"
-              />
-            ) : (
-              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-400">
-                {platform.name?.charAt(0)}
-              </div>
-            )}
+              {(() => {
+                const LOCAL_LOGOS: Record<string, string> = {
+                  doordash: '/logos/doordash.svg',
+                  ubereats: '/logos/ubereats.svg',
+                  instacart: '/logos/instacart.svg',
+                  uber: '/logos/uber.svg',
+                  lyft: '/logos/lyft.svg',
+                  thumbtack: '/logos/thumbtack.svg',
+                };
+                const DOMAIN_OVERRIDES: Record<string, string> = {
+                  doordash: 'doordash.com',
+                  ubereats: 'ubereats.com',
+                  drizly: 'drizly.com',
+                  postmates: 'postmates.com',
+                };
+                let domain = DOMAIN_OVERRIDES[platform.id] || null;
+                if (!domain && platform.websiteUrl) {
+                  try {
+                    const parts = new URL(platform.websiteUrl).hostname.replace(/^www\./, '').split('.');
+                    domain = parts.length > 2 ? parts.slice(-2).join('.') : parts.join('.');
+                  } catch {}
+                }
+                const src = LOCAL_LOGOS[platform.id] || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
+                return src ? (
+                  <img
+                    src={src}
+                    alt={platform.name}
+                    className="w-16 h-16 rounded-lg object-contain bg-gray-50 border p-1"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center text-2xl font-bold text-teal-600">
+                    {platform.name?.charAt(0)}
+                  </div>
+                );
+              })()}
             <div className="flex-1">
               <div className="flex items-center gap-3 flex-wrap">
                 <h1 className="text-2xl font-bold text-gray-900">
@@ -423,17 +447,27 @@ export default function PlatformDetailPage() {
                   className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition"
                 >
                   <div className="flex items-center gap-3">
-                    {p.logoUrl ? (
-                      <img
-                        src={p.logoUrl}
-                        alt={p.name}
-                        className="w-10 h-10 rounded object-contain bg-gray-50"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center text-lg font-bold text-gray-400">
-                        {p.name?.charAt(0)}
-                      </div>
-                    )}
+                    {(() => {
+                      const LOCAL: Record<string, string> = {
+                        doordash: '/logos/doordash.svg', ubereats: '/logos/ubereats.svg',
+                        instacart: '/logos/instacart.svg', uber: '/logos/uber.svg',
+                        lyft: '/logos/lyft.svg', thumbtack: '/logos/thumbtack.svg',
+                      };
+                      const DOMS: Record<string, string> = {
+                        doordash: 'doordash.com', ubereats: 'ubereats.com',
+                        drizly: 'drizly.com', postmates: 'postmates.com',
+                      };
+                      let d = DOMS[p.id] || null;
+                      if (!d && p.websiteUrl) {
+                        try { const h = new URL(p.websiteUrl).hostname.replace(/^www\./,'').split('.'); d = h.length > 2 ? h.slice(-2).join('.') : h.join('.'); } catch {}
+                      }
+                      const s = LOCAL[p.id] || (d ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${d}&size=128` : null);
+                      return s ? (
+                        <img src={s} alt={p.name} className="w-10 h-10 rounded object-contain bg-gray-50" />
+                      ) : (
+                        <div className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center text-lg font-bold text-teal-600">{p.name?.charAt(0)}</div>
+                      );
+                    })()}
                     <div>
                       <h3 className="font-semibold text-gray-900">{p.name}</h3>
                       <p className="text-xs text-gray-500">

@@ -16,11 +16,21 @@
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van", "minivan", "truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van",
+      "minivan",
+      "truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Rebranded",
@@ -35,14 +45,16 @@
     "instantPayAvailable": false,
     "deliveryType": "scheduled",
     "usesThirdPartyDelivery": false,
-    "driverStatus": "rebranded",
+    "driverStatus": "no_longer_hiring",
     "rebrandedTo": "Jitsu",
     "rebrandedUrl": "https://gojitsu.com/drivers",
     "redirectMessage": "AxleHire has rebranded to Jitsu. To sign up as a driver, visit Jitsu at gojitsu.com.",
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "news"],
-    "verificationStatus": "verified",
-    "driverStatus": "no_longer_hiring"
+    "dataSources": [
+      "official_website",
+      "news"
+    ],
+    "verificationStatus": "verified"
   },
   {
     "id": "jitsu",
@@ -63,20 +75,41 @@
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van", "minivan", "truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van",
+      "minivan",
+      "truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
+    "equipmentNeeded": [
+      "smartphone"
+    ],
     "otherRequirements": "Valid driver's license, background check required. Larger vehicles (SUV/minivan) get access to higher-paying routes.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available in select markets",
         "cities": [
-          "Los Angeles", "San Diego", "San Francisco", "Seattle",
-          "Portland", "Dallas", "Houston", "Chicago", "New York",
-          "Phoenix", "Atlanta", "Washington DC", "Baltimore",
-          "Philadelphia", "Detroit"
+          "Los Angeles",
+          "San Diego",
+          "San Francisco",
+          "Seattle",
+          "Portland",
+          "Dallas",
+          "Houston",
+          "Chicago",
+          "New York",
+          "Phoenix",
+          "Atlanta",
+          "Washington DC",
+          "Baltimore",
+          "Philadelphia",
+          "Detroit"
         ]
       }
     },
@@ -91,11 +124,21 @@
     "deliveryType": "scheduled",
     "scheduledAdvanceHours": 24,
     "onTimeDeliveryRate": "98.5%",
-    "majorClients": ["HelloFresh", "American Eagle", "Nespresso", "Deliverr"],
+    "majorClients": [
+      "HelloFresh",
+      "American Eagle",
+      "Nespresso",
+      "Deliverr"
+    ],
     "formerName": "AxleHire",
     "driverStatus": "active",
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "glassdoor", "indeed", "news"],
+    "dataSources": [
+      "official_website",
+      "glassdoor",
+      "indeed",
+      "news"
+    ],
     "verificationStatus": "verified",
     "notes": "Formerly AxleHire. Routes are pre-planned with guaranteed pay. Drivers with larger vehicles earn significantly more. Some driver reviews mention long wait times at warehouses and inconsistent route availability."
   },
@@ -119,12 +162,22 @@
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "van", "cargo_van", "truck", "suv"],
+    "vehicleTypes": [
+      "car",
+      "van",
+      "cargo_van",
+      "truck",
+      "suv"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
+    "equipmentNeeded": [
+      "smartphone"
+    ],
     "otherRequirements": "Driver's license and vehicle insurance required. Experience in delivery preferred.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available in select states",
@@ -179,7 +232,11 @@
     "deliverySpeed": "same_day",
     "medianDeliveryTime": "55 minutes",
     "multipleRoles": true,
-    "roles": ["driver", "mover", "moving helper"],
+    "roles": [
+      "driver",
+      "mover",
+      "moving helper"
+    ],
     "specialServices": [
       "white-glove handling",
       "catering setup",
@@ -189,7 +246,12 @@
     ],
     "driverStatus": "active",
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "app_store", "glassdoor", "indeed"],
+    "dataSources": [
+      "official_website",
+      "app_store",
+      "glassdoor",
+      "indeed"
+    ],
     "verificationStatus": "verified",
     "notes": "Senpex is more B2B focused than consumer platforms like DoorDash. Drivers report inconsistent order volume especially outside California. App support has received mixed reviews. Best for drivers with larger vehicles (vans/trucks) who want specialized or catering deliveries."
   },
@@ -202,7 +264,9 @@
     "websiteUrl": "https://www.deliverthat.com/driver",
     "iosAppUrl": "https://apps.apple.com/us/app/deliverthat-driver",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.deliverthat.driver",
-    "categories": ["catering_delivery"],
+    "categories": [
+      "catering_delivery"
+    ],
     "vehicleTypes": [],
     "equipmentNeeded": [],
     "minAge": 18,
@@ -221,13 +285,28 @@
     "name": "DoorDash",
     "logoUrl": "/logos/doordash.png",
     "category": "Food Delivery",
+    "description": "Deliver food from local restaurants and stores. Flexible hours, fast payouts, and high order volume in most cities.",
+    "vehicleTypes": [
+      "car",
+      "bike",
+      "scooter"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "estimatedHourlyMin": 15,
+    "estimatedHourlyMax": 25,
     "averageHourly": 20,
     "schedulingType": "Scheduled + Dash Now",
     "vehicleRequired": true,
     "tipsIncluded": true,
     "payoutSpeed": "Instant (Fast Pay)",
     "signupDifficulty": "Easy",
-    "rating": 4.2
+    "rating": 4.2,
+    "categories": [
+      "food_delivery",
+      "package_delivery"
+    ],
+    "websiteUrl": "https://www.doordash.com/dasher/signup/"
   },
   {
     "id": "ubereats",
@@ -235,13 +314,29 @@
     "name": "Uber Eats",
     "logoUrl": "/logos/ubereats.png",
     "category": "Food Delivery",
+    "description": "Deliver food and groceries with Uber Eats. Work anytime, anywhere, and get paid quickly. High demand in most urban areas.",
+    "vehicleTypes": [
+      "car",
+      "bike",
+      "scooter"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "estimatedHourlyMin": 14,
+    "estimatedHourlyMax": 22,
     "averageHourly": 16,
     "schedulingType": "Open Anytime",
     "vehicleRequired": true,
     "tipsIncluded": true,
     "payoutSpeed": "Instant (Instant Pay)",
     "signupDifficulty": "Easy",
-    "rating": 4.1
+    "rating": 4.1,
+    "categories": [
+      "food_delivery",
+      "grocery_delivery",
+      "alcohol_delivery"
+    ],
+    "websiteUrl": "https://www.ubereats.com/"
   },
   {
     "id": "instacart",
@@ -252,15 +347,27 @@
     "websiteUrl": "https://shoppers.instacart.com/",
     "iosAppUrl": "https://apps.apple.com/us/app/instacart-shopper",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.instacart.shopper",
-    "categories": ["grocery_delivery", "alcohol_delivery", "same_day_delivery"],
+    "categories": [
+      "grocery_delivery",
+      "alcohol_delivery",
+      "same_day_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car"],
+    "vehicleTypes": [
+      "car"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "insulated bags"],
+    "equipmentNeeded": [
+      "smartphone",
+      "insulated bags"
+    ],
     "otherRequirements": "Ability to lift 50+ lbs, smartphone with data plan",
-    "countries": ["USA", "Canada"],
+    "countries": [
+      "USA",
+      "Canada"
+    ],
     "regions": {
       "USA": {
         "status": "Available in 5,500+ cities",
@@ -281,7 +388,10 @@
     "deliveryType": "on_demand",
     "setupRequired": false,
     "lastUpdated": "2024-02-15",
-    "dataSources": ["official_website", "shopper_community"],
+    "dataSources": [
+      "official_website",
+      "shopper_community"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -293,19 +403,33 @@
     "websiteUrl": "https://expedite.io/drivers/",
     "iosAppUrl": "https://apps.apple.com/us/app/expedite-for-drivers/id6648777219",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.dlivrd.expedite",
-    "categories": ["catering_delivery"],
+    "categories": [
+      "catering_delivery"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "larger vehicles preferred for catering orders"],
+    "equipmentNeeded": [
+      "smartphone",
+      "larger vehicles preferred for catering orders"
+    ],
     "otherRequirements": "Pass quick screening via Gigee platform. Professional appearance recommended.",
-    "countries": ["USA", "Canada"],
+    "countries": [
+      "USA",
+      "Canada"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["180-200 markets nationwide"],
+        "cities": [
+          "180-200 markets nationwide"
+        ],
         "waitlistStatus": "unknown"
       },
       "Canada": {
@@ -323,7 +447,11 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "press_releases", "app_store_listings"],
+    "dataSources": [
+      "official_website",
+      "press_releases",
+      "app_store_listings"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -335,19 +463,40 @@
     "websiteUrl": "https://jobs.zifty.com/",
     "iosAppUrl": "",
     "androidAppUrl": "",
-    "categories": ["catering_delivery"],
+    "categories": [
+      "catering_delivery"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv"],
+    "vehicleTypes": [
+      "car",
+      "suv"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["large insulated delivery bag", "smartphone"],
+    "equipmentNeeded": [
+      "large insulated delivery bag",
+      "smartphone"
+    ],
     "otherRequirements": "Clean driving record (no accidents or more than 2 tickets in past 3 years). Dress code: dress pants, collared shirt, closed-toe shoes. Customer service focused.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["Atlanta", "Chicago", "Orlando", "DC", "Detroit", "Tampa", "Philadelphia", "Baltimore", "Charlotte", "Boston"],
+        "cities": [
+          "Atlanta",
+          "Chicago",
+          "Orlando",
+          "DC",
+          "Detroit",
+          "Tampa",
+          "Philadelphia",
+          "Baltimore",
+          "Charlotte",
+          "Boston"
+        ],
         "waitlistStatus": "unknown"
       }
     },
@@ -361,7 +510,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_review_sites"],
+    "dataSources": [
+      "official_website",
+      "driver_review_sites"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -374,19 +526,45 @@
     "applyUrl": "https://kitchen-request.typeform.com/to/iPcnarXz?typeform-source=trypicnic.com",
     "iosAppUrl": "",
     "androidAppUrl": "",
-    "categories": ["catering_delivery"],
+    "categories": [
+      "catering_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["reliable vehicle", "smartphone with Picnic Driver app"],
+    "equipmentNeeded": [
+      "reliable vehicle",
+      "smartphone with Picnic Driver app"
+    ],
     "otherRequirements": "Ability to lift moderate weight for catering orders. Professional appearance.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["Los Angeles", "Orange County", "Las Vegas", "San Francisco", "San Mateo", "New York City", "Austin", "Phoenix", "Houston", "Boston", "Chicago", "Oakland", "San Leandro", "Santa Clara"],
+        "cities": [
+          "Los Angeles",
+          "Orange County",
+          "Las Vegas",
+          "San Francisco",
+          "San Mateo",
+          "New York City",
+          "Austin",
+          "Phoenix",
+          "Houston",
+          "Boston",
+          "Chicago",
+          "Oakland",
+          "San Leandro",
+          "Santa Clara"
+        ],
         "waitlistStatus": "unknown"
       }
     },
@@ -400,7 +578,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "official_job_postings"],
+    "dataSources": [
+      "official_website",
+      "official_job_postings"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -413,15 +594,25 @@
     "applyUrl": "https://driver.foodja.com/",
     "iosAppUrl": "",
     "androidAppUrl": "",
-    "categories": ["catering_delivery"],
+    "categories": [
+      "catering_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["sedan", "suv"],
+    "vehicleTypes": [
+      "sedan",
+      "suv"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "large trunk space for catering orders"],
+    "equipmentNeeded": [
+      "smartphone",
+      "large trunk space for catering orders"
+    ],
     "otherRequirements": "Professional appearance required. Orientation required after application. Most deliveries Mon-Fri 10:30am-12:30pm.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -438,7 +629,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_portal"],
+    "dataSources": [
+      "official_website",
+      "driver_portal"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -451,15 +645,27 @@
     "applyUrl": "https://driver.grubhub.com/",
     "iosAppUrl": "https://apps.apple.com/app/grubhub-for-drivers/id910571346",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.grubhub.driver",
-    "categories": ["food_delivery"],
+    "categories": [
+      "food_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "bike", "scooter", "motorcycle"],
+    "vehicleTypes": [
+      "car",
+      "bike",
+      "scooter",
+      "motorcycle"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone (iOS 11+ or Android 5.0+)", "bank account for direct deposit"],
+    "equipmentNeeded": [
+      "smartphone (iOS 11+ or Android 5.0+)",
+      "bank account for direct deposit"
+    ],
     "otherRequirements": "21+ in Las Vegas. 21+ for alcohol deliveries. 1-2 years driving experience depending on age. Bike delivery available in select urban markets.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -476,7 +682,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "support_docs"],
+    "dataSources": [
+      "official_website",
+      "support_docs"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -489,15 +698,25 @@
     "applyUrl": "https://www.shipt.com/be-a-shopper/",
     "iosAppUrl": "https://apps.apple.com/app/shipt-shopper/id1093137434",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.shipt.shopper",
-    "categories": ["grocery_delivery"],
+    "categories": [
+      "grocery_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car"],
+    "vehicleTypes": [
+      "car"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone (iOS 10+ or Android 5.1+)", "reliable vehicle 1997 or newer", "ability to lift 40-45 lbs"],
+    "equipmentNeeded": [
+      "smartphone (iOS 10+ or Android 5.1+)",
+      "reliable vehicle 1997 or newer",
+      "ability to lift 40-45 lbs"
+    ],
     "otherRequirements": "21+ for alcohol delivery. 1 year driving experience required. Virtual interview required during application. Knowledge of grocery produce selection helpful.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -514,7 +733,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_guides"],
+    "dataSources": [
+      "official_website",
+      "driver_guides"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -527,15 +749,31 @@
     "applyUrl": "https://flex.amazon.com/",
     "iosAppUrl": "https://apps.apple.com/app/amazon-flex/id1013830146",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.amazon.rabbit",
-    "categories": ["package_delivery", "alcohol_delivery", "grocery_delivery", "same_day_delivery"],
+    "categories": [
+      "package_delivery",
+      "alcohol_delivery",
+      "grocery_delivery",
+      "same_day_delivery"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["sedan", "suv", "van", "truck"],
+    "vehicleTypes": [
+      "sedan",
+      "suv",
+      "van",
+      "truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone (iOS 13+ or Android 6.0+)", "mid-size or larger 4-door vehicle", "bank account"],
+    "equipmentNeeded": [
+      "smartphone (iOS 13+ or Android 6.0+)",
+      "mid-size or larger 4-door vehicle",
+      "bank account"
+    ],
     "otherRequirements": "Valid SSN required. Vehicle must be 1990 or newer. For standard routes: no 2-door cars or open-bed trucks. Prime Now/Fresh orders may allow smaller vehicles. Amazon provides supplemental commercial insurance during active delivery blocks.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -552,7 +790,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_requirements"],
+    "dataSources": [
+      "official_website",
+      "driver_requirements"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -565,15 +806,25 @@
     "applyUrl": "https://gopuff.com/go/driver-signup",
     "iosAppUrl": "https://apps.apple.com/app/gopuff-driver/id1471684979",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.gopuff.courier",
-    "categories": ["quick_commerce", "alcohol_delivery"],
+    "categories": [
+      "quick_commerce",
+      "alcohol_delivery"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car"],
+    "vehicleTypes": [
+      "car"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone with up-to-date OS", "reliable vehicle"],
+    "equipmentNeeded": [
+      "smartphone with up-to-date OS",
+      "reliable vehicle"
+    ],
     "otherRequirements": "Must pass pre-paid regulated product delivery course for alcohol/tobacco where applicable. Vehicle insurance and registration must be in your name.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -590,7 +841,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "help_center"],
+    "dataSources": [
+      "official_website",
+      "help_center"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -603,15 +857,27 @@
     "applyUrl": "https://www.uber.com/us/en/drive/",
     "iosAppUrl": "https://apps.apple.com/app/uber-driver/id1131342792",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.driver",
-    "categories": ["rideshare"],
+    "categories": [
+      "rideshare"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "4-door vehicle", "vehicle inspection"],
+    "equipmentNeeded": [
+      "smartphone",
+      "4-door vehicle",
+      "vehicle inspection"
+    ],
     "otherRequirements": "At least 1 year licensed driving in US (3 years if under 25). Vehicle must be 10-15 years old or newer, 4 doors, no salvage title. Pass vehicle inspection at approved location.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -628,7 +894,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "requirements_page"],
+    "dataSources": [
+      "official_website",
+      "requirements_page"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -641,15 +910,26 @@
     "applyUrl": "https://www.lyft.com/driver",
     "iosAppUrl": "https://apps.apple.com/app/lyft-driver/id529379082",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.lyft.android.driver",
-    "categories": ["rideshare"],
+    "categories": [
+      "rideshare"
+    ],
     "minAge": 25,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone (iOS 12+ or Android 6.0+)", "4-door vehicle with 5-8 seatbelts"],
+    "equipmentNeeded": [
+      "smartphone (iOS 12+ or Android 6.0+)",
+      "4-door vehicle with 5-8 seatbelts"
+    ],
     "otherRequirements": "Minimum age is 19 in NYC. At least 1 year licensed driving experience (3 years if under 25). Vehicle must be no older than 15 years. No salvage/rebuilt titles. Vehicle inspection required in many locations.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -666,7 +946,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_application_requirements"],
+    "dataSources": [
+      "official_website",
+      "driver_application_requirements"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -679,19 +962,33 @@
     "applyUrl": "https://driver.roadie.com/",
     "iosAppUrl": "https://apps.apple.com/us/app/roadie/id958501631",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.roadie.driver",
-    "categories": ["package_delivery"],
+    "categories": [
+      "package_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "pickup", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "pickup",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone (iOS or Android)", "reliable vehicle of any age"],
+    "equipmentNeeded": [
+      "smartphone (iOS or Android)",
+      "reliable vehicle of any age"
+    ],
     "otherRequirements": "No vehicle age restrictions. Basic tools like dolly or straps helpful for large items. Must have SSN for background check.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["All 50 states"],
+        "cities": [
+          "All 50 states"
+        ],
         "waitlistStatus": "unknown"
       }
     },
@@ -705,7 +1002,10 @@
     "deliveryType": "on_demand",
     "setupRequired": false,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_review_sites"],
+    "dataSources": [
+      "official_website",
+      "driver_review_sites"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -718,15 +1018,25 @@
     "applyUrl": "https://www.taskrabbit.com/become-a-tasker",
     "iosAppUrl": "https://apps.apple.com/app/taskrabbit-tasker/id983716786",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.taskrabbit.droid.tasker",
-    "categories": ["task_based"],
+    "categories": [
+      "task_based"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["none"],
+    "vehicleTypes": [
+      "none"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone (iOS or Android)", "checking account", "credit card for $25 registration fee"],
+    "equipmentNeeded": [
+      "smartphone (iOS or Android)",
+      "checking account",
+      "credit card for $25 registration fee"
+    ],
     "otherRequirements": "Must have valid SSN. $25 non-refundable registration fee for background check. Vehicle not required for all tasks. Work authorization in US required.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -743,7 +1053,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "support_docs"],
+    "dataSources": [
+      "official_website",
+      "support_docs"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -756,15 +1069,27 @@
     "applyUrl": "https://www.cornershopapp.com/become-a-shopper",
     "iosAppUrl": "",
     "androidAppUrl": "",
-    "categories": ["grocery_delivery"],
+    "categories": [
+      "grocery_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "ability to lift and carry grocery bags"],
+    "equipmentNeeded": [
+      "smartphone",
+      "ability to lift and carry grocery bags"
+    ],
     "otherRequirements": "Legally eligible to work. No minimum order or cashout requirement. Direct deposit payments.",
-    "countries": ["USA", "Canada"],
+    "countries": [
+      "USA",
+      "Canada"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -785,7 +1110,9 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "driverStatus": "no_longer_hiring"
   },
@@ -799,15 +1126,25 @@
     "applyUrl": "https://wagwalking.com/dog-walking-job",
     "iosAppUrl": "https://apps.apple.com/app/wag-dog-walking/id882131768",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.wagwalking.wag",
-    "categories": ["pet_care"],
+    "categories": [
+      "pet_care"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["none"],
+    "vehicleTypes": [
+      "none"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone", "dog leash", "waste bags"],
+    "equipmentNeeded": [
+      "smartphone",
+      "dog leash",
+      "waste bags"
+    ],
     "otherRequirements": "$25-65 non-refundable background check fee. Optional Pro membership $149 for faster approval. 5 endorsements recommended. Keep 60% of listed price, Wag takes 40% commission.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -824,7 +1161,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_reviews"],
+    "dataSources": [
+      "official_website",
+      "driver_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -837,15 +1177,25 @@
     "applyUrl": "https://www.handy.com/apply",
     "iosAppUrl": "https://apps.apple.com/app/handy-for-professionals/id923676467",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.handy.handy.provider",
-    "categories": ["task_based"],
+    "categories": [
+      "task_based"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["none"],
+    "vehicleTypes": [
+      "none"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["cleaning supplies", "smartphone", "valid ID"],
+    "equipmentNeeded": [
+      "cleaning supplies",
+      "smartphone",
+      "valid ID"
+    ],
     "otherRequirements": "Must have paid experience in services offered. Proof of experience and any required licenses needed. Independent contractor. 100% flexible schedule - claim only jobs you want.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -862,7 +1212,9 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -875,15 +1227,30 @@
     "applyUrl": "https://goshare.co/trucks/drivers/apply",
     "iosAppUrl": "https://apps.apple.com/us/app/goshare-driver-earn-money/id978279500",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=co.goshare.driver",
-    "categories": ["package_delivery", "moving"],
+    "categories": [
+      "package_delivery",
+      "moving"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "pickup", "van", "box_truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "pickup",
+      "van",
+      "box_truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "vehicle 2001 or newer", "ability to lift 50+ lbs"],
+    "equipmentNeeded": [
+      "smartphone",
+      "vehicle 2001 or newer",
+      "ability to lift 50+ lbs"
+    ],
     "otherRequirements": "Vehicle must pass inspection. No salvage titles. Checking account for direct deposit. English proficiency required. Helpers (no vehicle) can earn $40/hr.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -900,7 +1267,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_reviews"],
+    "dataSources": [
+      "official_website",
+      "driver_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -913,8 +1283,12 @@
     "applyUrl": "https://www.doordash.com/dasher/signup/",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["food_delivery"],
-    "countries": ["USA"],
+    "categories": [
+      "food_delivery"
+    ],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available nationwide",
@@ -931,12 +1305,17 @@
     "tipsAllowed": false,
     "paymentFrequency": "n/a",
     "usesThirdPartyDelivery": true,
-    "deliveryPartners": ["DoorDash"],
+    "deliveryPartners": [
+      "DoorDash"
+    ],
     "driverStatus": "no_longer_hiring",
     "redirectMessage": "Caviar no longer hires its own drivers. To deliver Caviar orders, sign up as a DoorDash Dasher - you will automatically receive both DoorDash and Caviar orders.",
     "mergedWith": "DoorDash",
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "news"],
+    "dataSources": [
+      "official_website",
+      "news"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -949,19 +1328,33 @@
     "applyUrl": "https://apply.favordelivery.com/",
     "iosAppUrl": "https://apps.apple.com/app/favor-runner/id987448303",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.favordelivery.favorrunner",
-    "categories": ["food_delivery"],
+    "categories": [
+      "food_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "bike", "scooter"],
+    "vehicleTypes": [
+      "car",
+      "bike",
+      "scooter"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "cooler for food (optional)", "valid driver's license if using car"],
+    "equipmentNeeded": [
+      "smartphone",
+      "cooler for food (optional)",
+      "valid driver's license if using car"
+    ],
     "otherRequirements": "Texas only. Customer tip required on each order. Orientation/training at Runner Clubhouse. Pay for own gas and supplies.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["Texas statewide"],
+        "cities": [
+          "Texas statewide"
+        ],
         "waitlistStatus": "unknown"
       }
     },
@@ -975,7 +1368,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_reviews"],
+    "dataSources": [
+      "official_website",
+      "driver_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -988,15 +1384,25 @@
     "applyUrl": "https://owner.dumpling.us/signup",
     "iosAppUrl": "https://apps.apple.com/app/dumpling-boss/id1490798151",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=us.dumpling.boss",
-    "categories": ["grocery_delivery"],
+    "categories": [
+      "grocery_delivery"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": false,
-    "vehicleTypes": ["car"],
+    "vehicleTypes": [
+      "car"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "reliable vehicle", "dumpling business credit card (provided)"],
+    "equipmentNeeded": [
+      "smartphone",
+      "reliable vehicle",
+      "dumpling business credit card (provided)"
+    ],
     "otherRequirements": "$19.99 one-time setup fee + $9/month subscription. 5-8% platform fee paid by clients, 2.7-2.9% processing fee. You run your own business and set your own pricing.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -1013,7 +1419,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "platform_reviews"],
+    "dataSources": [
+      "official_website",
+      "platform_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1026,15 +1435,25 @@
     "applyUrl": "https://www.rover.com/become-a-sitter/",
     "iosAppUrl": "https://apps.apple.com/app/rover-dog-sitters-walkers/id748764374",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.rover.android",
-    "categories": ["pet_care"],
+    "categories": [
+      "pet_care"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["none"],
+    "vehicleTypes": [
+      "none"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone", "pet care experience"],
+    "equipmentNeeded": [
+      "smartphone",
+      "pet care experience"
+    ],
     "otherRequirements": "$35-49 background check fee. Rover takes 20% commission. No vehicle required unless offering pet transportation. Educational videos and safety quiz required. Meet-and-greets recommended.",
-    "countries": ["USA", "Canada"],
+    "countries": [
+      "USA",
+      "Canada"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -1055,7 +1474,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "platform_reviews"],
+    "dataSources": [
+      "official_website",
+      "platform_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1068,19 +1490,34 @@
     "applyUrl": "https://dolly.com/helpers/",
     "iosAppUrl": "https://apps.apple.com/app/dolly-moving-delivery/id1051476853",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.dolly",
-    "categories": ["moving"],
+    "categories": [
+      "moving"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["pickup", "box_truck", "cargo_van", "suv_trailer"],
+    "vehicleTypes": [
+      "pickup",
+      "box_truck",
+      "cargo_van",
+      "suv_trailer"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone with GPS", "ability to lift 75+ lbs", "PayPal account"],
+    "equipmentNeeded": [
+      "smartphone with GPS",
+      "ability to lift 75+ lbs",
+      "PayPal account"
+    ],
     "otherRequirements": "Helpers must be 21+. Hands (no vehicle) must be 18+. Vehicle must be 2000 or newer. Possible waitlist in some cities. Top performers can make $2,000/week with box truck.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["45-50 cities nationwide"],
+        "cities": [
+          "45-50 cities nationwide"
+        ],
         "waitlistStatus": "unknown"
       }
     },
@@ -1094,7 +1531,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "platform_reviews"],
+    "dataSources": [
+      "official_website",
+      "platform_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1107,7 +1547,9 @@
     "applyUrl": null,
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["alcohol_delivery"],
+    "categories": [
+      "alcohol_delivery"
+    ],
     "minAge": null,
     "backgroundCheckRequired": false,
     "vehicleTypes": [],
@@ -1115,7 +1557,9 @@
     "insuranceRequired": false,
     "equipmentNeeded": [],
     "otherRequirements": null,
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Permanently closed",
@@ -1135,7 +1579,11 @@
     "redirectMessage": "Drizly permanently shut down in March 2024. Uber now handles alcohol delivery through Uber Eats in 35 U.S. states.",
     "mergedWith": "Uber Eats",
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "news", "job_board_listings"],
+    "dataSources": [
+      "official_website",
+      "news",
+      "job_board_listings"
+    ],
     "verificationStatus": "verified",
     "deliveryType": "on_demand",
     "setupRequired": true
@@ -1150,15 +1598,25 @@
     "applyUrl": "https://www.thumbtack.com/pro",
     "iosAppUrl": "https://apps.apple.com/app/thumbtack-for-professionals/id945956824",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.thumbtack.pro.android",
-    "categories": ["task_based"],
+    "categories": [
+      "task_based"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": false,
-    "vehicleTypes": ["none"],
+    "vehicleTypes": [
+      "none"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone", "at least 1 client testimonial", "business credentials (optional)"],
+    "equipmentNeeded": [
+      "smartphone",
+      "at least 1 client testimonial",
+      "business credentials (optional)"
+    ],
     "otherRequirements": "Must comply with local licensing/insurance for your profession. No signup or annual fees. Pay per lead model - you pay Thumbtack for customer contacts. Set your own service area and rates.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -1175,7 +1633,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "pro_reviews"],
+    "dataSources": [
+      "official_website",
+      "pro_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1188,15 +1649,28 @@
     "applyUrl": "https://bellhop.breezy.hr/p/3544b6468d89-bellhop-carrier?state=published",
     "iosAppUrl": "https://apps.apple.com/app/bellhop-moving/id1050699979",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.getbellhops.android",
-    "categories": ["moving"],
+    "categories": [
+      "moving"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["box_truck"],
+    "vehicleTypes": [
+      "box_truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["16-26ft box truck (owned or leased)", "smartphone", "$1M liability insurance", "$50K cargo insurance", "USDOT number", "MC number (for long-distance)"],
+    "equipmentNeeded": [
+      "16-26ft box truck (owned or leased)",
+      "smartphone",
+      "$1M liability insurance",
+      "$50K cargo insurance",
+      "USDOT number",
+      "MC number (for long-distance)"
+    ],
     "otherRequirements": "Must be registered with DOT and hold MC number for interstate work. No heavy lifting - movers handle that. Set your own schedule via app. Weekly pay.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -1213,7 +1687,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_reviews"],
+    "dataSources": [
+      "official_website",
+      "driver_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1226,7 +1703,10 @@
     "applyUrl": null,
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["food_delivery", "grocery_delivery"],
+    "categories": [
+      "food_delivery",
+      "grocery_delivery"
+    ],
     "minAge": null,
     "backgroundCheckRequired": false,
     "vehicleTypes": [],
@@ -1234,7 +1714,9 @@
     "insuranceRequired": false,
     "equipmentNeeded": [],
     "otherRequirements": null,
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Permanently closed",
@@ -1254,7 +1736,10 @@
     "redirectMessage": "Postmates permanently shut down its driver app in August 2021 after being acquired by Uber. All deliveries are now handled through Uber Eats.",
     "mergedWith": "Uber Eats",
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "news"],
+    "dataSources": [
+      "official_website",
+      "news"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1267,15 +1752,28 @@
     "applyUrl": "https://drive4spark.walmart.com/",
     "iosAppUrl": "https://apps.apple.com/app/spark-driver/id1448878505",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.walmart.spark.driver",
-    "categories": ["grocery_delivery", "package_delivery"],
+    "categories": [
+      "grocery_delivery",
+      "package_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van", "truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van",
+      "truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone (iOS or Android) with GPS and camera", "ability to lift up to 60 lbs"],
+    "equipmentNeeded": [
+      "smartphone (iOS or Android) with GPS and camera",
+      "ability to lift up to 60 lbs"
+    ],
     "otherRequirements": "Valid Social Security number. Vehicle must be insured in your name with minimum state-required insurance. No vehicle age restrictions. Motorcycles, scooters, and bicycles not accepted. Zones may have waitlist.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -1292,7 +1790,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "platform_docs"],
+    "dataSources": [
+      "official_website",
+      "platform_docs"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1305,19 +1806,43 @@
     "applyUrl": "https://shipveho.com/drive/",
     "iosAppUrl": "https://apps.apple.com/app/veho-driver/id1478279482",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.vehotechnologies.Driver",
-    "categories": ["package_delivery"],
+    "categories": [
+      "package_delivery"
+    ],
     "minAge": 25,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["suv", "van", "minivan", "pickup"],
+    "vehicleTypes": [
+      "suv",
+      "van",
+      "minivan",
+      "pickup"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "large sedan or bigger (SUVs, minivans, cargo vans)", "pickup trucks must have hard bed cover"],
+    "equipmentNeeded": [
+      "smartphone",
+      "large sedan or bigger (SUVs, minivans, cargo vans)",
+      "pickup trucks must have hard bed cover"
+    ],
     "otherRequirements": "Small sedans (Honda Civic, Nissan Sentra) do NOT qualify. All packages for route must fit securely in vehicle. Routes posted in advance (not on-demand). High ratings and professionalism expected. Provide delivery completion photos.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["Atlanta", "Chicago", "Dallas", "Denver", "Houston", "Los Angeles", "New York", "Philadelphia", "San Francisco", "Washington DC"],
+        "cities": [
+          "Atlanta",
+          "Chicago",
+          "Dallas",
+          "Denver",
+          "Houston",
+          "Los Angeles",
+          "New York",
+          "Philadelphia",
+          "San Francisco",
+          "Washington DC"
+        ],
         "waitlistStatus": "unknown"
       }
     },
@@ -1331,7 +1856,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_guides"],
+    "dataSources": [
+      "official_website",
+      "driver_guides"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1344,19 +1872,30 @@
     "applyUrl": "https://www.workwhile.ai/for-workers",
     "iosAppUrl": "https://apps.apple.com/app/workwhile/id1493686869",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.workwhilejobs.app",
-    "categories": ["task_based"],
+    "categories": [
+      "task_based"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["none"],
+    "vehicleTypes": [
+      "none"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone", "some roles may require certifications (forklift, food handler, etc.)"],
+    "equipmentNeeded": [
+      "smartphone",
+      "some roles may require certifications (forklift, food handler, etc.)"
+    ],
     "otherRequirements": "Strict three-strike policy for no-shows. Both W-2 and 1099 roles available. No resume required. Must verify identity and eligibility to work in US. Pay rates posted upfront per shift.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": ["30-40+ major metro areas"],
+        "cities": [
+          "30-40+ major metro areas"
+        ],
         "waitlistStatus": "unknown"
       }
     },
@@ -1370,7 +1909,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "platform_info"],
+    "dataSources": [
+      "official_website",
+      "platform_info"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1383,15 +1925,29 @@
     "applyUrl": "https://drive.curri.com/",
     "iosAppUrl": "https://apps.apple.com/app/curri-driver/id1459372431",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.curri.driver",
-    "categories": ["package_delivery"],
+    "categories": [
+      "package_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "pickup", "cargo_van", "box_truck", "flatbed"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "pickup",
+      "cargo_van",
+      "box_truck",
+      "flatbed"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "vehicle cargo area must be clear for loading"],
+    "equipmentNeeded": [
+      "smartphone",
+      "vehicle cargo area must be clear for loading"
+    ],
     "otherRequirements": "Valid SSN, TIN, or EIN required. Must pass criminal and MVR background check (completed within 48 hours). Vehicle must be clean and in good condition. Commercial insurance required for larger vehicles. Larger vehicles qualify for higher-paying jobs. May be waitlisted until demand rises in your area.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -1408,7 +1964,11 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "help_center", "driver_reviews"],
+    "dataSources": [
+      "official_website",
+      "help_center",
+      "driver_reviews"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1421,15 +1981,30 @@
     "applyUrl": "https://www.frayt.com/apply",
     "iosAppUrl": "https://apps.apple.com/us/app/frayt-driver/id6450462430",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.frayt.driverv3",
-    "categories": ["package_delivery"],
+    "categories": [
+      "package_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "pickup", "minivan", "cargo_van", "sprinter_van", "box_truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "pickup",
+      "minivan",
+      "cargo_van",
+      "sprinter_van",
+      "box_truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone with internet", "ability to lift up to 50 lbs"],
+    "equipmentNeeded": [
+      "smartphone with internet",
+      "ability to lift up to 50 lbs"
+    ],
     "otherRequirements": "Valid driver's license and proof of personal auto insurance required. Clean driving record. Good communication skills. Nonrefundable application fee may apply. Only hiring in select markets - check app for availability in your zip code.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available",
@@ -1446,7 +2021,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["official_website", "driver_job_listings"],
+    "dataSources": [
+      "official_website",
+      "driver_job_listings"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1459,19 +2037,41 @@
     "applyUrl": "https://metrobi.com/driver/become-a-driver/",
     "iosAppUrl": "https://apps.apple.com/app/metrobi-driver/id1445982281",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.metrobi.driver",
-    "categories": ["package_delivery", "grocery_delivery"],
+    "categories": [
+      "package_delivery",
+      "grocery_delivery"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["suv", "minivan", "van", "refrigerated_van", "box_truck"],
+    "vehicleTypes": [
+      "suv",
+      "minivan",
+      "van",
+      "refrigerated_van",
+      "box_truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["Smartphone with internet", "Ability to carry items up to 40 lbs"],
+    "equipmentNeeded": [
+      "Smartphone with internet",
+      "Ability to carry items up to 40 lbs"
+    ],
     "otherRequirements": "Vehicle must be clean and in good working condition. Sedans and pickup trucks are NOT eligible. Rental vehicles are not allowed. Weekly pay via direct deposit through Stripe. Must connect bank account to receive payment.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available in major cities",
-        "cities": ["New York City", "Boston", "Los Angeles", "Chicago", "Miami", "Atlanta", "Houston"],
+        "cities": [
+          "New York City",
+          "Boston",
+          "Los Angeles",
+          "Chicago",
+          "Miami",
+          "Atlanta",
+          "Houston"
+        ],
         "waitlistStatus": "open"
       }
     },
@@ -1485,7 +2085,10 @@
     "deliveryType": "scheduled",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["https://metrobi.com/driver/", "Job listings"],
+    "dataSources": [
+      "https://metrobi.com/driver/",
+      "Job listings"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1498,15 +2101,30 @@
     "applyUrl": "https://driver-onboarding.dispatchit.com/available-openings",
     "iosAppUrl": "https://apps.apple.com/app/dispatch-driver/id1446567179",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.dispatchit.driver",
-    "categories": ["package_delivery"],
+    "categories": [
+      "package_delivery"
+    ],
     "minAge": 23,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "mid_size", "pickup", "cargo_van", "box_truck"],
+    "vehicleTypes": [
+      "car",
+      "mid_size",
+      "pickup",
+      "cargo_van",
+      "box_truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["Smartphone (iOS 15+ or Android 10+)", "Ability to lift 50+ lbs", "Dolly, liftgate, racks earn enhanced pay"],
+    "equipmentNeeded": [
+      "Smartphone (iOS 15+ or Android 10+)",
+      "Ability to lift 50+ lbs",
+      "Dolly, liftgate, racks earn enhanced pay"
+    ],
     "otherRequirements": "Minimum 2 years licensed driving in US/Canada. $40 background check fee. No felonies in 10 years, no DUI/DWI in 5 years, max 3 minor violations in 3 years. Commercial insurance preferred. Vehicle must have proof of ownership. Must complete Dispatch training. Accept at least 1 order every 180 days to keep account active. Vehicle capacity: cars (240 lbs), mid-size (500 lbs), pickups (1,000 lbs), cargo vans (3,500 lbs), box trucks up to 26ft (12,500 lbs).",
-    "countries": ["USA", "Canada"],
+    "countries": [
+      "USA",
+      "Canada"
+    ],
     "regions": {
       "USA": {
         "status": "Available nationwide - actively hiring in 50+ cities",
@@ -1527,7 +2145,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["https://www.dispatchit.com/drivers", "Official knowledge base"],
+    "dataSources": [
+      "https://www.dispatchit.com/drivers",
+      "Official knowledge base"
+    ],
     "verificationStatus": "verified"
   },
   {
@@ -1540,19 +2161,39 @@
     "applyUrl": "https://www.courial.com/jobs",
     "iosAppUrl": "",
     "androidAppUrl": "",
-    "categories": ["package_delivery", "food_delivery"],
+    "categories": [
+      "package_delivery",
+      "food_delivery"
+    ],
     "minAge": 21,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "bike", "scooter", "walking"],
+    "vehicleTypes": [
+      "car",
+      "bike",
+      "scooter",
+      "walking"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["Smartphone", "Valid driver's license or passport", "Social Security Number for verification"],
+    "equipmentNeeded": [
+      "Smartphone",
+      "Valid driver's license or passport",
+      "Social Security Number for verification"
+    ],
     "otherRequirements": "18+ for bike/foot/scooter delivery, 21+ for vehicle delivery. Resume and cover letter required for application. Apply via email to jobs@courial.com. Vehicle can be owned, leased, or rented. Well-maintained vehicles required. Known for supporting electric vehicle drivers with additional benefits.",
-    "countries": ["USA"],
+    "countries": [
+      "USA"
+    ],
     "regions": {
       "USA": {
         "status": "Available in select cities",
-        "cities": ["San Francisco Bay Area", "Los Angeles", "Boston", "New York City", "San Diego"],
+        "cities": [
+          "San Francisco Bay Area",
+          "Los Angeles",
+          "Boston",
+          "New York City",
+          "San Diego"
+        ],
         "waitlistStatus": "varies"
       }
     },
@@ -1566,7 +2207,10 @@
     "deliveryType": "on_demand",
     "setupRequired": true,
     "lastUpdated": "2026-02-16",
-    "dataSources": ["https://www.courial.com/jobs", "Help documentation"],
+    "dataSources": [
+      "https://www.courial.com/jobs",
+      "Help documentation"
+    ],
     "verificationStatus": "verified"
   }
 ]

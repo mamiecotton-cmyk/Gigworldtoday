@@ -7,9 +7,19 @@ import { Platform } from '@/lib/types';
 // Fallback domains for platforms missing websiteUrl
 const DOMAIN_OVERRIDES: Record<string, string> = {
   doordash: 'doordash.com',
-  'uber-eats': 'ubereats.com',
+  ubereats: 'ubereats.com',
   drizly: 'drizly.com',
   postmates: 'postmates.com',
+};
+
+// Platforms with local high-quality SVG logos
+const LOCAL_LOGOS: Record<string, string> = {
+  doordash: '/logos/doordash.svg',
+  ubereats: '/logos/ubereats.svg',
+  instacart: '/logos/instacart.svg',
+  uber: '/logos/uber.svg',
+  lyft: '/logos/lyft.svg',
+  thumbtack: '/logos/thumbtack.svg',
 };
 
 function getDomain(platform: Platform): string | null {
@@ -35,7 +45,8 @@ interface PlatformCardProps {
 export default function PlatformCard({ platform }: PlatformCardProps) {
   const [imgError, setImgError] = useState(false);
   const domain = getDomain(platform);
-  const logoSrc = domain ? `https://logo.clearbit.com/${domain}` : null;
+  const localLogo = LOCAL_LOGOS[platform.id];
+  const logoSrc = localLogo || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
 
   const category =
     Array.isArray(platform.categories) && platform.categories.length > 0
@@ -57,7 +68,7 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
             <img
               src={logoSrc}
               alt={platform.name}
-              className="w-10 h-10 object-contain"
+              className="w-8 h-8 object-contain"
               onError={() => setImgError(true)}
             />
           ) : (

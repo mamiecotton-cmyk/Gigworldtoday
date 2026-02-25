@@ -33,6 +33,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <div className="fixed inset-0 -z-10">
+          <img
+            src="/city-bg.png"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-white/40"></div>
+        </div>
         <Header />
         <main className="pt-20">{children}</main>
         <Footer />

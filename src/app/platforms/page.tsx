@@ -166,16 +166,6 @@ export default function PlatformsPage() {
   return (
     <div className="relative min-h-screen">
 
-      {/* Background */}
-      <div className="fixed inset-0 -z-10">
-        <img
-          src="/city-bg.png"
-          alt=""
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-white/40"></div>
-      </div>
-
       <div className="max-w-7xl mx-auto py-12 px-6">
         <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10">
 
