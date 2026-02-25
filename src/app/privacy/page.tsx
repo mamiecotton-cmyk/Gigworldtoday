@@ -4,7 +4,8 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16 prose">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10 prose">
       <h1>Privacy Policy</h1>
       <p><strong>Last updated:</strong> February 22, 2026</p>
 
@@ -125,6 +126,7 @@ export default function PrivacyPage() {
         <br />
         <strong>admin@gigworldtoday.com</strong>
       </p>
+      </div>
     </div>
   );
 }
