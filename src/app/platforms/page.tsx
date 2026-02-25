@@ -34,58 +34,61 @@ export default function PlatformsPage() {
     if (search) setSubmittedQuery(search);
   }, []);
 
-  // Handle filter changes
   const handleFilterChange = (key: keyof FilterOptions, value: unknown) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  // Filter platforms based on search + sidebar filters
+  // Filter platforms
   const filteredPlatforms = useMemo(() => {
     let list = Array.isArray(platforms) ? platforms : [];
 
-    // Apply search query if present
     if (submittedQuery.trim()) {
       list = list.filter((p) =>
         matchesSearch(p, submittedQuery.toLowerCase().trim(), platforms)
       );
     } else {
-      // No search query — show all active platforms
       list = list.filter(
         (p) => !inactiveStatuses.includes((p.driverStatus || "").toLowerCase())
       );
     }
 
-    // Apply sidebar filters
-    if (filters.vehicles && filters.vehicles.length > 0) {
+    if (filters.vehicles?.length) {
       list = list.filter(
         (p) =>
           p.vehicleTypes &&
           filters.vehicles!.some((v: string) => p.vehicleTypes.includes(v))
       );
     }
-    if (filters.categories && filters.categories.length > 0) {
+
+    if (filters.categories?.length) {
       list = list.filter(
         (p) =>
           p.categories &&
           filters.categories!.some((c: string) => p.categories.includes(c))
       );
     }
-    if (filters.countries && filters.countries.length > 0) {
+
+    if (filters.countries?.length) {
       list = list.filter(
         (p) =>
           p.countries &&
           filters.countries!.some((c: string) => p.countries.includes(c))
       );
     }
-    if (filters.statuses && filters.statuses.length > 0) {
+
+    if (filters.statuses?.length) {
       list = list.filter(
         (p) => p.driverStatus && filters.statuses!.includes(p.driverStatus)
       );
     }
-    if (filters.deliveryType && filters.deliveryType.length > 0) {
-      list = list.filter((p) => (p as any).deliveryType === filters.deliveryType);
+
+    if (filters.deliveryType) {
+      list = list.filter(
+        (p) => (p as any).deliveryType === filters.deliveryType
+      );
     }
-    if (filters.availability && filters.availability.length > 0) {
+
+    if (filters.availability) {
       list = list.filter(
         (p) => (p as any).availability === filters.availability
       );
@@ -94,7 +97,7 @@ export default function PlatformsPage() {
     return list;
   }, [platforms, submittedQuery, filters]);
 
-  // Build filter options dynamically from platform data
+  // Build dynamic filter options (UNCHANGED)
   const vehicleOptions = useMemo(
     () =>
       Array.from(new Set(platforms.flatMap((p) => p.vehicleTypes || []))).map(
@@ -111,9 +114,7 @@ export default function PlatformsPage() {
       Array.from(new Set(platforms.flatMap((p) => p.categories || []))).map(
         (c) => ({
           value: c,
-          label: c
-            .charAt(0)
-            .toUpperCase() + c.slice(1).replace(/_/g, " "),
+          label: c.charAt(0).toUpperCase() + c.slice(1).replace(/_/g, " "),
         })
       ),
     [platforms]
@@ -163,51 +164,72 @@ export default function PlatformsPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-2 grid grid-cols-1 md:grid-cols-4 gap-8">
-      {/* Sidebar Filters */}
-      <div className="md:col-span-1">
-        <FilterSidebar
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          vehicleOptions={vehicleOptions}
-          categoryOptions={categoryOptions}
-          countryOptions={countryOptions}
-          statusOptions={statusOptions}
-          deliveryTypeOptions={deliveryTypeOptions}
-          availabilityOptions={availabilityOptions}
+    <div className="relative min-h-screen">
+
+      {/* Background */}
+      <div className="fixed inset-0 -z-10">
+        <img
+          src="/city-bg.png"
+          alt=""
+          className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 bg-white/40"></div>
       </div>
 
-      {/* Platform Grid */}
-      <div className="md:col-span-3">
-        <div className="mt-4 mb-4 text-gray-500">
-          {submittedQuery ? (
-            filteredPlatforms.length === 0 ? (
-              <>
-                No platforms currently available near{" "}
-                <b>{submittedQuery}</b>. Check back soon — we&apos;re always
-                adding new platforms!
-              </>
-            ) : (
-              <>
-                Showing {filteredPlatforms.length} platform
-                {filteredPlatforms.length !== 1 && "s"} for{" "}
-                <b>{submittedQuery}</b>.
-              </>
-            )
-          ) : (
-            <>Showing all {filteredPlatforms.length} active platforms.</>
-          )}
-        </div>
-        <div className="grid md:grid-cols-2 gap-6">
-          {filteredPlatforms.map((platform) => (
-            <PlatformCard
-              key={platform.id || platform.name}
-              platform={platform}
-            />
-          ))}
+      <div className="max-w-7xl mx-auto py-12 px-6">
+        <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10">
+
+          <div className="flex flex-col lg:flex-row gap-12">
+
+            <aside className="lg:w-1/4">
+              <FilterSidebar
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                vehicleOptions={vehicleOptions}
+                categoryOptions={categoryOptions}
+                countryOptions={countryOptions}
+                statusOptions={statusOptions}
+                deliveryTypeOptions={deliveryTypeOptions}
+                availabilityOptions={availabilityOptions}
+              />
+            </aside>
+
+            <main className="flex-1">
+              <h1 className="text-4xl font-bold text-slate-900 mb-3">
+                Browse Platforms
+              </h1>
+
+              <div className="mb-8 text-slate-600">
+                {submittedQuery ? (
+                  filteredPlatforms.length === 0 ? (
+                    <>
+                      No platforms currently available near{" "}
+                      <b>{submittedQuery}</b>.
+                    </>
+                  ) : (
+                    <>
+                      Showing {filteredPlatforms.length} platform
+                      {filteredPlatforms.length > 1 ? "s" : ""} near{" "}
+                      <b>{submittedQuery}</b>.
+                    </>
+                  )
+                ) : (
+                  <>Showing all {filteredPlatforms.length} active platforms.</>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {filteredPlatforms.map((platform) => (
+                  <PlatformCard key={platform.id} platform={platform} />
+                ))}
+              </div>
+            </main>
+
+          </div>
+
         </div>
       </div>
+
     </div>
   );
 }
