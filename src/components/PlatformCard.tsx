@@ -13,20 +13,24 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
   const statusConfig = WAITLIST_STATUS_COLORS[normalizedStatus as keyof typeof WAITLIST_STATUS_COLORS];
   const showWaitlistBadge = Boolean(statusConfig?.label);
 
-  // Featured styling
+  // Styling
   const isFeatured = platform.featured;
   const cardClass = `
-    flex flex-col justify-between
-    rounded-3xl
+    relative
+    rounded-2xl
     border
-    transition-all duration-300
-    hover:shadow-2xl hover:-translate-y-1
-    p-7
-    ${
-      platform.featured
-        ? "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 shadow-2xl scale-[1.02]"
-        : "bg-white border-slate-300 shadow-md"
-    }
+    border-slate-200
+    bg-gradient-to-br
+    from-white
+    via-blue-50
+    to-blue-100/40
+    shadow-lg
+    hover:shadow-xl
+    transition
+    duration-300
+    p-6
+    flex
+    flex-col
   `;
 
   return (
@@ -69,7 +73,7 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
 
       {/* Earnings badge */}
       {platform.estimatedHourlyMin && platform.estimatedHourlyMax && (
-        <span className="bg-emerald-100 text-emerald-700 text-sm font-medium px-3 py-1 rounded-full mb-2">
+        <span className="bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold rounded-full px-4 py-1.5 text-sm">
           ${platform.estimatedHourlyMin}-{platform.estimatedHourlyMax}/hr estimated
         </span>
       )}
@@ -97,7 +101,7 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
       </div>
 
       {/* Description */}
-      <p className={`text-sm leading-relaxed ${platform.featured ? 'text-slate-700' : 'text-slate-600'} mb-2 line-clamp-3`}>
+      <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-5">
         {platform.description}
       </p>
 
@@ -115,21 +119,12 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
         </div>
       )}
 
-      <div>
-        <Link href={`/platforms/${platform.slug}`} className="
-          w-full
-          bg-blue-600
-          hover:bg-blue-700
-          text-white
-          rounded-xl
-          py-3
-          text-sm
-          font-semibold
-          shadow-sm
-          transition
-        ">
-          View Details
-        </Link>
+      <div className="mt-auto pt-6 border-t border-slate-200">
+        <div>
+          <Link href={`/platforms/${platform.slug}`} className="mt-auto bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg px-5 py-2.5 transition">
+            View Details
+          </Link>
+        </div>
       </div>
     </div>
   );
