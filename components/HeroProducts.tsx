@@ -32,12 +32,12 @@ export default function HeroProducts() {
 
       {/* Text */}
       <div className="relative z-10 w-full max-w-6xl px-4 md:px-8">
-        <div className="max-w-lg">
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-left">
+        <div className="max-w-[60%] md:max-w-lg">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
             The Tools to Boost Your Gigs
           </h1>
 
-          <p className="mt-6 text-lg text-gray-200 text-left">
+          <p className="mt-3 md:mt-5 text-sm sm:text-base md:text-xl text-gray-200 leading-relaxed">
             Gear and apps to help drivers maximize earnings and operate like 5-star pros.
           </p>
         </div>
