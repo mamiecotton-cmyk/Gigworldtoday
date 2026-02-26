@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import platformsData from "@/data/platforms.json";
 import { matchesSearch } from "@/lib/searchUtils";
 import PlatformCard from "@/components/PlatformCard";
-import FilterSidebar from "@/components/FilterSidebar";
+import FilterSidebar, { PILL_TO_DATA_CATEGORIES } from "@/components/FilterSidebar";
 import { Platform, FilterOptions } from "@/lib/types";
 
 const inactiveStatuses = [
@@ -15,45 +15,47 @@ const inactiveStatuses = [
   "legacy", "archived",
 ];
 
+// Normalize paymentFrequency values from data into display-friendly groups
+const PAY_FREQ_NORMALIZE: Record<string, string> = {
+  weekly: "weekly",
+  twice_weekly: "twice_weekly",
+  daily: "daily",
+  instant: "instant",
+  instant_or_weekly: "instant",
+  within_48_hours: "weekly",
+  per_completion: "per_completion",
+  varies: "varies",
+  "n/a": "n/a",
+};
+
 export default function PlatformsPage() {
   const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [loading, setLoading] = useState(true);
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [filters, setFilters] = useState<FilterOptions>({});
 
-  // Load platforms
+  // Load and normalize platforms
   useEffect(() => {
     const normalized = (platformsData as unknown as Platform[]).map((p) => {
+      // Normalize vehicle type aliases
       const vehicleTypes = (p.vehicleTypes || []).map((v) => {
-        if (v === 'none') return 'walking';
-        if (v === 'mid_size' || v === 'midsize' || v === 'mid-size') return 'sedan';
+        if (v === "none") return "walking";
+        if (v === "mid_size" || v === "midsize" || v === "mid-size") return "sedan";
         return v;
       });
 
-      // derive payFrequency and instantPayoutAvailable from existing fields when missing
-      const freq = (p.paymentFrequency || '').toLowerCase();
-      let payFrequency = (p as any).payFrequency || '';
-      const instantPayoutAvailable = !!(p as any).instantPayAvailable || !!(p as any).instantPayoutAvailable || false;
+      // Normalize paymentFrequency into a clean filter value
+      const rawFreq = (p.paymentFrequency || "weekly").toLowerCase();
+      const payFrequency = PAY_FREQ_NORMALIZE[rawFreq] || "weekly";
 
-      if (!payFrequency) {
-        if ((p as any).payModel === 'per_delivery' || freq === 'per_delivery') {
-          payFrequency = 'per_delivery';
-        } else if (freq === 'twice_weekly') {
-          payFrequency = 'twice_weekly';
-        } else if (freq === 'daily') {
-          payFrequency = 'daily';
-        } else if (freq === 'weekly') {
-          payFrequency = 'weekly';
-        } else {
-          payFrequency = 'weekly';
-        }
-      }
+      // Read instantPayAvailable directly from data
+      const instantPayAvailable = !!(p as any).instantPayAvailable;
 
       return {
         ...p,
         vehicleTypes,
         payFrequency,
-        instantPayoutAvailable,
+        instantPayAvailable,
       };
     });
 
@@ -76,16 +78,19 @@ export default function PlatformsPage() {
   const filteredPlatforms = useMemo(() => {
     let list = Array.isArray(platforms) ? platforms : [];
 
+    // Text search
     if (submittedQuery.trim()) {
       list = list.filter((p) =>
         matchesSearch(p, submittedQuery.toLowerCase().trim(), platforms)
       );
     } else {
+      // No search — show only active platforms
       list = list.filter(
         (p) => !inactiveStatuses.includes((p.driverStatus || "").toLowerCase())
       );
     }
 
+    // Vehicle filter
     if (filters.vehicles?.length) {
       list = list.filter(
         (p) =>
@@ -94,14 +99,28 @@ export default function PlatformsPage() {
       );
     }
 
+    // Category filter — expand pill IDs into underlying data categories
     if (filters.categories?.length) {
+      // Build the full set of raw data categories to match against
+      const expandedCats = new Set<string>();
+      for (const pillId of filters.categories) {
+        const dataCats = PILL_TO_DATA_CATEGORIES[pillId];
+        if (dataCats) {
+          dataCats.forEach((c) => expandedCats.add(c));
+        } else {
+          // Fallback: treat the pill ID itself as a raw category
+          expandedCats.add(pillId);
+        }
+      }
+
       list = list.filter(
         (p) =>
           p.categories &&
-          filters.categories!.some((c: string) => p.categories.includes(c))
+          p.categories.some((c: string) => expandedCats.has(c))
       );
     }
 
+    // Country filter
     if (filters.countries?.length) {
       list = list.filter(
         (p) =>
@@ -110,26 +129,37 @@ export default function PlatformsPage() {
       );
     }
 
+    // Status filter
     if (filters.statuses?.length) {
       list = list.filter(
         (p) => p.driverStatus && filters.statuses!.includes(p.driverStatus)
       );
     }
 
+    // Schedule / delivery type filter
     if (filters.deliveryType) {
       list = list.filter(
         (p) => (p as any).deliveryType === filters.deliveryType
       );
     }
 
+    // Pay frequency filter
     if (filters.payFrequency?.length) {
-      list = list.filter((p) => (p as any).payFrequency && filters.payFrequency!.includes((p as any).payFrequency));
+      list = list.filter(
+        (p) =>
+          (p as any).payFrequency &&
+          filters.payFrequency!.includes((p as any).payFrequency)
+      );
     }
 
-    if (typeof filters.instantPayout !== 'undefined') {
-      list = list.filter((p) => !!(p as any).instantPayoutAvailable === !!filters.instantPayout);
+    // Instant cash out filter
+    if (typeof filters.instantPayout !== "undefined") {
+      list = list.filter(
+        (p) => !!(p as any).instantPayAvailable === !!filters.instantPayout
+      );
     }
 
+    // Availability filter
     if (filters.availability) {
       list = list.filter(
         (p) => (p as any).availability === filters.availability
@@ -139,7 +169,7 @@ export default function PlatformsPage() {
     return list;
   }, [platforms, submittedQuery, filters]);
 
-  // Build dynamic filter options (UNCHANGED)
+  // Build dynamic filter options from platform data
   const vehicleOptions = useMemo(
     () =>
       Array.from(new Set(platforms.flatMap((p) => p.vehicleTypes || []))).map(
@@ -156,7 +186,8 @@ export default function PlatformsPage() {
       Array.from(new Set(platforms.flatMap((p) => p.categories || []))).map(
         (c) => ({
           value: c,
-          label: c.charAt(0).toUpperCase() + c.slice(1).replace(/_/g, " "),
+          label:
+            c.charAt(0).toUpperCase() + c.slice(1).replace(/_/g, " "),
         })
       ),
     [platforms]
@@ -190,21 +221,30 @@ export default function PlatformsPage() {
     { value: "both", label: "Both" },
   ];
 
-  const payFrequencyOptions = useMemo(
-    () =>
-      Array.from(new Set(platforms.map((p) => (p as any).payFrequency || 'weekly'))).map((s) => ({
-        value: s,
-        label:
-          s === 'per_delivery'
-            ? 'Per Delivery'
-            : s === 'twice_weekly'
-            ? 'Twice Weekly'
-            : s === 'daily'
-            ? 'Daily'
-            : 'Weekly',
-      })),
-    [platforms]
-  );
+  // Pay frequency options — built from actual normalized values, excluding n/a
+  const payFrequencyOptions = useMemo(() => {
+    const activePlatforms = platforms.filter(
+      (p) => !inactiveStatuses.includes((p.driverStatus || "").toLowerCase())
+    );
+    const freqs = new Set(activePlatforms.map((p) => (p as any).payFrequency));
+
+    const LABEL_MAP: Record<string, string> = {
+      weekly: "Weekly",
+      twice_weekly: "Twice Weekly",
+      daily: "Daily",
+      instant: "Instant",
+      per_completion: "Per Completion",
+      varies: "Varies",
+    };
+
+    return Array.from(freqs)
+      .filter((f) => LABEL_MAP[f])
+      .map((f) => ({ value: f, label: LABEL_MAP[f] }))
+      .sort((a, b) => {
+        const order = ["weekly", "twice_weekly", "daily", "instant", "per_completion", "varies"];
+        return order.indexOf(a.value) - order.indexOf(b.value);
+      });
+  }, [platforms]);
 
   const availabilityOptions = [
     { value: "24/7", label: "24/7" },

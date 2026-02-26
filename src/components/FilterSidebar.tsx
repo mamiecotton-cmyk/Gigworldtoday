@@ -15,26 +15,33 @@ interface FilterSidebarProps {
   availabilityOptions?: Array<{ value: string; label: string }>;
 }
 
-// Group categories into logical sections
-const CATEGORY_GROUPS: Record<string, string[]> = {
-  'Delivery': ['food_delivery', 'grocery_delivery', 'alcohol_delivery', 'package_delivery', 'ecommerce_delivery', 'same_day_delivery', 'quick_commerce', 'last_mile', 'catering_delivery'],
-  'Services': ['rideshare', 'task_based', 'pet_care', 'moving', 'courier'],
-};
+const GIG_TYPE_PILLS: Array<{
+  id: string;
+  label: string;
+  group: 'Delivery' | 'Services';
+  dataCategories: string[];
+}> = [
+  { id: 'food_delivery',         label: 'Restaurant',    group: 'Delivery', dataCategories: ['food_delivery'] },
+  { id: 'grocery_delivery',      label: 'Grocery',       group: 'Delivery', dataCategories: ['grocery_delivery', 'quick_commerce'] },
+  { id: 'alcohol_delivery',      label: 'Alcohol',       group: 'Delivery', dataCategories: ['alcohol_delivery'] },
+  { id: 'catering_delivery',     label: 'Catering',      group: 'Delivery', dataCategories: ['catering_delivery'] },
+  { id: 'package_delivery',      label: 'Packages',      group: 'Delivery', dataCategories: ['package_delivery', 'ecommerce_delivery', 'last_mile', 'same_day_delivery', 'courier', 'auto_parts_delivery'] },
+  { id: 'prescription_delivery', label: 'Prescription',  group: 'Delivery', dataCategories: ['prescription_delivery'] },
+  { id: 'rideshare',             label: 'Rideshare',     group: 'Services', dataCategories: ['rideshare'] },
+  { id: 'task_based',            label: 'Tasks',         group: 'Services', dataCategories: ['task_based'] },
+  { id: 'pet_care',              label: 'Pet Care',      group: 'Services', dataCategories: ['pet_care'] },
+  { id: 'moving',                label: 'Moving',        group: 'Services', dataCategories: ['moving'] },
+];
 
-// Group vehicles into logical sections
+export const PILL_TO_DATA_CATEGORIES: Record<string, string[]> = Object.fromEntries(
+  GIG_TYPE_PILLS.map((p) => [p.id, p.dataCategories])
+);
+
 const VEHICLE_GROUPS: Record<string, string[]> = {
   'No Vehicle Needed': ['none', 'walking', 'bike', 'scooter'],
   'Car / Sedan': ['car', 'sedan', 'motorcycle'],
   'SUV / Van': ['suv', 'minivan', 'van', 'cargo_van', 'sprinter_van'],
   'Truck / Large': ['pickup', 'truck', 'box_truck', 'flatbed', 'suv_trailer', 'refrigerated_van'],
-};
-
-const CATEGORY_LABELS: Record<string, string> = {
-  food_delivery: 'Fast Food', grocery_delivery: 'Grocery', alcohol_delivery: 'Alcohol',
-  package_delivery: 'Packages', ecommerce_delivery: 'E-Commerce', same_day_delivery: 'Same Day',
-  quick_commerce: 'Quick Commerce', last_mile: 'Last Mile', auto_parts_delivery: 'Auto Parts',
-  catering_delivery: 'Catering', rideshare: 'Rideshare', task_based: 'Tasks',
-  pet_care: 'Pet Care', moving: 'Moving', courier: 'Courier',
 };
 
 const VEHICLE_LABELS: Record<string, string> = {
@@ -44,6 +51,10 @@ const VEHICLE_LABELS: Record<string, string> = {
   sprinter_van: 'Sprinter', pickup: 'Pickup', truck: 'Truck', box_truck: 'Box Truck',
   flatbed: 'Flatbed', suv_trailer: 'SUV + Trailer', refrigerated_van: 'Refrigerated',
 };
+
+const PILL_LABEL_MAP: Record<string, string> = Object.fromEntries(
+  GIG_TYPE_PILLS.map((p) => [p.id, p.label])
+);
 
 function Section({
   title,
@@ -114,18 +125,17 @@ export default function FilterSidebar({
   filters,
   onFilterChange,
   vehicleOptions,
-  categoryOptions,
   countryOptions,
   payFrequencyOptions,
 }: FilterSidebarProps) {
-  const selectedVehicles = new Set(filters.vehicles || []);
-  const selectedCategories = new Set(filters.categories || []);
-  const selectedCountries = new Set(filters.countries || []);
-  const selectedPayFreq = new Set(filters.payFrequency || []);
+  const selectedVehicles = new Set<string>(filters.vehicles || []);
+  const selectedCategories = new Set<string>(filters.categories || []);
+  const selectedCountries = new Set<string>(filters.countries || []);
+  const selectedPayFreq = new Set<string>(filters.payFrequency || []);
   const instantFilter = typeof filters.instantPayout === 'boolean' ? filters.instantPayout : undefined;
 
-  const toggle = (set: Set<string>, value: string) => {
-    const next = new Set(set);
+  const toggleInSet = (set: Set<string>, value: string): string[] => {
+    const next = new Set<string>(set);
     next.has(value) ? next.delete(value) : next.add(value);
     return Array.from(next);
   };
@@ -134,17 +144,23 @@ export default function FilterSidebar({
     (filters.vehicles?.length || 0) +
     (filters.categories?.length || 0) +
     (filters.countries?.length || 0) +
-    (filters.deliveryType ? 1 : 0);
+    (filters.payFrequency?.length || 0) +
+    (filters.deliveryType ? 1 : 0) +
+    (typeof filters.instantPayout === 'boolean' ? 1 : 0);
 
   const clearAll = () => {
     onFilterChange('vehicles', []);
     onFilterChange('categories', []);
     onFilterChange('countries', []);
     onFilterChange('deliveryType', '');
+    onFilterChange('payFrequency', []);
+    onFilterChange('instantPayout', undefined);
   };
 
-  const availableCats = new Set(categoryOptions.map((c) => c.value));
-  const availableVehs = new Set(vehicleOptions.map((v) => v.value));
+  const availableVehs = new Set<string>(vehicleOptions.map((v) => v.value));
+
+  const deliveryPills = GIG_TYPE_PILLS.filter((p) => p.group === 'Delivery');
+  const servicePills = GIG_TYPE_PILLS.filter((p) => p.group === 'Services');
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
@@ -165,25 +181,32 @@ export default function FilterSidebar({
         {/* Gig Type */}
         <Section title="Gig Type" defaultOpen={true} count={filters.categories?.length || 0}>
           <div className="space-y-2.5">
-            {Object.entries(CATEGORY_GROUPS).map(([group, cats]) => {
-              const available = cats.filter((c) => availableCats.has(c));
-              if (!available.length) return null;
-              return (
-                <div key={group}>
-                  <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-1">{group}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {available.map((cat) => (
-                      <Pill
-                        key={cat}
-                        label={CATEGORY_LABELS[cat] || cat.replace(/_/g, ' ')}
-                        selected={selectedCategories.has(cat)}
-                        onClick={() => onFilterChange('categories', toggle(selectedCategories, cat))}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-1">Delivery</p>
+              <div className="flex flex-wrap gap-1.5">
+                {deliveryPills.map((pill) => (
+                  <Pill
+                    key={pill.id}
+                    label={pill.label}
+                    selected={selectedCategories.has(pill.id)}
+                    onClick={() => onFilterChange('categories', toggleInSet(selectedCategories, pill.id))}
+                  />
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-1">Services</p>
+              <div className="flex flex-wrap gap-1.5">
+                {servicePills.map((pill) => (
+                  <Pill
+                    key={pill.id}
+                    label={pill.label}
+                    selected={selectedCategories.has(pill.id)}
+                    onClick={() => onFilterChange('categories', toggleInSet(selectedCategories, pill.id))}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </Section>
 
@@ -191,18 +214,18 @@ export default function FilterSidebar({
         <Section title="Vehicle" count={filters.vehicles?.length || 0}>
           <div className="space-y-2.5">
             {Object.entries(VEHICLE_GROUPS).map(([group, vehs]) => {
-              const available = vehs.filter((v) => availableVehs.has(v));
+              const available = vehs.filter((v: string) => availableVehs.has(v));
               if (!available.length) return null;
               return (
                 <div key={group}>
                   <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold mb-1">{group}</p>
                   <div className="flex flex-wrap gap-1.5">
-                    {available.map((veh) => (
+                    {available.map((veh: string) => (
                       <Pill
                         key={veh}
                         label={VEHICLE_LABELS[veh] || veh.replace(/_/g, ' ')}
                         selected={selectedVehicles.has(veh)}
-                        onClick={() => onFilterChange('vehicles', toggle(selectedVehicles, veh))}
+                        onClick={() => onFilterChange('vehicles', toggleInSet(selectedVehicles, veh))}
                       />
                     ))}
                   </div>
@@ -237,20 +260,20 @@ export default function FilterSidebar({
               { value: 'weekly', label: 'Weekly' },
               { value: 'twice_weekly', label: 'Twice Weekly' },
               { value: 'daily', label: 'Daily' },
-              { value: 'per_delivery', label: 'Per Delivery' },
+              { value: 'instant', label: 'Instant' },
             ]).map((opt) => (
               <Pill
                 key={opt.value}
                 label={opt.label}
                 selected={selectedPayFreq.has(opt.value)}
-                onClick={() => onFilterChange('payFrequency', selectedPayFreq.has(opt.value) ? Array.from(selectedPayFreq).filter((v) => v !== opt.value) : [...Array.from(selectedPayFreq), opt.value])}
+                onClick={() => onFilterChange('payFrequency', toggleInSet(selectedPayFreq, opt.value))}
               />
             ))}
           </div>
         </Section>
 
         {/* Instant Cash Out Available */}
-        <Section title="Instant Cash Out Available" count={instantFilter ? 1 : 0}>
+        <Section title="Instant Cash Out Available" count={typeof instantFilter === 'boolean' ? 1 : 0}>
           <div className="flex flex-wrap gap-1.5">
             <Pill
               key="instant_yes"
@@ -276,7 +299,7 @@ export default function FilterSidebar({
                   key={c.value}
                   label={c.label}
                   selected={selectedCountries.has(c.value)}
-                  onClick={() => onFilterChange('countries', toggle(selectedCountries, c.value))}
+                  onClick={() => onFilterChange('countries', toggleInSet(selectedCountries, c.value))}
                 />
               ))}
             </div>
@@ -289,28 +312,40 @@ export default function FilterSidebar({
         <div className="px-4 py-3 bg-gray-50 border-t border-gray-100">
           <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold mb-1.5">Active</p>
           <div className="flex flex-wrap gap-1">
-            {(filters.categories || []).map((cat) => (
+            {(filters.categories || []).map((cat: string) => (
               <span key={cat} className="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-500/10 text-teal-600 rounded-full text-[11px] font-medium">
-                {CATEGORY_LABELS[cat] || cat.replace(/_/g, ' ')}
-                <button onClick={() => onFilterChange('categories', (filters.categories || []).filter((c) => c !== cat))} className="hover:text-red-500">✕</button>
+                {PILL_LABEL_MAP[cat] || cat.replace(/_/g, ' ')}
+                <button onClick={() => onFilterChange('categories', (filters.categories || []).filter((c: string) => c !== cat))} className="hover:text-red-500">✕</button>
               </span>
             ))}
-            {(filters.vehicles || []).map((veh) => (
+            {(filters.vehicles || []).map((veh: string) => (
               <span key={veh} className="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-500/10 text-teal-600 rounded-full text-[11px] font-medium">
                 {VEHICLE_LABELS[veh] || veh.replace(/_/g, ' ')}
-                <button onClick={() => onFilterChange('vehicles', (filters.vehicles || []).filter((v) => v !== veh))} className="hover:text-red-500">✕</button>
+                <button onClick={() => onFilterChange('vehicles', (filters.vehicles || []).filter((v: string) => v !== veh))} className="hover:text-red-500">✕</button>
               </span>
             ))}
-            {(filters.countries || []).map((c) => (
+            {(filters.payFrequency || []).map((freq: string) => (
+              <span key={freq} className="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-500/10 text-teal-600 rounded-full text-[11px] font-medium">
+                {freq.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
+                <button onClick={() => onFilterChange('payFrequency', (filters.payFrequency || []).filter((f: string) => f !== freq))} className="hover:text-red-500">✕</button>
+              </span>
+            ))}
+            {(filters.countries || []).map((c: string) => (
               <span key={c} className="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-500/10 text-teal-600 rounded-full text-[11px] font-medium">
                 {c}
-                <button onClick={() => onFilterChange('countries', (filters.countries || []).filter((x) => x !== c))} className="hover:text-red-500">✕</button>
+                <button onClick={() => onFilterChange('countries', (filters.countries || []).filter((x: string) => x !== c))} className="hover:text-red-500">✕</button>
               </span>
             ))}
             {filters.deliveryType && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-500/10 text-teal-600 rounded-full text-[11px] font-medium">
                 {filters.deliveryType === 'on_demand' ? 'On Demand' : 'Scheduled'}
                 <button onClick={() => onFilterChange('deliveryType', '')} className="hover:text-red-500">✕</button>
+              </span>
+            )}
+            {typeof filters.instantPayout === 'boolean' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-500/10 text-teal-600 rounded-full text-[11px] font-medium">
+                Instant Cash Out: {filters.instantPayout ? 'Yes' : 'No'}
+                <button onClick={() => onFilterChange('instantPayout', undefined)} className="hover:text-red-500">✕</button>
               </span>
             )}
           </div>

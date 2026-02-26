@@ -62,5 +62,69 @@
     "description": "Walk dogs, pet sit, and provide pet care services in your area.",
     "icon": "🐾",
     "sortOrder": 8
+  },
+  {
+    "id": "prescription_delivery",
+    "name": "Prescription Delivery",
+    "slug": "prescription",
+    "description": "Deliver prescriptions from pharmacies to customers. Partnerships with CVS, Walgreens, Costco, and more.",
+    "icon": "💊",
+    "sortOrder": 9
+  },
+  {
+    "id": "alcohol_delivery",
+    "name": "Alcohol Delivery",
+    "slug": "alcohol",
+    "description": "Deliver beer, wine, and spirits. Age verification required at delivery.",
+    "icon": "🍷",
+    "sortOrder": 10
+  },
+  {
+    "id": "moving",
+    "name": "Moving",
+    "slug": "moving",
+    "description": "Help customers move furniture, appliances, and large items. Truck or van often required.",
+    "icon": "🚚",
+    "sortOrder": 11
+  },
+  {
+    "id": "same_day_delivery",
+    "name": "Same Day Delivery",
+    "slug": "same-day",
+    "description": "Urgent same-day delivery of various items.",
+    "icon": "⏱️",
+    "sortOrder": 12
+  },
+  {
+    "id": "courier",
+    "name": "Courier",
+    "slug": "courier",
+    "description": "Local courier and messenger services.",
+    "icon": "📨",
+    "sortOrder": 13
+  },
+  {
+    "id": "ecommerce_delivery",
+    "name": "E-Commerce Delivery",
+    "slug": "ecommerce",
+    "description": "Deliver online orders from retailers to customers.",
+    "icon": "🛍️",
+    "sortOrder": 14
+  },
+  {
+    "id": "last_mile",
+    "name": "Last Mile",
+    "slug": "last-mile",
+    "description": "Final leg of delivery from distribution center to customer.",
+    "icon": "📍",
+    "sortOrder": 15
+  },
+  {
+    "id": "auto_parts_delivery",
+    "name": "Auto Parts Delivery",
+    "slug": "auto-parts",
+    "description": "Deliver auto parts to mechanics and customers.",
+    "icon": "🔧",
+    "sortOrder": 16
   }
 ]

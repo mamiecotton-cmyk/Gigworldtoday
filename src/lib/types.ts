@@ -10,10 +10,10 @@ export interface Platform {
   applyUrl?: string;
   iosAppUrl?: string;
   androidAppUrl?: string;
-  
+
   // Classification
   categories: string[];
-  
+
   // Requirements
   minAge: number;
   backgroundCheckRequired: boolean;
@@ -22,18 +22,20 @@ export interface Platform {
   insuranceRequired: boolean;
   equipmentNeeded: string[];
   otherRequirements?: string;
-  
+
   // Availability
   countries: string[];
   regions: {
     [country: string]: {
       status: string;
       cities?: string[];
+      states?: string[];
       counties?: { county: string; state: string }[];
-      waitlistStatus: 'open' | 'waitlist' | 'closed' | 'unknown';
+      coverageNote?: string;
+      waitlistStatus?: 'open' | 'waitlist' | 'closed' | 'unknown' | 'varies';
     };
   };
-  
+
   // Compensation
   payModel: string;
   estimatedPayMin?: number;
@@ -42,30 +44,34 @@ export interface Platform {
   estimatedHourlyMax?: number;
   tipsAllowed: boolean;
   paymentFrequency: string;
-  payFrequency?: string;
-  instantPayoutAvailable?: boolean;
   rating?: number;
-  
+
+  // Instant pay
+  instantPayAvailable?: boolean;
+  instantPayMethod?: string;
+  instantPayFee?: string;
+  instantPayLimit?: string;
+
   // Work details
   deliveryType: 'on_demand' | 'scheduled' | 'both';
   setupRequired: boolean;
-  
+
   // Metadata
   lastUpdated: string;
   dataSources: string[];
   verificationStatus: 'verified' | 'community' | 'needs_verification';
+
   // Optional fields for special platform statuses and UI
   usesThirdPartyDelivery?: boolean;
   deliveryPartners?: string[];
   driverStatus?: string;
   mergedWith?: string;
   redirectMessage?: string;
-  instantPayAvailable?: boolean;
-  instantPayLimit?: string;
   proTierProgram?: string;
   proTierBenefits?: string;
   notes?: string;
-  // Add these for compatibility with autosuggestions/search
+
+  // Compatibility with autosuggestions/search
   cities?: string[];
   locations?: string[];
 }
@@ -87,6 +93,6 @@ export interface FilterOptions {
   statuses?: string[];
   deliveryType?: string;
   payFrequency?: string[];
-  instantPayout?: boolean | undefined;
+  instantPayout?: boolean;
   availability?: string;
 }
