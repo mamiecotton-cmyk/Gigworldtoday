@@ -87,7 +87,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             {/* Left: Text Content */}
             <div className="space-y-6">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-300">
-                {isFeatured ? "Featured Product" : "Product"}
+                {slug === "how-to-be-a-5-star-gig-worker" ? "Built by a Driver. For Drivers." : isFeatured ? "Featured Product" : "Product"}
               </p>
               <h1 className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
                 {product.name}
@@ -108,7 +108,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                     rel="noopener noreferrer"
                     className="inline-flex items-center rounded-xl bg-orange-500 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 hover:bg-orange-400 hover:shadow-xl hover:shadow-orange-500/30"
                   >
-                    {isFeatured ? "Get the Book →" : "Buy Now →"}
+                    {slug === "how-to-be-a-5-star-gig-worker" ? "Get the Book →" : "Buy Now →"}
                   </a>
                 )}
                 <Link
