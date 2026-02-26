@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import ArticleForm from "@/components/ArticleForm";
 import DeleteArticleButton from "./DeleteArticleButton";
 
@@ -12,7 +13,7 @@ export default async function EditArticle({
 
   const { data: article } = await supabase
     .from("articles")
-    .select("id, title, slug, excerpt, content_json, content_version, published")
+    .select("id, title, slug, excerpt, content_json, content_version, published, featured_image")
     .eq("id", id)
     .single();
 
@@ -20,6 +21,12 @@ export default async function EditArticle({
 
   return (
     <div className="max-w-3xl mx-auto py-10">
+      <Link
+        href="/admin"
+        className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800 mb-4"
+      >
+        ← Back to Articles
+      </Link>
       <h1 className="text-2xl font-semibold mb-6">
         Edit Article
       </h1>
@@ -31,6 +38,7 @@ export default async function EditArticle({
         initialSlug={article.slug}
         initialExcerpt={article.excerpt}
         initialPublished={article.published}
+        initialFeaturedImage={article.featured_image}
       />
 
       <DeleteArticleButton id={article.id} />

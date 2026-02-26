@@ -11,6 +11,7 @@ interface Props {
   initialExcerpt?: string;
   initialContent?: Block[];
   initialPublished?: boolean;
+  initialFeaturedImage?: string | null;
 }
 
 export default function ArticleForm({
@@ -20,6 +21,7 @@ export default function ArticleForm({
   initialExcerpt = "",
   initialContent = [],
   initialPublished = false,
+  initialFeaturedImage = null,
 }: Props) {
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
@@ -33,12 +35,48 @@ export default function ArticleForm({
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
 
+  // Featured image state
+  const [featuredImageUrl, setFeaturedImageUrl] = useState<string | null>(initialFeaturedImage);
+  const [uploadingFeatured, setUploadingFeatured] = useState(false);
+
+  const uploadImage = async (file: File, prefix: string): Promise<string> => {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${prefix}-${Date.now()}.${fileExt}`;
+
+    const { error } = await supabase.storage
+      .from("article-images")
+      .upload(fileName, file);
+
+    if (error) throw error;
+
+    const { data } = supabase.storage
+      .from("article-images")
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
+  };
+
+  const handleFeaturedUpload = async (file: File) => {
+    setUploadingFeatured(true);
+    try {
+      const url = await uploadImage(file, "featured");
+      setFeaturedImageUrl(url);
+    } catch (err: any) {
+      setError(err.message || "Failed to upload featured image");
+    } finally {
+      setUploadingFeatured(false);
+    }
+  };
+
+  const removeFeaturedImage = () => {
+    setFeaturedImageUrl(null);
+  };
+
   const saveArticle = async (publish: boolean) => {
     setLoading(true);
     setError(null);
     setSaved(false);
 
-    // Sanitize: remove empty blocks
     const sanitized = blocks.filter((block) => {
       if (block.type === "text") return block.content.trim() !== "";
       if (block.type === "image") return block.src.trim() !== "";
@@ -50,6 +88,7 @@ export default function ArticleForm({
       slug,
       excerpt,
       content_json: sanitized,
+      featured_image: featuredImageUrl,
     };
 
     if (publish) {
@@ -129,6 +168,62 @@ export default function ArticleForm({
           onChange={(e) => setExcerpt(e.target.value)}
           rows={3}
         />
+      </div>
+
+      {/* Featured Image */}
+      <div>
+        <label className="block font-medium mb-1">Featured Image</label>
+        {featuredImageUrl ? (
+          <div className="space-y-2">
+            <div className="relative inline-block">
+              <img
+                src={featuredImageUrl}
+                alt="Featured"
+                className="max-h-48 rounded-lg border"
+              />
+              <button
+                type="button"
+                onClick={removeFeaturedImage}
+                className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold shadow-md transition-colors"
+                title="Remove featured image"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-xs text-gray-400 truncate max-w-md">{featuredImageUrl}</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <label
+              className={`flex items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                uploadingFeatured
+                  ? "border-gray-300 bg-gray-50"
+                  : "border-gray-300 hover:border-teal-400 hover:bg-teal-50/30"
+              }`}
+            >
+              <div className="text-center">
+                {uploadingFeatured ? (
+                  <p className="text-sm text-gray-500">Uploading...</p>
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-500">Click to upload featured image</p>
+                    <p className="text-xs text-gray-400 mt-1">JPG, PNG, WebP</p>
+                  </>
+                )}
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                disabled={uploadingFeatured}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleFeaturedUpload(file);
+                }}
+              />
+            </label>
+          </div>
+        )}
       </div>
 
       <div>
