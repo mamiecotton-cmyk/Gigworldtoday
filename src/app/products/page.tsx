@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/lib/products";
+import { supabase } from "@/lib/supabaseClient";
+import { ProductRecord } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "Products for Gig Workers",
@@ -8,7 +9,15 @@ export const metadata: Metadata = {
     "Explore curated gear and tools built for gig drivers, delivery couriers, and rideshare workers.",
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  // Fetch products from Supabase (server-side)
+  const { data: productsData, error } = await supabase.from("products").select("*").order("created_at", { ascending: false });
+  const products = (productsData ?? []) as ProductRecord[];
+
+  if (error) {
+    console.error("Failed to load products:", error.message);
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <section className="bg-black text-white">

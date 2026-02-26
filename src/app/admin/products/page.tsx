@@ -11,24 +11,29 @@ type ProductRow = {
   long_description: string;
   price: string;
   image: string;
+  images?: string[];
   featured: boolean;
   external_link: string;
 };
 
-const EMPTY_FORM: Omit<ProductRow, "id"> = {
+type ProductForm = Omit<ProductRow, "id"> & { imagesText?: string };
+
+const EMPTY_FORM: ProductForm = {
   name: "",
   slug: "",
   short_description: "",
   long_description: "",
   price: "",
   image: "/city-background.jpg",
+  images: [],
+  imagesText: "",
   featured: false,
   external_link: "",
 };
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<ProductRow[]>([]);
-  const [form, setForm] = useState<Omit<ProductRow, "id">>(EMPTY_FORM);
+  const [form, setForm] = useState<ProductForm>(EMPTY_FORM);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -38,17 +43,17 @@ export default function AdminProductsPage() {
   );
 
   const fetchProducts = async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      alert(error.message);
-      return;
+    try {
+      const res = await fetch('/api/admin/products');
+      const json = await res.json();
+      if (!res.ok) {
+        alert(json?.error || 'Failed to load products');
+        return;
+      }
+      setProducts((json.data ?? []) as ProductRow[]);
+    } catch (err: any) {
+      alert(err.message || 'Failed to fetch products');
     }
-
-    setProducts((data ?? []) as ProductRow[]);
   };
 
   useEffect(() => {
@@ -61,7 +66,8 @@ export default function AdminProductsPage() {
   };
 
   const onSave = async () => {
-    if (!form.name || !form.slug || !form.short_description || !form.long_description || !form.price || !form.image || !form.external_link) {
+    // require core fields
+    if (!form.name || !form.slug || !form.short_description || !form.long_description || !form.price || !form.external_link) {
       alert("Please fill all fields.");
       return;
     }
@@ -69,34 +75,78 @@ export default function AdminProductsPage() {
     setLoading(true);
 
     if (editingId) {
-      const { error } = await supabase
-        .from("products")
-        .update(form)
-        .eq("id", editingId);
+      const images = (form.imagesText ? form.imagesText : (form.images || []).join("\n"))
+        .split("\n")
+        .map((s) => s.trim())
+        .filter(Boolean);
 
+      const payload = {
+        name: form.name,
+        slug: form.slug,
+        short_description: form.short_description,
+        long_description: form.long_description,
+        price: form.price,
+        image: images[0] ?? form.image ?? "/city-background.jpg",
+        images,
+        featured: form.featured,
+        external_link: form.external_link,
+      };
+
+      try {
+        const res = await fetch('/api/admin/products', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...payload }),
+        });
+        const json = await res.json();
+        setLoading(false);
+        if (!res.ok) {
+          alert(json?.error || 'Failed to update product');
+          return;
+        }
+        await fetchProducts();
+        resetForm();
+      } catch (err: any) {
+        setLoading(false);
+        alert(err.message || 'Failed to update product');
+      }
+      return;
+    }
+    const images = (form.imagesText ? form.imagesText : (form.images || []).join("\n"))
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const payload = {
+      name: form.name,
+      slug: form.slug,
+      short_description: form.short_description,
+      long_description: form.long_description,
+      price: form.price,
+      image: images[0] ?? form.image ?? "/city-background.jpg",
+      images,
+      featured: form.featured,
+      external_link: form.external_link,
+    };
+
+    try {
+      const res = await fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
       setLoading(false);
-
-      if (error) {
-        alert(error.message);
+      if (!res.ok) {
+        alert(json?.error || 'Failed to create product');
         return;
       }
-
       await fetchProducts();
       resetForm();
-      return;
+    } catch (err: any) {
+      setLoading(false);
+      alert(err.message || 'Failed to create product');
     }
-
-    const { error } = await supabase.from("products").insert(form);
-
-    setLoading(false);
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    await fetchProducts();
-    resetForm();
   };
 
   const onEdit = (product: ProductRow) => {
@@ -108,6 +158,8 @@ export default function AdminProductsPage() {
       long_description: product.long_description,
       price: product.price,
       image: product.image,
+      images: product.images || [],
+      imagesText: (product.images || []).join("\n"),
       featured: product.featured,
       external_link: product.external_link,
     });
@@ -117,13 +169,21 @@ export default function AdminProductsPage() {
     const confirmText = prompt("Type DELETE to remove this product:");
     if (confirmText !== "DELETE") return;
 
-    const { error } = await supabase.from("products").delete().eq("id", id);
-    if (error) {
-      alert(error.message);
-      return;
+    try {
+      const res = await fetch('/api/admin/products', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        alert(json?.error || 'Failed to delete product');
+        return;
+      }
+      fetchProducts();
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete product');
     }
-
-    fetchProducts();
   };
 
   return (
@@ -143,6 +203,12 @@ export default function AdminProductsPage() {
           <input className="border rounded px-3 py-2" placeholder="Slug (e.g. dashcam-lite)" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
           <input className="border rounded px-3 py-2" placeholder="Price (e.g. $39)" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} />
           <input className="border rounded px-3 py-2" placeholder="Image path/url" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} />
+          <textarea
+            className="border rounded px-3 py-2 md:col-span-2 min-h-[120px]"
+            placeholder={"One image URL per line"}
+            value={form.imagesText}
+            onChange={(e) => setForm({ ...form, imagesText: e.target.value })}
+          />
           <input className="border rounded px-3 py-2 md:col-span-2" placeholder="External link" value={form.external_link} onChange={(e) => setForm({ ...form, external_link: e.target.value })} />
           <textarea className="border rounded px-3 py-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm({ ...form, short_description: e.target.value })} />
           <textarea className="border rounded px-3 py-2 md:col-span-2 min-h-[120px]" placeholder="Long description" value={form.long_description} onChange={(e) => setForm({ ...form, long_description: e.target.value })} />

@@ -73,6 +73,12 @@ export default function AdminDashboard() {
         >
           + New Article
         </Link>
+        <Link
+          href="/admin/products"
+          className="px-4 py-2 border border-black text-black rounded ml-3"
+        >
+          Manage Products
+        </Link>
       </div>
 
       {/* Recent Articles */}

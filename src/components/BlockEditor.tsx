@@ -357,6 +357,11 @@ function SortableBlock({
     transition,
   };
 
+  const handleQuillChange = (html: string) =>
+    setBlocks((prev) =>
+      prev.map((b) => (b.id === block.id ? { ...b, content: html } : b))
+    );
+
   return (
     <div
       ref={setNodeRef}
@@ -382,16 +387,7 @@ function SortableBlock({
       </div>
 
       {block.type === "text" && (
-        <QuillEditor
-          value={block.content}
-          onChange={(html: string) =>
-            setBlocks((prev) =>
-              prev.map((b) =>
-                b.id === block.id ? { ...b, content: html } : b
-              )
-            )
-          }
-        />
+        <QuillEditor value={block.content} onChange={handleQuillChange} />
       )}
 
       {block.type === "image" && (

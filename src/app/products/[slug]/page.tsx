@@ -1,37 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, products } from "@/lib/products";
+import ProductGallery from "@/components/ProductGallery";
+import { supabase } from "@/lib/supabaseClient";
+import { ProductRecord } from "@/lib/products";
 
-type ProductDetailPageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
-};
+type Params = { slug: string };
 
 export async function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
+  const { data, error } = await supabase.from("products").select("slug");
+  if (error || !data) return [];
+  return data.map((p: any) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
-
-  if (!product) {
-    return { title: "Product Not Found" };
-  }
-
-  return {
-    title: `${product.name} | Products`,
-    description: product.description.short,
-  };
+  const { data } = await supabase.from("products").select("*").eq("slug", slug).limit(1).single();
+  if (!data) return { title: "Product Not Found" };
+  return { title: `${data.name} | Products`, description: data.short_description };
 }
 
-export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+export default async function ProductDetailPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const { data: product, error } = await supabase.from("products").select("*").eq("slug", slug).limit(1).single();
 
-  if (!product) {
+  if (error || !product) {
     notFound();
   }
 
@@ -39,15 +32,15 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     <div className="min-h-screen bg-gray-50">
       <section className="mx-auto max-w-5xl px-6 py-14 lg:px-8">
         <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-          <img src={product!.image} alt={product!.name} className="h-72 w-full object-cover md:h-96" />
+          <ProductGallery product={product!} />
           <div className="space-y-6 p-8 md:p-10">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-teal-600">Product</p>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">{product!.name}</h1>
-            <p className="text-base leading-relaxed text-gray-600 md:text-lg">{product!.description.long}</p>
+            <p className="text-base leading-relaxed text-gray-600 md:text-lg">{product!.long_description}</p>
             <div className="text-2xl font-bold text-gray-900">{product!.price}</div>
 
             <a
-              href={product!.externalLink}
+              href={product!.external_link}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-teal-500 hover:shadow-md"

@@ -1,3 +1,16 @@
+export type ProductRecord = {
+  id: string;
+  name: string;
+  slug: string;
+  short_description: string;
+  long_description: string;
+  price: string;
+  image: string;
+  images: string[];
+  featured: boolean;
+  external_link: string;
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -8,6 +21,7 @@ export type Product = {
   };
   price: string;
   image: string;
+  images?: string[];
   featured: boolean;
   externalLink: string;
 };
@@ -22,7 +36,8 @@ export const products: Product[] = [
       long: "The Gig Driver Starter Kit bundles the daily essentials every new driver needs: insulated delivery tote, reflective safety vest, and weather-ready phone mount. Built to keep your workflow smooth from the first order to the last drop-off, this kit helps you protect your ratings while staying organized during busy shifts.",
     },
     price: "$79",
-    image: "/city-background.jpg",
+      image: "/city-background.jpg",
+      images: ["/city-background.jpg"],
     featured: true,
     externalLink: "https://example.com/products/gig-driver-starter-kit",
   },
@@ -36,6 +51,7 @@ export const products: Product[] = [
     },
     price: "$54",
     image: "/city-background.jpg",
+    images: ["/city-background.jpg"],
     featured: true,
     externalLink: "https://example.com/products/thermal-pro-delivery-bag",
   },
@@ -49,6 +65,7 @@ export const products: Product[] = [
     },
     price: "$129",
     image: "/city-background.jpg",
+    images: ["/city-background.jpg"],
     featured: true,
     externalLink: "https://example.com/products/dashcam-lite",
   },
@@ -62,6 +79,7 @@ export const products: Product[] = [
     },
     price: "$24",
     image: "/city-background.jpg",
+    images: ["/city-background.jpg"],
     featured: false,
     externalLink: "https://example.com/products/phone-mount-plus",
   },
@@ -75,6 +93,7 @@ export const products: Product[] = [
     },
     price: "$39",
     image: "/city-background.jpg",
+    images: ["/city-background.jpg"],
     featured: false,
     externalLink: "https://example.com/products/power-bank-max",
   },
@@ -88,6 +107,7 @@ export const products: Product[] = [
     },
     price: "$34",
     image: "/city-background.jpg",
+    images: ["/city-background.jpg"],
     featured: false,
     externalLink: "https://example.com/products/backseat-organizer-pro",
   },

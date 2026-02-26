@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
-import BlockEditor, { Block } from "./BlockEditor";
+import BlockEditor, { Block } from "@/components/BlockEditor";
 
 interface Props {
   articleId?: string;

@@ -1,9 +1,30 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { featuredProducts } from "@/lib/products";
+import { supabase } from "@/lib/supabaseClient";
+import { ProductRecord } from "@/lib/products";
 
 export default function FeaturedProducts() {
-  const products = featuredProducts.slice(0, 3);
+  const [products, setProducts] = useState<ProductRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      const { data } = await supabase
+        .from("products")
+        .select("*")
+        .eq("featured", true)
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      setProducts((data || []) as ProductRecord[]);
+      setLoading(false);
+    };
+
+    load();
+  }, []);
 
   return (
     <section className="bg-gradient-to-b from-white to-gray-50 py-20">
@@ -21,11 +42,17 @@ export default function FeaturedProducts() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {loading ? (
+          <p className="text-gray-500">Loading featured products...</p>
+        ) : products.length === 0 ? (
+          <p className="text-gray-500">No featured products yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

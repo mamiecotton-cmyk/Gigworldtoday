@@ -1,4 +1,4 @@
-import { Block } from "./BlockEditor";
+import { Block } from "@/components/BlockEditor";
 
 interface Props {
   contentJson: Block[] | null;
