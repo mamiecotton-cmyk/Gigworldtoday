@@ -39,6 +39,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.24",
+    "flowbite": "^4.0.1",
     "lucide-react": "^0.564.0",
     "next": "^15.0.8",
     "postcss": "^8.5.6",
