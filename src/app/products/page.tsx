@@ -40,8 +40,8 @@ export default async function ProductsPage() {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
 
-        {/* Character — full height, anchored bottom-right */}
-        <div className="absolute bottom-0 right-0 h-full pointer-events-none">
+        {/* Character — scaled down on mobile */}
+        <div className="absolute bottom-0 right-0 h-[60%] md:h-full pointer-events-none">
           <Image
             src="/ProductCharacter.png"
             alt="Delivery rider"
