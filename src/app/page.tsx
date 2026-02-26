@@ -458,7 +458,9 @@ export default function HomePage() {
       <div>
         {!collapsed ? (
           <div
-            className={`fixed bottom-32 right-12 z-50 transition-all duration-700 ease-out ${
+            className={`fixed z-50 transition-all duration-700 ease-out
+              bottom-4 right-4 left-4 sm:bottom-32 sm:right-12 sm:left-auto
+              ${
               collapsed
                 ? "opacity-0 translate-y-6 pointer-events-none"
                 : entered
@@ -467,18 +469,31 @@ export default function HomePage() {
             }`}
             style={{ display: "flex", alignItems: "flex-end", gap: 16 }}
           >
+            {/* Avatar - hidden on mobile */}
             <Image
               src="/gigsidekick-avatar.png"
               alt="GigSidekick"
               width={200}
               height={400}
-              className="select-none pointer-events-none"
+              className="select-none pointer-events-none hidden sm:block"
             />
 
             <div
-              className="transition-all duration-300"
-              style={{ width: 260, marginLeft: -32, marginBottom: 32 }}
+              className="transition-all duration-300 relative w-full sm:w-[260px]"
+              style={{ marginLeft: typeof window !== "undefined" && window.innerWidth >= 640 ? -32 : 0, marginBottom: 32 }}
             >
+              {/* Close button */}
+              <button
+                onClick={() => {
+                  setCollapsed(true);
+                  setExiting(false);
+                }}
+                className="absolute -top-3 -right-3 z-10 w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center shadow-lg hover:bg-gray-700 transition-colors text-sm font-bold"
+                aria-label="Close assistant"
+              >
+                ✕
+              </button>
+
               <GigSidekickChat
                 exiting={exiting}
                 handleSearch={handleSearch}
@@ -487,7 +502,7 @@ export default function HomePage() {
           </div>
         ) : (
           <button
-            className="fixed bottom-32 right-12 z-50 w-14 h-14 rounded-full bg-white shadow-lg flex items-center justify-center border"
+            className="fixed bottom-6 right-6 sm:bottom-32 sm:right-12 z-50 w-14 h-14 rounded-full bg-white shadow-lg flex items-center justify-center border hover:shadow-xl transition-shadow"
             onClick={() => {
               setCollapsed(false);
               setEntered(false);
