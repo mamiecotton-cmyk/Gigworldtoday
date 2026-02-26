@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import GigSidekickChat from "@/components/GigSidekickChat";
+import FeaturedProducts from "@/components/FeaturedProducts";
 import platformsData from "@/data/platforms.json";
 import ZIP_TO_CITY from "@/data/zip-to-city";
 import US_CITY_TO_STATE from "@/data/us-city-to-state";
@@ -385,21 +386,27 @@ export default function HomePage() {
                 href={`/blog/${article.slug}`}
                 className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition duration-300"
               >
-                {article.featured_image && (
-                  <div className="relative h-[160px] w-full overflow-hidden">
+                <div className="relative h-[220px] w-full overflow-hidden bg-gray-50">
+                  {article.featured_image ? (
                     <Image
                       src={article.featured_image}
                       alt={article.title}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div className="h-full w-full flex items-start justify-start bg-gradient-to-br from-gray-100 to-gray-200 p-6">
+                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-6">{article.excerpt}</p>
+                    </div>
+                  )}
+                </div>
                 <div className="p-5">
                   <h3 className="font-semibold text-white group-hover:text-teal-400 transition-colors mb-2">
                     {article.title}
                   </h3>
-                  <p className="text-sm text-gray-400 line-clamp-2">{article.excerpt}</p>
+                  {article.featured_image && (
+                    <p className="text-sm text-gray-400 line-clamp-2">{article.excerpt}</p>
+                  )}
                   <p className="text-xs text-gray-500 mt-3">
                     {new Date(article.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </p>
@@ -427,6 +434,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <FeaturedProducts />
 
       {/* EMAIL CAPTURE SECTION */}
       <section className="relative bg-black py-24 text-white overflow-hidden">

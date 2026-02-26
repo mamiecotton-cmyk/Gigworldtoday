@@ -21,7 +21,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     <main className="mx-auto max-w-4xl px-6 py-12">
       <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10 space-y-6">
       <h1 className="text-3xl font-bold capitalize">
-        Category: {params.slug}
+        Category: {slug}
       </h1>
 
       <div className="space-y-4">

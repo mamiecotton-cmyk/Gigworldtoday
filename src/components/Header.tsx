@@ -83,6 +83,12 @@ export default function Header() {
             >
               About
             </Link>
+            <Link
+              href="/products"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+            >
+              Products
+            </Link>
 
             <div className={`w-px h-6 mx-2 ${dividerColor}`} />
 

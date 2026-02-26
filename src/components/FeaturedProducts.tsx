@@ -1,0 +1,32 @@
+import Link from "next/link";
+import ProductCard from "@/components/ProductCard";
+import { featuredProducts } from "@/lib/products";
+
+export default function FeaturedProducts() {
+  const products = featuredProducts.slice(0, 3);
+
+  return (
+    <section className="bg-gradient-to-b from-white to-gray-50 py-20">
+      <div className="container mx-auto px-8">
+        <div className="mb-10 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-teal-600">Featured Picks</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">Driver-Focused Products</h2>
+          </div>
+          <Link
+            href="/products"
+            className="rounded-xl border border-gray-300 px-5 py-2.5 text-sm font-semibold text-gray-700 transition-all hover:-translate-y-0.5 hover:border-gray-400 hover:bg-white hover:shadow"
+          >
+            View All Products
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
