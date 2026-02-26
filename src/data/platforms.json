@@ -2444,4 +2444,65 @@
     "driverStatus": "active",
     "instantPayAvailable": false
   }
-]
+
+    ,
+    {
+      "id": "airspace",
+      "slug": "airspace",
+      "name": "Airspace",
+      "description": "Time-critical courier platform specializing in urgent shipments like organ transplants, aircraft parts, and semiconductors. Drivers (called Commanders) handle local and airport pickups/dropoffs nationwide with 24/7 dispatch and flexible scheduling.",
+      "logoUrl": "/logos/airspace.png",
+      "websiteUrl": "https://www.airspace.com/drive-with-us",
+      "iosAppUrl": "https://apps.apple.com/us/app/driver-partner/id1034612629",
+      "androidAppUrl": "https://play.google.com/store/apps/details?id=com.firstdelivery.driverapp",
+      "categories": [
+        "specialty_courier",
+        "courier",
+        "same_day_delivery",
+        "last_mile"
+      ],
+      "minAge": 21,
+      "backgroundCheckRequired": true,
+      "vehicleTypes": [
+        "sedan",
+        "van",
+        "cargo_van",
+        "box_truck"
+      ],
+      "licenseRequired": true,
+      "insuranceRequired": true,
+      "equipmentNeeded": [
+        "smartphone"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "regions": {
+        "USA": {
+          "status": "Available",
+          "waitlistStatus": "open",
+          "cities": []
+        }
+      },
+      "payModel": "per_delivery",
+      "estimatedHourlyMin": 16,
+      "estimatedHourlyMax": 28,
+      "tipsAllowed": false,
+      "paymentFrequency": "weekly",
+      "instantPayAvailable": false,
+      "deliveryType": "on_demand",
+      "usesThirdPartyDelivery": false,
+      "driverStatus": "active",
+      "rebrandedTo": null,
+      "rebrandedUrl": null,
+      "redirectMessage": null,
+      "lastUpdated": "2026-02-25",
+      "dataSources": [
+        "airspace.com",
+        "ziprecruiter.com",
+        "indeed.com",
+        "app store reviews"
+      ],
+      "verificationStatus": "verified"
+    }
+  ]

@@ -25,7 +25,7 @@ const GIG_TYPE_PILLS: Array<{
   { id: 'grocery_delivery',      label: 'Grocery',       group: 'Delivery', dataCategories: ['grocery_delivery', 'quick_commerce'] },
   { id: 'alcohol_delivery',      label: 'Alcohol',       group: 'Delivery', dataCategories: ['alcohol_delivery'] },
   { id: 'catering_delivery',     label: 'Catering',      group: 'Delivery', dataCategories: ['catering_delivery'] },
-  { id: 'package_delivery',      label: 'Packages',      group: 'Delivery', dataCategories: ['package_delivery', 'ecommerce_delivery', 'last_mile', 'same_day_delivery', 'courier', 'auto_parts_delivery'] },
+  { id: 'package_delivery',      label: 'Packages',      group: 'Delivery', dataCategories: ['specialty_courier','package_delivery', 'ecommerce_delivery', 'last_mile', 'same_day_delivery', 'courier', 'auto_parts_delivery'] },
   { id: 'prescription_delivery', label: 'Prescription',  group: 'Delivery', dataCategories: ['prescription_delivery'] },
   { id: 'rideshare',             label: 'Rideshare',     group: 'Services', dataCategories: ['rideshare'] },
   { id: 'task_based',            label: 'Tasks',         group: 'Services', dataCategories: ['task_based'] },
