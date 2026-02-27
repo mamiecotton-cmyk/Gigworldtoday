@@ -16,6 +16,7 @@ export default async function ProductsPage() {
   const { data: productsData, error } = await supabase
     .from("products")
     .select("*")
+    .eq("published", true)
     .order("sort_order", { ascending: true });
 
   const products = productsData ?? [];

@@ -144,7 +144,7 @@ export default function AdminProductsPage() {
       imagesText: (product.images || []).join("\n"),
       featured: product.featured,
       external_link: product.external_link,
-      published: product.published,
+      published: product.published ?? true,
     });
   };
 
@@ -299,16 +299,28 @@ export default function AdminProductsPage() {
           />
         </div>
 
-        <label className="inline-flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={form.featured}
-            onChange={(e) =>
-              setForm({ ...form, featured: e.target.checked })
-            }
-          />
-          <span>Featured product</span>
-        </label>
+        <div className="flex gap-6">
+          <label className="inline-flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={form.featured}
+              onChange={(e) =>
+                setForm({ ...form, featured: e.target.checked })
+              }
+            />
+            <span>Featured product</span>
+          </label>
+          <label className="inline-flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={form.published ?? true}
+              onChange={(e) =>
+                setForm({ ...form, published: e.target.checked })
+              }
+            />
+            <span>Published</span>
+          </label>
+        </div>
 
         <div className="flex gap-3">
           <button
@@ -382,7 +394,7 @@ export default function AdminProductsPage() {
                   <p className="font-semibold">{p.name}</p>
                   <p className="text-sm text-gray-500">
                     /{p.slug} · {p.price}{" "}
-                    {p.featured ? "· Featured" : ""}
+                    {p.featured ? "· Featured" : ""}{p.published === false ? " · Draft" : ""}
                   </p>
                 </div>
               </div>

@@ -16,6 +16,7 @@ export default function FeaturedProducts() {
         .from("products")
         .select("*")
         .eq("featured", true)
+        .eq("published", true)
         .order("sort_order", { ascending: true })
         .limit(6);
 
