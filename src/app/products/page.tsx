@@ -45,8 +45,8 @@ export default async function ProductsPage() {
           <Image
             src="/ProductCharacter.png"
             alt="Delivery rider"
-            width={900}
-            height={900}
+            width={950}
+            height={910}
             priority
             className="h-full w-auto object-contain object-bottom"
           />
