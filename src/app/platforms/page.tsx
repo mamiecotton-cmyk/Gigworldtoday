@@ -354,10 +354,40 @@ export default function PlatformsPage() {
                 </select>
               </div>
 
+              {/* Alphabet bar */}
+              <div className="flex flex-wrap gap-1 mb-6">
+                {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => {
+                  const hasMatch = sortedPlatforms.some((p) => p.name.charAt(0).toUpperCase() === letter);
+                  return (
+                    <button
+                      key={letter}
+                      disabled={!hasMatch}
+                      onClick={() => {
+                        const el = document.getElementById(`letter-${letter}`);
+                        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }}
+                      className={`w-8 h-8 rounded text-sm font-semibold transition-colors ${
+                        hasMatch
+                          ? "bg-teal-50 text-teal-700 hover:bg-teal-100 cursor-pointer"
+                          : "bg-gray-50 text-gray-300 cursor-default"
+                      }`}
+                    >
+                      {letter}
+                    </button>
+                  );
+                })}
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                {sortedPlatforms.map((platform) => (
-                  <PlatformCard key={platform.id} platform={platform} />
-                ))}
+                {sortedPlatforms.map((platform, idx) => {
+                  const firstLetter = platform.name.charAt(0).toUpperCase();
+                  const isFirstOfLetter = idx === 0 || sortedPlatforms[idx - 1].name.charAt(0).toUpperCase() !== firstLetter;
+                  return (
+                    <div key={platform.id} id={isFirstOfLetter ? `letter-${firstLetter}` : undefined} className="scroll-mt-32">
+                      <PlatformCard platform={platform} />
+                    </div>
+                  );
+                })}
               </div>
             </main>
 
