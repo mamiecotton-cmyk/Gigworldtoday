@@ -257,8 +257,8 @@
     "commissionRate": "85-90%",
     "estimatedPayMin": 21,
     "estimatedPayMax": 29,
-    "estimatedHourlyMin": 20,
-    "estimatedHourlyMax": 27,
+    "estimatedHourlyMin": 96,
+    "estimatedHourlyMax": 142,
     "tipsAllowed": true,
     "tipRetention": "100%",
     "paymentFrequency": "twice_weekly",
@@ -281,7 +281,7 @@
       "B2B delivery"
     ],
     "driverStatus": "active",
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "app_store",
@@ -290,7 +290,9 @@
     ],
     "verificationStatus": "verified",
     "notes": "Senpex is more B2B focused than consumer platforms like DoorDash. Drivers report inconsistent order volume especially outside California. App support has received mixed reviews. Best for drivers with larger vehicles (vans/trucks) who want specialized or catering deliveries.",
-    "setupRequired": false
+    "setupRequired": false,
+    "keyFeatures": "White-glove handling; catering setup; real-time tracking; route management; 85-90% commission.",
+    "userFeedback": "3.4 to 3.9 out of 5; Pros: High commission and fast feedback; Cons: Poor driver support, app glitches, and disappearing orders."
   },
   {
     "id": "deliverthat",
@@ -321,7 +323,7 @@
         "cities": []
       }
     },
-    "lastUpdated": "2024-02-15",
+    "lastUpdated": "2026-02-27",
     "paymentFrequency": "weekly",
     "driverStatus": "active",
     "backgroundCheckRequired": false,
@@ -335,10 +337,12 @@
     ],
     "dataSources": [],
     "deliveryType": "scheduled",
-    "estimatedHourlyMin": 0,
-    "estimatedHourlyMax": 0,
+    "estimatedHourlyMin": 15,
+    "estimatedHourlyMax": 40,
     "otherRequirements": "Larger vehicles preferred for catering orders.",
-    "instantPayAvailable": false
+    "instantPayAvailable": false,
+    "keyFeatures": "Pre-booking orders (day before); 100% tip retention; tiered driver levels.",
+    "userFeedback": "3.3 out of 5 (Indeed); Keeps drivers busy; requires upfront payment for bags/MVR."
   },
   {
     "id": "doordash",
@@ -394,7 +398,7 @@
     "paymentFrequency": "weekly",
     "deliveryType": "on_demand",
     "setupRequired": false,
-    "lastUpdated": "2024-02-15",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "driver_forums"
@@ -403,7 +407,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "DasherDirect card or Fast Pay ($1.99 fee)",
-    "instantPayFee": "$1.99"
+    "instantPayFee": "$1.99",
+    "keyFeatures": "Shop and deliver option; alcohol delivery; toggle filters.",
+    "userFeedback": "Pros: Simple and easy. Cons: Market saturation in small towns."
   },
   {
     "id": "ubereats",
@@ -513,13 +519,13 @@
     "payModel": "per_order",
     "estimatedPayMin": 7,
     "estimatedPayMax": 25,
-    "estimatedHourlyMin": 15,
-    "estimatedHourlyMax": 30,
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 19,
     "tipsAllowed": true,
     "paymentFrequency": "weekly",
     "deliveryType": "on_demand",
     "setupRequired": false,
-    "lastUpdated": "2024-02-15",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "shopper_community"
@@ -528,13 +534,15 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Instant Cashout via Stripe ($0.50 fee, $5 min)",
-    "instantPayFee": "$0.50"
+    "instantPayFee": "$0.50",
+    "keyFeatures": "Grocery shop and delivery; batch orders.",
+    "userFeedback": "Pros: Good for those who prefer shopping. Cons: Honeymoon period for new hires followed by lower pay."
   },
   {
     "id": "expedite",
     "slug": "expedite",
     "name": "Expedite",
-    "description": "Expedite (formerly Dlvrd) specializes in high-paying catering deliveries with instant payouts. Fewer stops, larger payouts per order compared to standard food delivery.",
+    "description": "dlivrd (formerly Expedite) is a catering delivery and specialty logistics platform operating in 180 markets across the U.S. and Canada. Drivers earn $20-$60 per order with an average of $40-$50/hr. Features Emerald Elite tiers, corporate tip transparency, and the ability to stack orders. Same-day pay available via Everee.",
     "logoUrl": "/logos/expedite.png",
     "websiteUrl": "https://expedite.io/drivers/",
     "iosAppUrl": "https://apps.apple.com/us/app/expedite-for-drivers/id6648777219",
@@ -575,13 +583,13 @@
     "payModel": "per_delivery",
     "estimatedPayMin": 20,
     "estimatedPayMax": 50,
-    "estimatedHourlyMin": 20,
-    "estimatedHourlyMax": 40,
+    "estimatedHourlyMin": 40,
+    "estimatedHourlyMax": 50,
     "tipsAllowed": true,
     "paymentFrequency": "instant",
     "deliveryType": "on_demand",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "press_releases",
@@ -591,7 +599,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Instant payouts after delivery",
-    "instantPayFee": "none reported"
+    "instantPayFee": "none reported",
+    "keyFeatures": "Emerald Elite tiers; corporate tip transparency; stacking orders; catering bag requirement tracking. Same-day pay via Everee.",
+    "userFeedback": "2.3 to 3.3 out of 5; Highly favorable for per-order earnings; some complaints about low order frequency and app notification issues."
   },
   {
     "id": "zifty",
@@ -820,13 +830,13 @@
     "payModel": "per_delivery",
     "estimatedPayMin": 12,
     "estimatedPayMax": 25,
-    "estimatedHourlyMin": 12,
-    "estimatedHourlyMax": 25,
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 19,
     "tipsAllowed": true,
     "paymentFrequency": "weekly",
     "deliveryType": "on_demand",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "support_docs"
@@ -835,7 +845,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Instant Cash Out, up to $500/day",
-    "instantPayFee": "small fee"
+    "instantPayFee": "small fee",
+    "keyFeatures": "Food delivery with higher tip-to-base pay ratio (2:1 average).",
+    "userFeedback": "Pros: Higher tip-to-base pay ratio (2:1). Cons: Lower order volume compared to competitors."
   },
   {
     "id": "shipt",
@@ -876,13 +888,13 @@
     "payModel": "per_order",
     "estimatedPayMin": 16,
     "estimatedPayMax": 27,
-    "estimatedHourlyMin": 16,
-    "estimatedHourlyMax": 27,
+    "estimatedHourlyMin": 20,
+    "estimatedHourlyMax": 33,
     "tipsAllowed": true,
     "paymentFrequency": "weekly",
     "deliveryType": "scheduled",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "driver_guides"
@@ -891,7 +903,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Shipt Instant Pay after completing orders",
-    "instantPayFee": "small fee"
+    "instantPayFee": "small fee",
+    "keyFeatures": "Target-owned shopping app; shop and deliver.",
+    "userFeedback": "Pros: High peak holiday earnings. Cons: High variability by location."
   },
   {
     "id": "amazon-flex",
@@ -938,12 +952,12 @@
     "estimatedPayMin": 18,
     "estimatedPayMax": 35,
     "estimatedHourlyMin": 18,
-    "estimatedHourlyMax": 35,
+    "estimatedHourlyMax": 25,
     "tipsAllowed": true,
     "paymentFrequency": "twice_weekly",
     "deliveryType": "scheduled",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "driver_requirements"
@@ -952,7 +966,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Amazon Flex card instant withdrawal",
-    "instantPayFee": "none reported"
+    "instantPayFee": "none reported",
+    "keyFeatures": "Pre-booking blocks; guaranteed earnings visibility before committing.",
+    "userFeedback": "Pros: Earnings transparency. Cons: High competition makes it difficult to secure blocks."
   },
   {
     "id": "gopuff",
@@ -1050,12 +1066,12 @@
     "estimatedPayMin": 15,
     "estimatedPayMax": 25,
     "estimatedHourlyMin": 15,
-    "estimatedHourlyMax": 25,
+    "estimatedHourlyMax": 50,
     "tipsAllowed": true,
     "paymentFrequency": "weekly",
     "deliveryType": "on_demand",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "requirements_page"
@@ -1064,7 +1080,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Instant Pay to debit card, up to 5x/day",
-    "instantPayFee": "small fee"
+    "instantPayFee": "small fee",
+    "keyFeatures": "Upfront fares; Uber Pro Card (cash back on gas); toggle between transport and Uber Eats; Instant Pay up to 6x daily for $0.85 fee.",
+    "userFeedback": "Variable; High peak earnings but concerns over vehicle maintenance, depreciation, and declining pay rates."
   },
   {
     "id": "lyft",
@@ -1106,12 +1124,12 @@
     "estimatedPayMin": 15,
     "estimatedPayMax": 25,
     "estimatedHourlyMin": 15,
-    "estimatedHourlyMax": 25,
+    "estimatedHourlyMax": 33,
     "tipsAllowed": true,
     "paymentFrequency": "weekly",
     "deliveryType": "on_demand",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "driver_application_requirements"
@@ -1120,7 +1138,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Express Pay or Lyft Direct debit card (free)",
-    "instantPayFee": "free with Lyft Direct, small fee with Express Pay"
+    "instantPayFee": "free with Lyft Direct, small fee with Express Pay",
+    "keyFeatures": "Turbo earnings (10-40% more); Ride Challenges; Bonus Zones; Express Drive (car rental); Express Pay daily for fee; Lyft Direct instant pay.",
+    "userFeedback": "Positive for bonus opportunities; keep 100% of tips; earnings vary heavily by location and timing."
   },
   {
     "id": "roadie",
@@ -1165,13 +1185,13 @@
     "payModel": "per_delivery",
     "estimatedPayMin": 12,
     "estimatedPayMax": 100,
-    "estimatedHourlyMin": 12,
-    "estimatedHourlyMax": 30,
+    "estimatedHourlyMin": 20,
+    "estimatedHourlyMax": 20,
     "tipsAllowed": true,
     "paymentFrequency": "weekly",
     "deliveryType": "on_demand",
     "setupRequired": false,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "driver_review_sites"
@@ -1180,7 +1200,9 @@
     "driverStatus": "active",
     "instantPayAvailable": true,
     "instantPayMethod": "Instant Pay (requires 5+ completed gigs, 7+ days active)",
-    "instantPayFee": "small fee"
+    "instantPayFee": "small fee",
+    "keyFeatures": "Owned by UPS; map-based offer selection; diverse items (luggage to furniture).",
+    "userFeedback": "Pros: Visual map for jobs. Cons: High mileage required for low-paying deliveries (e.g., CVS)."
   },
   {
     "id": "taskrabbit",
@@ -1443,20 +1465,22 @@
     "payModel": "per_delivery",
     "estimatedPayMin": 45,
     "estimatedPayMax": 168,
-    "estimatedHourlyMin": 45,
+    "estimatedHourlyMin": 40,
     "estimatedHourlyMax": 168,
     "tipsAllowed": true,
     "paymentFrequency": "weekly",
     "deliveryType": "on_demand",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "driver_reviews"
     ],
     "verificationStatus": "verified",
     "driverStatus": "active",
-    "instantPayAvailable": false
+    "instantPayAvailable": false,
+    "keyFeatures": "Load board notifications; proof of delivery tools; healthcare discounts; last mile delivery. Earnings depend on vehicle type.",
+    "userFeedback": "4.7 out of 5 (12K ratings); High earnings for large vehicles; some reports of project requests not appearing; requires DOT number for sign-up."
   },
   {
     "id": "caviar",
@@ -2177,12 +2201,12 @@
     "estimatedPayMin": 10,
     "estimatedPayMax": 50,
     "estimatedHourlyMin": 10,
-    "estimatedHourlyMax": 30,
+    "estimatedHourlyMax": 50,
     "tipsAllowed": false,
     "paymentFrequency": "daily",
     "deliveryType": "on_demand",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "help_center",
@@ -2190,7 +2214,9 @@
     ],
     "verificationStatus": "verified",
     "driverStatus": "active",
-    "instantPayAvailable": false
+    "instantPayAvailable": true,
+    "keyFeatures": "Bidding system for carriers; upfront pay transparency; route navigation; fuel discount program access. Instant Pay available (1% fee).",
+    "userFeedback": "3.0 out of 5; Favored by owners of larger vehicles; better pay than food delivery; noted long approval wait times and unhelpful support."
   },
   {
     "id": "frayt",
@@ -2241,14 +2267,16 @@
     "paymentFrequency": "within_48_hours",
     "deliveryType": "on_demand",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-27",
     "dataSources": [
       "official_website",
       "driver_job_listings"
     ],
     "verificationStatus": "verified",
     "driverStatus": "active",
-    "instantPayAvailable": false
+    "instantPayAvailable": true,
+    "keyFeatures": "Preferred Driver Program; Branch app integration; stacked offers (up to 3); 24/7 support; box truck options. Daily payouts available.",
+    "userFeedback": "4.3 to 4.8 out of 5; Positive for local runs and communication; frustration over $40 non-refundable application fee and glitchy app."
   },
   {
     "id": "metrobi",
@@ -2443,66 +2471,525 @@
     "verificationStatus": "verified",
     "driverStatus": "active",
     "instantPayAvailable": false
-  }
-
-    ,
-    {
-      "id": "airspace",
-      "slug": "airspace",
-      "name": "Airspace",
-      "description": "Time-critical courier platform specializing in urgent shipments like organ transplants, aircraft parts, and semiconductors. Drivers (called Commanders) handle local and airport pickups/dropoffs nationwide with 24/7 dispatch and flexible scheduling.",
-      "logoUrl": "/logos/airspace.png",
-      "websiteUrl": "https://www.airspace.com/drive-with-us",
-      "iosAppUrl": "https://apps.apple.com/us/app/driver-partner/id1034612629",
-      "androidAppUrl": "https://play.google.com/store/apps/details?id=com.firstdelivery.driverapp",
-      "categories": [
-        "specialty_courier",
-        "courier",
-        "same_day_delivery",
-        "last_mile"
-      ],
-      "minAge": 21,
-      "backgroundCheckRequired": true,
-      "vehicleTypes": [
-        "sedan",
-        "van",
-        "cargo_van",
-        "box_truck"
-      ],
-      "licenseRequired": true,
-      "insuranceRequired": true,
-      "equipmentNeeded": [
-        "smartphone"
-      ],
-      "countries": [
-        "USA"
-      ],
-      "regions": {
-        "USA": {
-          "status": "Available",
-          "waitlistStatus": "open",
-          "cities": []
-        }
+  },
+  {
+    "id": "airspace",
+    "slug": "airspace",
+    "name": "Airspace",
+    "description": "Time-critical courier platform specializing in urgent shipments like organ transplants, aircraft parts, and semiconductors. Drivers (called Commanders) handle local and airport pickups/dropoffs nationwide with 24/7 dispatch and flexible scheduling.",
+    "logoUrl": "/logos/airspace.png",
+    "websiteUrl": "https://www.airspace.com/drive-with-us",
+    "iosAppUrl": "https://apps.apple.com/us/app/driver-partner/id1034612629",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.firstdelivery.driverapp",
+    "categories": [
+      "specialty_courier",
+      "courier",
+      "same_day_delivery",
+      "last_mile"
+    ],
+    "minAge": 21,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "sedan",
+      "van",
+      "cargo_van",
+      "box_truck"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Available",
+        "waitlistStatus": "open",
+        "cities": []
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedHourlyMin": 16,
+    "estimatedHourlyMax": 28,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "on_demand",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "rebrandedTo": null,
+    "rebrandedUrl": null,
+    "redirectMessage": null,
+    "lastUpdated": "2026-02-25",
+    "dataSources": [
+      "airspace.com",
+      "ziprecruiter.com",
+      "indeed.com",
+      "app store reviews"
+    ],
+    "verificationStatus": "verified"
+  },
+  {
+    "id": "american-expediting",
+    "slug": "american-expediting",
+    "name": "American Expediting",
+    "description": "American Expediting is a medical and specialized courier service operating nationwide with 50+ locations in the U.S. and Canada. Drivers handle time-sensitive deliveries including medical specimens, legal documents, and other critical materials. The platform offers TSA, HIPAA, and Bloodborne Pathogens certification access, fuel and insurance discounts, and digital management via Openforce.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.amexpediting.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "medical_courier",
+      "specialized_delivery",
+      "same_day_delivery"
+    ],
+    "minAge": 21,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA",
+      "Canada"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
       },
-      "payModel": "per_delivery",
-      "estimatedHourlyMin": 16,
-      "estimatedHourlyMax": 28,
-      "tipsAllowed": false,
-      "paymentFrequency": "weekly",
-      "instantPayAvailable": false,
-      "deliveryType": "on_demand",
-      "usesThirdPartyDelivery": false,
-      "driverStatus": "active",
-      "rebrandedTo": null,
-      "rebrandedUrl": null,
-      "redirectMessage": null,
-      "lastUpdated": "2026-02-25",
-      "dataSources": [
-        "airspace.com",
-        "ziprecruiter.com",
-        "indeed.com",
-        "app store reviews"
-      ],
-      "verificationStatus": "verified"
-    }
-  ]
+      "Canada": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "hourly",
+    "estimatedHourlyMin": 16,
+    "estimatedHourlyMax": 20,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "on_demand",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website",
+      "indeed"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": true,
+    "keyFeatures": "TSA, HIPAA, and Bloodborne Pathogens certification access; fuel and insurance discounts; digital management via Openforce.",
+    "userFeedback": "2.9 out of 5 (Indeed); Professional environment with high reliability expectations; noted significant insurance (100/300) and upfront fees."
+  },
+  {
+    "id": "field-agent",
+    "slug": "field-agent",
+    "name": "Field Agent",
+    "description": "Field Agent is a retail audit and mystery shopping platform where gig workers complete in-store tasks like photo audits, price checks, and product displays. No car is required - tasks are accessible via walking or transit. Earn $3 to $20+ per task with an equivalent hourly rate of $28-$30/hr.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.fieldagent.net",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "retail_audit",
+      "mystery_shopping",
+      "task_based"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": false,
+    "vehicleTypes": [
+      "none",
+      "car",
+      "bike"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_task",
+    "estimatedHourlyMin": 28,
+    "estimatedHourlyMax": 30,
+    "tipsAllowed": false,
+    "paymentFrequency": "direct_deposit",
+    "instantPayAvailable": false,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "In-store tasks; photo audits; mystery shopping; no car required.",
+    "userFeedback": "Pros: Accessible via walking/transit. Cons: Highly competitive; jobs claimed in seconds."
+  },
+  {
+    "id": "hyer",
+    "slug": "hyer",
+    "name": "Hyer",
+    "description": "Hyer is an on-demand staffing platform focused on retail merchandising, admin tasks, and general labor. Workers pick up hourly shifts with in-app status updates, a rating system, and Hyer Profiles. Background check costs are covered via earnings. Active in 27 states with heavy concentration in the Midwest.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.gethyer.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "staffing",
+      "retail",
+      "admin",
+      "general_labor"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": [
+          "Detroit",
+          "Chicago",
+          "Columbus",
+          "Philadelphia",
+          "Indianapolis"
+        ]
+      }
+    },
+    "payModel": "hourly",
+    "estimatedHourlyMin": 15,
+    "estimatedHourlyMax": 25,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": true,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website",
+      "app_store"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "In-app status updates; rating system; Hyer Profiles; messaging system; background check cost covered via earnings.",
+    "userFeedback": "4.7 out of 5 (App Store); Good for retail flexibility; noted long background check times and limited assignments in some areas."
+  },
+  {
+    "id": "instawork",
+    "slug": "instawork",
+    "name": "Instawork",
+    "description": "Instawork is a staffing platform for general labor and hospitality shifts offering a hybrid 1099 and W-2 model. Workers get transparent hourly rates, full 8-hour blocks, and a Reliability score tracking system. Active in 40+ major U.S. markets. Instapay lets you access 60% of earnings within 1 hour for a 5% fee.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.instawork.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "staffing",
+      "hospitality",
+      "general_labor",
+      "warehouse"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": [
+          "Chicago",
+          "Detroit",
+          "Riverside",
+          "Los Angeles",
+          "Dallas"
+        ]
+      }
+    },
+    "payModel": "hourly",
+    "estimatedHourlyMin": 16,
+    "estimatedHourlyMax": 30,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": true,
+    "deliveryType": "shift_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "Hybrid 1099 and W-2 model; Reliability score tracking; rigorous vetting; full 8-hour blocks; Instapay (60% of earnings in 1 hour for 5% fee).",
+    "userFeedback": "Highly positive; perceived as professional and reliable; Instapay requires 2 completed shifts and a 7-day wait."
+  },
+  {
+    "id": "observa",
+    "slug": "observa",
+    "name": "Observa",
+    "description": "Observa is a retail audit platform where gig workers earn $10-$25 per gig completing photo audits, merchandising checks, and product displays in stores. Jobs can be reserved for up to 2 hours and payment is sent instantly via PayPal after approval.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.observanow.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "retail_audit",
+      "merchandising",
+      "task_based"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": false,
+    "vehicleTypes": [
+      "none",
+      "car",
+      "bike"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_task",
+    "estimatedHourlyMin": 10,
+    "estimatedHourlyMax": 25,
+    "tipsAllowed": false,
+    "paymentFrequency": "instant",
+    "instantPayAvailable": true,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "Photo audits; merchandising; 2-hour job reservations; PayPal instant payment.",
+    "userFeedback": "Pros: High pay per gig relative to time. Cons: Lower job volume."
+  },
+  {
+    "id": "poplin",
+    "slug": "poplin",
+    "name": "Poplin",
+    "description": "Poplin (formerly Laundry Pros) is a specialty home services platform where workers wash, dry, and fold laundry from home. Earn $0.75-$1.50 per pound plus tips, with top earners making up to $6,000/month. Features a ranking system (Bronze/Silver/Gold) and in-app messaging. Active in 500+ cities across the U.S. and Canada.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.poplin.co",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "home_services",
+      "laundry",
+      "work_from_home"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone",
+      "washer",
+      "dryer"
+    ],
+    "countries": [
+      "USA",
+      "Canada"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      },
+      "Canada": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_unit",
+    "estimatedHourlyMin": 20,
+    "estimatedHourlyMax": 40,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": true,
+    "keyFeatures": "Ranking system (Bronze/Silver/Gold); garment protection plan; detergent choice; in-app messaging; work from home.",
+    "userFeedback": "3.3 to 4.4 out of 5; Great for work-from-home roles; community feel; some complaints about app glitches and strict penalties."
+  },
+  {
+    "id": "qwick",
+    "slug": "qwick",
+    "name": "Qwick",
+    "description": "Qwick is a hospitality staffing platform connecting workers with shifts at restaurants, hotels, catering companies, and event venues. Offers both 1099 and W-2 options with competitive market-based hourly rates. Features an AI matching assistant (Mara) and Stripe-powered payments. Active in 40+ major U.S. cities.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.qwick.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "hospitality",
+      "staffing",
+      "food_service",
+      "events"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": [
+          "Atlanta",
+          "Chicago",
+          "Dallas",
+          "Miami",
+          "New York",
+          "Phoenix"
+        ]
+      }
+    },
+    "payModel": "hourly",
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 30,
+    "tipsAllowed": true,
+    "paymentFrequency": "within_48_hours",
+    "instantPayAvailable": true,
+    "deliveryType": "shift_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "1099 and W-2 options; AI matching assistant (Mara); 1:1 orientation; Stripe-powered payments; Instant Pay (30 mins for 3% fee).",
+    "userFeedback": "Very high ratings; respected for high-quality shifts and fast pay; strict no-show policy leads to permanent suspension."
+  },
+  {
+    "id": "shiftnow",
+    "slug": "shiftnow",
+    "name": "shiftNOW",
+    "description": "shiftNOW is a hospitality and event staffing platform operating primarily in the Southeast U.S. Workers earn $19-$20/hr on most jobs across 40+ role types. Features a comprehensive profile with video, performance metrics, and Stripe-powered transfers. Pay within 48 hours or Instant Pay (1 hour for 3% fee).",
+    "logoUrl": null,
+    "websiteUrl": "https://www.shiftnow.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "hospitality",
+      "event_staffing",
+      "staffing"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": [
+          "Charleston",
+          "Atlanta",
+          "Nashville",
+          "Savannah",
+          "Memphis"
+        ]
+      }
+    },
+    "payModel": "hourly",
+    "estimatedHourlyMin": 19,
+    "estimatedHourlyMax": 20,
+    "tipsAllowed": true,
+    "paymentFrequency": "within_48_hours",
+    "instantPayAvailable": true,
+    "deliveryType": "shift_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-02-27",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "Comprehensive Shifter profile with video; performance metrics; 40+ role types; Stripe-powered transfers; Instant Pay (1 hour for 3% fee).",
+    "userFeedback": "3.5 to 4.6 out of 5; Highly positive for flexibility and quality venues; some reports of technical registration issues."
+  }
+]
