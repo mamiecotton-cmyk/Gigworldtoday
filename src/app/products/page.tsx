@@ -16,7 +16,7 @@ export default async function ProductsPage() {
   const { data: productsData, error } = await supabase
     .from("products")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("sort_order", { ascending: true });
 
   const products = productsData ?? [];
 
@@ -57,11 +57,11 @@ export default async function ProductsPage() {
         {/* Text content */}
         <div className="relative z-10 h-full flex items-start pt-12 md:items-center md:pt-0">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-            <div className="max-w-lg">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+            <div className="max-w-[55%] sm:max-w-[60%] md:max-w-lg">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 The Tools to Boost Your Gigs
               </h1>
-              <p className="mt-5 text-lg md:text-xl text-gray-200 leading-relaxed">
+              <p className="mt-3 md:mt-5 text-sm sm:text-base md:text-xl text-gray-200 leading-relaxed">
                 Gear and apps to help drivers maximize earnings and operate like 5-star pros.
               </p>
             </div>

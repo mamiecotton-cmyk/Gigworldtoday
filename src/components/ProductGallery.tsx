@@ -1,97 +1,97 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { ProductRecord } from "@/lib/products";
+import { useState } from "react";
 
-type Props = {
-  product: ProductRecord;
+type ImageGalleryProps = {
+  images: string[];
+  productName: string;
 };
 
-export default function ProductGallery({ product }: Props) {
-  const images = product.images && product.images.length ? product.images : [product.image];
-  const [activeImage, setActiveImage] = useState(images[0]);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-
-  useEffect(() => {
-    if (!lightboxOpen) return;
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setLightboxOpen(false);
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightboxOpen]);
+export default function ImageGallery({ images, productName }: ImageGalleryProps) {
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
   return (
-    <div>
-      <div className="w-full rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={() => setLightboxOpen(true)}
-          className="block w-full"
-          aria-label="Open image"
-        >
-          <img
-            src={activeImage}
-            alt={product.name}
-            className="max-h-[200px] sm:max-h-[260px] md:max-h-[320px] lg:max-h-[380px] w-auto max-w-full object-contain rounded-lg"
-          />
-        </button>
-      </div>
-
-      <div className="mt-4 grid grid-cols-4 gap-3">
-        {images.map((img) => (
+    <>
+      {/* Thumbnails */}
+      <div className="flex gap-3 overflow-x-auto">
+        {images.map((img, idx) => (
           <button
-            key={img}
-            onClick={() => setActiveImage(img)}
-            className={`rounded-lg overflow-hidden border ${img === activeImage ? 'ring-2 ring-teal-400' : ''}`}
+            key={idx}
+            onClick={() => setLightboxIdx(idx)}
+            className="h-20 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 border-white/20 bg-white/10 backdrop-blur-sm transition-all hover:border-white/50 hover:scale-105 cursor-pointer"
           >
-            <img src={img} className="h-20 w-20 object-cover" alt="thumbnail" />
+            <img
+              src={img}
+              alt={`${productName} ${idx + 1}`}
+              className="h-full w-full object-contain p-1"
+            />
           </button>
         ))}
       </div>
 
-      {lightboxOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/70"
-            onClick={() => setLightboxOpen(false)}
+      {/* Lightbox */}
+      {lightboxIdx !== null && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={() => setLightboxIdx(null)}
+        >
+          {/* Close button */}
+          <button
+            onClick={() => setLightboxIdx(null)}
+            className="absolute top-6 right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            aria-label="Close"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Previous button */}
+          {images.length > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIdx((lightboxIdx - 1 + images.length) % images.length);
+              }}
+              className="absolute left-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+              aria-label="Previous image"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+          )}
+
+          {/* Image */}
+          <img
+            src={images[lightboxIdx]}
+            alt={`${productName} ${lightboxIdx + 1}`}
+            className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"
+            onClick={(e) => e.stopPropagation()}
           />
 
-          <div className="relative mx-4 max-h-[90vh] max-w-[96vw]">
+          {/* Next button */}
+          {images.length > 1 && (
             <button
-              type="button"
-              onClick={() => setLightboxOpen(false)}
-              className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-2 text-gray-800 hover:bg-white"
-              aria-label="Close"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIdx((lightboxIdx + 1) % images.length);
+              }}
+              className="absolute right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+              aria-label="Next image"
             >
-              ×
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
             </button>
+          )}
 
-            <div className="flex items-center justify-center">
-              <img
-                src={activeImage}
-                alt={product.name}
-                className="max-h-[90vh] w-auto max-w-full object-contain rounded-lg shadow-lg"
-              />
-            </div>
-
-            {images.length > 1 && (
-              <div className="mt-3 flex gap-2 overflow-auto px-2">
-                {images.map((img) => (
-                  <button
-                    key={img}
-                    onClick={() => setActiveImage(img)}
-                    className={`rounded-md border ${img === activeImage ? 'ring-2 ring-teal-400' : ''}`}
-                  >
-                    <img src={img} className="h-16 w-16 object-cover" alt="thumb" />
-                  </button>
-                ))}
-              </div>
-            )}
+          {/* Image counter */}
+          <div className="absolute bottom-6 text-sm text-white/60">
+            {lightboxIdx + 1} / {images.length}
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
