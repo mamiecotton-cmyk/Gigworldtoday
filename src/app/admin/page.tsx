@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
   const [articles, setArticles] = useState<any[]>([]);
+  const [productCount, setProductCount] = useState(0);
+  const [subscriberCount, setSubscriberCount] = useState(0);
   const router = useRouter();
 
   const fetchArticles = async () => {
@@ -21,6 +23,8 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchArticles();
+    supabase.from("products").select("id", { count: "exact", head: true }).then(({ count }) => setProductCount(count || 0));
+    supabase.from("email_subscribers").select("id", { count: "exact", head: true }).then(({ count }) => setSubscriberCount(count || 0));
   }, []);
 
   const handleDelete = async (id: string) => {
