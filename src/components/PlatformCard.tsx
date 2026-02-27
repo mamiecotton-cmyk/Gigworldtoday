@@ -56,6 +56,7 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
   return (
     <Link
       href={`/platforms/${platform.slug}`}
+      onClick={() => sessionStorage.setItem("platforms-scroll", String(window.scrollY))}
       className="group relative rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-300 transition-all duration-300 p-5 flex flex-col overflow-hidden"
     >
       {/* Teal top accent */}

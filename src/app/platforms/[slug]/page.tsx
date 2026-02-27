@@ -196,7 +196,8 @@ export default function PlatformDetailPage() {
                 href={platform.applyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00C9B1] text-white rounded-lg font-semibold hover:bg-[#00b5a0] transition"
+                className={`inline-flex items-center gap-2 px-5 py-2.5 text-white rounded-lg font-semibold transition ${platform.applyButtonColor ? "" : "bg-[#00C9B1] hover:bg-[#00b5a0]"}`}
+                style={platform.applyButtonColor ? { backgroundColor: platform.applyButtonColor } : undefined}
               >
                 Apply Now <ExternalLink size={16} />
               </a>

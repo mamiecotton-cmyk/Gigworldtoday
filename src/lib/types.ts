@@ -8,6 +8,7 @@ export interface Platform {
   logoUrl: string;
   websiteUrl: string;
   applyUrl?: string;
+  applyButtonColor?: string;
   iosAppUrl?: string;
   androidAppUrl?: string;
 

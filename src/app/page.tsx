@@ -490,8 +490,7 @@ export default function HomePage() {
             />
 
             <div
-              className="transition-all duration-300 relative w-full sm:w-[260px]"
-              style={{ marginLeft: typeof window !== "undefined" && window.innerWidth >= 640 ? -32 : 0, marginBottom: 32 }}
+              className="transition-all duration-300 relative w-full sm:w-[260px] sm:-ml-8 mb-8"
             >
               {/* Close button */}
               <button
