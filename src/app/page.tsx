@@ -419,23 +419,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      <FeaturedProducts />
+
       {/* TOOLS / PRODUCTS SECTION */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-20">
         <div className="container mx-auto px-8">
           <h2 className="text-3xl font-bold mb-8">Tools to Boost Your Gig</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[1,2,3].map((item) => (
-              <div key={item} className="border border-gray-100 p-6 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white relative">
+              <Link key={item} href="/products" className="border border-gray-100 p-6 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white relative block">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-emerald-400 mb-4" />
                 <h3 className="font-semibold mb-2">Recommended Tool</h3>
                 <p className="text-sm text-gray-500">Gear and apps that help maximize earnings.</p>
-              </div>
+                <span className="mt-4 inline-block text-sm font-semibold text-teal-600">Learn More →</span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
-
-      <FeaturedProducts />
 
       {/* EMAIL CAPTURE SECTION */}
       <section className="relative bg-black py-24 text-white overflow-hidden">

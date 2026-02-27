@@ -16,7 +16,7 @@ export default function FeaturedProducts() {
         .from("products")
         .select("*")
         .eq("featured", true)
-        .order("created_at", { ascending: false })
+        .order("sort_order", { ascending: true })
         .limit(3);
 
       setProducts((data || []) as ProductRecord[]);
