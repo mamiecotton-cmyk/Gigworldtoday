@@ -67,6 +67,14 @@ export default function AdminDashboard() {
           <p className="text-sm text-gray-500">Drafts</p>
           <p className="text-2xl font-bold">{draftCount}</p>
         </div>
+        <div className="p-6 border rounded-lg">
+          <p className="text-sm text-gray-500">Products</p>
+          <p className="text-2xl font-bold">{productCount}</p>
+        </div>
+        <div className="p-6 border rounded-lg">
+          <p className="text-sm text-gray-500">Subscribers</p>
+          <p className="text-2xl font-bold">{subscriberCount}</p>
+        </div>
       </div>
 
       {/* Quick Actions */}
