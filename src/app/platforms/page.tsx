@@ -32,7 +32,17 @@ export default function PlatformsPage() {
   const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [loading, setLoading] = useState(true);
   const [submittedQuery, setSubmittedQuery] = useState("");
+  const [sortBy, setSortBy] = useState("a-z");
   const [filters, setFilters] = useState<FilterOptions>({});
+
+  // Restore scroll position when returning to this page
+  useEffect(() => {
+    const saved = sessionStorage.getItem("platforms-scroll");
+    if (saved) {
+      setTimeout(() => window.scrollTo(0, parseInt(saved)), 100);
+      sessionStorage.removeItem("platforms-scroll");
+    }
+  }, []);
 
   // Load and normalize platforms
   useEffect(() => {
@@ -169,6 +179,31 @@ export default function PlatformsPage() {
     return list;
   }, [platforms, submittedQuery, filters]);
 
+  // Sorted platforms derived from filteredPlatforms and sortBy
+  const sortedPlatforms = useMemo(() => {
+    const list = [...filteredPlatforms];
+    switch (sortBy) {
+      case "a-z":
+        return list.sort((a, b) => a.name.localeCompare(b.name));
+      case "z-a":
+        return list.sort((a, b) => b.name.localeCompare(a.name));
+      case "newest":
+        return list.sort((a, b) => {
+          const aIdx = platforms.findIndex(p => p.id === a.id);
+          const bIdx = platforms.findIndex(p => p.id === b.id);
+          return bIdx - aIdx;
+        });
+      case "popular":
+        return list.sort((a, b) => {
+          const aScore = (a.estimatedHourlyMax || 0) + ((a as any).instantPayAvailable ? 10 : 0) + (a.tipsAllowed ? 5 : 0);
+          const bScore = (b.estimatedHourlyMax || 0) + ((b as any).instantPayAvailable ? 10 : 0) + (b.tipsAllowed ? 5 : 0);
+          return bScore - aScore;
+        });
+      default:
+        return list;
+    }
+  }, [filteredPlatforms, sortBy]);
+
   // Build dynamic filter options from platform data
   const vehicleOptions = useMemo(
     () =>
@@ -288,27 +323,39 @@ export default function PlatformsPage() {
                 Browse Platforms
               </h1>
 
-              <div className="mb-8 text-slate-600">
+              <div className="flex items-center justify-between mb-8">
+                <div className="text-slate-600">
                 {submittedQuery ? (
-                  filteredPlatforms.length === 0 ? (
+                  sortedPlatforms.length === 0 ? (
                     <>
                       No platforms currently available near{" "}
                       <b>{submittedQuery}</b>.
                     </>
                   ) : (
                     <>
-                      Showing {filteredPlatforms.length} platform
-                      {filteredPlatforms.length > 1 ? "s" : ""} near{" "}
+                      Showing {sortedPlatforms.length} platform
+                      {sortedPlatforms.length > 1 ? "s" : ""} near{" "}
                       <b>{submittedQuery}</b>.
                     </>
                   )
                 ) : (
-                  <>Showing all {filteredPlatforms.length} active platforms.</>
+                  <>Showing all {sortedPlatforms.length} active platforms.</>
                 )}
+                </div>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-700 bg-white cursor-pointer hover:border-gray-300 transition-colors"
+                >
+                  <option value="a-z">A → Z</option>
+                  <option value="z-a">Z → A</option>
+                  <option value="newest">Newest Added</option>
+                  <option value="popular">Most Popular</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                {filteredPlatforms.map((platform) => (
+                {sortedPlatforms.map((platform) => (
                   <PlatformCard key={platform.id} platform={platform} />
                 ))}
               </div>
