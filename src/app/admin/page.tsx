@@ -79,6 +79,12 @@ export default function AdminDashboard() {
         >
           Manage Products
         </Link>
+        <Link
+          href="/admin/subscribers"
+          className="px-4 py-2 border border-black text-black rounded ml-3"
+        >
+          Email Subscribers
+        </Link>
       </div>
 
       {/* Recent Articles */}

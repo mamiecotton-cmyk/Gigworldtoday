@@ -429,14 +429,39 @@ export default function HomePage() {
         <div className="container mx-auto px-8 text-center relative">
           <h2 className="text-3xl font-bold mb-4">Stay Ahead of Platform Changes</h2>
           <p className="text-white/70 mb-6">Join gig workers getting updates and earning strategies.</p>
-          <div className="max-w-md mx-auto flex">
+          <form
+            className="max-w-md mx-auto flex"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const input = e.currentTarget.querySelector("input") as HTMLInputElement;
+              const email = input.value.trim();
+              if (!email) return;
+              try {
+                const res = await fetch("/api/subscribe", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email }),
+                });
+                const data = await res.json();
+                if (res.ok) {
+                  alert("You're in! Thanks for subscribing.");
+                  input.value = "";
+                } else {
+                  alert(data.error || "Something went wrong.");
+                }
+              } catch {
+                alert("Something went wrong. Try again.");
+              }
+            }}
+          >
             <input
               type="email"
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 rounded-l-xl text-black outline-none"
+              required
             />
-            <button className="bg-gradient-to-r from-teal-500 to-emerald-500 px-6 py-3 rounded-r-xl font-semibold hover:opacity-90 transition shadow-lg">Join</button>
-          </div>
+            <button type="submit" className="bg-gradient-to-r from-teal-500 to-emerald-500 px-6 py-3 rounded-r-xl font-semibold hover:opacity-90 transition shadow-lg">Join</button>
+          </form>
         </div>
       </section>
 
