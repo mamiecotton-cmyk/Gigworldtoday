@@ -67,7 +67,7 @@ export default function PlatformDetailPage() {
   );
 
   const usaRegion = platform.regions?.USA || platform.regions?.US;
-  const waitlistStatus = usaRegion?.waitlistStatus || "unknown";
+  const waitlistStatus = usaRegion?.waitlistStatus || (platform.driverStatus === "active" ? "open" : "unknown");
   const regionStatus = usaRegion?.status || "";
   const cities = usaRegion?.cities || [];
 
