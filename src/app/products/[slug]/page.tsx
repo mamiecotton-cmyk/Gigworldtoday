@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabaseServer";
+import ImageGallery from "@/components/ProductGallery";
 
 export const dynamic = "force-dynamic";
 
@@ -52,7 +53,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
   const description = product.long_description || product.short_description || "";
 
-  // Parse description: split into paragraphs and bullet points
   const lines = description.split("\n").map((l: string) => l.trim()).filter(Boolean);
   const paragraphs: string[] = [];
   const bulletPoints: string[] = [];
@@ -66,6 +66,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   });
 
   const isFeatured = product.featured === true;
+  const isBook = slug === "how-to-be-a-5-star-gig-worker";
 
   return (
     <div className="min-h-screen">
@@ -78,7 +79,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             : "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
         }}
       >
-        {/* Subtle decorative glow */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-40 right-0 h-[500px] w-[500px] rounded-full bg-teal-400/10 blur-3xl" />
           <div className="absolute bottom-0 left-1/4 h-[300px] w-[300px] rounded-full bg-blue-400/10 blur-3xl" />
@@ -86,10 +86,9 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
         <div className="relative mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-24">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            {/* Left: Text Content */}
             <div className="space-y-6">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-300">
-                {slug === "how-to-be-a-5-star-gig-worker" ? "Built by a Driver. For Drivers." : isFeatured ? "Featured Product" : "Product"}
+                {isBook ? "Built by a Driver. For Drivers." : isFeatured ? "Featured Product" : "Product"}
               </p>
               <h1 className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
                 {product.name}
@@ -110,7 +109,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                     rel="noopener noreferrer"
                     className="inline-flex items-center rounded-xl bg-orange-500 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 hover:bg-orange-400 hover:shadow-xl hover:shadow-orange-500/30"
                   >
-                    {slug === "how-to-be-a-5-star-gig-worker" ? "Get the Book →" : "Buy Now →"}
+                    {isBook ? "Get the Book →" : "Buy Now →"}
                   </a>
                 )}
                 <Link
@@ -124,7 +123,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
             {/* Right: Product Image */}
             {images.length > 0 && (
-              <div className="flex justify-center lg:justify-end">
+              <div className="flex flex-col items-center lg:items-end gap-6">
                 <div className="relative">
                   <div className="absolute inset-4 rounded-2xl bg-black/30 blur-2xl" />
                   <img
@@ -133,6 +132,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                     className="relative z-10 max-h-[480px] w-auto rounded-lg object-contain drop-shadow-2xl"
                   />
                 </div>
+
+                {/* Thumbnail gallery with click-to-enlarge */}
+                {images.length > 1 && (
+                  <ImageGallery images={images} productName={product.name} />
+                )}
               </div>
             )}
           </div>
@@ -144,7 +148,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         <section className="bg-gray-50">
           <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
             <div className={bulletPoints.length > 0 ? "grid gap-12 lg:grid-cols-2" : ""}>
-              {/* Paragraphs */}
               <div className="space-y-5">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-teal-600">
                   About This Product
@@ -163,7 +166,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 )}
               </div>
 
-              {/* Bullet points (if any) */}
               {bulletPoints.length > 0 && (
                 <div className="space-y-4 lg:pt-12">
                   {bulletPoints.map((point, idx) => (
@@ -185,7 +187,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                         rel="noopener noreferrer"
                         className="inline-flex items-center rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-teal-500 hover:shadow-md"
                       >
-                        View Product →
+                        {isBook ? "Start With the Book →" : "View Product →"}
                       </a>
                     )}
                   </div>
@@ -196,44 +198,13 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         </section>
       )}
 
-      {/* Additional Images */}
-      {images.length > 1 && (
-        <section className="border-t border-gray-200 bg-white">
-          <div className="mx-auto max-w-6xl px-6 py-12 lg:px-8">
-            <p className="mb-6 text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">
-              More Images
-            </p>
-            <div className="flex gap-4 overflow-x-auto">
-              {images.map((img: string, idx: number) => (
-                <div
-                  key={idx}
-                  className="h-48 w-36 flex-shrink-0 overflow-hidden rounded-xl border border-gray-200 bg-gray-50"
-                >
-                  <img
-                    src={img}
-                    alt={`${product.name} ${idx + 1}`}
-                    className="h-full w-full object-contain p-2"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Back Navigation */}
       <section className="border-t border-gray-200 bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap gap-6 px-6 py-6 lg:px-8">
-          <Link
-            href="/products"
-            className="text-sm font-semibold text-gray-600 transition-colors hover:text-gray-900"
-          >
+          <Link href="/products" className="text-sm font-semibold text-gray-600 transition-colors hover:text-gray-900">
             ← Back to Products
           </Link>
-          <Link
-            href="/"
-            className="text-sm font-semibold text-gray-600 transition-colors hover:text-gray-900"
-          >
+          <Link href="/" className="text-sm font-semibold text-gray-600 transition-colors hover:text-gray-900">
             Back to Homepage
           </Link>
         </div>
