@@ -53,7 +53,7 @@ export default async function ProductsPage() {
         </div>
 
         {/* Text content */}
-        <div className="relative z-10 h-full flex items-center">
+        <div className="relative z-10 h-full flex items-start pt-12 md:items-center md:pt-0">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
             <div className="max-w-lg">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
