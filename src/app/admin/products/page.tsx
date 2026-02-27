@@ -15,6 +15,7 @@ type ProductRow = {
   featured: boolean;
   external_link: string;
   sort_order?: number;
+  published?: boolean;
 };
 
 type ProductForm = Omit<ProductRow, "id"> & { imagesText?: string };
@@ -30,6 +31,7 @@ const EMPTY_FORM: ProductForm = {
   imagesText: "",
   featured: false,
   external_link: "",
+  published: true,
 };
 
 export default function AdminProductsPage() {
@@ -103,6 +105,7 @@ export default function AdminProductsPage() {
       images,
       featured: form.featured,
       external_link: form.external_link,
+      published: form.published,
     };
 
     try {
@@ -141,6 +144,7 @@ export default function AdminProductsPage() {
       imagesText: (product.images || []).join("\n"),
       featured: product.featured,
       external_link: product.external_link,
+      published: product.published,
     });
   };
 
