@@ -17,7 +17,7 @@ export default function FeaturedProducts() {
         .select("*")
         .eq("featured", true)
         .order("sort_order", { ascending: true })
-        .limit(3);
+        .limit(6);
 
       setProducts((data || []) as ProductRecord[]);
       setLoading(false);
