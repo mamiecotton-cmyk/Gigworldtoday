@@ -355,7 +355,7 @@ export default function PlatformsPage() {
               </div>
 
               {/* Alphabet bar */}
-              <div className="flex flex-wrap gap-1 mb-6">
+              <div className="flex flex-wrap gap-1.5 sm:gap-1 mb-6 justify-center sm:justify-start">
                 {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => {
                   const hasMatch = sortedPlatforms.some((p) => p.name.charAt(0).toUpperCase() === letter);
                   return (
@@ -366,7 +366,7 @@ export default function PlatformsPage() {
                         const el = document.getElementById(`letter-${letter}`);
                         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
                       }}
-                      className={`w-8 h-8 rounded text-sm font-semibold transition-colors ${
+                      className={`w-9 h-9 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-semibold transition-colors ${
                         hasMatch
                           ? "bg-teal-50 text-teal-700 hover:bg-teal-100 cursor-pointer"
                           : "bg-gray-50 text-gray-300 cursor-default"
