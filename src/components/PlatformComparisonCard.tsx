@@ -65,7 +65,7 @@ export const PlatformComparisonCard: React.FC<PlatformComparisonCardProps> = ({ 
   ];
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-md flex flex-col items-center w-full max-w-xs mx-auto">
+    <div className="rounded-xl border border-slate-200 bg-white p-3 sm:p-6 shadow-md flex flex-col items-center w-full mx-auto">
       <div className="w-14 h-14 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-3 overflow-hidden">
         {logoSrc ? (
           <img src={logoSrc} alt={platform.name} className="w-10 h-10 object-contain" />
@@ -73,15 +73,15 @@ export const PlatformComparisonCard: React.FC<PlatformComparisonCardProps> = ({ 
           <span className="text-lg font-bold text-teal-600">{platform.name.charAt(0)}</span>
         )}
       </div>
-      <h2 className="text-xl font-bold mb-1 text-center">{platform.name}</h2>
+      <h2 className="text-base sm:text-xl font-bold mb-1 text-center">{platform.name}</h2>
       <StarRating platformSlug={platformSlug} />
       <div className="w-full mt-3">
         <table className="w-full text-sm">
           <tbody>
             {rows.map((row) => (
               <tr key={row.label}>
-                <td className="py-1.5 pr-2 text-slate-500">{row.label}</td>
-                <td className={`py-1.5 font-medium capitalize ${highlight[row.key || ""] ? "text-green-600" : "text-slate-900"}`}>
+                <td className="py-1 pr-1 text-slate-500 text-xs sm:text-sm">{row.label}</td>
+                <td className={`py-1 font-medium capitalize text-xs sm:text-sm ${highlight[row.key || ""] ? "text-green-600" : "text-slate-900"}`}>
                   {row.value}
                 </td>
               </tr>
