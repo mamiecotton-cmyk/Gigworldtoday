@@ -7,17 +7,17 @@ export const metadata: Metadata = {
   title: "GigWorldToday – Gig Economy Intelligence",
   description:
     "News, platform comparisons, tutorials, and ratings for modern gig workers.",
-  metadataBase: new URL("https://gigworldtoday.com"),
+  metadataBase: new URL("https://www.gigworldtoday.com"),
   openGraph: {
     title: "GigWorldToday",
     description:
       "The intelligence hub for gig workers.",
-    url: "https://gigworldtoday.com",
+    url: "https://www.gigworldtoday.com",
     siteName: "GigWorldToday",
     type: "website",
     images: [
       {
-        url: "https://gigworldtoday.com/og-image.png",
+        url: "https://www.gigworldtoday.com/og-image.png",
         width: 1200,
         height: 630,
       },
