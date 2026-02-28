@@ -129,7 +129,7 @@ export default function PlatformDetailPage() {
 
         {/* Header */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-          <div className="flex items-start gap-4">
+          <div className="flex flex-col sm:flex-row items-start gap-4">
               {(() => {
                 const LOCAL_LOGOS: Record<string, string> = {
                   doordash: '/logos/doordash.svg',
@@ -167,7 +167,7 @@ export default function PlatformDetailPage() {
               })()}
             <div className="flex-1">
               <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
                   {platform.name}
                 </h1>
                 <span
@@ -185,7 +185,7 @@ export default function PlatformDetailPage() {
               <p className="text-gray-500 text-sm mt-1">
                 {platform.categories?.map(c => c.replace(/_/g, " ")).join(", ")}
               </p>
-              <p className="text-gray-700 mt-3">{platform.description}</p>
+              <p className="text-gray-700 mt-3 text-sm sm:text-base leading-relaxed">{platform.description}</p>
             </div>
           </div>
 
