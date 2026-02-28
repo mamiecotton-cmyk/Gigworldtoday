@@ -921,7 +921,8 @@
       "package_delivery",
       "alcohol_delivery",
       "grocery_delivery",
-      "same_day_delivery"
+      "same_day_delivery",
+      "prescription_delivery"
     ],
     "minAge": 21,
     "backgroundCheckRequired": true,
