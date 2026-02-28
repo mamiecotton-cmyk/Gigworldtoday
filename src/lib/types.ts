@@ -95,5 +95,6 @@ export interface FilterOptions {
   deliveryType?: string;
   payFrequency?: string[];
   instantPayout?: boolean;
+  minAge18?: boolean;
   availability?: string;
 }
