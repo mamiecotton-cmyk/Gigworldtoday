@@ -4,7 +4,7 @@
     "slug": "axlehire",
     "name": "AxleHire",
     "description": "AxleHire was an AI-powered same-day and next-day last-mile delivery platform founded in 2015 in Emeryville, California. Drivers delivered packages for major brands like HelloFresh, American Eagle, and Nespresso with pre-planned routes and guaranteed pay. AxleHire has since rebranded to Jitsu. To sign up as a driver, visit Jitsu at gojitsu.com.",
-    "logoUrl": "/logos/axlehire.png",
+    "logoUrl": null,
     "websiteUrl": "https://gojitsu.com/drivers",
     "iosAppUrl": null,
     "androidAppUrl": null,
@@ -63,7 +63,7 @@
     "name": "Jitsu",
     "formerlyKnownAs": "AxleHire",
     "description": "Jitsu (formerly AxleHire) is an AI-powered same-day and next-day last-mile delivery platform founded in 2015 in Emeryville, California. Drivers deliver packages for major brands like HelloFresh, American Eagle, and Nespresso. Routes are pre-planned and scheduled in advance so you know your earnings before you start. SUV and minivan drivers can earn up to $225 per day. A solid option for drivers who prefer structured routes over waiting for on-demand orders.",
-    "logoUrl": "/logos/jitsu.png",
+    "logoUrl": null,
     "websiteUrl": "https://gojitsu.com/drivers",
     "iosAppUrl": null,
     "androidAppUrl": null,
@@ -149,7 +149,7 @@
     "slug": "senpex",
     "name": "Senpex",
     "description": "Senpex is an AI-powered same-day courier platform specializing in B2B and catering deliveries. A significant portion of orders come through corporate catering partnerships like ezCater, which may require setup assistance upon arrival. Drivers earn 85-90% commission per delivery and are paid twice per week. Instant pay is not currently available. A great option for drivers with any size vehicle looking for higher-paying specialized orders beyond standard food delivery.",
-    "logoUrl": "/logos/senpex.png",
+    "logoUrl": null,
     "websiteUrl": "https://web.senpex.com/become-senpex-courier",
     "iosAppUrl": "https://apps.apple.com/us/app/senpex-courier/id1470128624",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.snpx.courier",
@@ -299,7 +299,7 @@
     "slug": "deliverthat",
     "name": "DeliverThat",
     "description": "Catering delivery platform focused on business meals and large orders. Requires larger vehicles and provides scheduled delivery windows.",
-    "logoUrl": "/logos/deliverthat.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.deliverthat.com/driver",
     "iosAppUrl": "https://apps.apple.com/us/app/deliverthat-driver",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.deliverthat.driver",
@@ -416,7 +416,7 @@
     "slug": "ubereats",
     "name": "Uber Eats",
     "description": "Food delivery service from Uber. Deliver restaurant orders on your schedule. Can combine with Uber rideshare driving for maximum flexibility.",
-    "logoUrl": "/logos/ubereats.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.uber.com/us/en/deliver/",
     "iosAppUrl": "https://apps.apple.com/us/app/uber-eats-driver",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.eats.driver",
@@ -480,7 +480,7 @@
     "slug": "instacart",
     "name": "Instacart",
     "description": "Shop for and deliver groceries from popular stores. Choose between full-service shopping or delivery-only batches. Flexible hours and competitive pay.",
-    "logoUrl": "/logos/instacart.png",
+    "logoUrl": null,
     "websiteUrl": "https://shoppers.instacart.com/",
     "iosAppUrl": "https://apps.apple.com/us/app/instacart-shopper",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.instacart.shopper",
@@ -543,7 +543,7 @@
     "slug": "expedite",
     "name": "Expedite",
     "description": "dlivrd (formerly Expedite) is a catering delivery and specialty logistics platform operating in 180 markets across the U.S. and Canada. Drivers earn $20-$60 per order with an average of $40-$50/hr. Features Emerald Elite tiers, corporate tip transparency, and the ability to stack orders. Same-day pay available via Everee.",
-    "logoUrl": "/logos/expedite.png",
+    "logoUrl": null,
     "websiteUrl": "https://expedite.io/drivers/",
     "iosAppUrl": "https://apps.apple.com/us/app/expedite-for-drivers/id6648777219",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.dlivrd.expedite",
@@ -608,7 +608,7 @@
     "slug": "zifty",
     "name": "Zifty",
     "description": "Zifty offers scheduled catering delivery routes with competitive pay. Most deliveries are weekday lunch hours with advance scheduling, providing consistent income.",
-    "logoUrl": "/logos/zifty.png",
+    "logoUrl": null,
     "websiteUrl": "https://jobs.zifty.com/",
     "iosAppUrl": null,
     "androidAppUrl": null,
@@ -672,7 +672,7 @@
     "slug": "picnic",
     "name": "Picnic",
     "description": "Picnic provides office and catering delivery with guaranteed pay per shift. Pre-planned routes with flexible scheduling, primarily weekday lunch hours.",
-    "logoUrl": "/logos/picnic.png",
+    "logoUrl": null,
     "websiteUrl": "https://trypicnic.com/drivers",
     "applyUrl": "https://kitchen-request.typeform.com/to/iPcnarXz?typeform-source=trypicnic.com",
     "iosAppUrl": null,
@@ -742,7 +742,7 @@
     "slug": "foodja",
     "name": "Foodja",
     "description": "Foodja delivers corporate lunch catering orders during weekday lunch hours. Earn $40-60/hour for 1-2 hour shifts with flexible scheduling and $250 fast start bonus.",
-    "logoUrl": "/logos/foodja.png",
+    "logoUrl": null,
     "websiteUrl": "https://foodja.com/drive/",
     "applyUrl": "https://driver.foodja.com/",
     "iosAppUrl": null,
@@ -795,7 +795,7 @@
     "slug": "grubhub",
     "name": "Grubhub",
     "description": "Grubhub is a leading food delivery platform offering flexible scheduling with competitive pay plus 100% of tips. Deliver by car, bike, or motorcycle in most U.S. cities.",
-    "logoUrl": "/logos/grubhub.png",
+    "logoUrl": null,
     "websiteUrl": "https://driver.grubhub.com/",
     "applyUrl": "https://driver.grubhub.com/",
     "iosAppUrl": "https://apps.apple.com/app/grubhub-for-drivers/id910571346",
@@ -854,7 +854,7 @@
     "slug": "shipt",
     "name": "Shipt",
     "description": "Shipt is a Target-owned grocery delivery service. Shop and deliver groceries with flexible scheduling and earn $16-27/hour plus 100% of tips.",
-    "logoUrl": "/logos/shipt.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.shipt.com/shopper/be-a-shopper/",
     "applyUrl": "https://www.shipt.com/be-a-shopper/",
     "iosAppUrl": "https://apps.apple.com/app/shipt-shopper/id1093137434",
@@ -912,7 +912,7 @@
     "slug": "amazon-flex",
     "name": "Amazon Flex",
     "description": "Amazon Flex allows you to deliver Amazon packages on your own schedule. Pick delivery blocks of 2-4 hours and earn $18-35/hour with weekly payouts.",
-    "logoUrl": "/logos/amazon-flex.png",
+    "logoUrl": null,
     "websiteUrl": "https://flex.amazon.com/",
     "applyUrl": "https://flex.amazon.com/",
     "iosAppUrl": "https://apps.apple.com/app/amazon-flex/id1013830146",
@@ -976,7 +976,7 @@
     "slug": "gopuff",
     "name": "Gopuff",
     "description": "Gopuff delivers everyday essentials from micro-fulfillment centers in under 30 minutes. Work scheduled shifts with guaranteed hourly minimum plus commission per order and 100% of tips.",
-    "logoUrl": "/logos/gopuff.png",
+    "logoUrl": null,
     "websiteUrl": "https://gopuff.com/go/driver-signup",
     "applyUrl": "https://gopuff.com/go/driver-signup",
     "iosAppUrl": "https://apps.apple.com/app/gopuff-driver/id1471684979",
@@ -1031,7 +1031,7 @@
     "slug": "uber",
     "name": "Uber",
     "description": "Uber is the world's leading rideshare platform. Drive on your own schedule, earn competitive pay plus tips, and cash out instantly up to 5 times daily.",
-    "logoUrl": "/logos/uber.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.uber.com/us/en/drive/",
     "applyUrl": "https://www.uber.com/us/en/drive/",
     "iosAppUrl": "https://apps.apple.com/app/uber-driver/id1131342792",
@@ -1090,7 +1090,7 @@
     "slug": "lyft",
     "name": "Lyft",
     "description": "Lyft is a major rideshare platform offering flexible earning opportunities. Drive passengers in your area, set your own schedule, and get paid weekly with instant payout options.",
-    "logoUrl": "/logos/lyft.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.lyft.com/driver",
     "applyUrl": "https://www.lyft.com/driver",
     "iosAppUrl": "https://apps.apple.com/app/lyft-driver/id529379082",
@@ -1148,7 +1148,7 @@
     "slug": "roadie",
     "name": "Roadie",
     "description": "Roadie (owned by UPS) delivers everything from small packages to furniture. Choose your own gigs, work flexible hours, and earn more for larger deliveries. Available nationwide in all 50 states.",
-    "logoUrl": "/logos/roadie.png",
+    "logoUrl": null,
     "websiteUrl": "https://driver.roadie.com/",
     "applyUrl": "https://driver.roadie.com/",
     "iosAppUrl": "https://apps.apple.com/us/app/roadie/id958501631",
@@ -1210,7 +1210,7 @@
     "slug": "taskrabbit",
     "name": "TaskRabbit",
     "description": "TaskRabbit connects skilled Taskers with people who need help with everyday tasks like furniture assembly, cleaning, moving, handyman work, and more. Set your own rates and schedule.",
-    "logoUrl": "/logos/taskrabbit.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.taskrabbit.com/become-a-tasker",
     "applyUrl": "https://www.taskrabbit.com/become-a-tasker",
     "iosAppUrl": "https://apps.apple.com/app/taskrabbit-tasker/id983716786",
@@ -1265,7 +1265,7 @@
     "slug": "cornershop",
     "name": "Cornershop by Uber",
     "description": "Cornershop (owned by Uber) provides grocery shopping and delivery services. Earn $20-24/hour with no commission deductions, plus tips and bonuses.",
-    "logoUrl": "/logos/cornershop.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.cornershopapp.com/become-a-shopper",
     "applyUrl": "https://www.cornershopapp.com/become-a-shopper",
     "iosAppUrl": null,
@@ -1323,7 +1323,7 @@
     "slug": "wag",
     "name": "Wag!",
     "description": "Wag! connects dog walkers with pet owners for on-demand and scheduled dog walking services. Set your own schedule and earn $15-40/hour plus tips.",
-    "logoUrl": "/logos/wag.png",
+    "logoUrl": null,
     "websiteUrl": "https://wagwalking.com/dog-walker",
     "applyUrl": "https://wagwalking.com/dog-walking-job",
     "iosAppUrl": "https://apps.apple.com/app/wag-dog-walking/id882131768",
@@ -1376,7 +1376,7 @@
     "slug": "handy",
     "name": "Handy",
     "description": "Handy (Angi Services) connects home cleaning and handyman professionals with customers. Flexible schedule, earn up to $22/hour or $1,000/week depending on jobs taken.",
-    "logoUrl": "/logos/handy.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.handy.com/",
     "applyUrl": "https://www.handy.com/apply",
     "iosAppUrl": "https://apps.apple.com/app/handy-for-professionals/id923676467",
@@ -1428,7 +1428,7 @@
     "slug": "goshare",
     "name": "GoShare",
     "description": "GoShare offers delivery and moving services with your own vehicle. Earn based on vehicle size: cars $45/hr, pickup trucks $70/hr, cargo vans $105/hr, box trucks $168/hr.",
-    "logoUrl": "/logos/goshare.png",
+    "logoUrl": null,
     "websiteUrl": "https://goshare.co/drivers/",
     "applyUrl": "https://goshare.co/trucks/drivers/apply",
     "iosAppUrl": "https://apps.apple.com/us/app/goshare-driver-earn-money/id978279500",
@@ -1488,7 +1488,7 @@
     "slug": "caviar",
     "name": "Caviar",
     "description": "Premium food delivery platform focused on high-end and Michelin-rated restaurants. Originally founded in 2012, acquired by Square, then sold to DoorDash in 2019 for $410 million. Caviar still exists as a separate app but all deliveries are now fulfilled by DoorDash drivers.",
-    "logoUrl": "/logos/caviar.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.doordash.com/dasher/signup/",
     "applyUrl": "https://www.doordash.com/dasher/signup/",
     "iosAppUrl": null,
@@ -1540,7 +1540,7 @@
     "slug": "favor",
     "name": "Favor",
     "description": "Favor is a Texas-only delivery platform offering flexible delivery by car, bike, or scooter. Earn $12-20/hour including 100% of tips (required on every order) with weekly payouts.",
-    "logoUrl": "/logos/favor.png",
+    "logoUrl": null,
     "websiteUrl": "https://favordelivery.com/",
     "applyUrl": "https://apply.favordelivery.com/",
     "iosAppUrl": "https://apps.apple.com/app/favor-runner/id987448303",
@@ -1601,7 +1601,7 @@
     "slug": "dumpling",
     "name": "Dumpling",
     "description": "Dumpling lets you start your own grocery delivery business. Set your own rates, keep 100% of tips, and build your own client base. Earn $35-50 per order as an independent business owner.",
-    "logoUrl": "/logos/dumpling.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.dumpling.us/",
     "applyUrl": "https://owner.dumpling.us/signup",
     "iosAppUrl": "https://apps.apple.com/app/dumpling-boss/id1490798151",
@@ -1654,7 +1654,7 @@
     "slug": "rover",
     "name": "Rover",
     "description": "Rover connects pet sitters and dog walkers with pet owners for boarding, sitting, and walking services. Set your own rates and schedule, earn $15-50/hour plus tips.",
-    "logoUrl": "/logos/rover.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.rover.com/",
     "applyUrl": "https://www.rover.com/become-a-sitter/",
     "iosAppUrl": "https://apps.apple.com/app/rover-dog-sitters-walkers/id748764374",
@@ -1713,7 +1713,7 @@
     "slug": "dolly",
     "name": "Dolly",
     "description": "Dolly offers moving and delivery services with two roles: Helpers (with truck/van, $50-90/hr) and Hands (muscle only, $35-60/hr). Keep 100% of tips, paid twice weekly via PayPal.",
-    "logoUrl": "/logos/dolly.png",
+    "logoUrl": null,
     "websiteUrl": "https://dolly.com/",
     "applyUrl": "https://dolly.com/helpers/",
     "iosAppUrl": "https://apps.apple.com/app/dolly-moving-delivery/id1051476853",
@@ -1775,7 +1775,7 @@
     "slug": "drizly",
     "name": "Drizly",
     "description": "Drizly was the largest online alcohol delivery marketplace in North America. Acquired by Uber in 2021 for $1.1 billion, it was permanently shut down in March 2024. Alcohol delivery is now available through Uber Eats.",
-    "logoUrl": "/logos/drizly.png",
+    "logoUrl": null,
     "websiteUrl": null,
     "applyUrl": null,
     "iosAppUrl": null,
@@ -1827,7 +1827,7 @@
     "slug": "thumbtack",
     "name": "Thumbtack",
     "description": "Thumbtack connects service professionals with customers for home services, events, wellness, and more. Set your own rates, keep 100% of payments, and pay per lead instead of commission.",
-    "logoUrl": "/logos/thumbtack.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.thumbtack.com/",
     "applyUrl": "https://www.thumbtack.com/pro",
     "iosAppUrl": "https://apps.apple.com/app/thumbtack-for-professionals/id945956824",
@@ -1880,7 +1880,7 @@
     "slug": "bellhop",
     "name": "Bellhop",
     "description": "Bellhop is a moving services platform for drivers with 16-26ft box trucks. Earn $15-21/hour as a 'no-touch freight' driver - you transport while movers handle the lifting.",
-    "logoUrl": "/logos/bellhop.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.getbellhops.com/drive-for-bellhops/",
     "applyUrl": "https://bellhop.breezy.hr/p/3544b6468d89-bellhop-carrier?state=published",
     "iosAppUrl": "https://apps.apple.com/app/bellhop-moving/id1050699979",
@@ -1936,7 +1936,7 @@
     "slug": "postmates",
     "name": "Postmates",
     "description": "One of the original on-demand delivery platforms, founded in 2011 in San Francisco. Acquired by Uber for $2.65 billion in 2020. The driver app was permanently shut down in August 2021. All deliveries are now handled through Uber Eats.",
-    "logoUrl": "/logos/postmates.png",
+    "logoUrl": null,
     "websiteUrl": null,
     "applyUrl": null,
     "iosAppUrl": null,
@@ -1988,7 +1988,7 @@
     "slug": "spark",
     "name": "Spark Driver",
     "description": "Spark Driver delivers Walmart orders including groceries and packages. Earn $15-20+ per delivery with 100% of tips. Set your own schedule and see earnings before accepting orders.",
-    "logoUrl": "/logos/spark.png",
+    "logoUrl": null,
     "websiteUrl": "https://drive4spark.walmart.com/",
     "applyUrl": "https://drive4spark.walmart.com/",
     "iosAppUrl": "https://apps.apple.com/app/spark-driver/id1448878505",
@@ -2044,7 +2044,7 @@
     "slug": "veho",
     "name": "Veho",
     "description": "Veho is a last-mile package delivery platform delivering for major retailers. Pick routes in advance, earn $20-26/hour plus 100% of tips. Requires larger vehicle (SUV, minivan, or cargo van).",
-    "logoUrl": "/logos/veho.png",
+    "logoUrl": null,
     "websiteUrl": "https://shipveho.com/drive/",
     "applyUrl": "https://shipveho.com/drive/",
     "iosAppUrl": "https://apps.apple.com/app/veho-driver/id1478279482",
@@ -2112,7 +2112,7 @@
     "slug": "workwhile",
     "name": "Workwhile",
     "description": "Workwhile connects workers with flexible warehouse, picking, packing, and general labor shifts. Get paid the next day after your shift with no resume required. Both W-2 and 1099 positions available.",
-    "logoUrl": "/logos/workwhile.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.workwhile.ai/",
     "applyUrl": "https://www.workwhile.ai/for-workers",
     "iosAppUrl": "https://apps.apple.com/app/workwhile/id1493686869",
@@ -2166,7 +2166,7 @@
     "slug": "curri",
     "name": "Curri",
     "description": "Curri specializes in delivering construction materials and supplies from hardware stores to job sites. Earn $10-30/hour with same-day or next-day pay. Larger vehicles (pickup trucks, vans, box trucks) earn significantly more.",
-    "logoUrl": "/logos/curri.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.curri.com/",
     "applyUrl": "https://drive.curri.com/",
     "iosAppUrl": "https://apps.apple.com/app/curri-driver/id1459372431",
@@ -2226,7 +2226,7 @@
     "slug": "frayt",
     "name": "Frayt",
     "description": "Frayt is an on-demand delivery platform for same-day local deliveries. Earn $20-30/hour plus tips with pay within 48 hours. Accepts cars, SUVs, pickups, vans, and box trucks.",
-    "logoUrl": "/logos/frayt.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.frayt.com/drivers",
     "applyUrl": "https://www.frayt.com/apply",
     "iosAppUrl": "https://apps.apple.com/us/app/frayt-driver/id6450462430",
@@ -2286,7 +2286,7 @@
     "slug": "metrobi",
     "name": "Metrobi",
     "description": "Metrobi specializes in route-based local deliveries for businesses like restaurants, bakeries, and grocery stores. Earn up to $1,200/week with weekly direct deposit. Requires larger vehicles (SUV, minivan, or van).",
-    "logoUrl": "/logos/metrobi.png",
+    "logoUrl": null,
     "websiteUrl": "https://metrobi.com/",
     "applyUrl": "https://metrobi.com/driver/become-a-driver/",
     "iosAppUrl": "https://apps.apple.com/app/metrobi-driver/id1445982281",
@@ -2354,7 +2354,7 @@
     "slug": "dispatch",
     "name": "Dispatch",
     "description": "Dispatch connects independent drivers with same-day delivery jobs from retailers and businesses. Operating in 50+ cities nationwide with many active openings. Earn $75-125/day with instant pay or weekly payouts. Higher age and experience requirements ensure professional service.",
-    "logoUrl": "/logos/dispatch.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.dispatchit.com/",
     "applyUrl": "https://driver-onboarding.dispatchit.com/available-openings",
     "iosAppUrl": "https://apps.apple.com/app/dispatch-driver/id1446567179",
@@ -2418,7 +2418,7 @@
     "slug": "courial",
     "name": "Courial",
     "description": "Courial is a concierge-style delivery platform offering competitive pay and professional service. Earn $18-25/hour with flexible vehicle options including cars, bikes, scooters, or on foot. Known for supporting EV drivers.",
-    "logoUrl": "/logos/courial.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.courial.com/",
     "applyUrl": "https://www.courial.com/jobs",
     "iosAppUrl": null,
@@ -2482,7 +2482,7 @@
     "slug": "airspace",
     "name": "Airspace",
     "description": "Time-critical courier platform specializing in urgent shipments like organ transplants, aircraft parts, and semiconductors. Drivers (called Commanders) handle local and airport pickups/dropoffs nationwide with 24/7 dispatch and flexible scheduling.",
-    "logoUrl": "/logos/airspace.png",
+    "logoUrl": null,
     "websiteUrl": "https://www.airspace.com/drive-with-us",
     "iosAppUrl": "https://apps.apple.com/us/app/driver-partner/id1034612629",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.firstdelivery.driverapp",
@@ -3010,15 +3010,32 @@
     "websiteUrl": "https://www.bettertrucks.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["package_delivery", "last_mile", "same_day_delivery"],
+    "categories": [
+      "package_delivery",
+      "last_mile",
+      "same_day_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_route",
     "estimatedHourlyMin": 18,
     "estimatedHourlyMax": 30,
@@ -3029,7 +3046,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Route-based shift work; next-day/two-day/same-day service; route optimization; shipper integrations including ShipStation.",
@@ -3044,15 +3063,33 @@
     "websiteUrl": "https://www.bringitnow.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["moving", "hauling", "delivery"],
+    "categories": [
+      "moving",
+      "hauling",
+      "delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["truck", "van", "cargo_van", "box_truck"],
+    "vehicleTypes": [
+      "truck",
+      "van",
+      "cargo_van",
+      "box_truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_job",
     "estimatedHourlyMin": 22,
     "estimatedHourlyMax": 69,
@@ -3063,7 +3100,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Vehicle-class earnings tiers; Driver Pro and helper roles; customers tips retained by workers; two-person deliveries for heavy items.",
@@ -3078,15 +3117,33 @@
     "websiteUrl": "https://www.bungii.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["delivery", "moving", "last_mile", "retail_delivery"],
+    "categories": [
+      "delivery",
+      "moving",
+      "last_mile",
+      "retail_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["truck", "van", "suv"],
+    "vehicleTypes": [
+      "truck",
+      "van",
+      "suv"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 20,
     "estimatedHourlyMax": 40,
@@ -3097,7 +3154,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Twice weekly pay (Tue/Fri); optional same-day pay for fee; big-and-bulky retail delivery; enterprise case studies; API integration capability.",
@@ -3112,15 +3171,33 @@
     "websiteUrl": "https://www.citizenshipper.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["pet_transport", "specialty_shipping", "long_distance"],
+    "categories": [
+      "pet_transport",
+      "specialty_shipping",
+      "long_distance"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van", "truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van",
+      "truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_job",
     "estimatedHourlyMin": 20,
     "estimatedHourlyMax": 50,
@@ -3131,7 +3208,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Bid/quote marketplace; Stripe Connect payouts (2-5 day settlement); Checkr background screening; pet and specialty transport focus; escrow-like payment mediation.",
@@ -3146,15 +3225,29 @@
     "websiteUrl": "https://www.draiver.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["vehicle_transport", "auto_delivery"],
+    "categories": [
+      "vehicle_transport",
+      "auto_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["none"],
+    "vehicleTypes": [
+      "none"
+    ],
     "licenseRequired": true,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_trip",
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 30,
@@ -3165,7 +3258,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Vehicle movement for dealerships/fleets; Friday weekly payouts; clear eligibility checklist; trip-based work; no personal vehicle needed.",
@@ -3180,15 +3275,33 @@
     "websiteUrl": "https://www.dropoff.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["courier", "same_day_delivery", "medical_courier", "healthcare_delivery"],
+    "categories": [
+      "courier",
+      "same_day_delivery",
+      "medical_courier",
+      "healthcare_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 18,
     "estimatedHourlyMax": 30,
@@ -3199,7 +3312,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": true,
     "keyFeatures": "HIPAA and bloodborne pathogen certified drivers; healthcare delivery specialization; API integrations; 58+ cities; per-delivery pay; after-hours/weekend surcharge for businesses.",
@@ -3214,15 +3329,31 @@
     "websiteUrl": "https://www.fetchpackage.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["package_delivery", "last_mile"],
+    "categories": [
+      "package_delivery",
+      "last_mile"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_block",
     "estimatedHourlyMin": 18,
     "estimatedHourlyMax": 25,
@@ -3233,7 +3364,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Block scheduling model; apartment community package delivery; batch pickup and drop-off; background checks required; must carry up to 70 lbs.",
@@ -3248,15 +3381,33 @@
     "websiteUrl": "https://www.gophergo.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["errands", "delivery", "local_services", "task_based"],
+    "categories": [
+      "errands",
+      "delivery",
+      "local_services",
+      "task_based"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": false,
-    "vehicleTypes": ["none", "car", "bike"],
+    "vehicleTypes": [
+      "none",
+      "car",
+      "bike"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_task",
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 30,
@@ -3267,7 +3418,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Stripe payouts; instant payout after 10 completed requests; Pro tiers for faster payouts; counter-offer on jobs; broad local services scope.",
@@ -3277,20 +3430,36 @@
     "id": "isecretshop",
     "slug": "isecretshop",
     "name": "iSecretShop",
-    "description": "iSecretShop is a mystery shopping platform and job aggregator connecting shoppers with multiple mystery shopping providers (MSPs). The platform does not pay shoppers directly — payment comes from individual MSPs. Free to register with mobile-first assignment workflows including geo-tags, time stamps, and photo capture.",
+    "description": "iSecretShop is a mystery shopping platform and job aggregator connecting shoppers with multiple mystery shopping providers (MSPs). The platform does not pay shoppers directly \u2014 payment comes from individual MSPs. Free to register with mobile-first assignment workflows including geo-tags, time stamps, and photo capture.",
     "logoUrl": null,
     "websiteUrl": "https://www.isecretshop.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["mystery_shopping", "retail_audit", "task_based"],
+    "categories": [
+      "mystery_shopping",
+      "retail_audit",
+      "task_based"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": false,
-    "vehicleTypes": ["none", "car"],
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_task",
     "estimatedHourlyMin": 10,
     "estimatedHourlyMax": 25,
@@ -3301,10 +3470,12 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
-    "keyFeatures": "Job aggregator for multiple MSPs; mobile-first with geo-tags and photo capture; free registration; platform does not pay directly — MSPs handle payment.",
+    "keyFeatures": "Job aggregator for multiple MSPs; mobile-first with geo-tags and photo capture; free registration; platform does not pay directly \u2014 MSPs handle payment.",
     "userFeedback": "Clear payment responsibility statement; earnings and scheduling vary entirely by MSP and assignment."
   },
   {
@@ -3316,15 +3487,32 @@
     "websiteUrl": "https://www.jackrabbitdelivers.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["catering_delivery", "food_delivery"],
+    "categories": [
+      "catering_delivery",
+      "food_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "insulated_catering_bags"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone",
+      "insulated_catering_bags"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 20,
     "estimatedHourlyMax": 45,
@@ -3335,7 +3523,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": true,
     "keyFeatures": "Same-day payout; minimum pay floor for catering orders; guaranteed tips; XXL catering bag requirement for large orders; catering delivery focus.",
@@ -3350,15 +3540,32 @@
     "websiteUrl": "https://lugg.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["moving", "delivery", "last_mile"],
+    "categories": [
+      "moving",
+      "delivery",
+      "last_mile"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["truck", "van", "cargo_van"],
+    "vehicleTypes": [
+      "truck",
+      "van",
+      "cargo_van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_job",
     "estimatedHourlyMin": 25,
     "estimatedHourlyMax": 55,
@@ -3369,7 +3576,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Same-day pay; driver and helper roles; two-person moving crews; retailer big-and-bulky delivery partnerships; flexible scheduling.",
@@ -3384,15 +3593,31 @@
     "websiteUrl": "https://www.medzoomer.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["medical_courier", "prescription_delivery", "healthcare_delivery"],
+    "categories": [
+      "medical_courier",
+      "prescription_delivery",
+      "healthcare_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv"],
+    "vehicleTypes": [
+      "car",
+      "suv"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 25,
@@ -3403,7 +3628,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": true,
     "keyFeatures": "HIPAA certification required for couriers; pharmacy-to-patient delivery; courier training program; background-checked network; pharmacy integration.",
@@ -3418,15 +3645,31 @@
     "websiteUrl": "https://www.pickupnow.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["retail_delivery", "last_mile", "delivery"],
+    "categories": [
+      "retail_delivery",
+      "last_mile",
+      "delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["truck", "van"],
+    "vehicleTypes": [
+      "truck",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 25,
     "estimatedHourlyMax": 50,
@@ -3437,7 +3680,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "New items only (no junk); minimum $25/run; average $45/run; next-business-day payouts; no sign-up fees; pickup truck or van required.",
@@ -3452,15 +3697,31 @@
     "websiteUrl": "https://www.pills2me.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["prescription_delivery", "medical_courier", "healthcare_delivery"],
+    "categories": [
+      "prescription_delivery",
+      "medical_courier",
+      "healthcare_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv"],
+    "vehicleTypes": [
+      "car",
+      "suv"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 25,
@@ -3471,7 +3732,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": true,
     "keyFeatures": "Instant cashout; HIPAA training required; DMV and background checks; prescription pickup and delivery; community health focus.",
@@ -3486,15 +3749,33 @@
     "websiteUrl": "https://www.redwagondelivers.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["catering_delivery", "food_delivery", "delivery"],
+    "categories": [
+      "catering_delivery",
+      "food_delivery",
+      "delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "insulated_catering_bags"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone",
+      "insulated_catering_bags"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 35,
@@ -3505,7 +3786,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": true,
     "keyFeatures": "Catering delivery focus; weekly pay (same-day pay coming soon); multiple delivery categories; simple onboarding.",
@@ -3520,15 +3803,31 @@
     "websiteUrl": "https://www.relaydelivery.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["food_delivery", "courier", "delivery"],
+    "categories": [
+      "food_delivery",
+      "courier",
+      "delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "bike"],
+    "vehicleTypes": [
+      "car",
+      "bike"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "hourly_plus_tips",
     "estimatedHourlyMin": 18,
     "estimatedHourlyMax": 30,
@@ -3539,7 +3838,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Shift-based scheduling; hourly pay + bonuses + 100% tips; car or bike modes; local delivery focus.",
@@ -3554,15 +3855,36 @@
     "websiteUrl": "https://www.seimdei.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["catering_delivery", "food_delivery"],
+    "categories": [
+      "catering_delivery",
+      "food_delivery"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone", "insulated_catering_bags"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": ["Philadelphia", "Jersey City", "Atlanta"]}},
+    "equipmentNeeded": [
+      "smartphone",
+      "insulated_catering_bags"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": [
+          "Philadelphia",
+          "Jersey City",
+          "Atlanta"
+        ]
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 35,
@@ -3573,7 +3895,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": true,
     "keyFeatures": "Catering delivery specialization; requires 2+ insulated catering bags; example markets shown in application flow; driver screening.",
@@ -3588,15 +3912,32 @@
     "websiteUrl": "https://www.trado.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["delivery", "courier"],
+    "categories": [
+      "delivery",
+      "courier"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["car", "suv", "van", "truck"],
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van",
+      "truck"
+    ],
     "licenseRequired": true,
     "insuranceRequired": true,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "per_delivery",
     "estimatedHourlyMin": 18,
     "estimatedHourlyMax": 35,
@@ -3607,7 +3948,9 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website"],
+    "dataSources": [
+      "official_website"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Keep 90% of fare; 48-hour payout; any vehicle make/model/year; no DOT or commercial license needed; in-app job acceptance/rejection.",
@@ -3622,15 +3965,33 @@
     "websiteUrl": "https://www.wonolo.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
-    "categories": ["staffing", "warehouse", "retail", "events", "general_labor"],
+    "categories": [
+      "staffing",
+      "warehouse",
+      "retail",
+      "events",
+      "general_labor"
+    ],
     "minAge": 18,
     "backgroundCheckRequired": true,
-    "vehicleTypes": ["none", "car"],
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
     "licenseRequired": false,
     "insuranceRequired": false,
-    "equipmentNeeded": ["smartphone"],
-    "countries": ["USA"],
-    "regions": {"USA": {"status": "Active", "cities": []}},
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
     "payModel": "hourly",
     "estimatedHourlyMin": 15,
     "estimatedHourlyMax": 28,
@@ -3641,7 +4002,10 @@
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
     "lastUpdated": "2026-02-27",
-    "dataSources": ["official_website", "g2"],
+    "dataSources": [
+      "official_website",
+      "g2"
+    ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "On-demand and temp-to-perm staffing; REST API with webhooks; published hiring fee schedule; G2 reviewed; warehouse/retail/event shifts.",
