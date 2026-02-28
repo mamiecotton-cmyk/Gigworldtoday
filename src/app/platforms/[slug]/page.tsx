@@ -152,7 +152,7 @@ export default function PlatformDetailPage() {
                     domain = parts.length > 2 ? parts.slice(-2).join('.') : parts.join('.');
                   } catch {}
                 }
-                const src = LOCAL_LOGOS[platform.id] || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
+                const src = LOCAL_LOGOS[platform.id] || platform.logoUrl || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
                 return src ? (
                   <img
                     src={src}
