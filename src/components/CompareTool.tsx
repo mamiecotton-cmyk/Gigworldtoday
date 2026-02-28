@@ -86,7 +86,7 @@ const CompareTool: React.FC = () => {
         </div>
       </section>
       {platformA && platformB && (
-        <section className="mt-8 grid grid-cols-2 gap-3 sm:gap-6">
+        <section className="mt-8 grid grid-cols-2 gap-2 sm:gap-6">
           <PlatformComparisonCard platform={platformA} highlight={getHighlightFields(platformA, platformB)} />
           <PlatformComparisonCard platform={platformB} highlight={getHighlightFields(platformB, platformA)} />
         </section>
