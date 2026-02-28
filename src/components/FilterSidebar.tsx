@@ -31,7 +31,15 @@ const GIG_TYPE_PILLS: Array<{
   { id: 'rideshare',             label: 'Rideshare',     group: 'Services', dataCategories: ['rideshare'] },
   { id: 'task_based',            label: 'Tasks',         group: 'Services', dataCategories: ['task_based'] },
   { id: 'pet_care',              label: 'Pet Care',      group: 'Services', dataCategories: ['pet_care'] },
-  { id: 'moving',                label: 'Moving',        group: 'Services', dataCategories: ['moving'] },
+  { id: 'medical_courier',       label: 'Medical',       group: 'Delivery', dataCategories: ['medical_courier', 'healthcare_delivery'] },
+  { id: 'retail_delivery',       label: 'Retail',        group: 'Delivery', dataCategories: ['retail_delivery', 'delivery'] },
+  { id: 'staffing',              label: 'Staffing',      group: 'Services', dataCategories: ['staffing', 'hospitality', 'event_staffing', 'general_labor', 'warehouse', 'events', 'food_service'] },
+  { id: 'retail_audit',          label: 'Retail Audit',  group: 'Services', dataCategories: ['retail_audit', 'mystery_shopping', 'merchandising'] },
+  { id: 'home_services',         label: 'Home Services', group: 'Services', dataCategories: ['home_services', 'laundry', 'work_from_home'] },
+  { id: 'vehicle_transport',     label: 'Auto Transport',group: 'Services', dataCategories: ['vehicle_transport', 'auto_delivery'] },
+  { id: 'pet_transport',         label: 'Pet Transport', group: 'Services', dataCategories: ['pet_transport', 'specialty_shipping', 'long_distance'] },
+  { id: 'errands',               label: 'Errands',       group: 'Services', dataCategories: ['errands', 'local_services'] },
+  { id: 'moving',                label: 'Moving',        group: 'Services', dataCategories: ['moving', 'hauling'] },
 ];
 
 export const PILL_TO_DATA_CATEGORIES: Record<string, string[]> = Object.fromEntries(

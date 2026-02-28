@@ -28,21 +28,30 @@ const PAY_FREQ_NORMALIZE: Record<string, string> = {
 };
 
 // Category pills for the dropdown
+// Category pills matching PILL_TO_DATA_CATEGORIES keys + new categories
 const CATEGORY_PILLS = [
-  { value: "restaurant", label: "Restaurant" },
-  { value: "grocery", label: "Grocery" },
-  { value: "alcohol", label: "Alcohol" },
-  { value: "catering", label: "Catering" },
-  { value: "packages", label: "Packages" },
-  { value: "prescription", label: "Prescription" },
-  { value: "specialty", label: "Specialty" },
-  { value: "rideshare", label: "Rideshare" },
-  { value: "tasks", label: "Tasks" },
-  { value: "pet_care", label: "Pet Care" },
-  { value: "moving", label: "Moving" },
-  { value: "staffing", label: "Staffing" },
-  { value: "retail_audit", label: "Retail Audit" },
-  { value: "home_services", label: "Home Services" },
+  { value: "food_delivery", label: "Restaurant", group: "Delivery" },
+  { value: "grocery_delivery", label: "Grocery", group: "Delivery" },
+  { value: "alcohol_delivery", label: "Alcohol", group: "Delivery" },
+  { value: "catering_delivery", label: "Catering", group: "Delivery" },
+  { value: "package_delivery", label: "Packages", group: "Delivery" },
+  { value: "prescription_delivery", label: "Prescription", group: "Delivery" },
+  { value: "specialty_courier", label: "Specialty", group: "Delivery" },
+  { value: "medical_courier", label: "Medical Courier", group: "Delivery" },
+  { value: "retail_delivery", label: "Retail Delivery", group: "Delivery" },
+  { value: "rideshare", label: "Rideshare", group: "Services" },
+  { value: "task_based", label: "Tasks", group: "Services" },
+  { value: "pet_care", label: "Pet Care", group: "Services" },
+  { value: "pet_transport", label: "Pet Transport", group: "Services" },
+  { value: "moving", label: "Moving", group: "Services" },
+  { value: "staffing", label: "Staffing", group: "Services" },
+  { value: "hospitality", label: "Hospitality", group: "Services" },
+  { value: "retail_audit", label: "Retail Audit", group: "Services" },
+  { value: "mystery_shopping", label: "Mystery Shopping", group: "Services" },
+  { value: "home_services", label: "Home Services", group: "Services" },
+  { value: "vehicle_transport", label: "Vehicle Transport", group: "Services" },
+  { value: "errands", label: "Errands", group: "Services" },
+  { value: "warehouse", label: "Warehouse", group: "Services" },
 ];
 
 export default function PlatformsPage() {
@@ -345,16 +354,21 @@ export default function PlatformsPage() {
               </button>
               {openDropdown === "category" && (
                 <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 p-3 z-50 max-h-64 overflow-y-auto" data-dropdown>
-                  {CATEGORY_PILLS.map((cat) => (
-                    <label key={cat.value} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 cursor-pointer text-sm">
-                      <input
-                        type="checkbox"
-                        checked={filters.categories?.includes(cat.value) || false}
-                        onChange={() => toggleFilter("categories", cat.value)}
-                        className="rounded border-gray-300 text-teal-500 focus:ring-teal-400"
-                      />
-                      {cat.label}
-                    </label>
+                  {["Delivery", "Services"].map((group) => (
+                    <div key={group}>
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide px-2 pt-2 pb-1">{group}</p>
+                      {CATEGORY_PILLS.filter((c) => c.group === group).map((cat) => (
+                        <label key={cat.value} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 cursor-pointer text-sm">
+                          <input
+                            type="checkbox"
+                            checked={filters.categories?.includes(cat.value) || false}
+                            onChange={() => toggleFilter("categories", cat.value)}
+                            className="rounded border-gray-300 text-teal-500 focus:ring-teal-400"
+                          />
+                          {cat.label}
+                        </label>
+                      ))}
+                    </div>
                   ))}
                 </div>
               )}
