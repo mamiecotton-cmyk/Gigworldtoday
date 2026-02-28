@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://gigworldtoday.com/your-banner-image.jpg",
+        url: "https://gigworldtoday.com/og-image.png",
         width: 1200,
         height: 630,
       },
