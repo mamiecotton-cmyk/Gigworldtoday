@@ -3,34 +3,40 @@ import React, { useState } from "react";
 import platformsData from "@/data/platforms.json";
 import PlatformComparisonCard, { Platform } from "@/components/PlatformComparisonCard";
 
-const platformOptions: Platform[] = platformsData.map((p: any) => {
-  let calculatedAverage: number | undefined = undefined;
-  if (p.estimatedHourlyMin != null && p.estimatedHourlyMax != null) {
-    calculatedAverage = (p.estimatedHourlyMin + p.estimatedHourlyMax) / 2;
-  }
-  return {
+const inactiveStatuses = [
+  "absorbed", "merged", "rebranded", "shut_down", "shutdown",
+  "permanently_closed", "no_longer_hiring", "not_hiring", "closed",
+  "inactive", "defunct", "acquired", "out_of_business",
+];
+
+const platformOptions: Platform[] = (platformsData as any[])
+  .filter((p) => !inactiveStatuses.includes((p.driverStatus || "").toLowerCase()))
+  .map((p) => ({
     name: p.name,
-    logoUrl: p.logoUrl || p.logo || undefined,
-    category: p.category,
-    averageHourly: p.averageHourly ?? calculatedAverage,
-    schedulingType: p.schedulingType,
-    vehicleRequired: p.vehicleRequired,
-    tipsIncluded: p.tipsIncluded,
-    payoutSpeed: p.payoutSpeed,
-    signupDifficulty: p.signupDifficulty,
-    rating: p.rating,
-  };
-});
+    slug: p.slug,
+    logoUrl: p.logoUrl || undefined,
+    websiteUrl: p.websiteUrl || undefined,
+    categories: p.categories || [],
+    estimatedHourlyMin: p.estimatedHourlyMin,
+    estimatedHourlyMax: p.estimatedHourlyMax,
+    vehicleTypes: p.vehicleTypes || [],
+    tipsAllowed: !!p.tipsAllowed,
+    paymentFrequency: p.paymentFrequency,
+    instantPayAvailable: !!p.instantPayAvailable,
+    backgroundCheckRequired: !!p.backgroundCheckRequired,
+    minAge: p.minAge,
+    deliveryType: p.deliveryType,
+    keyFeatures: p.keyFeatures,
+    userFeedback: p.userFeedback,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 function getHighlightFields(a: Platform, b: Platform) {
   const highlight: { [field: string]: boolean } = {};
   if (!a || !b) return highlight;
-  if (a.averageHourly && b.averageHourly) {
-    highlight.averageHourly = a.averageHourly > b.averageHourly;
-  }
-  if (a.rating && b.rating) {
-    highlight.rating = a.rating > b.rating;
-  }
+  const aAvg = (a.estimatedHourlyMin || 0) + (a.estimatedHourlyMax || 0);
+  const bAvg = (b.estimatedHourlyMin || 0) + (b.estimatedHourlyMax || 0);
+  if (aAvg > bAvg) highlight.pay = true;
   return highlight;
 }
 
@@ -38,8 +44,8 @@ const CompareTool: React.FC = () => {
   const [platformA, setPlatformA] = useState<Platform | null>(null);
   const [platformB, setPlatformB] = useState<Platform | null>(null);
 
-  const availableA = platformOptions.filter(p => !platformB || p.name !== platformB.name);
-  const availableB = platformOptions.filter(p => !platformA || p.name !== platformA.name);
+  const availableA = platformOptions.filter((p) => !platformB || p.name !== platformB.name);
+  const availableB = platformOptions.filter((p) => !platformA || p.name !== platformA.name);
 
   return (
     <>
@@ -50,13 +56,13 @@ const CompareTool: React.FC = () => {
             id="platformA"
             className="w-full rounded-lg border border-slate-300 p-2 text-base"
             value={platformA?.name || ""}
-            onChange={e => {
-              const selected = platformOptions.find(p => p.name === e.target.value);
+            onChange={(e) => {
+              const selected = platformOptions.find((p) => p.name === e.target.value);
               setPlatformA(selected || null);
             }}
           >
             <option value="">Select Platform</option>
-            {availableA.map(p => (
+            {availableA.map((p) => (
               <option key={p.name} value={p.name}>{p.name}</option>
             ))}
           </select>
@@ -67,13 +73,13 @@ const CompareTool: React.FC = () => {
             id="platformB"
             className="w-full rounded-lg border border-slate-300 p-2 text-base"
             value={platformB?.name || ""}
-            onChange={e => {
-              const selected = platformOptions.find(p => p.name === e.target.value);
+            onChange={(e) => {
+              const selected = platformOptions.find((p) => p.name === e.target.value);
               setPlatformB(selected || null);
             }}
           >
             <option value="">Select Platform</option>
-            {availableB.map(p => (
+            {availableB.map((p) => (
               <option key={p.name} value={p.name}>{p.name}</option>
             ))}
           </select>
