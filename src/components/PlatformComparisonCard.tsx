@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import StarRating from "@/components/StarRating";
 
 export type Platform = {
+  id?: string;
   name: string;
   slug?: string;
   logoUrl?: string;
@@ -34,11 +35,21 @@ function getDomain(url?: string): string | null {
   } catch { return null; }
 }
 
+const LOCAL_LOGOS: Record<string, string> = {
+  doordash: '/logos/doordash.svg',
+  ubereats: '/logos/ubereats.svg',
+  instacart: '/logos/instacart.svg',
+  uber: '/logos/uber.svg',
+  lyft: '/logos/lyft.svg',
+  thumbtack: '/logos/thumbtack.svg',
+};
+
 export const PlatformComparisonCard: React.FC<PlatformComparisonCardProps> = ({ platform, highlight = {} }) => {
   const [imgError, setImgError] = useState(false);
   const platformSlug = platform.slug || platform.name.toLowerCase().replace(/\s+/g, "-");
   const domain = getDomain(platform.websiteUrl);
-  const logoSrc = platform.logoUrl || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
+  const localLogo = platform.id ? LOCAL_LOGOS[platform.id] : null;
+  const logoSrc = localLogo || platform.logoUrl || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
 
   const payRange = platform.estimatedHourlyMin && platform.estimatedHourlyMax
     ? `$${platform.estimatedHourlyMin}–$${platform.estimatedHourlyMax}/hr`

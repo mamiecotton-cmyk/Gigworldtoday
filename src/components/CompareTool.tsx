@@ -12,6 +12,7 @@ const inactiveStatuses = [
 const platformOptions: Platform[] = (platformsData as any[])
   .filter((p) => !inactiveStatuses.includes((p.driverStatus || "").toLowerCase()))
   .map((p) => ({
+    id: p.id,
     name: p.name,
     slug: p.slug,
     logoUrl: p.logoUrl || undefined,
