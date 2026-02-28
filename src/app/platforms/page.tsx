@@ -53,6 +53,7 @@ export default function PlatformsPage() {
   const [sortBy, setSortBy] = useState("a-z");
   const [filters, setFilters] = useState<FilterOptions>({});
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   // Restore scroll position when returning to this page
   useEffect(() => {
@@ -61,6 +62,13 @@ export default function PlatformsPage() {
       setTimeout(() => window.scrollTo(0, parseInt(saved)), 100);
       sessionStorage.removeItem("platforms-scroll");
     }
+  }, []);
+
+  // Show/hide back to top button
+  useEffect(() => {
+    const handleScroll = () => setShowBackToTop(window.scrollY > 600);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close dropdown when clicking outside
@@ -520,6 +528,18 @@ export default function PlatformsPage() {
               Clear All Filters
             </button>
           </div>
+        )}
+        {/* Back to Top */}
+        {showBackToTop && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-6 right-6 z-50 bg-teal-500 hover:bg-teal-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg transition-all hover:scale-110"
+            aria-label="Back to top"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+          </button>
         )}
       </div>
     </div>
