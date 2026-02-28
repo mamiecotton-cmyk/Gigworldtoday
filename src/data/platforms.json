@@ -768,8 +768,16 @@
     ],
     "regions": {
       "USA": {
-        "status": "Available",
-        "waitlistStatus": "unknown"
+        "status": "Active",
+        "cities": [
+          "San Diego, CA",
+          "Orange County, CA",
+          "Los Angeles, CA",
+          "Inland Empire, CA",
+          "Bay Area, CA",
+          "Phoenix, AZ",
+          "Tucson, AZ"
+        ]
       }
     },
     "payModel": "per_delivery",
@@ -781,7 +789,7 @@
     "paymentFrequency": "weekly",
     "deliveryType": "scheduled",
     "setupRequired": true,
-    "lastUpdated": "2026-02-16",
+    "lastUpdated": "2026-02-28",
     "dataSources": [
       "official_website",
       "driver_portal"
