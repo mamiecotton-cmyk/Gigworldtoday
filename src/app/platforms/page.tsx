@@ -210,6 +210,11 @@ export default function PlatformsPage() {
       );
     }
 
+    // 18+ filter (platforms that don't require age 21+)
+    if ((filters as any).minAge18) {
+      list = list.filter((p) => !p.minAge || p.minAge <= 18);
+    }
+
     return list;
   }, [platforms, submittedQuery, filters]);
 
@@ -255,6 +260,7 @@ export default function PlatformsPage() {
     if (filters.payFrequency?.length) count++;
     if (typeof filters.instantPayout !== "undefined") count++;
     if (filters.deliveryType) count++;
+    if ((filters as any).minAge18) count++;
     return count;
   }, [filters]);
 
@@ -435,6 +441,21 @@ export default function PlatformsPage() {
                 </div>
               )}
             </div>
+
+            {/* 18+ Only Toggle */}
+            <button
+              onClick={() =>
+                setFilters((prev) => ({
+                  ...prev,
+                  minAge18: prev.minAge18 === undefined ? true : undefined,
+                }))
+              }
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                (filters as any).minAge18 ? "bg-teal-50 border-teal-200 text-teal-700" : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              18+
+            </button>
 
             {/* Instant Pay Toggle */}
             <button
