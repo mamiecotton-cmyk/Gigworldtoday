@@ -47,7 +47,7 @@ export const PlatformComparisonCard: React.FC<PlatformComparisonCardProps> = ({ 
     : "—";
 
   const categories = platform.categories?.length
-    ? platform.categories.slice(0, 3).map(c => c.replace(/_/g, " ")).join(", ")
+    ? platform.categories.slice(0, 2).map(c => c.replace(/_/g, " ")).join(", ")
     : "—";
 
   const payFreq = platform.paymentFrequency?.replace(/_/g, " ") || "—";
@@ -77,19 +77,15 @@ export const PlatformComparisonCard: React.FC<PlatformComparisonCardProps> = ({ 
       <div className="hidden sm:block">
         <StarRating platformSlug={platformSlug} />
       </div>
-      <div className="w-full mt-3">
-        <table className="w-full text-sm">
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.label}>
-                <td className="py-1 pr-1 text-slate-400 text-[11px] sm:text-sm whitespace-nowrap align-top">{row.label}</td>
-                <td className={`py-1 font-semibold capitalize text-[12px] sm:text-sm leading-tight ${highlight[row.key || ""] ? "text-green-600" : "text-slate-800"}`}>
-                  {row.value}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="w-full mt-3 space-y-2">
+        {rows.map((row) => (
+          <div key={row.label} className="border-b border-gray-50 pb-1.5">
+            <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wide">{row.label}</p>
+            <p className={`text-[13px] sm:text-sm font-semibold capitalize leading-tight ${highlight[row.key || ""] ? "text-green-600" : "text-slate-800"}`}>
+              {row.value}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
