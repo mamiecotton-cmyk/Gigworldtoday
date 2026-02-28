@@ -2724,6 +2724,7 @@
     "description": "Instawork is a staffing platform for general labor and hospitality shifts offering a hybrid 1099 and W-2 model. Workers get transparent hourly rates, full 8-hour blocks, and a Reliability score tracking system. Active in 40+ major U.S. markets. Instapay lets you access 60% of earnings within 1 hour for a 5% fee.",
     "logoUrl": null,
     "websiteUrl": "https://www.instawork.com",
+    "applyUrl": "https://www.instawork.com/worker",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3440,7 +3441,7 @@
     "name": "iSecretShop",
     "description": "iSecretShop is a mystery shopping platform and job aggregator connecting shoppers with multiple mystery shopping providers (MSPs). The platform does not pay shoppers directly \u2014 payment comes from individual MSPs. Free to register with mobile-first assignment workflows including geo-tags, time stamps, and photo capture.",
     "logoUrl": null,
-    "websiteUrl": "https://www.isecretshop.com",
+    "websiteUrl": "https://www.isecretshop.com/?redirect=no#firstPage",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3548,6 +3549,8 @@
     "description": "Lugg is a moving and large-item delivery app with driver and helper roles. Claims same-day pay for completed jobs. Also partners with retailers for same-day big-and-bulky delivery of purchased items. Two-person moving crews handle furniture and large items.",
     "logoUrl": null,
     "websiteUrl": "https://lugg.com",
+    "applyUrl": "https://lugg.com/become-a-lugger",
+    "applyButtonColor": "#ff7a00",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3600,7 +3603,8 @@
     "name": "Medzoomer",
     "description": "Medzoomer is an on-demand prescription delivery platform connecting pharmacies with HIPAA-certified couriers. Drivers must complete training and become HIPAA certified before first deliveries. Background-checked courier network handles pharmacy-to-patient medication delivery.",
     "logoUrl": null,
-    "websiteUrl": "https://www.medzoomer.com",
+    "websiteUrl": "https://medzoomer.com/become-a-courier/",
+    "applyUrl": "https://careers.us-2.fountain.com/medzoomer",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
