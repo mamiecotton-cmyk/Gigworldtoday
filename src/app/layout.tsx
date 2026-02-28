@@ -15,6 +15,13 @@ export const metadata: Metadata = {
     url: "https://gigworldtoday.com",
     siteName: "GigWorldToday",
     type: "website",
+    images: [
+      {
+        url: "https://gigworldtoday.com/your-banner-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   robots: {
     index: true,
