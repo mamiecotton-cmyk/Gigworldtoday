@@ -117,7 +117,10 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
       </div>
 
       {/* Description */}
-      <p className="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-5 flex-grow">
+      <p
+        className="text-sm text-gray-500 leading-relaxed mb-5 flex-grow overflow-hidden"
+        style={{ display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" }}
+      >
         {platform.description}
       </p>
 
