@@ -454,7 +454,7 @@ export default function PlatformsPage() {
                 (filters as any).minAge18 ? "bg-teal-50 border-teal-200 text-teal-700" : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
               }`}
             >
-              18+
+              Age 18+
             </button>
 
             {/* Instant Pay Toggle */}
