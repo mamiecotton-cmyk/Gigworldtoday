@@ -46,7 +46,7 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
   const [imgError, setImgError] = useState(false);
   const domain = getDomain(platform);
   const localLogo = LOCAL_LOGOS[platform.id];
-  const logoSrc = localLogo || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
+  const logoSrc = localLogo || platform.logoUrl || (domain ? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=128` : null);
 
   const category =
     Array.isArray(platform.categories) && platform.categories.length > 0
