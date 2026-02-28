@@ -66,14 +66,16 @@ export const PlatformComparisonCard: React.FC<PlatformComparisonCardProps> = ({ 
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white px-2 py-3 sm:p-6 shadow-md flex flex-col items-center w-full mx-auto">
-      <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-2 overflow-hidden">
-        {logoSrc ? (
-          <img src={logoSrc} alt={platform.name} className="w-10 h-10 object-contain" />
-        ) : (
-          <span className="text-lg font-bold text-teal-600">{platform.name.charAt(0)}</span>
-        )}
-      </div>
-      <h2 className="text-base sm:text-xl font-bold mb-1 text-center">{platform.name}</h2>
+      <a href={`/platforms/${platformSlug}`} className="flex flex-col items-center hover:opacity-80 transition-opacity">
+        <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-2 overflow-hidden">
+          {logoSrc ? (
+            <img src={logoSrc} alt={platform.name} className="w-10 h-10 object-contain" />
+          ) : (
+            <span className="text-lg font-bold text-teal-600">{platform.name.charAt(0)}</span>
+          )}
+        </div>
+        <h2 className="text-base sm:text-xl font-bold mb-1 text-center text-gray-900 hover:text-teal-600 transition-colors">{platform.name}</h2>
+      </a>
       <div className="hidden sm:block">
         <StarRating platformSlug={platformSlug} />
       </div>
