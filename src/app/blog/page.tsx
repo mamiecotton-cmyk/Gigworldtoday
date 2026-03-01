@@ -45,14 +45,14 @@ export default async function Page() {
       </div>
       {/* Article Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 pb-20">
-        {articles.map((article) => (
+            {articles.map((article) => (
           <Link
             key={article.id}
             href={`/blog/${article.slug}`}
             className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-neutral-100"
           >
             {article.featured_image && (
-              <div className="relative aspect-[16/10] w-full overflow-hidden">
+              <div className="relative h-[220px] w-full overflow-hidden">
                 <Image
                   src={article.featured_image}
                   alt={article.title}

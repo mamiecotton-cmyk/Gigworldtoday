@@ -41,11 +41,13 @@ export default async function BlogArticlePage({
       </h1>
 
       {article.featured_image && (
-        <img
-          src={article.featured_image}
-          alt=""
-          className="w-full rounded-xl mb-8"
-        />
+        <div className="max-h-[400px] overflow-hidden rounded-xl mb-8">
+          <img
+            src={article.featured_image}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </div>
       )}
 
       <ArticleRenderer contentJson={article.content_json} />
