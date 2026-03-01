@@ -83,10 +83,16 @@ export default function ArticleForm({
       return false;
     });
 
+    const plainContent = sanitized
+      .filter((b: any) => b.type === "text")
+      .map((b: any) => b.content.replace(/<[^>]*>/g, ""))
+      .join("\n\n");
+
     const payload: any = {
       title,
       slug,
       excerpt,
+      content: plainContent,
       content_json: sanitized,
       featured_image: featuredImageUrl,
     };
