@@ -27,6 +27,7 @@ export type Block =
       src: string;
       layout: "full" | "left" | "right" | "center";
       widthPercent?: number;
+      align?: "left" | "center" | "right";
       objectPosition?: string;
       alt: string;
       caption: string;
