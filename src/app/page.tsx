@@ -333,29 +333,29 @@ export default function HomePage() {
                 <Link
                   key={idx}
                   href={`/platforms/${platform.slug}`}
-                  className="group relative border border-gray-200 rounded-2xl p-5 bg-white shadow-sm hover:shadow-xl hover:border-teal-300 transition-all duration-300 flex flex-col overflow-hidden"
+                  className="group relative border border-gray-200 rounded-xl p-3 bg-white shadow-sm hover:shadow-xl hover:border-teal-300 transition-all duration-300 flex flex-col overflow-hidden"
                 >
-                  <div className="absolute top-0 left-4 right-4 h-[3px] rounded-b-full bg-gradient-to-r from-teal-400 to-teal-500" />
-                  <div className="flex items-center gap-3 mt-2 mb-3">
-                    <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  <div className="absolute top-0 left-3 right-3 h-[2px] rounded-b-full bg-gradient-to-r from-teal-400 to-teal-500" />
+                  <div className="flex items-center gap-2 mt-1 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
                       {logoSrc ? (
-                        <img src={logoSrc} alt={platform.name} className="w-8 h-8 object-contain" />
+                        <img src={logoSrc} alt={platform.name} className="w-6 h-6 object-contain" />
                       ) : (
-                        <span className="text-lg font-bold text-teal-600">{platform.name.charAt(0)}</span>
+                        <span className="text-sm font-bold text-teal-600">{platform.name.charAt(0)}</span>
                       )}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{platform.name}</h3>
-                      <p className="text-sm text-gray-400 capitalize">{category}</p>
+                      <h3 className="text-base font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{platform.name}</h3>
+                      <p className="text-xs text-gray-400 capitalize">{category}</p>
                     </div>
                   </div>
                   {platform.estimatedHourlyMin && platform.estimatedHourlyMax && (
-                    <span className="inline-block bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold rounded-full px-3 py-1 text-sm mb-3 w-fit">
+                    <span className="inline-block bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold rounded-full px-2 py-0.5 text-xs mb-2 w-fit">
                       ${platform.estimatedHourlyMin}–${platform.estimatedHourlyMax}/hr estimated
                     </span>
                   )}
-                  <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow">{platform.description}</p>
-                  <span className="block w-full text-center bg-orange-500 group-hover:bg-orange-600 text-white font-semibold rounded-lg px-5 py-2.5 transition-colors mt-auto">
+                  <p className="text-xs text-gray-500 line-clamp-2 mb-3 flex-grow">{platform.description}</p>
+                  <span className="block w-full text-center bg-orange-500 group-hover:bg-orange-600 text-white font-semibold rounded-lg px-4 py-1.5 text-sm transition-colors mt-auto">
                     View Details →
                   </span>
                 </Link>
