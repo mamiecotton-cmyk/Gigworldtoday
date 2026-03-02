@@ -28,6 +28,7 @@ export default function HomePage() {
   const [exiting, setExiting] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [entered, setEntered] = useState(false);
+  const [platformPage, setPlatformPage] = useState(0);
   useEffect(() => {
     const timer = setTimeout(() => {
       setEntered(true);
@@ -99,6 +100,11 @@ export default function HomePage() {
     payValues.length > 0
       ? payValues.reduce((a, b) => a + b, 0) / payValues.length
       : 0;
+
+  const featuredPlatformIds = ["ubereats", "doordash", "instacart", "expedite", "spark", "amazon-flex", "senpex", "zifty", "roadie"];
+  const featuredPlatforms = featuredPlatformIds
+    .map(id => platforms.find((p: any) => p.id === id || p.slug === id))
+    .filter(Boolean) as any[];
 
   /* ===============================
      AUTOSUGGESTIONS
@@ -310,8 +316,9 @@ export default function HomePage() {
             <h2 className="text-2xl font-bold tracking-tight">Explore Gig Platforms</h2>
             <span className="text-sm text-gray-500">{totalPlatforms} Platforms Listed</span>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[...platforms].sort(() => Math.random() - 0.5).slice(0, 3).map((platform: any, idx: number) => {
+          <div className="relative">
+            <div className="grid md:grid-cols-3 gap-6">
+            {featuredPlatforms.slice(platformPage * 3, platformPage * 3 + 3).map((platform: any, idx: number) => {
               const LOCAL: Record<string, string> = {
                 doordash: '/logos/doordash.svg', ubereats: '/logos/ubereats.svg',
                 instacart: '/logos/instacart.svg', uber: '/logos/uber.svg',
@@ -362,10 +369,30 @@ export default function HomePage() {
               );
             })}
           </div>
-          <div className="text-center mt-4">
+          <div className="flex items-center justify-center gap-4 mt-4">
+            <button
+              onClick={() => setPlatformPage(p => Math.max(0, p - 1))}
+              disabled={platformPage === 0}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
+            >
+              ←
+            </button>
+            <span className="text-sm text-gray-500">
+              {platformPage + 1} / {Math.ceil(featuredPlatforms.length / 3)}
+            </span>
+            <button
+              onClick={() => setPlatformPage(p => Math.min(Math.ceil(featuredPlatforms.length / 3) - 1, p + 1))}
+              disabled={platformPage >= Math.ceil(featuredPlatforms.length / 3) - 1}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
+            >
+              →
+            </button>
+          </div>
+          <div className="text-center mt-3">
             <Link href="/platforms" className="inline-block px-6 py-3 rounded-xl bg-teal-500 text-white font-semibold hover:bg-teal-600 transition">
               Browse All {totalPlatforms} Platforms →
             </Link>
+          </div>
           </div>
         </div>
       </section>
@@ -381,37 +408,49 @@ export default function HomePage() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {latestArticles.length > 0 ? latestArticles.map((article: any) => (
-              <Link
-                key={article.slug}
-                href={`/blog/${article.slug}`}
-                className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition duration-300"
-              >
-                <div className="relative h-[220px] w-full overflow-hidden bg-gray-50">
+                <Link
+                  key={article.slug}
+                  href={`/blog/${article.slug}`}
+                  className="group relative overflow-hidden rounded-2xl border border-teal-100/20 bg-gradient-to-br from-white/10 via-white/5 to-teal-900/10 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-teal-400/40"
+                >
+                  {/* Top accent bar */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-teal-500 to-orange-400" />
+
                   {article.featured_image ? (
-                    <Image
-                      src={article.featured_image}
-                      alt={article.title}
-                      fill
-                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                    />
+                    <div className="relative w-full overflow-hidden bg-white/5 flex items-center justify-center p-2">
+                      <Image
+                        src={article.featured_image}
+                        alt={article.title}
+                        width={400}
+                        height={200}
+                        className="w-full h-auto object-contain max-h-[140px] transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
                   ) : (
-                    <div className="h-full w-full flex items-start justify-start bg-gradient-to-br from-gray-100 to-gray-200 p-6">
-                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-6">{article.excerpt}</p>
+                    <div className="w-full bg-white/5 p-3">
+                      <p className="text-xs text-gray-300 leading-relaxed line-clamp-4">{article.excerpt}</p>
                     </div>
                   )}
-                </div>
-                <div className="p-5">
-                  <h3 className="font-semibold text-white group-hover:text-teal-400 transition-colors mb-2">
-                    {article.title}
-                  </h3>
-                  {article.featured_image && (
-                    <p className="text-sm text-gray-400 line-clamp-2">{article.excerpt}</p>
-                  )}
-                  <p className="text-xs text-gray-500 mt-3">
-                    {new Date(article.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                  </p>
-                </div>
-              </Link>
+
+                  <div className="space-y-1.5 p-3">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-white group-hover:text-teal-400 transition-colors">
+                        {article.title}
+                      </h3>
+                    </div>
+                    {article.featured_image && (
+                      <p className="text-xs text-gray-400 line-clamp-2">{article.excerpt}</p>
+                    )}
+                    <div className="flex items-center justify-between pt-1">
+                      <span className="text-[10px] text-gray-500">
+                        {new Date(article.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </span>
+                      <span className="text-xs font-semibold text-teal-400 group-hover:text-teal-300 transition-colors">
+                        Read More →
+                      </span>
+                    </div>
+                  </div>
+                </Link>
             )) : (
               <p className="text-gray-500 col-span-3 text-center py-8">No articles published yet.</p>
             )}

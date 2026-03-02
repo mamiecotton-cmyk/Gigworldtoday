@@ -13,26 +13,43 @@ export default function ProductCard({ product, detailsHref }: ProductCardProps) 
   const primaryImage = (product.images && product.images.length ? product.images[0] : product.image) || "/city-background.jpg";
 
   return (
-    <article className={`relative group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${compact ? 'min-h-0' : ''}`}>
-      {/* Decorative accents behind content */}
-      <div className={`pointer-events-none absolute left-0 top-0 bottom-0 w-1 ${compact ? 'opacity-80' : 'opacity-60'} bg-gradient-to-b from-teal-400 to-transparent`} />
-      <div className={`pointer-events-none absolute -top-6 -right-6 rounded-full ${compact ? 'w-16 h-16' : 'w-28 h-28'} bg-gradient-to-br from-teal-300 to-teal-500 opacity-20 blur-lg`} />
+    <article className={`relative group overflow-hidden rounded-2xl border border-teal-100 bg-gradient-to-br from-teal-50/60 via-white to-orange-50/40 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-teal-300 ${compact ? 'min-h-0' : ''}`}>
+      {/* Top accent bar */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-teal-500 to-orange-400" />
 
-      <div className={`w-full ${compact ? 'aspect-square' : 'aspect-[4/3]'} overflow-hidden bg-gray-50 flex items-center justify-center p-3 relative z-10`}>
+      {/* Featured badge */}
+      {product.featured && (
+        <div className="absolute top-3 right-3 z-20 bg-orange-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-md">
+          ⭐ Featured
+        </div>
+      )}
+
+      {/* Image area */}
+      <div className={`w-full overflow-hidden bg-white/60 flex items-center justify-center ${compact ? 'p-2' : 'p-3'} relative z-10`}>
         <img
           src={primaryImage}
           alt={product.name}
-          className={`max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.02] ${compact ? '' : ''}`}
+          className={`w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105 ${compact ? 'max-h-[140px]' : 'max-h-[220px]'}`}
         />
       </div>
-      <div className={`${compact ? 'space-y-2 p-3' : 'space-y-4 p-6'} relative z-10`}>
-        <h3 className={`${compact ? 'text-sm' : 'text-lg'} font-semibold text-gray-900`}>{product.name}</h3>
+
+      {/* Content area */}
+      <div className={`${compact ? 'space-y-1.5 p-3' : 'space-y-4 p-6'} relative z-10`}>
+        {/* Price badge */}
+        <div className="flex items-center justify-between">
+          <h3 className={`${compact ? 'text-sm' : 'text-lg'} font-bold text-gray-900`}>{product.name}</h3>
+          {product.price && (
+            <span className={`${compact ? 'text-xs px-2 py-0.5' : 'text-sm px-3 py-1'} font-bold text-teal-700 bg-teal-100 rounded-full border border-teal-200`}>
+              {product.price}
+            </span>
+          )}
+        </div>
         <p className={`text-sm text-gray-600 ${compact ? 'max-h-10 overflow-hidden' : 'leading-relaxed'}`}>{product.short_description}</p>
         <Link
           href={href}
-          className={`inline-flex items-center rounded-xl bg-gray-900 ${compact ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'} font-semibold text-white transition-colors hover:bg-gray-700`}
+          className={`inline-flex items-center rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 ${compact ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'} font-semibold text-white transition-all hover:from-teal-600 hover:to-teal-700 hover:shadow-md`}
         >
-          View Details
+          View Details →
         </Link>
       </div>
     </article>
