@@ -311,7 +311,7 @@ export default function HomePage() {
             <span className="text-sm text-gray-500">{totalPlatforms} Platforms Listed</span>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {platforms.slice(0, 3).map((platform: any, idx: number) => {
+            {[...platforms].sort(() => Math.random() - 0.5).slice(0, 3).map((platform: any, idx: number) => {
               const LOCAL: Record<string, string> = {
                 doordash: '/logos/doordash.svg', ubereats: '/logos/ubereats.svg',
                 instacart: '/logos/instacart.svg', uber: '/logos/uber.svg',
