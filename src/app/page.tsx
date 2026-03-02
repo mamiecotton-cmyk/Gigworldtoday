@@ -184,7 +184,7 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 container mx-auto px-8 py-6 flex flex-row items-center justify-between w-full">
-          <div className="relative z-10 max-w-2xl w-full">
+          <div className="relative z-10 max-w-3xl w-full">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-3 text-white tracking-tight">
               The Hub for Modern Gig Workers
             </h1>
