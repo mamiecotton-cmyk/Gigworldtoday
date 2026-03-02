@@ -66,6 +66,11 @@ export default function Footer() {
           aria-label="Reddit"
           className="group relative"
         >
+          {/* Tooltip */}
+          <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+            Reddit
+          </span>
+
           {/* Animated glow ring */}
           <span className="absolute inset-0 rounded-full bg-gradient-to-tr from-orange-400 via-red-500 to-orange-400 opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-500 scale-125" />
           
