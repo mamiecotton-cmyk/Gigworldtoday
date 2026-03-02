@@ -20,6 +20,7 @@ export default async function BlogArticlePage({
       slug,
       title,
       featured_image,
+      show_featured_on_detail,
       content_json,
       published,
       deleted_at
@@ -40,7 +41,7 @@ export default async function BlogArticlePage({
         {article.title}
       </h1>
 
-      {article.featured_image && (
+      {article.featured_image && article.show_featured_on_detail !== false && (
         <div className="max-h-[400px] overflow-hidden rounded-xl mb-8">
           <img
             src={article.featured_image}

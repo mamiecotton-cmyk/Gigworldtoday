@@ -51,14 +51,14 @@ export default async function Page() {
             href={`/blog/${article.slug}`}
             className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-neutral-100"
           >
-            {article.featured_image && (
+            {article.featured_image && article.show_featured_on_list !== false && (
               <div className="relative h-[220px] w-full overflow-hidden">
                 <Image
                   src={article.featured_image}
                   alt={article.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-contain transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             )}

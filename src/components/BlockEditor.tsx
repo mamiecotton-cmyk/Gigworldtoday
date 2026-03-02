@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import ReactCrop, { type Crop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 import { supabase } from "@/lib/supabaseClient";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
@@ -60,12 +62,13 @@ function ResizableImageBlock({
   setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const cropImgRef = useRef<HTMLImageElement>(null);
   const [resizing, setResizing] = useState(false);
-  const [repositioning, setRepositioning] = useState(false);
-  const [showReposition, setShowReposition] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [cropping, setCropping] = useState(false);
+  const [crop, setCrop] = useState<Crop>({ unit: "%", x: 10, y: 10, width: 80, height: 80 });
   const widthPercent = block.widthPercent || 100;
-  const objectPosition = block.objectPosition || "center center";
+  const align = block.align || "left";
 
   const handleFileUpload = async (file: File) => {
     setUploading(true);
@@ -113,44 +116,46 @@ function ResizableImageBlock({
     window.addEventListener("mouseup", handleMouseUp);
   };
 
-  const handleRepositionDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setRepositioning(true);
+  const applyCrop = async () => {
+    const img = cropImgRef.current;
+    if (!img || !crop.width || !crop.height) return;
+    setUploading(true);
 
-    const imgEl = e.currentTarget as HTMLElement;
-    const rect = imgEl.getBoundingClientRect();
-    const startX = e.clientX;
-    const startY = e.clientY;
+    try {
+      const canvas = document.createElement("canvas");
+      const scaleX = img.naturalWidth / img.width;
+      const scaleY = img.naturalHeight / img.height;
 
-    const parts = objectPosition.split(" ");
-    const startPosX = parseFloat(parts[0]) || 50;
-    const startPosY = parseFloat(parts[1]) || 50;
+      const pixelX = (crop.unit === "%" ? (crop.x / 100) * img.width : crop.x) * scaleX;
+      const pixelY = (crop.unit === "%" ? (crop.y / 100) * img.height : crop.y) * scaleY;
+      const pixelW = (crop.unit === "%" ? (crop.width / 100) * img.width : crop.width) * scaleX;
+      const pixelH = (crop.unit === "%" ? (crop.height / 100) * img.height : crop.height) * scaleY;
 
-    const handleMouseMove = (ev: MouseEvent) => {
-      const deltaX = ev.clientX - startX;
-      const deltaY = ev.clientY - startY;
+      canvas.width = pixelW;
+      canvas.height = pixelH;
 
-      const pctX = Math.max(0, Math.min(100, startPosX - (deltaX / rect.width) * 100));
-      const pctY = Math.max(0, Math.min(100, startPosY - (deltaY / rect.height) * 100));
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.drawImage(img, pixelX, pixelY, pixelW, pixelH, 0, 0, pixelW, pixelH);
 
-      const rounded = `${Math.round(pctX)}% ${Math.round(pctY)}%`;
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Canvas toBlob failed"))), "image/jpeg", 0.92);
+      });
+
+      const file = new File([blob], `cropped-${Date.now()}.jpg`, { type: "image/jpeg" });
+      const url = await uploadImageToSupabase(file, "cropped");
 
       setBlocks((prev) =>
         prev.map((b) =>
-          b.id === block.id ? { ...b, objectPosition: rounded } : b
+          b.id === block.id ? { ...b, src: url } : b
         )
       );
-    };
-
-    const handleMouseUp = () => {
-      setRepositioning(false);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+      setCropping(false);
+    } catch (err: any) {
+      alert(err.message || "Failed to crop image");
+    } finally {
+      setUploading(false);
+    }
   };
 
   // No image yet — show upload UI
@@ -204,41 +209,59 @@ function ResizableImageBlock({
     );
   }
 
-  // Image exists — show preview with controls
+  // Crop mode
+  if (cropping) {
+    return (
+      <div className="space-y-3">
+        <div className="border-2 border-teal-400 rounded-xl p-2 bg-gray-50">
+          <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
+            <img
+              ref={cropImgRef}
+              src={block.src}
+              alt=""
+              className="max-w-full"
+              crossOrigin="anonymous"
+            />
+          </ReactCrop>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={applyCrop}
+            disabled={uploading}
+            className="px-3 py-1.5 rounded text-xs font-semibold bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50"
+          >
+            {uploading ? "Cropping..." : "✓ Apply Crop"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setCropping(false)}
+            className="px-3 py-1.5 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Normal view with resize + controls
+  const alignClass =
+    align === "center" ? "mx-auto" : align === "right" ? "ml-auto" : "";
+
   return (
     <div className="space-y-3">
       <div ref={containerRef} className="relative">
         <div
           style={{ width: `${widthPercent}%` }}
-          className="relative group transition-[width] duration-75"
+          className={`relative group transition-[width] duration-75 ${alignClass}`}
         >
-          {showReposition ? (
-            <div
-              className="relative overflow-hidden rounded-xl"
-              style={{ height: 300 }}
-            >
-              <img
-                src={block.src}
-                alt={block.alt || ""}
-                className={`w-full h-full object-cover ${repositioning ? "cursor-grabbing" : "cursor-grab"}`}
-                style={{ objectPosition }}
-                draggable={false}
-                onMouseDown={handleRepositionDown}
-              />
-              {repositioning && (
-                <div className="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                  Position: {objectPosition}
-                </div>
-              )}
-            </div>
-          ) : (
-            <img
-              src={block.src}
-              alt={block.alt || ""}
-              className={`w-full h-auto rounded-xl ${resizing ? "select-none pointer-events-none" : ""}`}
-              draggable={false}
-            />
-          )}
+          <img
+            src={block.src}
+            alt={block.alt || ""}
+            className={`w-full h-auto rounded-xl ${resizing ? "select-none pointer-events-none" : ""}`}
+            draggable={false}
+          />
 
           {/* Resize handle */}
           <div
@@ -259,22 +282,44 @@ function ResizableImageBlock({
         <div className="flex items-center gap-2 mt-2 flex-wrap">
           <button
             type="button"
-            onClick={() => setShowReposition(!showReposition)}
-            className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
-              showReposition
-                ? "bg-teal-500 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
+            onClick={() => {
+              setCrop({ unit: "%", x: 10, y: 10, width: 80, height: 80 });
+              setCropping(true);
+            }}
+            className="px-2.5 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200"
           >
-            {showReposition ? "✓ Done Positioning" : "↔ Reposition"}
+            ✂ Crop
           </button>
+
+          {/* Alignment buttons */}
+          {(["left", "center", "right"] as const).map((a) => (
+            <button
+              key={a}
+              type="button"
+              onClick={() =>
+                setBlocks((prev) =>
+                  prev.map((b) =>
+                    b.id === block.id ? { ...b, align: a } : b
+                  )
+                )
+              }
+              className={`px-2 py-1 rounded text-xs font-medium transition-all ${
+                align === a
+                  ? "bg-teal-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {a === "left" ? "◀" : a === "center" ? "◆" : "▶"}
+            </button>
+          ))}
+
           <button
             type="button"
             onClick={() =>
               setBlocks((prev) =>
                 prev.map((b) =>
                   b.id === block.id
-                    ? { ...b, objectPosition: "center center", widthPercent: 100 }
+                    ? { ...b, widthPercent: 100, align: "left" }
                     : b
                 )
               )
@@ -283,6 +328,7 @@ function ResizableImageBlock({
           >
             Reset
           </button>
+
           <label className="px-2.5 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 cursor-pointer">
             {uploading ? "Uploading..." : "Replace"}
             <input
@@ -296,8 +342,9 @@ function ResizableImageBlock({
               }}
             />
           </label>
+
           <span className="text-[11px] text-gray-400 ml-auto">
-            {widthPercent}% wide
+            {widthPercent}% wide · {align}
           </span>
         </div>
       </div>

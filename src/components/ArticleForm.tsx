@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ReactCrop, { type Crop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import BlockEditor, { Block } from "@/components/BlockEditor";
@@ -37,7 +39,44 @@ export default function ArticleForm({
 
   // Featured image state
   const [featuredImageUrl, setFeaturedImageUrl] = useState<string | null>(initialFeaturedImage);
+  const [showFeaturedOnList, setShowFeaturedOnList] = useState(true);
+  const [showFeaturedOnDetail, setShowFeaturedOnDetail] = useState(true);
   const [uploadingFeatured, setUploadingFeatured] = useState(false);
+  const [croppingFeatured, setCroppingFeatured] = useState(false);
+  const [featuredCrop, setFeaturedCrop] = useState<Crop>({ unit: "%", x: 10, y: 10, width: 80, height: 80 });
+  const featuredCropImgRef = useRef<HTMLImageElement>(null);
+
+  const applyFeaturedCrop = async () => {
+    const img = featuredCropImgRef.current;
+    if (!img || !featuredCrop.width || !featuredCrop.height) return;
+    setUploadingFeatured(true);
+    try {
+      const canvas = document.createElement("canvas");
+      const scaleX = img.naturalWidth / img.width;
+      const scaleY = img.naturalHeight / img.height;
+      const c = featuredCrop;
+      const pixelX = (c.unit === "%" ? (c.x / 100) * img.width : c.x) * scaleX;
+      const pixelY = (c.unit === "%" ? (c.y / 100) * img.height : c.y) * scaleY;
+      const pixelW = (c.unit === "%" ? (c.width / 100) * img.width : c.width) * scaleX;
+      const pixelH = (c.unit === "%" ? (c.height / 100) * img.height : c.height) * scaleY;
+      canvas.width = pixelW;
+      canvas.height = pixelH;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.drawImage(img, pixelX, pixelY, pixelW, pixelH, 0, 0, pixelW, pixelH);
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Crop failed"))), "image/jpeg", 0.92);
+      });
+      const file = new File([blob], `featured-cropped-${Date.now()}.jpg`, { type: "image/jpeg" });
+      const url = await uploadImage(file, "featured");
+      setFeaturedImageUrl(url);
+      setCroppingFeatured(false);
+    } catch (err: any) {
+      alert(err.message || "Failed to crop image");
+    } finally {
+      setUploadingFeatured(false);
+    }
+  };
 
   const uploadImage = async (file: File, prefix: string): Promise<string> => {
     const fileExt = file.name.split(".").pop();
@@ -95,6 +134,8 @@ export default function ArticleForm({
       content: plainContent,
       content_json: sanitized,
       featured_image: featuredImageUrl,
+      show_featured_on_list: showFeaturedOnList,
+      show_featured_on_detail: showFeaturedOnDetail,
     };
 
     if (publish) {
@@ -181,22 +222,137 @@ export default function ArticleForm({
         <label className="block font-medium mb-1">Featured Image</label>
         {featuredImageUrl ? (
           <div className="space-y-2">
-            <div className="relative inline-block">
-              <img
-                src={featuredImageUrl}
-                alt="Featured"
-                className="max-h-48 rounded-lg border"
-              />
+            {croppingFeatured ? (
+              <div className="space-y-3">
+                <div className="flex gap-2 mb-2">
+                  <span className="text-xs text-gray-500 py-1">Preset:</span>
+                  <button
+                    type="button"
+                    onClick={() => setFeaturedCrop({ unit: "%", x: 0, y: 10, width: 100, height: 56.25 })}
+                    className="px-2 py-1 rounded text-xs font-medium bg-teal-50 text-teal-700 hover:bg-teal-100"
+                  >
+                    16:9 Blog Card
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeaturedCrop({ unit: "%", x: 0, y: 5, width: 100, height: 66.67 })}
+                    className="px-2 py-1 rounded text-xs font-medium bg-teal-50 text-teal-700 hover:bg-teal-100"
+                  >
+                    3:2 Landscape
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeaturedCrop({ unit: "%", x: 0, y: 0, width: 100, height: 100 })}
+                    className="px-2 py-1 rounded text-xs font-medium bg-teal-50 text-teal-700 hover:bg-teal-100"
+                  >
+                    1:1 Square
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeaturedCrop({ unit: "%", x: 10, y: 10, width: 80, height: 80 })}
+                    className="px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  >
+                    Free
+                  </button>
+                </div>
+                <div className="border-2 border-teal-400 rounded-xl p-2 bg-gray-50">
+                  <ReactCrop crop={featuredCrop} onChange={(c) => setFeaturedCrop(c)}>
+                    <img
+                      ref={featuredCropImgRef}
+                      src={featuredImageUrl}
+                      alt=""
+                      className="max-w-full"
+                      crossOrigin="anonymous"
+                    />
+                  </ReactCrop>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={applyFeaturedCrop}
+                    disabled={uploadingFeatured}
+                    className="px-3 py-1.5 rounded text-xs font-semibold bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50"
+                  >
+                    {uploadingFeatured ? "Cropping..." : "✓ Apply Crop"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCroppingFeatured(false)}
+                    className="px-3 py-1.5 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="relative inline-block">
+                <img
+                  src={featuredImageUrl}
+                  alt="Featured"
+                  className="max-h-48 rounded-lg border"
+                />
+                <button
+                  type="button"
+                  onClick={removeFeaturedImage}
+                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold shadow-md transition-colors"
+                  title="Remove featured image"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setFeaturedCrop({ unit: "%", x: 10, y: 10, width: 80, height: 80 });
+                  setCroppingFeatured(true);
+                }}
+                className="px-2.5 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200"
+              >
+                ✂ Crop
+              </button>
+              <label className="px-2.5 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 cursor-pointer">
+                Replace
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleFeaturedUpload(file);
+                  }}
+                />
+              </label>
               <button
                 type="button"
                 onClick={removeFeaturedImage}
-                className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold shadow-md transition-colors"
-                title="Remove featured image"
+                className="px-2.5 py-1 rounded text-xs font-medium bg-red-50 text-red-600 hover:bg-red-100"
               >
-                ✕
+                ✕ Remove
               </button>
             </div>
             <p className="text-xs text-gray-400 truncate max-w-md">{featuredImageUrl}</p>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-1.5 text-xs text-gray-600">
+                <input
+                  type="checkbox"
+                  checked={showFeaturedOnList}
+                  onChange={(e) => setShowFeaturedOnList(e.target.checked)}
+                  className="rounded"
+                />
+                Show on blog listing
+              </label>
+              <label className="flex items-center gap-1.5 text-xs text-gray-600">
+                <input
+                  type="checkbox"
+                  checked={showFeaturedOnDetail}
+                  onChange={(e) => setShowFeaturedOnDetail(e.target.checked)}
+                  className="rounded"
+                />
+                Show on article page
+              </label>
+            </div>
           </div>
         ) : (
           <div className="space-y-2">
@@ -246,17 +402,38 @@ export default function ArticleForm({
         <label>Published</label>
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
-        disabled={loading}
-      >
-        {loading
-          ? "Saving..."
-          : articleId
-          ? "Update Article"
-          : "Create Article"}
-      </button>
+      <div className="flex items-center gap-3">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+          disabled={loading}
+        >
+          {loading
+            ? "Saving..."
+            : articleId
+            ? "Update Article"
+            : "Create Article"}
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            if (!confirm("Discard all unsaved changes?")) return;
+            setTitle(initialTitle);
+            setSlug(initialSlug);
+            setExcerpt(initialExcerpt);
+            setBlocks(initialContent.length ? [...initialContent] : []);
+            setFeaturedImageUrl(initialFeaturedImage);
+            setShowFeaturedOnList(true);
+            setShowFeaturedOnDetail(true);
+            setPublished(typeof initialPublished === "boolean" ? initialPublished : false);
+            setError(null);
+            setSaved(false);
+          }}
+          className="px-4 py-2 rounded text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }

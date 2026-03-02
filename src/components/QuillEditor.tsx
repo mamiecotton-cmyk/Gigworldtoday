@@ -10,11 +10,15 @@ interface QuillEditorProps {
 export default function QuillEditor({ value, onChange }: QuillEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const quillRef = useRef<any>(null);
+  const handlerRef = useRef<any>(null);
   const onChangeRef = useRef(onChange);
   const isInternalChange = useRef(false);
 
   // Keep onChange ref current without re-initializing Quill
-  onChangeRef.current = onChange;
+  // Update via effect to avoid assigning during render
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     if (!containerRef.current || quillRef.current) return;
@@ -22,7 +26,15 @@ export default function QuillEditor({ value, onChange }: QuillEditorProps) {
     let cancelled = false;
 
     const initQuill = async () => {
-      const Quill = (await import("quill")).default;
+      let Quill: any;
+      try {
+        Quill = (await import("quill")).default;
+      } catch (err) {
+        // Fail gracefully if the library can't be loaded
+        // eslint-disable-next-line no-console
+        console.error("Failed to load Quill editor", err);
+        return;
+      }
 
       if (cancelled || !containerRef.current) return;
 
@@ -51,13 +63,14 @@ export default function QuillEditor({ value, onChange }: QuillEditorProps) {
         isInternalChange.current = false;
       }
 
-      // Listen for changes
-      q.on("text-change", () => {
+      // Listen for changes via a stable handler so we can detach on cleanup
+      handlerRef.current = () => {
         if (!isInternalChange.current) {
           const html = q.root.innerHTML;
           onChangeRef.current(html === "<p><br></p>" ? "" : html);
         }
-      });
+      };
+      q.on("text-change", handlerRef.current);
 
       quillRef.current = q;
     };
@@ -66,7 +79,14 @@ export default function QuillEditor({ value, onChange }: QuillEditorProps) {
 
     return () => {
       cancelled = true;
-      if (quillRef.current) {
+      // Detach event handler and clear instance
+      if (quillRef.current && handlerRef.current) {
+        try {
+          quillRef.current.off("text-change", handlerRef.current);
+        } catch (err) {
+          // ignore if off isn't supported
+        }
+        handlerRef.current = null;
         quillRef.current = null;
       }
       // Clean up editor DOM
