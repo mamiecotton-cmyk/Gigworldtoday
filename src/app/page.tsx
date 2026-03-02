@@ -171,7 +171,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen font-sans">
       {/* HERO SECTION */}
-      <section className="relative min-h-[28vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[20vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/90 z-0" />
         <div className="absolute inset-0 z-0">
           <Image
@@ -183,7 +183,7 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="relative z-10 container mx-auto px-8 py-10 flex flex-row items-center justify-between w-full">
+        <div className="relative z-10 container mx-auto px-8 py-6 flex flex-row items-center justify-between w-full">
           <div className="relative z-10 max-w-2xl w-full">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-3 text-white tracking-tight">
               The Hub for Modern Gig Workers
@@ -304,9 +304,9 @@ export default function HomePage() {
       )}
 
       {/* DIRECTORY SECTION */}
-      <section className="bg-gradient-to-b from-white to-gray-50 py-12">
+      <section className="py-6">
         <div className="container mx-auto px-8">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold tracking-tight">Explore Gig Platforms</h2>
             <span className="text-sm text-gray-500">{totalPlatforms} Platforms Listed</span>
           </div>
@@ -362,7 +362,7 @@ export default function HomePage() {
               );
             })}
           </div>
-          <div className="text-center mt-8">
+          <div className="text-center mt-4">
             <Link href="/platforms" className="inline-block px-6 py-3 rounded-xl bg-teal-500 text-white font-semibold hover:bg-teal-600 transition">
               Browse All {totalPlatforms} Platforms →
             </Link>
