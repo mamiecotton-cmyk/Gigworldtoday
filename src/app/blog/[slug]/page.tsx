@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import ArticleRenderer from "@/components/ArticleRenderer";
+import ArticleComments from "@/components/ArticleComments";
 import { createServerSupabase } from "@/lib/supabaseServer";
 
 export default async function BlogArticlePage({
@@ -52,6 +53,7 @@ export default async function BlogArticlePage({
       )}
 
       <ArticleRenderer contentJson={article.content_json} />
+      <ArticleComments articleId={article.id} />
         </div>
       </main>
   );
