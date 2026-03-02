@@ -353,7 +353,7 @@ export default function HomePage() {
                     </div>
                     <div className="min-w-0">
                       <h3 className="text-base font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{platform.name}</h3>
-                      <p className="text-xs text-gray-400 capitalize">{category}</p>
+                      <p className="text-sm text-gray-600 capitalize">{category}</p>
                     </div>
                   </div>
                   {platform.estimatedHourlyMin && platform.estimatedHourlyMax && (
@@ -361,7 +361,7 @@ export default function HomePage() {
                       ${platform.estimatedHourlyMin}–${platform.estimatedHourlyMax}/hr estimated
                     </span>
                   )}
-                  <p className="text-xs text-gray-500 line-clamp-2 mb-3 flex-grow">{platform.description}</p>
+                  <p className="text-xs text-gray-700 line-clamp-2 mb-3 flex-grow">{platform.description}</p>
                   <span className="block w-full text-center bg-orange-500 group-hover:bg-orange-600 text-white font-semibold rounded-lg px-4 py-1.5 text-sm transition-colors mt-auto">
                     View Details →
                   </span>

@@ -44,7 +44,7 @@ export default function ProductCard({ product, detailsHref }: ProductCardProps) 
             </span>
           )}
         </div>
-        <p className={`text-sm text-gray-600 ${compact ? 'max-h-10 overflow-hidden' : 'leading-relaxed'}`}>{product.short_description}</p>
+        <p className={`text-sm text-gray-700 ${compact ? 'max-h-10 overflow-hidden' : 'leading-relaxed'}`}>{product.short_description}</p>
         <Link
           href={href}
           className={`inline-flex items-center rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 ${compact ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'} font-semibold text-white transition-all hover:from-teal-600 hover:to-teal-700 hover:shadow-md`}
