@@ -171,7 +171,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen font-sans">
       {/* HERO SECTION */}
-      <section className="relative min-h-[40vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[28vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/90 z-0" />
         <div className="absolute inset-0 z-0">
           <Image
@@ -183,7 +183,7 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="relative z-10 container mx-auto px-8 py-16 flex flex-row items-center justify-between w-full">
+        <div className="relative z-10 container mx-auto px-8 py-10 flex flex-row items-center justify-between w-full">
           <div className="relative z-10 max-w-2xl w-full">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-3 text-white tracking-tight">
               The Hub for Modern Gig Workers
@@ -303,6 +303,55 @@ export default function HomePage() {
         </section>
       )}
 
+      {/* BLOG PREVIEW SECTION */}
+      <section className="bg-black py-16">
+        <div className="container mx-auto px-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-white tracking-tight">Gig Insights & Platform Updates</h2>
+            <Link href="/blog" className="text-teal-400 hover:text-teal-300 text-sm font-semibold">
+              View All Articles →
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {latestArticles.length > 0 ? latestArticles.map((article: any) => (
+              <Link
+                key={article.slug}
+                href={`/blog/${article.slug}`}
+                className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition duration-300"
+              >
+                <div className="relative h-[220px] w-full overflow-hidden bg-gray-50">
+                  {article.featured_image ? (
+                    <Image
+                      src={article.featured_image}
+                      alt={article.title}
+                      fill
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-start justify-start bg-gradient-to-br from-gray-100 to-gray-200 p-6">
+                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-6">{article.excerpt}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="p-5">
+                  <h3 className="font-semibold text-white group-hover:text-teal-400 transition-colors mb-2">
+                    {article.title}
+                  </h3>
+                  {article.featured_image && (
+                    <p className="text-sm text-gray-400 line-clamp-2">{article.excerpt}</p>
+                  )}
+                  <p className="text-xs text-gray-500 mt-3">
+                    {new Date(article.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </p>
+                </div>
+              </Link>
+            )) : (
+              <p className="text-gray-500 col-span-3 text-center py-8">No articles published yet.</p>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* DIRECTORY SECTION */}
       <section className="bg-gradient-to-b from-white to-gray-50 py-12">
         <div className="container mx-auto px-8">
@@ -311,7 +360,7 @@ export default function HomePage() {
             <span className="text-sm text-gray-500">{totalPlatforms} Platforms Listed</span>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {platforms.slice(0, 6).map((platform: any, idx: number) => {
+            {platforms.slice(0, 3).map((platform: any, idx: number) => {
               const LOCAL: Record<string, string> = {
                 doordash: '/logos/doordash.svg', ubereats: '/logos/ubereats.svg',
                 instacart: '/logos/instacart.svg', uber: '/logos/uber.svg',
@@ -366,55 +415,6 @@ export default function HomePage() {
             <Link href="/platforms" className="inline-block px-6 py-3 rounded-xl bg-teal-500 text-white font-semibold hover:bg-teal-600 transition">
               Browse All {totalPlatforms} Platforms →
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* BLOG PREVIEW SECTION */}
-      <section className="bg-black py-16">
-        <div className="container mx-auto px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-white tracking-tight">Gig Insights & Platform Updates</h2>
-            <Link href="/blog" className="text-teal-400 hover:text-teal-300 text-sm font-semibold">
-              View All Articles →
-            </Link>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {latestArticles.length > 0 ? latestArticles.map((article: any) => (
-              <Link
-                key={article.slug}
-                href={`/blog/${article.slug}`}
-                className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition duration-300"
-              >
-                <div className="relative h-[220px] w-full overflow-hidden bg-gray-50">
-                  {article.featured_image ? (
-                    <Image
-                      src={article.featured_image}
-                      alt={article.title}
-                      fill
-                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="h-full w-full flex items-start justify-start bg-gradient-to-br from-gray-100 to-gray-200 p-6">
-                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-6">{article.excerpt}</p>
-                    </div>
-                  )}
-                </div>
-                <div className="p-5">
-                  <h3 className="font-semibold text-white group-hover:text-teal-400 transition-colors mb-2">
-                    {article.title}
-                  </h3>
-                  {article.featured_image && (
-                    <p className="text-sm text-gray-400 line-clamp-2">{article.excerpt}</p>
-                  )}
-                  <p className="text-xs text-gray-500 mt-3">
-                    {new Date(article.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                  </p>
-                </div>
-              </Link>
-            )) : (
-              <p className="text-gray-500 col-span-3 text-center py-8">No articles published yet.</p>
-            )}
           </div>
         </div>
       </section>
