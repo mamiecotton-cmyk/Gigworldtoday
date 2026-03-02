@@ -14,7 +14,15 @@ interface Props {
   initialContent?: Block[];
   initialPublished?: boolean;
   initialFeaturedImage?: string | null;
+  initialTags?: string[];
 }
+
+const CATEGORIES = [
+  { slug: "earnings-strategy", name: "Earnings Strategy" },
+  { slug: "industry-news", name: "Industry News" },
+  { slug: "platform-analysis", name: "Platform Analysis" },
+  { slug: "tutorials", name: "Tutorials" },
+];
 
 export default function ArticleForm({
   articleId,
@@ -24,6 +32,7 @@ export default function ArticleForm({
   initialContent = [],
   initialPublished = false,
   initialFeaturedImage = null,
+  initialTags = [],
 }: Props) {
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
@@ -36,6 +45,7 @@ export default function ArticleForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [tags, setTags] = useState<string[]>(initialTags);
 
   // Featured image state
   const [featuredImageUrl, setFeaturedImageUrl] = useState<string | null>(initialFeaturedImage);
@@ -136,6 +146,7 @@ export default function ArticleForm({
       featured_image: featuredImageUrl,
       show_featured_on_list: showFeaturedOnList,
       show_featured_on_detail: showFeaturedOnDetail,
+      tags,
     };
 
     if (publish) {
@@ -393,6 +404,33 @@ export default function ArticleForm({
         <BlockEditor blocks={blocks} setBlocks={setBlocks} />
       </div>
 
+      {/* Categories */}
+      <div>
+        <label className="block font-medium mb-2">Categories</label>
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.slug}
+              type="button"
+              onClick={() =>
+                setTags((prev) =>
+                  prev.includes(cat.slug)
+                    ? prev.filter((t) => t !== cat.slug)
+                    : [...prev, cat.slug]
+                )
+              }
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                tags.includes(cat.slug)
+                  ? "bg-teal-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
@@ -423,6 +461,7 @@ export default function ArticleForm({
             setExcerpt(initialExcerpt);
             setBlocks(initialContent.length ? [...initialContent] : []);
             setFeaturedImageUrl(initialFeaturedImage);
+            setTags(initialTags);
             setShowFeaturedOnList(true);
             setShowFeaturedOnDetail(true);
             setPublished(typeof initialPublished === "boolean" ? initialPublished : false);
