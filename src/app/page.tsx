@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import GigSidekickChat from "@/components/GigSidekickChat";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import platformsData from "@/data/platforms.json";
 import ZIP_TO_CITY from "@/data/zip-to-city";
@@ -24,54 +23,8 @@ export default function HomePage() {
   const router = useRouter();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [collapsed, setCollapsed] = useState(false);
-  const [exiting, setExiting] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [entered, setEntered] = useState(false);
   const [platformPage, setPlatformPage] = useState(0);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setEntered(true);
-    }, 50);
-    return () => clearTimeout(timer);
-  }, []);
-
-  /* ===============================
-     COLLAPSE CONTROLLER
-  =============================== */
-  const triggerCollapse = () => {
-    if (collapsed || exiting) return;
-
-    setExiting(true);
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        setCollapsed(true);
-        setExiting(false);
-      }, 1800); // natural readable timing
-    });
-  };
-
-  /* Collapse when user types */
-  useEffect(() => {
-    if (searchTerm.length > 0 && !collapsed) {
-      triggerCollapse();
-    }
-  }, [searchTerm]);
-
-  /* ===============================
-     SEARCH HANDLER
-  =============================== */
-  const handleSearch = (location: string, vehicle: string) => {
-    triggerCollapse();
-
-    setTimeout(() => {
-      const params = new URLSearchParams();
-      if (location) params.set("search", location);
-      if (vehicle) params.set("vehicles", vehicle);
-      router.push(`/platforms?${params.toString()}`);
-    }, 1000);
-  };
 
   /* ===============================
      PLATFORM STATS
@@ -204,7 +157,6 @@ export default function HomePage() {
               onSubmit={e => {
                 e.preventDefault();
                 if (searchTerm.trim()) {
-                  triggerCollapse();
                   router.push(`/platforms?search=${encodeURIComponent(searchTerm.trim())}`);
                 }
               }}
@@ -503,64 +455,6 @@ export default function HomePage() {
           </form>
         </div>
       </section>
-
-      {/* ASSISTANT */}
-      <div>
-        {!collapsed ? (
-          <div
-            className={`fixed z-50 transition-all duration-700 ease-out
-              bottom-4 right-4 left-4 sm:bottom-32 sm:right-12 sm:left-auto
-              ${
-              collapsed
-                ? "opacity-0 translate-y-6 pointer-events-none"
-                : entered
-                  ? "translate-x-0 opacity-100"
-                  : "translate-x-32 opacity-0"
-            }`}
-            style={{ display: "flex", alignItems: "flex-end", gap: 16 }}
-          >
-            {/* Avatar moved to header (kept small avatar in collapsed state below) */}
-
-            <div
-              className="transition-all duration-300 relative w-full sm:w-[260px] sm:-ml-8 mb-8"
-            >
-              {/* Close button */}
-              <button
-                onClick={() => {
-                  setCollapsed(true);
-                  setExiting(false);
-                }}
-                className="absolute -top-3 -right-3 z-10 w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center shadow-lg hover:bg-gray-700 transition-colors text-sm font-bold"
-                aria-label="Close assistant"
-              >
-                ✕
-              </button>
-
-              <GigSidekickChat
-                exiting={exiting}
-                handleSearch={handleSearch}
-              />
-            </div>
-          </div>
-        ) : (
-          <button
-            className="fixed bottom-6 right-6 sm:bottom-32 sm:right-12 z-50 w-14 h-14 rounded-full bg-white shadow-lg flex items-center justify-center border hover:shadow-xl transition-shadow"
-            onClick={() => {
-              setCollapsed(false);
-              setEntered(false);
-              setTimeout(() => setEntered(true), 50);
-            }}
-          >
-            <Image
-              src="/gigsidekick-avatar.png"
-              alt="GigSidekick"
-              width={40}
-              height={40}
-              style={{ borderRadius: "50%" }}
-            />
-          </button>
-        )}
-      </div>
     </div>
   );
 }

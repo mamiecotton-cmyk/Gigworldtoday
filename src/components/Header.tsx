@@ -55,16 +55,16 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-0">
+            <img
+              src="/gigsidekick-avatar.png"
+              alt=""
+              className="h-20 w-auto object-contain -mr-2"
+            />
             <img
               src="/logos/logo.svg"
               alt="GigWorldToday"
               className="h-14 w-auto"
-            />
-            <img
-              src="/gigsidekick-avatar.png"
-              alt=""
-              className="h-14 w-auto object-contain ml-2"
             />
             <span className="sr-only">Home</span>
           </Link>
