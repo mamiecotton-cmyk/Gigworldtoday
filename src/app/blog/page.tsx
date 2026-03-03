@@ -20,26 +20,26 @@ export default async function Page() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="bg-transparent">
-        <div className="max-w-6xl mx-auto px-6 pt-12 pb-8 md:pt-16 md:pb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div className="max-w-6xl mx-auto px-6 pt-6 pb-3 md:pt-8 md:pb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             {/* Left — Primary Content */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
+              <p className="text-sm font-semibold uppercase tracking-widest text-red-800 mb-3">
                 Gig Economy Intelligence
               </p>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight tracking-tight">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight whitespace-nowrap">
                 Real Strategy for Serious Gig Workers
               </h1>
-              <p className="mt-3 text-base md:text-lg text-slate-600 max-w-md leading-relaxed">
+              <p className="mt-4 text-sm md:text-base text-slate-700 max-w-md leading-relaxed">
                 Platform updates, earnings breakdowns, and practical insights built from real-world experience.
               </p>
               <Link
                 href="#articles"
-                className="inline-flex items-center mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold text-sm hover:opacity-90 transition shadow"
+                className="inline-flex items-center mt-5 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold text-sm hover:opacity-90 transition shadow"
               >
                 Explore Latest Articles
               </Link>
-              <div className="mt-6 max-w-sm">
+              <div className="mt-8 max-w-xs">
                 <SignupBanner
                   headline="Get weekly tips"
                   subtext="Early platform updates & strategy."
@@ -50,17 +50,57 @@ export default async function Page() {
             </div>
 
             {/* Right — Book Authority Panel */}
-            <div className="flex flex-col items-center mt-10 md:mt-4">
-              <Image
-                src="/5star-book-cover.png"
-                alt="The 5-Star Gig Worker book cover"
-                width={276}
-                height={368}
-                className="w-auto h-[230px] md:h-[300px] object-contain rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.25)] transition-shadow duration-300"
-                priority
-              />
-              <div className="mt-3 text-center">
-                <p className="text-sm text-slate-500">Built on the principles of</p>
+            <div className="flex flex-col items-center mt-4 md:mt-0">
+              {/* 3D Book Mockup */}
+              <div
+                className="group"
+                style={{ perspective: '1200px' }}
+              >
+                <div
+                  className="relative transition-transform duration-500 ease-out group-hover:[transform:rotateY(-8deg)]"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: 'rotateY(-15deg)',
+                  }}
+                >
+                  {/* Front Cover */}
+                  <Image
+                    src="/5star-book-cover.png"
+                    alt="The 5-Star Gig Worker book cover"
+                    width={276}
+                    height={368}
+                    className="relative z-10 w-auto h-[210px] md:h-[280px] object-contain rounded-r-md rounded-l-sm"
+                    style={{ backfaceVisibility: 'hidden' }}
+                    priority
+                  />
+                  {/* Spine */}
+                  <div
+                    className="absolute top-0 left-0 h-full w-[30px] md:w-[36px] rounded-l-md"
+                    style={{
+                      transform: 'rotateY(-90deg) translateX(-15px)',
+                      transformOrigin: 'left center',
+                      background: 'linear-gradient(to right, #1e3a5f, #234a72, #1e3a5f)',
+                      backfaceVisibility: 'hidden',
+                    }}
+                  />
+                  {/* Page Edges (right side) */}
+                  <div
+                    className="absolute top-[3px] right-[-8px] h-[calc(100%-6px)] w-[10px] rounded-r-sm"
+                    style={{
+                      background: 'linear-gradient(to right, #e8e4df, #f5f2ed, #e8e4df)',
+                      transform: 'translateZ(-2px)',
+                      backfaceVisibility: 'hidden',
+                    }}
+                  />
+                  {/* Bottom shadow */}
+                  <div
+                    className="absolute -bottom-4 left-4 right-0 h-6 rounded-full opacity-30 blur-md bg-black"
+                    style={{ transform: 'translateZ(-10px)' }}
+                  />
+                </div>
+              </div>
+              <div className="mt-5 text-center">
+                <p className="text-sm text-slate-700">Built on the principles of</p>
                 <p className="text-base font-bold text-slate-800 mt-0.5">The 5-Star Gig Worker</p>
                 <a
                   href="https://www.amazon.com/5-Star-Gig-Worker-Mastering-Platforms-ebook/dp/B0GHZLV2XG/ref=monarch_sidesheet_title"
@@ -81,7 +121,7 @@ export default async function Page() {
       <div className="flex flex-wrap gap-6 mt-8 mb-10 border-b border-neutral-200 pb-4">
         <Link
           href="/blog"
-          className="text-sm text-neutral-700 hover:text-black transition"
+          className="text-sm text-neutral-800 hover:text-black transition"
         >
           All
         </Link>
@@ -89,7 +129,7 @@ export default async function Page() {
           <Link
             key={category.id}
             href={`/blog/category/${category.slug}`}
-            className="text-sm text-neutral-700 hover:text-black transition"
+            className="text-sm text-neutral-800 hover:text-black transition"
           >
             {category.name}
           </Link>
@@ -118,10 +158,10 @@ export default async function Page() {
               <h3 className="text-lg font-semibold text-neutral-900 group-hover:underline">
                 {article.title}
               </h3>
-              <p className="mt-3 text-sm text-neutral-600 line-clamp-3">
+              <p className="mt-3 text-sm text-neutral-700 line-clamp-3">
                 {article.excerpt}
               </p>
-              <p className="mt-4 text-xs text-neutral-500">
+              <p className="mt-4 text-xs text-neutral-600">
                 {article.published_at &&
                   new Date(article.published_at).toLocaleDateString()}
               </p>

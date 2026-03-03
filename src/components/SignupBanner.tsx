@@ -47,10 +47,10 @@ export default function SignupBanner({
   // Inline variant - thin bar
   if (variant === "inline") {
     return (
-      <div className="bg-slate-100 border border-slate-200 rounded-lg py-3 px-4 mt-6">
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
-          <span className="text-slate-700 font-medium">{headline}</span>
-          {subtext && <span className="text-slate-500 text-xs hidden sm:inline">{subtext}</span>}
+      <div className="bg-slate-100 border border-slate-200 rounded-lg py-2 px-3 mt-6">
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+          <span className="text-slate-800 font-semibold text-sm">{headline}</span>
+          {subtext && <span className="text-slate-600 text-xs hidden sm:inline">{subtext}</span>}
           <form onSubmit={handleSubmit} className="flex items-center gap-2">
             <input
               type="email"
@@ -58,12 +58,12 @@ export default function SignupBanner({
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="px-3 py-1.5 rounded-md text-sm text-gray-800 placeholder-gray-400 outline-none border border-slate-300 bg-white focus:ring-1 focus:ring-teal-500 w-44"
+              className="px-3 py-1.5 rounded-md text-sm text-gray-800 placeholder-gray-400 outline-none border border-slate-300 bg-white focus:ring-1 focus:ring-teal-500 w-40"
             />
             <button
               type="submit"
               disabled={status === "loading"}
-              className="px-3 py-1.5 rounded-md bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-sm font-semibold hover:opacity-90 transition disabled:opacity-60"
+              className="px-4 py-1.5 rounded-md bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-sm font-bold hover:opacity-90 transition disabled:opacity-60"
             >
               {status === "loading" ? "…" : buttonText}
             </button>
