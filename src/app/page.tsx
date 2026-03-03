@@ -519,14 +519,7 @@ export default function HomePage() {
             }`}
             style={{ display: "flex", alignItems: "flex-end", gap: 16 }}
           >
-            {/* Avatar - hidden on mobile */}
-            <Image
-              src="/gigsidekick-avatar.png"
-              alt="GigSidekick"
-              width={200}
-              height={400}
-              className="select-none pointer-events-none hidden sm:block"
-            />
+            {/* Avatar moved to header (kept small avatar in collapsed state below) */}
 
             <div
               className="transition-all duration-300 relative w-full sm:w-[260px] sm:-ml-8 mb-8"

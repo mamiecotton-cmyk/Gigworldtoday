@@ -61,6 +61,11 @@ export default function Header() {
               alt="GigWorldToday"
               className="h-14 w-auto"
             />
+            <img
+              src="/gigsidekick-avatar.png"
+              alt=""
+              className="h-14 w-auto object-contain ml-2"
+            />
             <span className="sr-only">Home</span>
           </Link>
 
