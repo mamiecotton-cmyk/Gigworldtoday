@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { createServerSupabase } from "@/lib/supabaseServer";
+import SignupBanner from "@/components/SignupBanner";
 
 export default async function Page() {
   const supabase = createServerSupabase();
@@ -18,43 +19,49 @@ export default async function Page() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-slate-50">
-        <div className="max-w-6xl mx-auto px-6 py-14 md:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section className="bg-transparent">
+        <div className="max-w-6xl mx-auto px-6 pt-12 pb-8 md:pt-16 md:pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             {/* Left — Primary Content */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
                 Gig Economy Intelligence
               </p>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight tracking-tight">
                 Real Strategy for Serious Gig Workers
               </h1>
-              <p className="mt-4 text-base md:text-lg text-slate-600 max-w-md leading-relaxed">
+              <p className="mt-3 text-base md:text-lg text-slate-600 max-w-md leading-relaxed">
                 Platform updates, earnings breakdowns, and practical insights built from real-world experience.
               </p>
               <Link
                 href="#articles"
-                className="inline-flex items-center mt-6 px-5 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold text-sm hover:opacity-90 transition shadow"
+                className="inline-flex items-center mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold text-sm hover:opacity-90 transition shadow"
               >
                 Explore Latest Articles
               </Link>
+              <div className="mt-6 max-w-sm">
+                <SignupBanner
+                  headline="Get weekly tips"
+                  subtext="Early platform updates & strategy."
+                  buttonText="Subscribe"
+                  variant="inline"
+                />
+              </div>
             </div>
 
             {/* Right — Book Authority Panel */}
-            <div className="flex flex-col items-center mt-8 md:mt-0">
-              <div className="relative w-auto max-h-[320px] md:max-h-[460px]">
-                <Image
-                  src="/5star-book-cover.png"
-                  alt="The 5-Star Gig Worker book cover"
-                  width={340}
-                  height={460}
-                  className="h-full w-auto object-contain rounded-lg shadow-xl"
-                  priority
-                />
-              </div>
-              <div className="mt-4 text-center">
-                <p className="text-xs text-slate-500">Built on the principles of</p>
-                <p className="text-sm font-bold text-slate-800 mt-0.5">The 5-Star Gig Worker</p>
+            <div className="flex flex-col items-center mt-10 md:mt-4">
+              <Image
+                src="/5star-book-cover.png"
+                alt="The 5-Star Gig Worker book cover"
+                width={276}
+                height={368}
+                className="w-auto h-[230px] md:h-[300px] object-contain rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.25)] transition-shadow duration-300"
+                priority
+              />
+              <div className="mt-3 text-center">
+                <p className="text-sm text-slate-500">Built on the principles of</p>
+                <p className="text-base font-bold text-slate-800 mt-0.5">The 5-Star Gig Worker</p>
                 <a
                   href="https://www.amazon.com/5-Star-Gig-Worker-Mastering-Platforms-ebook/dp/B0GHZLV2XG/ref=monarch_sidesheet_title"
                   target="_blank"
