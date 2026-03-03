@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { createServerSupabase } from "@/lib/supabaseServer";
+
 export default async function Page() {
   const supabase = createServerSupabase();
   const { data: articlesData } = await supabase
@@ -15,18 +16,62 @@ export default async function Page() {
     .select("id, name, slug")
     .order("name");
   return (
-    <div className="max-w-6xl mx-auto px-6">
-      {/* Header */}
-      <header className="pt-10 pb-8">
-        <h1 className="text-4xl font-semibold tracking-tight">
-          Gig Economy Intelligence
-        </h1>
-        <p className="mt-3 text-lg text-neutral-600 max-w-2xl">
-          News, strategy, and tutorials for serious gig workers.
-        </p>
-      </header>
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6 py-14 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Left — Primary Content */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">
+                Gig Economy Intelligence
+              </p>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight tracking-tight">
+                Real Strategy for Serious Gig Workers
+              </h1>
+              <p className="mt-4 text-base md:text-lg text-slate-600 max-w-md leading-relaxed">
+                Platform updates, earnings breakdowns, and practical insights built from real-world experience.
+              </p>
+              <Link
+                href="#articles"
+                className="inline-flex items-center mt-6 px-5 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold text-sm hover:opacity-90 transition shadow"
+              >
+                Explore Latest Articles
+              </Link>
+            </div>
+
+            {/* Right — Book Authority Panel */}
+            <div className="flex flex-col items-center mt-8 md:mt-0">
+              <div className="relative w-auto max-h-[320px] md:max-h-[460px]">
+                <Image
+                  src="/5star-book-cover.png"
+                  alt="The 5-Star Gig Worker book cover"
+                  width={340}
+                  height={460}
+                  className="h-full w-auto object-contain rounded-lg shadow-xl"
+                  priority
+                />
+              </div>
+              <div className="mt-4 text-center">
+                <p className="text-xs text-slate-500">Built on the principles of</p>
+                <p className="text-sm font-bold text-slate-800 mt-0.5">The 5-Star Gig Worker</p>
+                <a
+                  href="https://www.amazon.com/5-Star-Gig-Worker-Mastering-Platforms-ebook/dp/B0GHZLV2XG/ref=monarch_sidesheet_title"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-1 text-sm text-emerald-600 hover:text-emerald-700 underline underline-offset-4 transition"
+                >
+                  View on Amazon →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-6">
       {/* Category Navigation */}
-      <div className="flex flex-wrap gap-6 mt-6 mb-10 border-b border-neutral-200 pb-4">
+      <div className="flex flex-wrap gap-6 mt-8 mb-10 border-b border-neutral-200 pb-4">
         <Link
           href="/blog"
           className="text-sm text-neutral-700 hover:text-black transition"
@@ -44,7 +89,7 @@ export default async function Page() {
         ))}
       </div>
       {/* Article Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 pb-20">
+      <div id="articles" className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 pb-20">
             {articles.map((article) => (
           <Link
             key={article.id}
@@ -76,6 +121,7 @@ export default async function Page() {
             </div>
           </Link>
         ))}
+      </div>
       </div>
     </div>
   );
