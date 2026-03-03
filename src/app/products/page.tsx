@@ -28,7 +28,7 @@ export default async function ProductsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="relative w-full h-[55vh] md:h-[65vh] min-h-[450px] overflow-hidden">
+      <section className="relative w-full h-[35vh] md:h-[50vh] min-h-[280px] overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
           <Image
@@ -59,10 +59,10 @@ export default async function ProductsPage() {
         <div className="relative z-10 h-full flex items-start pt-12 md:items-center md:pt-0">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
             <div className="max-w-[55%] sm:max-w-[60%] md:max-w-lg">
-              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+              <h1 className="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 The Tools to Boost Your Gigs
               </h1>
-              <p className="mt-3 md:mt-5 text-sm sm:text-base md:text-xl text-gray-200 leading-relaxed">
+              <p className="mt-1 md:mt-3 text-xs sm:text-sm md:text-xl text-gray-200 leading-relaxed">
                 Gear and apps to help drivers maximize earnings and operate like 5-star pros.
               </p>
             </div>
