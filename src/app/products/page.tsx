@@ -28,7 +28,7 @@ export default async function ProductsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="relative w-full h-[35vh] md:h-[50vh] min-h-[280px] overflow-hidden">
+      <section className="relative w-full h-[28vh] md:h-[50vh] min-h-[220px] overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
           <Image
@@ -44,7 +44,7 @@ export default async function ProductsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
 
         {/* Character — scaled down on mobile */}
-        <div className="absolute bottom-0 right-0 h-[60%] md:h-full pointer-events-none">
+        <div className="absolute bottom-0 right-[10%] h-[75%] md:right-0 md:h-full pointer-events-none">
           <Image
             src="/ProductCharacter.png"
             alt="Delivery rider"
@@ -56,7 +56,7 @@ export default async function ProductsPage() {
         </div>
 
         {/* Text content */}
-        <div className="relative z-10 h-full flex items-start pt-12 md:items-center md:pt-0">
+        <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
             <div className="max-w-[55%] sm:max-w-[60%] md:max-w-lg">
               <h1 className="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
@@ -71,7 +71,7 @@ export default async function ProductsPage() {
       </section>
 
       {/* Products Grid */}
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+      <section className="mx-auto max-w-7xl px-6 py-6 md:py-14 lg:px-8">
         {products.length === 0 ? (
           <p className="text-center text-gray-500 py-12">No products available yet.</p>
         ) : (
