@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import EarlyAccessSignup from "@/components/EarlyAccessSignup";
 import platformsData from "@/data/platforms.json";
 import ZIP_TO_CITY from "@/data/zip-to-city";
 import US_CITY_TO_STATE from "@/data/us-city-to-state";
@@ -209,6 +210,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* EARLY ACCESS SIGNUP */}
+      <EarlyAccessSignup />
 
       {/* TOP RATED PLATFORMS */}
       {topRated.length > 0 && (

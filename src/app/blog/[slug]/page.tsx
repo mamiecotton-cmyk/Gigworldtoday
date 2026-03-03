@@ -3,6 +3,7 @@ export const revalidate = 0;
 
 import ArticleRenderer from "@/components/ArticleRenderer";
 import ArticleComments from "@/components/ArticleComments";
+import SignupBanner from "@/components/SignupBanner";
 import { createServerSupabase } from "@/lib/supabaseServer";
 
 export default async function BlogArticlePage({
@@ -53,6 +54,14 @@ export default async function BlogArticlePage({
       )}
 
       <ArticleRenderer contentJson={article.content_json} />
+
+      <SignupBanner
+        headline="Want More Weekly Operator Tips?"
+        subtext="Get strategies to boost earnings delivered to your inbox."
+        buttonText="Get Weekly Strategy"
+        variant="compact"
+      />
+
       <ArticleComments articleId={article.id} />
         </div>
       </main>

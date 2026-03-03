@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import platformsData from "@/data/platforms.json";
 import { Platform } from "@/lib/types";
+import SignupBanner from "@/components/SignupBanner";
 
 const inactiveStatuses = [
   "no_longer_hiring",
@@ -418,22 +419,25 @@ export default function PlatformDetailPage() {
         </div>
 
         {/* Metadata */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-          <div className="flex items-center justify-between text-xs text-gray-400">
-            <span>Last updated: {platform.lastUpdated || "Unknown"}</span>
-            <span className="flex items-center gap-1">
-              {platform.verificationStatus === "verified" ? (
-                <>
-                  <CheckCircle size={12} className="text-green-500" /> Verified
-                </>
-              ) : platform.verificationStatus === "community" ? (
-                "Community sourced"
-              ) : (
-                "Needs verification"
-              )}
-            </span>
-          </div>
+        <div className="inline-flex items-center gap-4 text-xs text-gray-400 mb-6 flex-wrap">
+          <span>Last updated: {platform.lastUpdated || "Unknown"}</span>
+          <span className="flex items-center gap-1">
+            {platform.verificationStatus === "verified" ? (
+              <>
+                <CheckCircle size={12} className="text-green-500" /> Verified
+              </>
+            ) : platform.verificationStatus === "community" ? (
+              "Community sourced"
+            ) : (
+              "Needs verification"
+            )}
+          </span>
         </div>
+
+        <SignupBanner
+          headline="Want Updates When New Platforms Are Added?"
+          subtext="Subscribers get early access and weekly earning tips."
+        />
 
         {/* Related Platforms */}
         {relatedPlatforms.length > 0 && (

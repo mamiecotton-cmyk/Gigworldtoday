@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CompareTool from "@/components/CompareTool";
+import SignupBanner from "@/components/SignupBanner";
 
 export const metadata: Metadata = {
   title: "Compare Gig Apps | GigWorldToday",
@@ -20,6 +21,12 @@ export default function ComparePage() {
         </p>
 
         <CompareTool />
+
+        <SignupBanner
+          headline="Stay Ahead of the Gig Economy"
+          subtext="Early platform updates & weekly tips."
+          variant="inline"
+        />
         </div>
       </div>
     </div>
