@@ -57,6 +57,13 @@ function LoginContent() {
         >
           Login
         </button>
+
+        <p className="text-center text-sm text-gray-500 mt-4">
+          Don&apos;t have an account?{" "}
+          <a href="/register" className="text-orange-700 font-medium hover:underline">
+            Register
+          </a>
+        </p>
       </div>
     </div>
   );

@@ -58,9 +58,14 @@ export default function Navbar() {
             Account
           </Link>
         ) : (
-          <Link href="/login" className="rounded bg-black px-4 py-2 text-sm text-white">
-            Sign In
-          </Link>
+          <>
+            <Link href="/login" className="rounded bg-black px-4 py-2 text-sm text-white">
+              Sign In
+            </Link>
+            <Link href="/register" className="rounded border border-black px-4 py-2 text-sm text-black hover:bg-gray-50">
+              Register
+            </Link>
+          </>
         )}
       </div>
 
@@ -86,13 +91,22 @@ export default function Navbar() {
               Account
             </Link>
           ) : (
-            <Link
-              href="/login"
-              onClick={() => setMenuOpen(false)}
-              className="rounded bg-black px-4 py-2 text-center text-sm text-white"
-            >
-              Sign In
-            </Link>
+            <>
+              <Link
+                href="/login"
+                onClick={() => setMenuOpen(false)}
+                className="rounded bg-black px-4 py-2 text-center text-sm text-white"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/register"
+                onClick={() => setMenuOpen(false)}
+                className="rounded border border-black px-4 py-2 text-center text-sm text-black hover:bg-gray-50"
+              >
+                Register
+              </Link>
+            </>
           )}
         </div>
       )}
