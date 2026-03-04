@@ -1,5 +1,39 @@
 import { NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabaseServer";
+import { Resend } from "resend";
+
+const WELCOME_HTML = `
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:auto">
+  <h2>Welcome to GigWorldToday</h2>
+  <p>Hi <strong>5-Star Gig Worker Community ⭐</strong>,</p>
+  <p>Welcome to GigWorldToday — a centralized hub where gig workers discover opportunities and maximize income.</p>
+  <p>Our weekly newsletter features short updates including:</p>
+  <ul>
+    <li>new gig platforms</li>
+    <li>deep dives into gig platforms</li>
+    <li>tools hand-picked for gig workers</li>
+    <li>strategies to maximize gig income</li>
+  </ul>
+  <p><a href="https://gigworldtoday.com/platforms">Explore Gig Platforms</a></p>
+  <p>Keep earning smart and stay 5-Star ⭐</p>
+  <p>Mamie<br>Founder, GigWorldToday</p>
+</div>`;
+
+async function sendWelcomeEmail(email: string) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("[subscribe] RESEND_API_KEY not set — skipping welcome email");
+    return;
+  }
+  const resend = new Resend(apiKey);
+  await resend.emails.send({
+    from: "GigWorldToday <newsletter@gigworldtoday.com>",
+    to: email,
+    subject: "Welcome to GigWorldToday ⭐",
+    html: WELCOME_HTML,
+  });
+  console.log(`[subscribe] Welcome email sent to ${email}`);
+}
 
 export async function POST(req: Request) {
   const { email } = await req.json();
@@ -34,12 +68,7 @@ export async function POST(req: Request) {
       // If welcome email hasn't been sent yet, send it now and mark column
       if (!existing.welcome_email_sent) {
         try {
-          await fetch("/api/send-welcome-email", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
-          });
-
+          await sendWelcomeEmail(email);
           await supabase
             .from("email_subscribers")
             .update({ welcome_email_sent: true })
@@ -55,15 +84,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to subscribe" }, { status: 500 });
   }
 
-  // If inserted successfully, send welcome email only if not already sent
+  // If inserted successfully, send welcome email
   try {
     if (!inserted.welcome_email_sent) {
-      await fetch("/api/send-welcome-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
+      await sendWelcomeEmail(email);
       await supabase
         .from("email_subscribers")
         .update({ welcome_email_sent: true })
