@@ -4026,6 +4026,60 @@
     "userFeedback": "Strong integration story; contract terms provide concrete figures; worker payout cadence not clearly published."
   },
   {
+    "id": "gophergo",
+    "slug": "gophergo",
+    "name": "GopherGo",
+    "description": "GopherGo is a same-day courier platform connecting local drivers with delivery and pickup tasks. Drivers use the mobile app to accept nearby runs and earn per-delivery pay; the platform prioritizes quick turnarounds for local businesses.",
+    "logoUrl": null,
+    "websiteUrl": "https://gophergo.io/",
+    "applyUrl": "https://gophergo.io/become-a-gopher/",
+    "iosAppUrl": "https://apps.apple.com/us/app/gophergo/idYOUR_IOS_APP_ID",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=io.gophergo.app",
+    "categories": [
+      "courier",
+      "same_day_delivery"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_delivery",
+    "estimatedHourlyMin": 15,
+    "estimatedHourlyMax": 28,
+    "tipsAllowed": true,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "on_demand",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "applyButtonColor": "#F97316",
+    "keyFeatures": "On-demand local deliveries; driver app for accepting nearby runs; tips allowed; weekly payouts.",
+    "userFeedback": "Newer courier platform with competitive per-delivery rates; availability varies by market."
+  },
+  {
     "id": "bestmark",
     "slug": "bestmark",
     "name": "BestMark",
