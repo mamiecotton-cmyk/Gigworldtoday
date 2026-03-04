@@ -97,7 +97,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div>
+      <div className="flex flex-wrap gap-3 items-center">
         <Link
           href="/admin/articles/new"
           className="px-4 py-2 bg-black text-white rounded"
@@ -106,37 +106,37 @@ export default function AdminDashboard() {
         </Link>
         <Link
           href="/admin/products"
-          className="px-4 py-2 border border-black text-black rounded ml-3"
+          className="px-4 py-2 border border-black text-black rounded"
         >
           Manage Products
         </Link>
         <Link
           href="/admin/subscribers"
-          className="px-4 py-2 border border-black text-black rounded ml-3"
+          className="px-4 py-2 border border-black text-black rounded"
         >
           Email Subscribers
         </Link>
         <Link
           href="/admin/comments"
-          className="px-4 py-2 border border-black text-black rounded ml-3"
+          className="px-4 py-2 border border-black text-black rounded"
         >
           Moderate Comments
         </Link>
         <Link
           href="/admin/clicks"
-          className="px-4 py-2 border border-black text-black rounded ml-3"
+          className="px-4 py-2 border border-black text-black rounded"
         >
           Click Analytics
         </Link>
         <Link
           href="/admin/newsletter"
-          className="px-4 py-2 border border-black text-black rounded ml-3"
+          className="px-4 py-2 border border-black text-black rounded"
         >
           Newsletter
         </Link>
         <Link
           href="/admin/newsletter/sends"
-          className="px-4 py-2 border border-black text-black rounded ml-3"
+          className="px-4 py-2 border border-black text-black rounded"
         >
           Sent Newsletters
         </Link>
