@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createServerSupabase } from "@/lib/supabaseServer";
 import SignupBanner from "@/components/SignupBanner";
+import TrackedLink from "@/components/TrackedLink";
 
 export default async function Page() {
   const supabase = createServerSupabase();
@@ -102,14 +103,15 @@ export default async function Page() {
               <div className="mt-5 text-center">
                 <p className="text-sm text-slate-700">Built on the principles of</p>
                 <p className="text-base font-bold text-slate-800 mt-0.5">The 5-Star Gig Worker</p>
-                <a
-                  href="https://www.amazon.com/5-Star-Gig-Worker-Mastering-Platforms-ebook/dp/B0GHZLV2XG/ref=monarch_sidesheet_title"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <TrackedLink
+                  href="https://www.amazon.com/5-Star-Gig-Worker-Mastering-Platforms-ebook/dp/B0GHZLV2XG/ref=tmm_kin_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.xaugsy5c4sq1EDfwPTvGx6kDf-0n7CpY8F348ZF0w-WuAC5ANBntrzpQwKsZmDmHz3ynizzACMJ-1KB8GYwdM18QvwbGlFyD3zpJRiOtw08.CzdZV_waCiqyYKeNCK1JhcQMy18RtpbTBjO2TI8r-Ck&qid=1772078784&sr=8-1"
+                  linkType="book"
+                  label="The 5 Star Gig Worker"
+                  sourcePage="blog"
                   className="inline-block mt-1 text-sm text-emerald-600 hover:text-emerald-700 underline underline-offset-4 transition"
                 >
                   View on Amazon →
-                </a>
+                </TrackedLink>
               </div>
             </div>
           </div>

@@ -10,6 +10,7 @@ export default function AdminDashboard() {
   const [productCount, setProductCount] = useState(0);
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [pendingComments, setPendingComments] = useState(0);
+  const [outboundClicks, setOutboundClicks] = useState(0);
   const router = useRouter();
 
   const fetchArticles = async () => {
@@ -27,6 +28,7 @@ export default function AdminDashboard() {
     supabase.from("products").select("id", { count: "exact", head: true }).then(({ count }) => setProductCount(count || 0));
     supabase.from("email_subscribers").select("id", { count: "exact", head: true }).then(({ count }) => setSubscriberCount(count || 0));
     supabase.from("comments").select("id", { count: "exact", head: true }).eq("approved", false).then(({ count }) => setPendingComments(count || 0));
+    supabase.from("outbound_clicks").select("id", { count: "exact", head: true }).then(({ count }) => setOutboundClicks(count || 0));
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -81,6 +83,11 @@ export default function AdminDashboard() {
           <p className="text-sm text-gray-500">Pending Comments</p>
           <p className="text-2xl font-bold">{pendingComments}</p>
         </div>
+        <Link href="/admin/clicks" className="p-6 border rounded-lg hover:border-teal-300 hover:shadow-md transition-all group">
+          <p className="text-sm text-gray-500">Outbound Clicks</p>
+          <p className="text-2xl font-bold">{outboundClicks}</p>
+          <p className="text-xs text-teal-600 mt-1 opacity-0 group-hover:opacity-100 transition">View Analytics →</p>
+        </Link>
       </div>
 
       {/* Quick Actions */}
@@ -108,6 +115,12 @@ export default function AdminDashboard() {
           className="px-4 py-2 border border-black text-black rounded ml-3"
         >
           Moderate Comments
+        </Link>
+        <Link
+          href="/admin/clicks"
+          className="px-4 py-2 border border-black text-black rounded ml-3"
+        >
+          Click Analytics
         </Link>
       </div>
 

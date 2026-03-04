@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabaseServer";
 import ImageGallery from "@/components/ProductGallery";
+import TrackedLink from "@/components/TrackedLink";
 
 export const dynamic = "force-dynamic";
 
@@ -103,14 +104,15 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
               <div className="flex flex-wrap gap-4 pt-2">
                 {product.external_link && (
-                  <a
+                  <TrackedLink
                     href={product.external_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    linkType={isBook ? "book" : "product"}
+                    label={product.name}
+                    sourcePage={`product_${slug}`}
                     className="inline-flex items-center rounded-xl bg-orange-500 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 hover:bg-orange-400 hover:shadow-xl hover:shadow-orange-500/30"
                   >
                     {isBook ? "Get the Book →" : "Buy Now →"}
-                  </a>
+                  </TrackedLink>
                 )}
                 <Link
                   href="/products"
