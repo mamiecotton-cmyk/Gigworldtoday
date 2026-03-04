@@ -122,6 +122,12 @@ export default function AdminDashboard() {
         >
           Click Analytics
         </Link>
+        <Link
+          href="/admin/newsletter"
+          className="px-4 py-2 border border-black text-black rounded ml-3"
+        >
+          Newsletter
+        </Link>
       </div>
 
       {/* Recent Articles */}
