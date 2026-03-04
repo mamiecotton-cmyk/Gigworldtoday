@@ -13,6 +13,8 @@ export type TrackedLinkProps = {
   sourcePage: string;
   /** Any additional class names for the anchor element */
   className?: string;
+  /** Optional inline styles */
+  style?: React.CSSProperties;
   children: ReactNode;
 };
 
@@ -29,6 +31,7 @@ export default function TrackedLink({
   label,
   sourcePage,
   className,
+  style,
   children,
 }: TrackedLinkProps) {
   const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
@@ -62,6 +65,7 @@ export default function TrackedLink({
       target="_blank"
       rel="noopener noreferrer"
       className={className}
+      style={style}
       onClick={handleClick}
     >
       {children}
