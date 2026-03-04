@@ -134,6 +134,12 @@ export default function AdminDashboard() {
         >
           Newsletter
         </Link>
+        <Link
+          href="/admin/newsletter/sends"
+          className="px-4 py-2 border border-black text-black rounded ml-3"
+        >
+          Sent Newsletters
+        </Link>
       </div>
 
       {/* Recent Articles */}

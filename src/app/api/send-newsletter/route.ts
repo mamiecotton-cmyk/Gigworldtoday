@@ -78,6 +78,17 @@ ${htmlContent}
       results.push({ email: TEST_RECIPIENT, status: "failed", error: message });
     }
 
+    // Log test send
+    const supabaseLog = createServerSupabase();
+    await supabaseLog.from("newsletter_sends").insert({
+      subject: `[TEST] ${subject}`,
+      content: htmlContent || "",
+      recipients: 1,
+      sent: results[0].status === "sent" ? 1 : 0,
+      failed: results[0].status === "failed" ? 1 : 0,
+      is_test: true,
+    });
+
     return NextResponse.json({
       message: `Test email ${results[0].status === "sent" ? "sent" : "failed"}`,
       total: 1,
@@ -129,6 +140,16 @@ ${htmlContent}
   const failed = results.filter((r) => r.status === "failed").length;
 
   console.log(`[send-newsletter] Done — ${sent} sent, ${failed} failed`);
+
+  // Log the send
+  await supabase.from("newsletter_sends").insert({
+    subject,
+    content: htmlContent || "",
+    recipients: subscribers.length,
+    sent,
+    failed,
+    is_test: false,
+  });
 
   return NextResponse.json({
     message: `Newsletter sent: ${sent} delivered, ${failed} failed`,

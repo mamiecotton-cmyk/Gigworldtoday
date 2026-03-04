@@ -171,12 +171,20 @@ export default function AdminNewsletterPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Send Newsletter</h1>
-        <Link
-          href="/admin"
-          className="text-sm text-gray-500 hover:text-black transition"
-        >
-          ← Back to Dashboard
-        </Link>
+        <div className="flex gap-4 items-center">
+          <Link
+            href="/admin/newsletter/sends"
+            className="text-sm text-teal-600 hover:underline"
+          >
+            View Sent →
+          </Link>
+          <Link
+            href="/admin"
+            className="text-sm text-gray-500 hover:text-black transition"
+          >
+            ← Dashboard
+          </Link>
+        </div>
       </div>
 
       {/* Subscriber count & Drafts toggle */}
