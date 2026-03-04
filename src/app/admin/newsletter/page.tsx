@@ -16,6 +16,10 @@ export default function AdminNewsletterPage() {
   const [sending, setSending] = useState(false);
   const [testSending, setTestSending] = useState(false);
   const [showSource, setShowSource] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [draftId, setDraftId] = useState<string | null>(null);
+  const [drafts, setDrafts] = useState<any[]>([]);
+  const [showDrafts, setShowDrafts] = useState(false);
   const [result, setResult] = useState<{
     message: string;
     sent?: number;
@@ -23,13 +27,82 @@ export default function AdminNewsletterPage() {
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchDrafts = async () => {
+    try {
+      const res = await fetch("/api/newsletter-drafts");
+      const data = await res.json();
+      setDrafts(data.drafts || []);
+    } catch {
+      // ignore
+    }
+  };
+
   useEffect(() => {
     supabase
       .from("email_subscribers")
       .select("id", { count: "exact", head: true })
       .neq("status", "unsubscribed")
       .then(({ count }) => setSubscriberCount(count ?? 0));
+    fetchDrafts();
   }, []);
+
+  const saveDraft = async () => {
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/newsletter-drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: draftId, subject, content }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Failed to save draft");
+      } else {
+        setDraftId(data.draft.id);
+        setResult({ message: "Draft saved successfully" });
+        fetchDrafts();
+      }
+    } catch {
+      setError("Failed to save draft");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const loadDraft = (draft: any) => {
+    setDraftId(draft.id);
+    setSubject(draft.subject);
+    setContent(draft.content);
+    setShowDrafts(false);
+    setResult(null);
+    setError(null);
+  };
+
+  const deleteDraft = async (id: string) => {
+    if (!confirm("Delete this draft?")) return;
+    try {
+      await fetch("/api/newsletter-drafts", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (draftId === id) {
+        setDraftId(null);
+      }
+      fetchDrafts();
+    } catch {
+      // ignore
+    }
+  };
+
+  const newDraft = () => {
+    setDraftId(null);
+    setSubject("GigWorldToday Weekly Update");
+    setContent("");
+    setResult(null);
+    setError(null);
+  };
 
   const sendNewsletter = async (testOnly: boolean) => {
     setResult(null);
@@ -92,7 +165,7 @@ export default function AdminNewsletterPage() {
         </Link>
       </div>
 
-      {/* Subscriber count */}
+      {/* Subscriber count & Drafts toggle */}
       <div className="p-4 bg-gray-50 border rounded-lg flex items-center justify-between">
         <div>
           <p className="text-sm text-gray-500">Active Subscribers</p>
@@ -100,13 +173,64 @@ export default function AdminNewsletterPage() {
             {subscriberCount !== null ? subscriberCount : "…"}
           </p>
         </div>
-        <Link
-          href="/admin/subscribers"
-          className="text-sm text-teal-600 hover:underline"
-        >
-          Manage Subscribers →
-        </Link>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setShowDrafts(!showDrafts)}
+            className="text-sm text-teal-600 hover:underline"
+          >
+            {showDrafts ? "Hide Drafts" : `Saved Drafts (${drafts.length})`}
+          </button>
+          <Link
+            href="/admin/subscribers"
+            className="text-sm text-teal-600 hover:underline"
+          >
+            Manage Subscribers →
+          </Link>
+        </div>
       </div>
+
+      {/* Drafts list */}
+      {showDrafts && (
+        <div className="border rounded-lg divide-y">
+          <div className="p-3 bg-gray-50 flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-700">Saved Drafts</p>
+            <button
+              onClick={newDraft}
+              className="text-xs text-teal-600 hover:underline"
+            >
+              + New Draft
+            </button>
+          </div>
+          {drafts.length === 0 ? (
+            <p className="p-4 text-sm text-gray-400">No drafts saved yet.</p>
+          ) : (
+            drafts.map((d) => (
+              <div
+                key={d.id}
+                className={`p-3 flex items-center justify-between hover:bg-gray-50 transition ${draftId === d.id ? "bg-teal-50 border-l-2 border-teal-500" : ""}`}
+              >
+                <button
+                  onClick={() => loadDraft(d)}
+                  className="text-left flex-1 min-w-0"
+                >
+                  <p className="font-medium text-sm truncate">
+                    {d.subject || "(no subject)"}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {new Date(d.updated_at).toLocaleString()}
+                  </p>
+                </button>
+                <button
+                  onClick={() => deleteDraft(d.id)}
+                  className="text-xs text-red-500 hover:text-red-700 ml-3 shrink-0"
+                >
+                  Delete
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      )}
 
       {/* Subject */}
       <div>
@@ -174,7 +298,23 @@ export default function AdminNewsletterPage() {
       )}
 
       {/* Action buttons */}
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-3">
+        <button
+          onClick={saveDraft}
+          disabled={saving || sending || testSending}
+          className="px-5 py-2.5 border border-teal-500 text-teal-700 rounded-lg hover:bg-teal-50 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        >
+          {saving ? (
+            <>
+              <Spinner /> Saving…
+            </>
+          ) : draftId ? (
+            "Update Draft"
+          ) : (
+            "Save as Draft"
+          )}
+        </button>
+
         <button
           onClick={() => sendNewsletter(true)}
           disabled={testSending || sending}
