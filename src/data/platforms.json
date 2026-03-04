@@ -3387,14 +3387,16 @@
     "name": "Gopher Go",
     "description": "Gopher Go is a local services marketplace where Gophers complete delivery, errand, and handyman requests. Payouts via Stripe with instant payout available after 10 completed requests. Pro tiers unlock faster payout options. Workers can counter-offer on jobs.",
     "logoUrl": null,
-    "websiteUrl": "https://www.gophergo.com",
-    "iosAppUrl": null,
-    "androidAppUrl": null,
+    "websiteUrl": "https://gophergo.io/",
+    "iosAppUrl": "https://apps.apple.com/us/app/gopher-go/id1438128905",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=io.gophergoapp.go",
     "categories": [
       "errands",
       "delivery",
       "local_services",
-      "task_based"
+      "task_based",
+      "courier",
+      "same_day_delivery"
     ],
     "minAge": 18,
     "backgroundCheckRequired": false,
@@ -3426,20 +3428,22 @@
     "deliveryType": "on_demand",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-04",
     "dataSources": [
       "official_website"
     ],
     "verificationStatus": "verified",
     "setupRequired": false,
     "keyFeatures": "Stripe payouts; instant payout after 10 completed requests; Pro tiers for faster payouts; counter-offer on jobs; broad local services scope.",
-    "userFeedback": "Highly explicit payout timing and instant payout criteria; vehicle requirements vary by request type."
+    "userFeedback": "Highly explicit payout timing and instant payout criteria; vehicle requirements vary by request type.",
+    "applyUrl": "https://gophergo.io/become-a-gopher/",
+    "applyButtonColor": "#F97316"
   },
   {
     "id": "isecretshop",
     "slug": "isecretshop",
     "name": "iSecretShop",
-    "description": "iSecretShop is a mystery shopping platform and job aggregator connecting shoppers with multiple mystery shopping providers (MSPs). The platform does not pay shoppers directly \u2014 payment comes from individual MSPs. Free to register with mobile-first assignment workflows including geo-tags, time stamps, and photo capture.",
+    "description": "iSecretShop is a mystery shopping platform and job aggregator connecting shoppers with multiple mystery shopping providers (MSPs). The platform does not pay shoppers directly — payment comes from individual MSPs. Free to register with mobile-first assignment workflows including geo-tags, time stamps, and photo capture.",
     "logoUrl": null,
     "websiteUrl": "https://www.isecretshop.com/?redirect=no#firstPage",
     "iosAppUrl": null,
@@ -3484,7 +3488,7 @@
     ],
     "verificationStatus": "verified",
     "setupRequired": false,
-    "keyFeatures": "Job aggregator for multiple MSPs; mobile-first with geo-tags and photo capture; free registration; platform does not pay directly \u2014 MSPs handle payment.",
+    "keyFeatures": "Job aggregator for multiple MSPs; mobile-first with geo-tags and photo capture; free registration; platform does not pay directly — MSPs handle payment.",
     "userFeedback": "Clear payment responsibility statement; earnings and scheduling vary entirely by MSP and assignment."
   },
   {
@@ -4024,60 +4028,6 @@
     "setupRequired": false,
     "keyFeatures": "On-demand and temp-to-perm staffing; REST API with webhooks; published hiring fee schedule; G2 reviewed; warehouse/retail/event shifts.",
     "userFeedback": "Strong integration story; contract terms provide concrete figures; worker payout cadence not clearly published."
-  },
-  {
-    "id": "gophergo",
-    "slug": "gophergo",
-    "name": "GopherGo",
-    "description": "GopherGo is a same-day courier platform connecting local drivers with delivery and pickup tasks. Drivers use the mobile app to accept nearby runs and earn per-delivery pay; the platform prioritizes quick turnarounds for local businesses.",
-    "logoUrl": null,
-    "websiteUrl": "https://gophergo.io/",
-    "applyUrl": "https://gophergo.io/become-a-gopher/",
-    "iosAppUrl": "https://apps.apple.com/us/app/gopher-go/id1438128905",
-    "androidAppUrl": "https://play.google.com/store/apps/details?id=io.gophergoapp.go",
-    "categories": [
-      "courier",
-      "same_day_delivery"
-    ],
-    "minAge": 18,
-    "backgroundCheckRequired": true,
-    "vehicleTypes": [
-      "car",
-      "suv",
-      "van"
-    ],
-    "licenseRequired": true,
-    "insuranceRequired": true,
-    "equipmentNeeded": [
-      "smartphone"
-    ],
-    "countries": [
-      "USA"
-    ],
-    "regions": {
-      "USA": {
-        "status": "Active",
-        "cities": []
-      }
-    },
-    "payModel": "per_delivery",
-    "estimatedHourlyMin": 15,
-    "estimatedHourlyMax": 28,
-    "tipsAllowed": true,
-    "paymentFrequency": "weekly",
-    "instantPayAvailable": false,
-    "deliveryType": "on_demand",
-    "usesThirdPartyDelivery": false,
-    "driverStatus": "active",
-    "lastUpdated": "2026-03-04",
-    "dataSources": [
-      "official_website"
-    ],
-    "verificationStatus": "verified",
-    "setupRequired": false,
-    "applyButtonColor": "#F97316",
-    "keyFeatures": "On-demand local deliveries; driver app for accepting nearby runs; tips allowed; weekly payouts.",
-    "userFeedback": "Newer courier platform with competitive per-delivery rates; availability varies by market."
   },
   {
     "id": "bestmark",
