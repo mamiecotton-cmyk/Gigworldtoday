@@ -7,6 +7,7 @@ export default function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const [optInNewsletter, setOptInNewsletter] = useState(true);
   const [message, setMessage] = useState("");
 
   const handleAuth = async () => {
@@ -23,8 +24,23 @@ export default function AuthForm() {
         email,
         password,
       });
-      if (error) setMessage(error.message);
-      else setMessage("Check your email to confirm signup.");
+      if (error) {
+        setMessage(error.message);
+      } else {
+        // If user opted in, subscribe them to the newsletter (triggers welcome email)
+        if (optInNewsletter) {
+          try {
+            await fetch("/api/subscribe", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email }),
+            });
+          } catch {
+            // Don't block signup if newsletter subscribe fails
+          }
+        }
+        setMessage("Check your email to confirm signup.");
+      }
     }
   };
 
@@ -49,6 +65,18 @@ export default function AuthForm() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+
+      {!isLogin && (
+        <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={optInNewsletter}
+            onChange={(e) => setOptInNewsletter(e.target.checked)}
+            className="w-4 h-4 accent-black rounded"
+          />
+          Subscribe to the GigWorldToday weekly newsletter
+        </label>
+      )}
 
       <button
         onClick={handleAuth}
