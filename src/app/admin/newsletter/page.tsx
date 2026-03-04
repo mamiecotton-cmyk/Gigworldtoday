@@ -15,6 +15,7 @@ export default function AdminNewsletterPage() {
   const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
   const [sending, setSending] = useState(false);
   const [testSending, setTestSending] = useState(false);
+  const [showSource, setShowSource] = useState(false);
   const [result, setResult] = useState<{
     message: string;
     sent?: number;
@@ -123,14 +124,34 @@ export default function AdminNewsletterPage() {
 
       {/* Content editor */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Newsletter Content
-        </label>
-        <div className="border rounded-lg overflow-hidden">
-          <QuillEditor value={content} onChange={setContent} />
+        <div className="flex items-center justify-between mb-1">
+          <label className="block text-sm font-medium text-gray-700">
+            Newsletter Content
+          </label>
+          <button
+            type="button"
+            onClick={() => setShowSource(!showSource)}
+            className="text-xs text-teal-600 hover:underline"
+          >
+            {showSource ? "Visual Editor" : "Edit HTML Source"}
+          </button>
         </div>
+        {showSource ? (
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="w-full h-64 px-4 py-3 border rounded-lg font-mono text-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
+            placeholder="Paste or edit HTML here..."
+          />
+        ) : (
+          <div className="border rounded-lg overflow-hidden">
+            <QuillEditor value={content} onChange={setContent} />
+          </div>
+        )}
         <p className="text-xs text-gray-400 mt-1">
-          Use the toolbar to format text, add links, images, and lists.
+          {showSource
+            ? "Editing raw HTML. Switch to Visual Editor to use the toolbar."
+            : "Use the toolbar to format text, add links, images, and lists."}
         </p>
       </div>
 
@@ -187,9 +208,15 @@ export default function AdminNewsletterPage() {
       {content && (
         <div>
           <h2 className="text-lg font-semibold mb-2">Preview</h2>
-          <div
-            className="p-6 border rounded-lg bg-white prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: content }}
+          <iframe
+            srcDoc={`<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/></head>
+<body style="font-family:Arial,sans-serif;color:#333;line-height:1.6;max-width:600px;margin:0 auto;padding:20px;">
+${content}
+</body></html>`}
+            className="w-full border rounded-lg bg-white"
+            style={{ minHeight: 400 }}
+            title="Newsletter preview"
           />
         </div>
       )}
