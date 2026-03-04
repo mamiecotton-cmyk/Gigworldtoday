@@ -4024,5 +4024,372 @@
     "setupRequired": false,
     "keyFeatures": "On-demand and temp-to-perm staffing; REST API with webhooks; published hiring fee schedule; G2 reviewed; warehouse/retail/event shifts.",
     "userFeedback": "Strong integration story; contract terms provide concrete figures; worker payout cadence not clearly published."
+  },
+  {
+    "id": "bestmark",
+    "slug": "bestmark",
+    "name": "BestMark",
+    "description": "BestMark is one of the largest mystery shopping companies in North America. Shoppers complete store, restaurant, and service evaluations and submit detailed reports. Assignments pay $10–$50 per shop depending on complexity, and some include reimbursement for purchases. A vehicle is sometimes required depending on the assignment location.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.bestmark.com",
+    "applyUrl": "https://www.bestmark.com/become-a-shopper/",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "mystery_shopping",
+      "market_research"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": false,
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_task",
+    "estimatedHourlyMin": 10,
+    "estimatedHourlyMax": 50,
+    "tipsAllowed": false,
+    "paymentFrequency": "monthly",
+    "instantPayAvailable": false,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "Store and restaurant evaluations; purchase reimbursement on some shops; one of the largest mystery shopping companies in North America.",
+    "userFeedback": "Pros: Wide variety of assignments. Cons: Reports can be detailed and time-consuming."
+  },
+  {
+    "id": "market-force",
+    "slug": "market-force",
+    "name": "Market Force Information",
+    "description": "Market Force Information is a customer experience management company that hires mystery shoppers to evaluate restaurants, retail stores, and service businesses. Shoppers complete assignments, submit reports, and earn $10–$40 per shop. Some assignments include meal or purchase reimbursements. A vehicle is sometimes required depending on location.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.marketforce.com",
+    "applyUrl": "https://shopper.marketforce.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "mystery_shopping",
+      "market_research"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": false,
+    "vehicleTypes": [
+      "none",
+      "car"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_task",
+    "estimatedHourlyMin": 10,
+    "estimatedHourlyMax": 40,
+    "tipsAllowed": false,
+    "paymentFrequency": "monthly",
+    "instantPayAvailable": false,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "Restaurant and retail mystery shopping; meal and purchase reimbursements on select assignments; established CX management company.",
+    "userFeedback": "Pros: Reputable company with consistent assignments. Cons: Pay per shop can be low for time spent."
+  },
+  {
+    "id": "producttube",
+    "slug": "producttube",
+    "name": "ProductTube",
+    "description": "ProductTube is a market research platform where users earn money by recording short video reviews of products they already own or use. Tasks pay $5–$35 depending on complexity and product category. No vehicle or special equipment is needed beyond a smartphone with a camera. A flexible way to earn from home on your own schedule.",
+    "logoUrl": null,
+    "websiteUrl": "https://producttube.com",
+    "applyUrl": "https://producttube.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "market_research",
+      "task_based"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": false,
+    "vehicleTypes": [
+      "none"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_task",
+    "estimatedHourlyMin": 5,
+    "estimatedHourlyMax": 35,
+    "tipsAllowed": false,
+    "paymentFrequency": "varies",
+    "instantPayAvailable": false,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "Video product reviews; work from home; no vehicle required; flexible schedule.",
+    "userFeedback": "Pros: Easy to do from home. Cons: Task availability can be limited."
+  },
+  {
+    "id": "ameriship",
+    "slug": "ameriship",
+    "name": "AmeriShip Parcel Delivery",
+    "description": "AmeriShip Parcel Delivery is a medical and parcel courier service that offers contract delivery routes. Drivers handle medical specimens, lab supplies, and general parcels on assigned routes. Typical weekly earnings range from $500–$1,500 depending on route length and volume. A reliable vehicle is required. A solid option for drivers seeking consistent, structured route-based income.",
+    "logoUrl": null,
+    "websiteUrl": "https://ameriship.com",
+    "applyUrl": "https://ameriship.com/job-openings/",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "medical_courier",
+      "package_delivery",
+      "courier"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_route",
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 35,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "scheduled",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": true,
+    "keyFeatures": "Contract delivery routes; medical and parcel courier; $500–$1,500/week potential; structured scheduling.",
+    "userFeedback": "Pros: Consistent route-based income. Cons: Requires reliable vehicle and commitment to scheduled routes."
+  },
+  {
+    "id": "lab-logistics",
+    "slug": "lab-logistics",
+    "name": "Lab Logistics",
+    "description": "Lab Logistics specializes in laboratory specimen transport and medical courier services. Drivers pick up and deliver lab samples, medical records, and supplies between healthcare facilities on scheduled or on-call routes. Pay ranges from $18–$35 per hour depending on route and contract type. A vehicle and clean driving record are required.",
+    "logoUrl": null,
+    "websiteUrl": "https://lablogistics.com",
+    "applyUrl": "https://lablogistics.com/careers/",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "medical_courier",
+      "courier"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "hourly",
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 35,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "scheduled",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": true,
+    "keyFeatures": "Lab specimen transport; medical courier; hourly and contract pay options; healthcare facility routes.",
+    "userFeedback": "Pros: Steady medical courier work. Cons: Requires commitment to scheduled routes and healthcare compliance."
+  },
+  {
+    "id": "medical-couriers-inc",
+    "slug": "medical-couriers-inc",
+    "name": "Medical Couriers Inc",
+    "description": "Medical Couriers Inc provides route-based medical delivery services including lab specimens, pharmaceuticals, and medical supplies. Drivers operate on assigned routes between hospitals, clinics, and laboratories. Pay ranges from $20–$40 per hour depending on route complexity and region. A reliable vehicle and clean background are required.",
+    "logoUrl": null,
+    "websiteUrl": "https://medicalcouriers.com",
+    "applyUrl": "https://medicalcouriers.com/careers/",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "medical_courier",
+      "courier"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_route",
+    "estimatedHourlyMin": 20,
+    "estimatedHourlyMax": 40,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "scheduled",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": true,
+    "keyFeatures": "Route-based medical deliveries; lab specimens and pharmaceuticals; hospital and clinic routes; $20–$40/hr.",
+    "userFeedback": "Pros: Higher pay than standard delivery. Cons: Strict scheduling and compliance requirements."
+  },
+  {
+    "id": "swiftscale",
+    "slug": "swiftscale",
+    "name": "SwiftScale Marketing Pros",
+    "description": "SwiftScale Marketing Pros hires petition circulators and field canvassers for political and advocacy campaigns. Workers earn $10–$25 per signature collected, making it a high-earning opportunity for outgoing individuals. No vehicle is required — work is done on foot in public spaces. Some campaigns offer instant or same-day payout.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.swiftscalemarketing.com",
+    "applyUrl": "https://www.swiftscalemarketing.com/careers/",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "advocacy",
+      "field_gigs",
+      "task_based"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": false,
+    "vehicleTypes": [
+      "none"
+    ],
+    "licenseRequired": false,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_task",
+    "estimatedHourlyMin": 15,
+    "estimatedHourlyMax": 50,
+    "tipsAllowed": false,
+    "paymentFrequency": "weekly",
+    "instantPayAvailable": true,
+    "deliveryType": "task_based",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-03-04",
+    "dataSources": [
+      "official_website"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": false,
+    "keyFeatures": "Petition circulating; per-signature pay ($10–$25); no vehicle required; field canvassing for campaigns.",
+    "userFeedback": "Pros: High earning potential for outgoing individuals. Cons: Seasonal and campaign-dependent availability."
   }
 ]
