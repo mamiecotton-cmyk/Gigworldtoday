@@ -92,7 +92,7 @@ ${htmlContent}
   const { data: subscribers, error: dbError } = await supabase
     .from("email_subscribers")
     .select("email")
-    .eq("status", "active");
+    .neq("status", "unsubscribed");
 
   if (dbError) {
     console.error("[send-newsletter] Supabase query failed:", dbError);

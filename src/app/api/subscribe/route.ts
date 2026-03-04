@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   }
 
   const supabase = createServerSupabase();
-  const { error } = await supabase.from("email_subscribers").insert({ email });
+  const { error } = await supabase.from("email_subscribers").insert({ email, status: "active" });
 
   if (error) {
     if (error.code === "23505") {

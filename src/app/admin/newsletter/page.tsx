@@ -26,7 +26,7 @@ export default function AdminNewsletterPage() {
     supabase
       .from("email_subscribers")
       .select("id", { count: "exact", head: true })
-      .eq("status", "active")
+      .neq("status", "unsubscribed")
       .then(({ count }) => setSubscriberCount(count ?? 0));
   }, []);
 
