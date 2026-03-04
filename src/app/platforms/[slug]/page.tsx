@@ -19,6 +19,7 @@ import {
 import platformsData from "@/data/platforms.json";
 import { Platform } from "@/lib/types";
 import SignupBanner from "@/components/SignupBanner";
+import TrackedLink from "@/components/TrackedLink";
 
 const inactiveStatuses = [
   "no_longer_hiring",
@@ -193,45 +194,49 @@ export default function PlatformDetailPage() {
           {/* Action buttons */}
           <div className="flex flex-wrap gap-3 mt-6">
             {platform.applyUrl && !isInactive && (
-              <a
+              <TrackedLink
                 href={platform.applyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                linkType="platform"
+                label={platform.name}
+                sourcePage={`platform_${slug}`}
                 className={`inline-flex items-center gap-2 px-5 py-2.5 text-white rounded-lg font-semibold transition ${platform.applyButtonColor ? "" : "bg-[#00C9B1] hover:bg-[#00b5a0]"}`}
-                style={platform.applyButtonColor ? { backgroundColor: platform.applyButtonColor } : undefined}
+                style={undefined}
               >
                 Apply Now <ExternalLink size={16} />
-              </a>
+              </TrackedLink>
             )}
             {platform.websiteUrl && (
-              <a
+              <TrackedLink
                 href={platform.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                linkType="website"
+                label={platform.name}
+                sourcePage={`platform_${slug}`}
                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
               >
                 Visit Website <ExternalLink size={16} />
-              </a>
+              </TrackedLink>
             )}
             {platform.iosAppUrl && (
-              <a
+              <TrackedLink
                 href={platform.iosAppUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                linkType="ios_app"
+                label={`${platform.name} iOS App`}
+                sourcePage={`platform_${slug}`}
                 className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-sm"
               >
                 <Smartphone size={16} /> iOS App
-              </a>
+              </TrackedLink>
             )}
             {platform.androidAppUrl && (
-              <a
+              <TrackedLink
                 href={platform.androidAppUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                linkType="android_app"
+                label={`${platform.name} Android App`}
+                sourcePage={`platform_${slug}`}
                 className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-sm"
               >
                 <Smartphone size={16} /> Android App
-              </a>
+              </TrackedLink>
             )}
           </div>
         </div>
