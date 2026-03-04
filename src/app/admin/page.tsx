@@ -11,6 +11,7 @@ export default function AdminDashboard() {
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [pendingComments, setPendingComments] = useState(0);
   const [outboundClicks, setOutboundClicks] = useState(0);
+  const [registeredUsers, setRegisteredUsers] = useState(0);
   const router = useRouter();
 
   const fetchArticles = async () => {
@@ -29,6 +30,7 @@ export default function AdminDashboard() {
     supabase.from("email_subscribers").select("id", { count: "exact", head: true }).then(({ count }) => setSubscriberCount(count || 0));
     supabase.from("comments").select("id", { count: "exact", head: true }).eq("approved", false).then(({ count }) => setPendingComments(count || 0));
     supabase.from("outbound_clicks").select("id", { count: "exact", head: true }).then(({ count }) => setOutboundClicks(count || 0));
+    fetch("/api/user-count").then(r => r.json()).then(d => setRegisteredUsers(d.count || 0)).catch(() => {});
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -82,6 +84,10 @@ export default function AdminDashboard() {
         <div className="p-6 border rounded-lg">
           <p className="text-sm text-gray-500">Pending Comments</p>
           <p className="text-2xl font-bold">{pendingComments}</p>
+        </div>
+        <div className="p-6 border rounded-lg">
+          <p className="text-sm text-gray-500">Registered Users</p>
+          <p className="text-2xl font-bold">{registeredUsers}</p>
         </div>
         <Link href="/admin/clicks" className="p-6 border rounded-lg hover:border-teal-300 hover:shadow-md transition-all group">
           <p className="text-sm text-gray-500">Outbound Clicks</p>
