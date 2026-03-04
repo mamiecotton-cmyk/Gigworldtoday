@@ -15,7 +15,7 @@ export default function AdminNewsletterPage() {
   const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
   const [sending, setSending] = useState(false);
   const [testSending, setTestSending] = useState(false);
-  const [showSource, setShowSource] = useState(false);
+  const [showSource, setShowSource] = useState(true);
   const [saving, setSaving] = useState(false);
   const [draftId, setDraftId] = useState<string | null>(null);
   const [drafts, setDrafts] = useState<any[]>([]);
@@ -102,6 +102,20 @@ export default function AdminNewsletterPage() {
     setContent("");
     setResult(null);
     setError(null);
+  };
+
+  const loadTemplate = async () => {
+    try {
+      const res = await fetch("/api/newsletter-template");
+      const data = await res.json();
+      if (data.content) {
+        setContent(data.content);
+        setShowSource(true);
+        setResult({ message: "Template loaded — edit and send when ready" });
+      }
+    } catch {
+      setError("Failed to load template");
+    }
   };
 
   const sendNewsletter = async (testOnly: boolean) => {
@@ -252,19 +266,28 @@ export default function AdminNewsletterPage() {
           <label className="block text-sm font-medium text-gray-700">
             Newsletter Content
           </label>
-          <button
-            type="button"
-            onClick={() => setShowSource(!showSource)}
-            className="text-xs text-teal-600 hover:underline"
-          >
-            {showSource ? "Visual Editor" : "Edit HTML Source"}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={loadTemplate}
+              className="text-xs text-gray-500 hover:underline"
+            >
+              Load Template
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowSource(!showSource)}
+              className="text-xs text-teal-600 hover:underline"
+            >
+              {showSource ? "Visual Editor" : "Edit HTML Source"}
+            </button>
+          </div>
         </div>
         {showSource ? (
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full h-64 px-4 py-3 border rounded-lg font-mono text-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
+            className="w-full h-96 px-4 py-3 border rounded-lg font-mono text-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
             placeholder="Paste or edit HTML here..."
           />
         ) : (
