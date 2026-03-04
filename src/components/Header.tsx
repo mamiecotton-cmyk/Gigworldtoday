@@ -134,20 +134,12 @@ export default function Header() {
                   )}
                 </>
               ) : (
-                <>
-                  <Link
-                    href="/login"
-                    className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-all ${accountBorder}`}
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="px-4 py-2 rounded-xl bg-black text-white text-sm font-semibold transition-all hover:bg-gray-800"
-                  >
-                    Register
-                  </Link>
-                </>
+                <Link
+                  href="/register"
+                  className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-all ${accountBorder}`}
+                >
+                  Sign In
+                </Link>
               )}
             </div>
 
@@ -237,22 +229,13 @@ export default function Header() {
                   </button>
                 </>
               ) : (
-                <>
-                  <Link
-                    href="/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="mx-4 mt-2 px-4 py-2.5 rounded-xl border text-center text-sm font-semibold transition-all border-orange-300 text-orange-700 hover:bg-orange-50"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/register"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="mx-4 mt-1 px-4 py-2.5 rounded-xl bg-black text-white text-center text-sm font-semibold transition-all hover:bg-gray-800"
-                  >
-                    Register
-                  </Link>
-                </>
+                <Link
+                  href="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mx-4 mt-2 px-4 py-2.5 rounded-xl border text-center text-sm font-semibold transition-all border-orange-300 text-orange-700 hover:bg-orange-50"
+                >
+                  Sign In
+                </Link>
               )}
             </div>
           </div>

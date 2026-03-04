@@ -29,7 +29,7 @@ function LoginContent() {
   return (
     <div className="min-h-screen flex items-center justify-center py-12">
       <div className="w-full max-w-md p-6 bg-white/90 border border-white/40 rounded-xl shadow-2xl">
-        <h1 className="text-2xl font-bold mb-6">Admin Login</h1>
+        <h1 className="text-2xl font-bold mb-6">Sign In</h1>
 
         {error && (
           <p className="text-red-500 text-sm mb-4">{error}</p>
