@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/supabaseServer";
+import { createServerClient } from "@supabase/ssr";
 
 /**
  * Supabase redirects here after a successful OAuth login.
@@ -12,8 +12,11 @@ export async function GET(req: Request) {
   const next = url.searchParams.get("next") ?? "/";
 
   if (code) {
-    const supabase = createServerSupabase();
-    await supabase.auth.exchangeCodeForSession(code);
+    const supabase = createServerClient({
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    }, { req });
+    await supabase.auth.exchangeCodeForSession(req.url as unknown as string);
   }
 
   return NextResponse.redirect(new URL(next, url.origin));
