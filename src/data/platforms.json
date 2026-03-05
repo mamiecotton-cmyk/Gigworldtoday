@@ -634,19 +634,9 @@
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": [
-          "Atlanta",
-          "Chicago",
-          "Orlando",
-          "DC",
-          "Detroit",
-          "Tampa",
-          "Philadelphia",
-          "Baltimore",
-          "Charlotte",
-          "Boston"
-        ],
-        "waitlistStatus": "unknown"
+        "cities": [],
+        "waitlistStatus": "unknown",
+        "coverageNote": "28+ cities nationwide"
       }
     },
     "payModel": "per_delivery",
