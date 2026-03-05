@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createServerSupabase } from "@/lib/supabaseServer";
 
 /**
  * Supabase redirects here after a successful OAuth login.
@@ -13,12 +12,8 @@ export async function GET(req: Request) {
   const next = url.searchParams.get("next") ?? "/";
 
   if (code) {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { headers: req.headers as any, cookies: cookies() as any }
-    );
-    await supabase.auth.exchangeCodeForSession(req.url as unknown as string);
+    const supabase = createServerSupabase();
+    await supabase.auth.exchangeCodeForSession(code);
   }
 
   return NextResponse.redirect(new URL(next, url.origin));
