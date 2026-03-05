@@ -12,10 +12,11 @@ export async function GET(req: Request) {
   const next = url.searchParams.get("next") ?? "/";
 
   if (code) {
-    const supabase = createServerClient({
-      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    }, { req });
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { req }
+    );
     await supabase.auth.exchangeCodeForSession(req.url as unknown as string);
   }
 
