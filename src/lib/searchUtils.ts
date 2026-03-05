@@ -1091,6 +1091,20 @@ export const matchesSearch = (platform: Platform, query: string | undefined, all
       ) {
         isNationwide = true;
       }
+      // Check if searched state is in the platform's states array
+      const statesArray = (region as any).states || [];
+      if (statesArray.length > 0) {
+        const searchedState = getStateFromQuery(lowerQuery);
+        if (searchedState) {
+          const stateName = STATE_NAMES[searchedState]?.toLowerCase();
+          if (statesArray.some((s: string) =>
+            s.toLowerCase() === stateName ||
+            s.toLowerCase() === searchedState.toLowerCase()
+          )) {
+            isNationwide = true;
+          }
+        }
+      }
     });
     if (isNationwide) {
       if (typeof window !== 'undefined' && window.localStorage.getItem('debugGigSearch')) {
@@ -1109,6 +1123,34 @@ export const matchesSearch = (platform: Platform, query: string | undefined, all
           // ...existing code...
         }
         return true;
+      }
+      // Also check states array — platforms that list states instead of cities
+      const searchedState = getStateFromQuery(lowerQuery);
+      if (searchedState && region.states && region.states.some((s: string) =>
+        s.toLowerCase() === STATE_NAMES[searchedState]?.toLowerCase() ||
+        s.toLowerCase() === searchedState.toLowerCase()
+      )) {
+        return true;
+      }
+    }
+
+    // Check if platform covers the city's state via states array or state names in cities array
+    const cityStateAbbr = CITY_TO_STATE[cleanCityQuery] || US_CITY_TO_STATE[cleanCityQuery];
+    if (cityStateAbbr) {
+      const fullStateName = (STATE_NAMES[cityStateAbbr] || '').toLowerCase();
+      for (const region of Object.values(platform.regions)) {
+        if ((region as any).states?.some((s: string) =>
+          s.toLowerCase() === cityStateAbbr.toLowerCase() ||
+          s.toLowerCase() === fullStateName
+        )) {
+          return true;
+        }
+        if (region.cities?.some((c: string) =>
+          c.toLowerCase() === cityStateAbbr.toLowerCase() ||
+          c.toLowerCase() === fullStateName
+        )) {
+          return true;
+        }
       }
     }
 
@@ -1176,11 +1218,34 @@ export const matchesSearch = (platform: Platform, query: string | undefined, all
   // ZIP code handling
   const zipMatch = query?.match(/\b(\d{5})\b/);
   const searchedZip = zipMatch ? zipMatch[1] : null;
-  if (platform.regions) {
-    for (const country in platform.regions) {
-      const region = platform.regions[country];
-      if (region.counties && searchedZip) {
-        // existing county filtering logic
+  if (searchedZip) {
+    // Resolve ZIP to city and re-run city matching
+    const ZIP_TO_CITY_MAP = (globalThis as any).ZIP_TO_CITY || {};
+    const zipCity = ZIP_TO_CITY_MAP[searchedZip];
+    if (zipCity) {
+      const resolvedCity = zipCity.split(',')[0].trim().toLowerCase();
+      if (platform.regions) {
+        for (const region of Object.values(platform.regions)) {
+          // Match against cities array
+          if (region.cities && region.cities.some((c: string) =>
+            c.toLowerCase() === resolvedCity
+          )) return true;
+          // Match against states array using ZIP prefix
+          const zipPrefix = searchedZip.substring(0, 3);
+          const zipState = ZIP_TO_STATE[zipPrefix];
+          if (zipState && (region as any).states && (region as any).states.some((s: string) =>
+            s.toLowerCase() === STATE_NAMES[zipState]?.toLowerCase() ||
+            s.toLowerCase() === zipState.toLowerCase()
+          )) return true;
+        }
+      }
+    }
+    if (platform.regions) {
+      for (const country in platform.regions) {
+        const region = platform.regions[country];
+        if (region.counties && searchedZip) {
+          // existing county filtering logic
+        }
       }
     }
   }
