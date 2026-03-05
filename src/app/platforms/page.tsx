@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import platformsData from "@/data/platforms.json";
+import ZIP_TO_CITY from "@/data/zip-to-city";
+import US_CITY_TO_STATE from "@/data/us-city-to-state";
 import { matchesSearch } from "@/lib/searchUtils";
 import PlatformCard from "@/components/PlatformCard";
 import { PILL_TO_DATA_CATEGORIES } from "@/components/FilterSidebar";
@@ -63,6 +65,46 @@ export default function PlatformsPage() {
   const [filters, setFilters] = useState<FilterOptions>({});
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const autosuggestions = useMemo(() => {
+    const term = searchInput.toLowerCase().trim();
+    if (!term || term.length < 2) return [];
+
+    const results: string[] = [];
+    const seen = new Set<string>();
+
+    // ZIP code lookup
+    if (/^\d{3,5}$/.test(term)) {
+      for (const [zip, city] of Object.entries(ZIP_TO_CITY)) {
+        if (zip.startsWith(term) && !seen.has(city)) {
+          results.push(city);
+          seen.add(city);
+        }
+        if (results.length >= 8) break;
+      }
+    }
+
+    // City name lookup
+    for (const [cityKey, state] of Object.entries(US_CITY_TO_STATE)) {
+      if (cityKey.includes(term) && !seen.has(cityKey)) {
+        const display = `${cityKey.split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" ")}, ${state}`;
+        results.push(display);
+        seen.add(cityKey);
+      }
+    }
+
+    // Platform name lookup
+    for (const p of platforms) {
+      const name = (p.name || "").toLowerCase();
+      if (name.includes(term) && !seen.has(name)) {
+        results.push(p.name);
+        seen.add(name);
+      }
+    }
+
+    return results.slice(0, 8);
+  }, [platforms, searchInput]);
 
   // Restore scroll position when returning to this page
   useEffect(() => {
@@ -310,33 +352,59 @@ export default function PlatformsPage() {
 
             {/* Search Bar */}
             <form onSubmit={handleSearch} className="max-w-xl mx-auto relative">
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Search platforms by name, category, or location..."
-                className="w-full px-5 py-4 pl-12 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-slate-400 text-base focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all"
-              />
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-              {searchInput && (
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => {
+                    setSearchInput(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                  autoComplete="off"
+                  placeholder="Search platforms by name, category, or location..."
+                  className="w-full px-5 py-4 pl-12 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-slate-400 text-base focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all"
+                />
+                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                {searchInput && (
+                  <button
+                    type="button"
+                    onClick={() => { setSearchInput(""); setSubmittedQuery(""); setShowSuggestions(false); }}
+                    className="absolute right-14 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
                 <button
-                  type="button"
-                  onClick={() => { setSearchInput(""); setSubmittedQuery(""); }}
-                  className="absolute right-14 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                  type="submit"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-teal-500 hover:bg-teal-400 text-white rounded-xl px-4 py-2 text-sm font-semibold transition-colors"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  Search
                 </button>
-              )}
-              <button
-                type="submit"
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-teal-500 hover:bg-teal-400 text-white rounded-xl px-4 py-2 text-sm font-semibold transition-colors"
-              >
-                Search
-              </button>
+
+                {showSuggestions && autosuggestions.length > 0 && (
+                  <ul className="absolute z-50 left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl max-h-56 overflow-y-auto">
+                    {autosuggestions.map((suggestion, idx) => (
+                      <li
+                        key={idx}
+                        className="px-4 py-2 hover:bg-teal-50 cursor-pointer text-gray-800 text-sm"
+                        onMouseDown={() => {
+                          setSearchInput(suggestion);
+                          setSubmittedQuery(suggestion);
+                          setShowSuggestions(false);
+                        }}
+                      >
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </form>
           </div>
         </div>
