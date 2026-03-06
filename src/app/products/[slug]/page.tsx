@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabaseServer";
 import ImageGallery from "@/components/ProductGallery";
 import TrackedLink from "@/components/TrackedLink";
+import TrackedOutboundLink from "@/components/TrackedOutboundLink";
 
 export const dynamic = "force-dynamic";
 
@@ -182,16 +183,16 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                   ))}
 
                   <div className="pt-6">
-                    {product.external_link && (
-                      <a
-                        href={product.external_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-teal-500 hover:shadow-md"
-                      >
-                        {isBook ? "Start With the Book →" : "View Product →"}
-                      </a>
-                    )}
+                      {product.external_link && (
+                        <TrackedOutboundLink
+                          href={product.external_link}
+                          linkType={isBook ? "book" : "product"}
+                          label={product.name}
+                          className="inline-flex items-center rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-teal-500 hover:shadow-md"
+                        >
+                          {isBook ? "Start With the Book →" : "View Product →"}
+                        </TrackedOutboundLink>
+                      )}
                   </div>
                 </div>
               )}

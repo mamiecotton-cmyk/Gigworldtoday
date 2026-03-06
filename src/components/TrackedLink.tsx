@@ -34,25 +34,21 @@ export default function TrackedLink({
   style,
   children,
 }: TrackedLinkProps) {
-  const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
     // Fire-and-forget: tracking must never block navigation
     try {
-      fetch("/api/track-click", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          destination_url: href,
-          link_type: linkType,
-          label,
-          source_page: sourcePage,
-        }),
-      }).catch(() => {
-        // Silently ignore tracking failures
+      // lazy import to avoid module-level browser APIs when SSR'ing
+      const { trackOutboundClick } = require("@/lib/trackOutboundClick");
+      trackOutboundClick({
+        destination_url: href,
+        link_type: linkType,
+        label,
+        source_page: sourcePage,
       });
     } catch {
-      // Silently ignore tracking failures
+      // ignore
     }
 
     // Always open destination regardless of tracking outcome
