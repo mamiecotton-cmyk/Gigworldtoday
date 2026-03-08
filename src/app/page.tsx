@@ -118,6 +118,14 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    const meta = document.createElement("meta");
+    meta.name = "fo-verify";
+    meta.content = "1b6c9375-9cc9-4b2d-90a2-f950d0538677";
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
+
+  useEffect(() => {
     supabase
       .from("articles")
       .select("title, slug, featured_image, excerpt, published_at")
