@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import SocialSidebar from '@/components/SocialSidebar';
 import ExitSurvey from '@/components/ExitSurvey';
 
 export const metadata: Metadata = {
@@ -67,7 +66,6 @@ export default function RootLayout({
         <Header />
         <main className="pt-20">{children}</main>
         <Footer />
-        <SocialSidebar />
         <ExitSurvey />
       </body>
     </html>
