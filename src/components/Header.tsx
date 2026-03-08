@@ -14,17 +14,26 @@ export default function Header() {
   const isHome = pathname === "/";
 
   useEffect(() => {
+    const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
-      const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
-      setIsAdmin(ADMIN_EMAILS.includes(data.user?.email || ""));
+      try {
+        const localAdmin = typeof window !== "undefined" && localStorage.getItem("gwt_is_admin") === "true";
+        setIsAdmin(ADMIN_EMAILS.includes(data.user?.email || "") || localAdmin);
+      } catch {
+        setIsAdmin(ADMIN_EMAILS.includes(data.user?.email || ""));
+      }
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
-        const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
-        setIsAdmin(ADMIN_EMAILS.includes(session?.user?.email || ""));
+        try {
+          const localAdmin = typeof window !== "undefined" && localStorage.getItem("gwt_is_admin") === "true";
+          setIsAdmin(ADMIN_EMAILS.includes(session?.user?.email || "") || localAdmin);
+        } catch {
+          setIsAdmin(ADMIN_EMAILS.includes(session?.user?.email || ""));
+        }
       }
     );
 
