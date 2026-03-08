@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 export default function AdminDashboard() {
   const [articles, setArticles] = useState<any[]>([]);
   const [productCount, setProductCount] = useState(0);
+  const [feedbackCount, setFeedbackCount] = useState(0);
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [pendingComments, setPendingComments] = useState(0);
   const [outboundClicks, setOutboundClicks] = useState(0);
@@ -30,6 +31,7 @@ export default function AdminDashboard() {
     supabase.from("email_subscribers").select("id", { count: "exact", head: true }).then(({ count }) => setSubscriberCount(count || 0));
     supabase.from("comments").select("id", { count: "exact", head: true }).eq("approved", false).then(({ count }) => setPendingComments(count || 0));
     supabase.from("outbound_clicks").select("id", { count: "exact", head: true }).then(({ count }) => setOutboundClicks(count || 0));
+    supabase.from("site_feedback").select("id", { count: "exact", head: true }).then(({ count }) => setFeedbackCount(count || 0));
     fetch("/api/user-count").then(r => r.json()).then(d => setRegisteredUsers(d.count || 0)).catch(() => {});
   }, []);
 
@@ -89,6 +91,12 @@ export default function AdminDashboard() {
           <p className="text-sm text-gray-500">Registered Users</p>
           <p className="text-2xl font-bold">{registeredUsers}</p>
         </div>
+        <Link href="/admin/feedback" className="p-6 border rounded-lg hover:border-teal-300 hover:shadow-md transition-all group">
+          <p className="text-sm text-gray-500">Survey Responses</p>
+          <p className="text-2xl font-bold">{feedbackCount}</p>
+          <p className="text-xs text-teal-600 mt-1 opacity-0 group-hover:opacity-100 transition">View Feedback →</p>
+        </Link>
+
         <Link href="/admin/clicks" className="p-6 border rounded-lg hover:border-teal-300 hover:shadow-md transition-all group">
           <p className="text-sm text-gray-500">Outbound Clicks</p>
           <p className="text-2xl font-bold">{outboundClicks}</p>
@@ -127,6 +135,12 @@ export default function AdminDashboard() {
           className="px-4 py-2 border border-black text-black rounded"
         >
           Click Analytics
+        </Link>
+        <Link
+          href="/admin/feedback"
+          className="px-4 py-2 border border-black text-black rounded"
+        >
+          Survey Feedback
         </Link>
         <Link
           href="/admin/newsletter"
