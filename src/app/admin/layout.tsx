@@ -1,34 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    async function checkUser() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        router.push("/login");
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session && ADMIN_EMAILS.includes(session.user.email || "")) {
+        setAuthorized(true);
       } else {
-        setLoading(false);
+        router.replace("/");
       }
-    }
-
-    checkUser();
+      setChecking(false);
+    });
   }, [router]);
 
-  if (loading) return null;
+  if (checking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">Loading…</p>
+      </div>
+    );
+  }
+
+  if (!authorized) return null;
 
   return <>{children}</>;
 }

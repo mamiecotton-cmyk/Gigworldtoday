@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 
 export default function Header() {
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -15,11 +16,15 @@ export default function Header() {
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
+      const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
+      setIsAdmin(ADMIN_EMAILS.includes(data.user?.email || ""));
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
+        const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
+        setIsAdmin(ADMIN_EMAILS.includes(session?.user?.email || ""));
       }
     );
 
@@ -117,13 +122,15 @@ export default function Header() {
 
                   {open && (
                     <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg z-50">
-                      <Link
-                        href="/admin"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setOpen(false)}
-                      >
-                        Dashboard
-                      </Link>
+                      {isAdmin && (
+                        <Link
+                          href="/admin"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                      )}
                       <button
                         onClick={handleLogout}
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -214,13 +221,15 @@ export default function Header() {
 
               {user ? (
                 <>
-                  <Link
-                    href="/admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
-                  >
-                    Dashboard
-                  </Link>
+                  {isAdmin && (
+                    <Link
+                      href="/admin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+                    >
+                      Dashboard
+                    </Link>
+                  )}
                   <button
                     onClick={handleLogout}
                     className={`px-4 py-3 text-left text-sm font-medium rounded-lg transition-all ${linkColor}`}
