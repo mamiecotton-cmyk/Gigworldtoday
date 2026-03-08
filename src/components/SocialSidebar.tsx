@@ -1,55 +1,53 @@
 "use client";
 
 import React from "react";
-import { FaRedditAlien } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTiktok, FaRedditAlien } from "react-icons/fa";
 
 export default function SocialSidebar() {
-  const items = [
-    { href: "https://facebook.com/gigworldtoday", label: "Facebook", img: "/logos/facebook.svg" },
-    { href: "https://instagram.com/gigworldtoday", label: "Instagram", img: "/logos/instagram.svg" },
-    { href: "https://tiktok.com/@gigworldtoday", label: "TikTok", img: "/logos/tiktok.svg" },
-  ];
-
   return (
-    <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex">
-      <div className="flex flex-col gap-3 items-start">
-        {items.map((it) => (
-          <a
-            key={it.label}
-            href={it.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex items-center"
-            aria-label={it.label}
-          >
-            <span className="bg-white shadow-md rounded-full p-2 hover:bg-blue-50 transition flex items-center justify-center text-gray-800 w-10 h-10">
-              <img src={it.img} alt={it.label} className="w-5 h-5 object-contain" />
-            </span>
+    <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3">
 
-            {/* Tooltip on hover */}
-            <span className="ml-3 whitespace-nowrap px-2 py-1 rounded-md bg-gray-900 text-white text-xs font-medium opacity-0 group-hover:opacity-100 transform translate-x-1 group-hover:translate-x-0 transition-all duration-200 pointer-events-none">
-              {it.label}
-            </span>
-          </a>
-        ))}
+      <a
+        href="https://www.facebook.com/profile.php?id=61585011383587&sk=followers"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-white shadow-md rounded-full p-3 hover:scale-110 transition"
+        aria-label="Facebook"
+      >
+        <FaFacebookF size={18} />
+      </a>
 
-        {/* Reddit widget moved here */}
-        <a
-          href="https://www.reddit.com/user/Mamie-GigWorldToday/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative flex items-center mt-2"
-          aria-label="Reddit"
-        >
-          <span className="bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-lg rounded-full p-3 flex items-center justify-center w-12 h-12">
-            <FaRedditAlien />
-          </span>
+      <a
+        href="https://www.instagram.com/gigworldtoday/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-white shadow-md rounded-full p-3 hover:scale-110 transition"
+        aria-label="Instagram"
+      >
+        <FaInstagram size={18} />
+      </a>
 
-          <span className="ml-3 whitespace-nowrap px-2 py-1 rounded-md bg-gray-900 text-white text-xs font-medium opacity-0 group-hover:opacity-100 transform translate-x-1 group-hover:translate-x-0 transition-all duration-200 pointer-events-none">
-            Reddit
-          </span>
-        </a>
-      </div>
+      <a
+        href="https://www.tiktok.com/@gigworldtoday"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-white shadow-md rounded-full p-3 hover:scale-110 transition"
+        aria-label="TikTok"
+      >
+        <FaTiktok size={18} />
+      </a>
+
+      {/* Reddit (kept) */}
+      <a
+        href="https://www.reddit.com/user/Mamie-GigWorldToday/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-lg rounded-full p-3 hover:scale-110 transition"
+        aria-label="Reddit"
+      >
+        <FaRedditAlien size={18} />
+      </a>
+
     </div>
   );
 }
