@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { FaFacebookF, FaInstagram, FaTiktok, FaRedditAlien } from "react-icons/fa";
+import { FaRedditAlien } from "react-icons/fa";
 
 export default function SocialSidebar() {
   const items = [
-    { href: "https://facebook.com/gigworldtoday", label: "Facebook", icon: <FaFacebookF /> },
-    { href: "https://instagram.com/gigworldtoday", label: "Instagram", icon: <FaInstagram /> },
-    { href: "https://tiktok.com/@gigworldtoday", label: "TikTok", icon: <FaTiktok /> },
+    { href: "https://facebook.com/gigworldtoday", label: "Facebook", img: "/logos/facebook.svg" },
+    { href: "https://instagram.com/gigworldtoday", label: "Instagram", img: "/logos/instagram.svg" },
+    { href: "https://tiktok.com/@gigworldtoday", label: "TikTok", img: "/logos/tiktok.svg" },
   ];
 
   return (
@@ -22,8 +22,8 @@ export default function SocialSidebar() {
             className="group relative flex items-center"
             aria-label={it.label}
           >
-            <span className="bg-white shadow-md rounded-full p-3 hover:bg-blue-50 transition flex items-center justify-center text-gray-800">
-              <span className="text-lg">{it.icon}</span>
+            <span className="bg-white shadow-md rounded-full p-2 hover:bg-blue-50 transition flex items-center justify-center text-gray-800 w-10 h-10">
+              <img src={it.img} alt={it.label} className="w-5 h-5 object-contain" />
             </span>
 
             {/* Tooltip on hover */}
