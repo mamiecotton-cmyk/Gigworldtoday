@@ -88,7 +88,7 @@ export default function ExitSurvey() {
     1: "Hey! Quick question...",
     2: "What interests you most?",
     3: "Help us improve!",
-    4: "Stay ahead of the game be the first to know about new platforms & waitlists openings",
+    4: "New platforms & open waitlists",
   };
 
   const dots = (
