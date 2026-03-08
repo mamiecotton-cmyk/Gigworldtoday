@@ -26,6 +26,8 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
+    // Mark this browser session as admin so outbound tracking is skipped
+    try { localStorage.setItem("gwt_is_admin", "true"); } catch {}
     fetchArticles();
     supabase.from("products").select("id", { count: "exact", head: true }).then(({ count }) => setProductCount(count || 0));
     supabase.from("email_subscribers").select("id", { count: "exact", head: true }).then(({ count }) => setSubscriberCount(count || 0));

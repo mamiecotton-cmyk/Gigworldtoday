@@ -37,18 +37,22 @@ export default function TrackedLink({
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    // Fire-and-forget: tracking must never block navigation
-    try {
-      // lazy import to avoid module-level browser APIs when SSR'ing
-      const { trackOutboundClick } = require("@/lib/trackOutboundClick");
-      trackOutboundClick({
-        destination_url: href,
-        link_type: linkType,
-        label,
-        source_page: sourcePage,
-      });
-    } catch {
-      // ignore
+    // Skip tracking for logged-in admin users
+    const isAdmin = document.cookie.includes("sb-") && localStorage.getItem("gwt_is_admin") === "true";
+
+    if (!isAdmin) {
+      try {
+        // lazy import to avoid module-level browser APIs when SSR'ing
+        const { trackOutboundClick } = require("@/lib/trackOutboundClick");
+        trackOutboundClick({
+          destination_url: href,
+          link_type: linkType,
+          label,
+          source_page: sourcePage,
+        });
+      } catch {
+        // ignore
+      }
     }
 
     // Always open destination regardless of tracking outcome
