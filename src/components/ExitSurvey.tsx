@@ -105,31 +105,33 @@ export default function ExitSurvey() {
       />
 
       <div className="relative w-full mx-4 md:mx-0 flex items-center justify-center">
-        <div className="bg-white rounded-xl shadow-xl p-6 max-w-[420px] w-full transform transition-all duration-300">
+        <div className="relative bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-xl hover:shadow-teal-500/10 hover:border-teal-300 transition-all duration-300 p-4 max-w-[340px] w-full overflow-hidden">
+          {/* Teal top accent */}
+          <div className="absolute top-0 left-4 right-4 h-[3px] rounded-b-full bg-gradient-to-r from-teal-400 to-teal-500" />
           {step === 1 ? (
             <div className="flex flex-col md:flex-row items-center gap-4">
               <img
                 src="/images/gigsidekick-avatar.png"
                 alt="GigSideKick Assistant"
-                className="w-20 h-20 object-contain"
+                className="w-12 h-12 object-contain"
               />
 
               <div className="flex-1">
-                <h3 className="text-lg font-semibold mb-2">Quick question from GigSideKick</h3>
-                <p className="text-sm text-gray-700 mb-3">Did GigWorldToday help you discover a new gig platform today?</p>
+                <h3 className="text-sm font-semibold mb-1">Quick question from GigSideKick</h3>
+                <p className="text-xs text-gray-600 mb-2">Did GigWorldToday help you discover a new gig platform today?</p>
 
                 <div className="flex gap-2 flex-wrap">
-                  <label className={`flex-1 text-center px-3 py-2 border rounded-lg cursor-pointer ${answer==='Yes' ? 'bg-[#00C9B1] text-white' : 'bg-white'}`}>
+                  <label className={`flex-1 text-center px-2 py-1.5 border rounded-lg cursor-pointer text-xs ${answer==='Yes' ? 'bg-[#00C9B1] text-white' : 'bg-white'}`}>
                     <input className="hidden" name="answer" type="radio" value="Yes" checked={answer==='Yes'} onChange={() => setAnswer('Yes')} />
                     👍 Yes
                   </label>
 
-                  <label className={`flex-1 text-center px-3 py-2 border rounded-lg cursor-pointer ${answer==='Still exploring' ? 'bg-[#00C9B1] text-white' : 'bg-white'}`}>
+                  <label className={`flex-1 text-center px-2 py-1.5 border rounded-lg cursor-pointer text-xs ${answer==='Still exploring' ? 'bg-[#00C9B1] text-white' : 'bg-white'}`}>
                     <input className="hidden" name="answer" type="radio" value="Still exploring" checked={answer==='Still exploring'} onChange={() => setAnswer('Still exploring')} />
                     👀 Still looking
                   </label>
 
-                  <label className={`flex-1 text-center px-3 py-2 border rounded-lg cursor-pointer ${answer==='Not yet' ? 'bg-[#00C9B1] text-white' : 'bg-white'}`}>
+                  <label className={`flex-1 text-center px-2 py-1.5 border rounded-lg cursor-pointer text-xs ${answer==='Not yet' ? 'bg-[#00C9B1] text-white' : 'bg-white'}`}>
                     <input className="hidden" name="answer" type="radio" value="Not yet" checked={answer==='Not yet'} onChange={() => setAnswer('Not yet')} />
                     ❌ Not yet
                   </label>
@@ -146,7 +148,7 @@ export default function ExitSurvey() {
                       "Remote gigs",
                       "Other",
                     ].map((g) => (
-                      <label key={g} className={`px-3 py-2 border rounded-lg cursor-pointer ${gigType===g? 'bg-gray-900 text-white':'bg-white'}`}>
+                      <label key={g} className={`px-2 py-1.5 border rounded-lg cursor-pointer text-xs ${gigType===g? 'bg-gray-900 text-white':'bg-white'}`}>
                         <input className="hidden" name="gigType" type="radio" value={g} checked={gigType===g} onChange={() => setGigType(g)} />
                         {g}
                       </label>
@@ -156,12 +158,12 @@ export default function ExitSurvey() {
 
                 <div className="mt-3">
                   <p className="font-medium text-sm">Any suggestions to make the site more useful?</p>
-                  <textarea value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} placeholder="Your suggestions" className="w-full mt-2 border rounded-md p-2 min-h-[80px]" />
+                  <textarea value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} placeholder="Your suggestions" className="w-full mt-1 border rounded-md p-2 text-xs min-h-[60px]" />
                 </div>
 
                 <div className="flex items-center justify-end gap-3 mt-4">
-                  <button onClick={close} className="px-4 py-2 text-sm">Skip</button>
-                  <button disabled={submitting} onClick={submitFeedback} className="px-4 py-2 bg-[#00C9B1] text-white rounded-md">{submitting? 'Sending...':'Send Feedback'}</button>
+                  <button onClick={close} className="px-3 py-1.5 text-xs">Skip</button>
+                  <button disabled={submitting} onClick={submitFeedback} className="px-3 py-1.5 text-xs font-semibold bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors">{submitting? 'Sending...':'Send Feedback'}</button>
                 </div>
               </div>
             </div>
@@ -170,16 +172,16 @@ export default function ExitSurvey() {
               <img
                 src="/images/gigsidekick-avatar.png"
                 alt="GigSideKick Assistant"
-                className="w-20 h-20 object-contain"
+                className="w-12 h-12 object-contain"
               />
 
               <div className="flex-1">
-                <h3 className="text-lg font-semibold mb-2">Want new gig apps before other drivers find them?</h3>
-                <p className="text-sm text-gray-600 mb-3">Each week we send newly discovered gig platforms, earning tips, and tools to help gig workers maximize income.</p>
+                <h3 className="text-sm font-semibold mb-1">Want new gig apps before other drivers find them?</h3>
+                <p className="text-xs text-gray-500 mb-2">Each week we send newly discovered gig platforms, earning tips, and tools to help gig workers maximize income.</p>
 
                 <div className="flex gap-2">
-                  <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="you@workmail.com" className="flex-1 border rounded-md p-2" />
-                  <button disabled={submitting} onClick={submitEmail} className="px-4 py-2 bg-orange-600 text-white rounded-md">{submitting? 'Joining...':'Get Weekly Gig Updates'}</button>
+                  <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="you@workmail.com" className="flex-1 border rounded-md p-2 text-xs" />
+                  <button disabled={submitting} onClick={submitEmail} className="px-3 py-1.5 text-xs font-semibold bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors">{submitting? 'Joining...':'Get Weekly Gig Updates'}</button>
                 </div>
 
                 {thanks && <p className="text-sm text-green-700 mt-3">{thanks}</p>}
