@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 
-const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
+const ADMIN_EMAILS = ["mamie@gigworldtoday.com", "mamie.cotton@gmail.com"]; // add more later
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

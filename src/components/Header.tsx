@@ -14,7 +14,7 @@ export default function Header() {
   const isHome = pathname === "/";
 
   useEffect(() => {
-    const ADMIN_EMAILS = ["mamie@gigworldtoday.com"]; // add more later
+    const ADMIN_EMAILS = ["mamie@gigworldtoday.com", "mamie.cotton@gmail.com"]; // add more later
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
       try {
