@@ -28,32 +28,20 @@ export default function ExitSurvey() {
     }
     sessionIdRef.current = sid;
 
-    // 20s timer
-    const t = setTimeout(() => setReady(true), 20000);
-
-    const onMove = (e: MouseEvent) => {
+    // Auto-show after 2 minutes if not already shown this session
+    const t = setTimeout(() => {
       try {
         const lastShown = localStorage.getItem(shownKey);
-        if (!ready) return;
-        if (lastShown === sessionIdRef.current) return; // already shown this session
-        // exit intent: mouse near top of viewport
-        const y = (e as MouseEvent).clientY || 0;
-        if (y <= 60) {
-          setVisible(true);
-          localStorage.setItem(shownKey, sessionIdRef.current);
-        }
+        if (lastShown === sessionIdRef.current) return;
+        setVisible(true);
+        localStorage.setItem(shownKey, sessionIdRef.current);
       } catch {
         // ignore
       }
-    };
+    }, 120000);
 
-    window.addEventListener("mousemove", onMove);
-
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener("mousemove", onMove);
-    };
-  }, [ready]);
+    return () => clearTimeout(t);
+  }, []);
 
   const close = () => {
     setVisible(false);
