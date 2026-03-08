@@ -88,7 +88,7 @@ export default function ExitSurvey() {
     1: "Hey! Quick question...",
     2: "What interests you most?",
     3: "Help us improve!",
-    4: "Stay ahead of the game",
+    4: "Stay ahead of the game be the first to know about new platforms & waitlists openings",
   };
 
   const dots = (
@@ -256,7 +256,7 @@ export default function ExitSurvey() {
           {step === 4 && (
             <div className="space-y-2">
               <p className="text-xs text-gray-600">
-                Get new gig platforms and earning tips before other drivers.
+                Be the first to know about new platforms and open waitlists before other drivers find them.
               </p>
               {thanks ? (
                 <p className="text-xs font-semibold text-green-600 py-2">{thanks}</p>
