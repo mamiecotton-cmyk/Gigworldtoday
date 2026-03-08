@@ -42,14 +42,36 @@ export default function AdminFeedbackPage() {
     .sort((a, b) => b.count - a.count);
 
   const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this response?")) return;
+    await supabase.from("site_feedback").delete().eq("id", id);
+    setRows((prev) => prev.filter((r) => r.id !== id));
+  };
+
+  const handleClearAll = async () => {
+    const confirmText = prompt("This will delete ALL survey responses.\n\nType DELETE to confirm:");
+    if (confirmText !== "DELETE") return;
+    await supabase.from("site_feedback").delete().neq("id", "");
+    setRows([]);
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-16 space-y-10">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Exit Survey Feedback</h1>
-        <Link href="/admin" className="text-sm text-gray-500 hover:text-black transition">
-          ← Back to Dashboard
-        </Link>
+        <div className="flex gap-3 items-center">
+          {rows.length > 0 && (
+            <button
+              onClick={handleClearAll}
+              className="px-3 py-1.5 text-xs font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 transition"
+            >
+              Clear All
+            </button>
+          )}
+          <Link href="/admin" className="text-sm text-gray-500 hover:text-black transition">
+            ← Back to Dashboard
+          </Link>
+        </div>
       </div>
 
       {loading ? (
@@ -130,15 +152,23 @@ export default function AdminFeedbackPage() {
             <div className="border rounded-lg p-6">
               <h2 className="text-lg font-semibold mb-4">Written Suggestions</h2>
               <div className="space-y-3">
-                {rows
+                  {rows
                   .filter((r) => r.feedback)
                   .slice(0, 20)
                   .map((r) => (
-                    <div key={r.id} className="p-3 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-gray-800">{r.feedback}</p>
-                      <p className="text-xs text-gray-400 mt-1">
-                        {new Date(r.created_at).toLocaleDateString()} · {r.answer} · {r.gig_type || "—"}
-                      </p>
+                    <div key={r.id} className="p-3 bg-gray-50 rounded-lg flex justify-between items-start gap-3">
+                      <div>
+                        <p className="text-sm text-gray-800">{r.feedback}</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          {new Date(r.created_at).toLocaleDateString()} · {r.answer} · {r.gig_type || "—"}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleDelete(r.id)}
+                        className="text-xs text-red-500 hover:text-red-700 flex-shrink-0"
+                      >
+                        Delete
+                      </button>
                     </div>
                   ))}
               </div>
