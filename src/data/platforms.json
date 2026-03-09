@@ -2899,7 +2899,9 @@
     "name": "Qwick",
     "description": "Qwick is a hospitality staffing platform connecting workers with shifts at restaurants, hotels, catering companies, and event venues. Offers both 1099 and W-2 options with competitive market-based hourly rates. Features an AI matching assistant (Mara) and Stripe-powered payments. Active in 40+ major U.S. cities.",
     "logoUrl": null,
-    "websiteUrl": "https://www.qwick.com",
+    "websiteUrl": "https://www.qwick.com/",
+    "applyUrl": "https://www.qwick.com/professionals/",
+    "applyButtonColor": "#FF5A00",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
