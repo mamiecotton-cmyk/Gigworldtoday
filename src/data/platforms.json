@@ -2625,7 +2625,7 @@
     ],
     "regions": {
       "USA": {
-        "status": "Active",
+        "status": "Available",
         "cities": []
       }
     },
