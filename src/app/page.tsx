@@ -7,7 +7,7 @@ import EarlyAccessSignup from "@/components/EarlyAccessSignup";
 import platformsData from "@/data/platforms.json";
 import ZIP_TO_CITY from "@/data/zip-to-city";
 import US_CITY_TO_STATE from "@/data/us-city-to-state";
-import { CITY_TO_STATE } from "@/lib/searchUtils";
+import { CITY_TO_STATE, STATE_NAMES } from "@/lib/searchUtils";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -25,6 +25,7 @@ export default function HomePage() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlightIndex, setHighlightIndex] = useState(0);
   const [platformPage, setPlatformPage] = useState(0);
 
   /* ===============================
@@ -158,8 +159,12 @@ export default function HomePage() {
               className="flex items-center w-full max-w-md bg-white/95 rounded-xl shadow-2xl p-2 gap-2 border border-white/30 backdrop-blur-md"
               onSubmit={e => {
                 e.preventDefault();
-                if (searchTerm.trim()) {
-                  router.push(`/platforms?search=${encodeURIComponent(searchTerm.trim())}`);
+                if (autosuggestions.length > 0) {
+                  const exactMatch = autosuggestions.find(s => s.toLowerCase() === searchTerm.toLowerCase().trim());
+                  const selected = exactMatch || autosuggestions[0];
+                  setSearchTerm(selected);
+                  setShowSuggestions(false);
+                  router.push(`/platforms?search=${encodeURIComponent(selected)}`);
                 }
               }}
             >
@@ -170,12 +175,28 @@ export default function HomePage() {
                   placeholder="Enter city, ZIP, or platform..."
                   value={searchTerm}
                   autoComplete="off"
-                  onChange={e => {
-                    setSearchTerm(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                    onChange={e => {
+                      setSearchTerm(e.target.value);
+                      setShowSuggestions(true);
+                      setHighlightIndex(0);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        setHighlightIndex(i => Math.min(i + 1, autosuggestions.length - 1));
+                      } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        setHighlightIndex(i => Math.max(i - 1, 0));
+                      } else if (e.key === 'Enter' && showSuggestions && autosuggestions.length > 0) {
+                        e.preventDefault();
+                        const selected = autosuggestions[highlightIndex] || autosuggestions[0];
+                        setSearchTerm(selected);
+                        setShowSuggestions(false);
+                        router.push(`/platforms?search=${encodeURIComponent(selected)}`);
+                      }
+                    }}
                 />
 
                 {showSuggestions && autosuggestions.length > 0 && (
@@ -183,12 +204,15 @@ export default function HomePage() {
                     {autosuggestions.map((suggestion, idx) => (
                       <li
                         key={idx}
-                        className="px-4 py-2 hover:bg-teal-50 cursor-pointer text-gray-800 text-sm"
+                        className={`px-4 py-2 cursor-pointer text-gray-800 text-sm ${
+                          idx === highlightIndex ? "bg-teal-50 font-medium" : "hover:bg-gray-50"
+                        }`}
                         onMouseDown={() => {
                           setSearchTerm(suggestion);
                           setShowSuggestions(false);
                           router.push(`/platforms?search=${encodeURIComponent(suggestion)}`);
                         }}
+                        onMouseEnter={() => setHighlightIndex(idx)}
                       >
                         {suggestion}
                       </li>

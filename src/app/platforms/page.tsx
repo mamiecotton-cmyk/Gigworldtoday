@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import platformsData from "@/data/platforms.json";
 import ZIP_TO_CITY from "@/data/zip-to-city";
 import US_CITY_TO_STATE from "@/data/us-city-to-state";
-import { matchesSearch } from "@/lib/searchUtils";
+import { matchesSearch, STATE_NAMES } from "@/lib/searchUtils";
 import PlatformCard from "@/components/PlatformCard";
 import { PILL_TO_DATA_CATEGORIES } from "@/components/FilterSidebar";
 import { Platform, FilterOptions } from "@/lib/types";
@@ -101,6 +101,16 @@ export default function PlatformsPage() {
       if (name.includes(term) && !seen.has(name)) {
         results.push(p.name);
         seen.add(name);
+      }
+    }
+
+    // State name lookup (e.g. "penn" matches "Pennsylvania")
+    for (const [abbr, full] of Object.entries(STATE_NAMES)) {
+      const fullLower = full.toLowerCase();
+      const abbrLower = abbr.toLowerCase();
+      if ((fullLower.includes(term) || abbrLower === term) && !seen.has(fullLower)) {
+        results.push(full);
+        seen.add(fullLower);
       }
     }
 
@@ -365,14 +375,30 @@ export default function PlatformsPage() {
                 <input
                   type="text"
                   value={searchInput}
-                  onChange={(e) => {
-                    setSearchInput(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                  autoComplete="off"
-                  placeholder="Search platforms by name, category, or location..."
+                    onChange={(e) => {
+                      setSearchInput(e.target.value);
+                      setShowSuggestions(true);
+                      setHighlightIndex(0);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                    autoComplete="off"
+                    placeholder="Search platforms by name, city, ZIP, or state..."
+                    onKeyDown={(e) => {
+                      if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        setHighlightIndex(i => Math.min(i + 1, autosuggestions.length - 1));
+                      } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        setHighlightIndex(i => Math.max(i - 1, 0));
+                      } else if (e.key === 'Enter' && showSuggestions && autosuggestions.length > 0) {
+                        e.preventDefault();
+                        const selected = autosuggestions[highlightIndex] || autosuggestions[0];
+                        setSearchInput(selected);
+                        setSubmittedQuery(selected);
+                        setShowSuggestions(false);
+                      }
+                    }}
                   className="w-full px-5 py-4 pl-12 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-slate-400 text-base focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all"
                 />
                 <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -401,12 +427,15 @@ export default function PlatformsPage() {
                     {autosuggestions.map((suggestion, idx) => (
                       <li
                         key={idx}
-                        className="px-4 py-2 hover:bg-teal-50 cursor-pointer text-gray-800 text-sm"
+                        className={`px-4 py-2 cursor-pointer text-gray-800 text-sm ${
+                          idx === highlightIndex ? "bg-teal-50 font-medium" : "hover:bg-gray-50"
+                        }`}
                         onMouseDown={() => {
                           setSearchInput(suggestion);
                           setSubmittedQuery(suggestion);
                           setShowSuggestions(false);
                         }}
+                        onMouseEnter={() => setHighlightIndex(idx)}
                       >
                         {suggestion}
                       </li>
