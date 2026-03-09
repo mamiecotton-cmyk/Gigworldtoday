@@ -14,7 +14,7 @@
       "ecommerce_delivery",
       "last_mile"
     ],
-    "minAge": 18,
+    "minAge": 23,
     "backgroundCheckRequired": true,
     "vehicleTypes": [
       "car",
