@@ -101,6 +101,16 @@ export default function HomePage() {
       }
     }
 
+    // State name lookup
+    for (const [abbr, full] of Object.entries(STATE_NAMES)) {
+      const fullLower = full.toLowerCase();
+      const abbrLower = abbr.toLowerCase();
+      if ((fullLower.includes(term) || abbrLower === term) && !seen.has(fullLower)) {
+        results.push(full);
+        seen.add(fullLower);
+      }
+    }
+
     return results.slice(0, 8);
   }, [platforms, searchTerm]);
 
