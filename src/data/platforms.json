@@ -699,20 +699,20 @@
       "USA": {
         "status": "Available",
         "cities": [
-          "Los Angeles",
-          "Orange County",
-          "Las Vegas",
-          "San Francisco",
-          "San Mateo",
-          "New York City",
-          "Austin",
-          "Phoenix",
-          "Houston",
-          "Boston",
-          "Chicago",
-          "Oakland",
-          "San Leandro",
-          "Santa Clara"
+          "Los Angeles, CA",
+          "Orange County, CA",
+          "Las Vegas, NV",
+          "San Francisco, CA",
+          "San Mateo, CA",
+          "New York City, NY",
+          "Austin, TX",
+          "Phoenix, AZ",
+          "Houston, TX",
+          "Boston, MA",
+          "Chicago, IL",
+          "Oakland, CA",
+          "San Leandro, CA",
+          "Santa Clara, CA"
         ],
         "waitlistStatus": "unknown"
       }
@@ -2082,16 +2082,16 @@
       "USA": {
         "status": "Available",
         "cities": [
-          "Atlanta",
-          "Chicago",
-          "Dallas",
-          "Denver",
-          "Houston",
-          "Los Angeles",
-          "Philadelphia",
-          "San Francisco",
-          "Washington DC",
-          "New York"
+          "Atlanta, GA",
+          "Chicago, IL",
+          "Dallas, TX",
+          "Denver, CO",
+          "Houston, TX",
+          "Los Angeles, CA",
+          "Philadelphia, PA",
+          "San Francisco, CA",
+          "Washington, DC",
+          "New York, NY"
         ],
         "waitlistStatus": "unknown"
       }
@@ -2325,13 +2325,13 @@
       "USA": {
         "status": "Available in major cities",
         "cities": [
-          "New York City",
-          "Boston",
-          "Los Angeles",
-          "Chicago",
-          "Miami",
-          "Atlanta",
-          "Houston"
+          "New York City, NY",
+          "Boston, MA",
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Miami, FL",
+          "Atlanta, GA",
+          "Houston, TX"
         ],
         "waitlistStatus": "open"
       }
@@ -2457,11 +2457,11 @@
       "USA": {
         "status": "Available in select cities",
         "cities": [
-          "San Francisco Bay Area",
-          "Los Angeles",
-          "Boston",
-          "New York City",
-          "San Diego"
+          "San Francisco, CA",
+          "Los Angeles, CA",
+          "Boston, MA",
+          "New York City, NY",
+          "San Diego, CA"
         ],
         "waitlistStatus": "varies"
       }
@@ -2691,11 +2691,11 @@
       "USA": {
         "status": "Active",
         "cities": [
-          "Detroit",
-          "Chicago",
-          "Columbus",
-          "Philadelphia",
-          "Indianapolis"
+          "Detroit, MI",
+          "Chicago, IL",
+          "Columbus, OH",
+          "Philadelphia, PA",
+          "Indianapolis, IN"
         ]
       }
     },
@@ -2928,12 +2928,12 @@
       "USA": {
         "status": "Active",
         "cities": [
-          "Atlanta",
-          "Chicago",
-          "Dallas",
-          "Miami",
-          "New York",
-          "Phoenix"
+          "Atlanta, GA",
+          "Chicago, IL",
+          "Dallas, TX",
+          "Miami, FL",
+          "New York, NY",
+          "Phoenix, AZ"
         ]
       }
     },
@@ -3475,7 +3475,9 @@
     "regions": {
       "USA": {
         "status": "Active",
-        "cities": []
+        "cities": [
+          "New York City, NY"
+        ]
       }
     },
     "payModel": "per_task",
@@ -3961,9 +3963,9 @@
       "USA": {
         "status": "Active",
         "cities": [
-          "Philadelphia",
-          "Jersey City",
-          "Atlanta"
+          "Philadelphia, PA",
+          "Jersey City, NJ",
+          "Atlanta, GA"
         ]
       }
     },
