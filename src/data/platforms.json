@@ -976,7 +976,8 @@
     "description": "Gopuff delivers everyday essentials from micro-fulfillment centers in under 30 minutes. Work scheduled shifts with guaranteed hourly minimum plus commission per order and 100% of tips.",
     "logoUrl": null,
     "websiteUrl": "https://gopuff.com",
-    "applyUrl": "https://gopuff.com",
+    "applyUrl": "https://deliver.gopuff.com/signup",
+    "applyButtonColor": "#FF5A00",
     "iosAppUrl": "https://apps.apple.com/app/gopuff-driver/id1471684979",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.gopuff.courier",
     "categories": [
