@@ -2608,16 +2608,18 @@
     "id": "field-agent",
     "slug": "field-agent",
     "name": "Field Agent",
-    "description": "Field Agent is a retail audit and mystery shopping platform where gig workers complete in-store tasks like photo audits, price checks, and product displays. No car is required - tasks are accessible via walking or transit. Earn $3 to $20+ per task with an equivalent hourly rate of $28-$30/hr.",
-    "logoUrl": "https://app.fieldagent.net/hs-fs/hubfs/_Website%20Files/AGENT/download-page3.jpg?width=800&height=615&name=download-page3.jpg",
-    "websiteUrl": "https://storesight.com/?__hstc=127756690.8d64de68fcdc3ad77e0473a34fa1cc6e.1772214550790.1772214550790.1772214550790.1&__hssc=127756690.2.1772214550790&__hsfp=6aebb9205b0d47ca0181cb57d740e3d6",
+    "description": "Field Agent is one of the largest retail audit and mystery shopping platforms with over 1 million agents and $20M+ paid out. Complete in-store tasks like photo audits, price checks, product displays, mystery shops, and product trials. No car required — tasks are accessible on foot. Tasks pay $3 to $20+ each. Payment via direct deposit within 2-3 days of approval. Also offers unpaid 'Ticket Jobs' that enter you into monthly cash prize drawings. Available nationwide across the U.S.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.fieldagent.net",
     "applyUrl": "https://app.fieldagent.net/get-the-app",
+    "applyButtonColor": "#F97316",
     "iosAppUrl": "https://apps.apple.com/us/app/field-agent/id364946558",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=net.fieldagent",
     "categories": [
       "retail_audit",
       "mystery_shopping",
-      "task_based"
+      "task_based",
+      "merchandising"
     ],
     "minAge": 18,
     "backgroundCheckRequired": false,
@@ -2629,34 +2631,41 @@
     "licenseRequired": false,
     "insuranceRequired": false,
     "equipmentNeeded": [
-      "smartphone"
+      "smartphone with camera"
     ],
+    "otherRequirements": "Tasks have countdown timers — must complete within allotted time. Photos must be clear and follow specific framing instructions or submissions may be rejected. Missed deadlines can hurt your in-app rating. Some tasks involve purchasing products (reimbursed). No background check required.",
     "countries": [
       "USA"
     ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": []
+        "cities": [],
+        "coverageNote": "Nationwide — 1M+ agents across the U.S."
       }
     },
     "payModel": "per_task",
-    "estimatedHourlyMin": 28,
-    "estimatedHourlyMax": 30,
+    "estimatedPayMin": 3,
+    "estimatedPayMax": 20,
+    "estimatedHourlyMin": 12,
+    "estimatedHourlyMax": 25,
     "tipsAllowed": false,
     "paymentFrequency": "direct_deposit",
     "instantPayAvailable": false,
     "deliveryType": "task_based",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
-      "official_website"
+      "official_website",
+      "app_store",
+      "google_play",
+      "user_reviews"
     ],
     "verificationStatus": "verified",
     "setupRequired": false,
-    "keyFeatures": "In-store tasks; photo audits; mystery shopping; no car required.",
-    "userFeedback": "Pros: Accessible via walking/transit. Cons: Highly competitive; jobs claimed in seconds."
+    "keyFeatures": "1M+ registered agents; $20M+ paid out; photo audits, mystery shops, product trials, price checks, display audits; no car required; Ticket Jobs for monthly cash prize drawings; tasks available daily in most areas; 2-3 day payment processing.",
+    "userFeedback": "Mixed reviews. Pros: Easy tasks, daily availability, no car needed, paid within 2-3 days. Cons: Jobs get claimed in seconds, pay per task is low ($3-$6 common), photos can be rejected for quality issues, slow cash-out (5-6 days total from task to bank), some items not found in stores. Google Play users report wrong UPCs and inventory issues. Power users in busy cities can earn $100-$300+/month."
   },
   {
     "id": "hyer",
