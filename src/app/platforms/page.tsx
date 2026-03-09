@@ -54,6 +54,7 @@ const CATEGORY_PILLS = [
   { value: "vehicle_transport", label: "Vehicle Transport", group: "Services" },
   { value: "errands", label: "Errands", group: "Services" },
   { value: "warehouse", label: "Warehouse", group: "Services" },
+  { value: "advocacy", label: "Advocacy", group: "Services" },
 ];
 
 export default function PlatformsPage() {

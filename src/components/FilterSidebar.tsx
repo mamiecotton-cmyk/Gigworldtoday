@@ -40,6 +40,7 @@ const GIG_TYPE_PILLS: Array<{
   { id: 'pet_transport',         label: 'Pet Transport', group: 'Services', dataCategories: ['pet_transport', 'specialty_shipping', 'long_distance'] },
   { id: 'errands',               label: 'Errands',       group: 'Services', dataCategories: ['errands', 'local_services'] },
   { id: 'moving',                label: 'Moving',        group: 'Services', dataCategories: ['moving', 'hauling'] },
+  { id: 'advocacy',             label: 'Advocacy',      group: 'Services', dataCategories: ['advocacy'] },
 ];
 
 export const PILL_TO_DATA_CATEGORIES: Record<string, string[]> = Object.fromEntries(
