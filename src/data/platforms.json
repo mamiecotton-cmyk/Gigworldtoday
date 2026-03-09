@@ -3030,6 +3030,8 @@
     "description": "Better Trucks is a regional last-mile parcel carrier with a driver-facing shift workflow offering route-based delivery work. Drivers earn an estimated $75-$175+ per route. The platform supports next-day, two-day, and same-day service and uses route optimization tooling. Coverage spans the Midwest with expansion into other regions.",
     "logoUrl": null,
     "websiteUrl": "https://www.bettertrucks.com",
+    "applyUrl": "https://www.bettertrucks.com/driver-registration",
+    "applyButtonColor": "#FF5A00",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
