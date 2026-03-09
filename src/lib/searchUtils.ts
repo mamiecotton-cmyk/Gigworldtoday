@@ -1030,6 +1030,42 @@ export function isCityInPlatformData(query: string, platforms: Platform[]): bool
   return cityIndex.has(query.toLowerCase().trim());
 }
 
+/**
+ * Given a platform, resolve all its listed cities to state abbreviations.
+ * Returns a Set of state abbreviations (e.g. {"PA", "NJ", "GA"}).
+ */
+export function getPlatformStates(platform: Platform): Set<string> {
+  const states = new Set<string>();
+  if (!platform.regions) return states;
+  for (const region of Object.values(platform.regions)) {
+    if (region.cities) {
+      for (const city of region.cities) {
+        const lower = city.toLowerCase().trim();
+        // Strip state suffix if present (e.g. "Philadelphia, PA" -> "philadelphia")
+        const cleanCity = lower.replace(/,\s*[a-z]{2}$/i, '').trim();
+        // Check if the city string itself ends with a state abbreviation
+        const stateMatch = city.match(/,\s*([A-Z]{2})$/);
+        if (stateMatch) {
+          states.add(stateMatch[1]);
+        }
+        // Also look up the city in our dictionaries
+        const fromDict = CITY_TO_STATE[cleanCity] || US_CITY_TO_STATE[cleanCity];
+        if (fromDict) {
+          states.add(fromDict);
+        }
+      }
+    }
+    // Also include explicit states array if present
+    if ((region as any).states) {
+      for (const s of (region as any).states) {
+        const abbr = s.length === 2 ? s.toUpperCase() : Object.entries(STATE_NAMES).find(([, full]) => full.toLowerCase() === s.toLowerCase())?.[0];
+        if (abbr) states.add(abbr);
+      }
+    }
+  }
+  return states;
+}
+
 export const matchesSearch = (platform: Platform, query: string | undefined, allPlatforms?: Platform[]) => {
   // DEBUG: Log every call
   if (typeof window !== 'undefined' && window.localStorage.getItem('debugGigSearch')) {
@@ -1111,6 +1147,16 @@ export const matchesSearch = (platform: Platform, query: string | undefined, all
         // ...existing code...
       }
       return true;
+    }
+
+    // STATE-LEVEL MATCHING: If the searched city is in a state where
+    // this platform has ANY listed city, show it.
+    const searchedCityState = CITY_TO_STATE[cleanCityQuery] || US_CITY_TO_STATE[cleanCityQuery];
+    if (searchedCityState) {
+      const platformStates = getPlatformStates(platform);
+      if (platformStates.has(searchedCityState)) {
+        return true;
+      }
     }
 
     // Check if platform has the city directly or partially in regions.*.cities

@@ -66,6 +66,7 @@ export default function PlatformsPage() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlightIndex, setHighlightIndex] = useState(0);
 
   const autosuggestions = useMemo(() => {
     const term = searchInput.toLowerCase().trim();
@@ -162,7 +163,15 @@ export default function PlatformsPage() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmittedQuery(searchInput);
+    // Enforce autocomplete-only: if input doesn't match a suggestion, use first suggestion
+    if (autosuggestions.length > 0) {
+      const exactMatch = autosuggestions.find(s => s.toLowerCase() === searchInput.toLowerCase().trim());
+      const selected = exactMatch || autosuggestions[0];
+      setSearchInput(selected);
+      setSubmittedQuery(selected);
+      setShowSuggestions(false);
+    }
+    // If no suggestions, don't submit — input doesn't match any known data
   };
 
   // Filter platforms
