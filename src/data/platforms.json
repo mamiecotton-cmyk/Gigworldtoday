@@ -3263,9 +3263,11 @@
     "id": "draiver",
     "slug": "draiver",
     "name": "Draiver",
-    "description": "Draiver is a vehicle movement platform where insured drivers move cars at scale for dealerships and fleets. Weekly payouts every Friday with clear driver eligibility requirements including license, background check, and driving record review.",
+    "description": "Draiver is a vehicle movement platform where drivers move cars for dealerships, fleets, and individuals — no passengers, just vehicles. Draiver covers fuel and tolls out of pocket, so drivers keep more of their earnings. Flexible scheduling through the Draiver app with weekly payouts every Friday. Also offers personal vehicle moves through Draiver Now. Available in English, Spanish, and Portuguese.",
     "logoUrl": null,
     "websiteUrl": "https://www.draiver.com",
+    "applyUrl": "https://www.draiver.com/drive-with-us/",
+    "applyButtonColor": "#F97316",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3280,19 +3282,23 @@
     "licenseRequired": true,
     "insuranceRequired": false,
     "equipmentNeeded": [
-      "smartphone"
+      "smartphone",
+      "valid driver's license",
+      "clean driving record"
     ],
+    "otherRequirements": "No personal vehicle needed — you drive the customer's vehicle. Draiver covers fuel and toll expenses. Must pass background check and driving record review. All vehicles are insured by Draiver during transit. App available in English, Spanish, and Portuguese.",
     "countries": [
       "USA"
     ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": []
+        "cities": [],
+        "coverageNote": "Nationwide — services dealerships, fleets, and personal moves across the U.S."
       }
     },
     "payModel": "per_trip",
-    "estimatedHourlyMin": 15,
+    "estimatedHourlyMin": 19,
     "estimatedHourlyMax": 30,
     "tipsAllowed": false,
     "paymentFrequency": "weekly",
@@ -3300,14 +3306,16 @@
     "deliveryType": "scheduled",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
-      "official_website"
+      "official_website",
+      "indeed",
+      "glassdoor"
     ],
     "verificationStatus": "verified",
-    "setupRequired": false,
-    "keyFeatures": "Vehicle movement for dealerships/fleets; Friday weekly payouts; clear eligibility checklist; trip-based work; no personal vehicle needed.",
-    "userFeedback": "Clear pay calendar and eligibility criteria; earnings variability and trip availability constraints acknowledged."
+    "setupRequired": true,
+    "keyFeatures": "Drive vehicles not passengers; fuel and tolls covered by Draiver; no personal vehicle needed; flexible in-app scheduling; weekly Friday payouts; Draiver Perks program; personal and business vehicle moves; multilingual app (EN/ES/PT).",
+    "userFeedback": "Highly rated for fun and flexibility — drivers enjoy driving different cars. Indeed avg ~$19-$25/hr. Glassdoor compensation rating is low (1.6/5) with some drivers noting earnings variability and physical demands depending on vehicle type. App rated as user-friendly with responsive support."
   },
   {
     "id": "dropoff",
