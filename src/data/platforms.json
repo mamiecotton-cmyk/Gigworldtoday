@@ -3502,15 +3502,18 @@
     "id": "isecretshop",
     "slug": "isecretshop",
     "name": "iSecretShop",
-    "description": "iSecretShop is a mystery shopping platform and job aggregator connecting shoppers with multiple mystery shopping providers (MSPs). The platform does not pay shoppers directly — payment comes from individual MSPs. Free to register with mobile-first assignment workflows including geo-tags, time stamps, and photo capture.",
+    "description": "iSecretShop is the largest mystery shopping job aggregator with nearly 1,000,000 registered shoppers. Find opportunities from thousands of companies in one place — not just mystery shops, but also Competitive Price Audits, Merchandising, Market Research Panels, Intercept Interviews, and Overt Audits. iSecretShop does not pay shoppers directly — payment comes from individual MSPs (mystery shopping providers), each with their own payment policy. Free to register. No smartphone required — works on mobile app, mobile web, or desktop.",
     "logoUrl": null,
     "websiteUrl": "https://www.isecretshop.com/?redirect=no#firstPage",
+    "applyUrl": "https://www.isecretshop.com/register",
+    "applyButtonColor": "#F97316",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
       "mystery_shopping",
       "retail_audit",
-      "task_based"
+      "task_based",
+      "merchandising"
     ],
     "minAge": 18,
     "backgroundCheckRequired": false,
@@ -3521,15 +3524,17 @@
     "licenseRequired": false,
     "insuranceRequired": false,
     "equipmentNeeded": [
-      "smartphone"
+      "smartphone or computer (smartphone not required)"
     ],
+    "otherRequirements": "Free registration — no application process needed. Register as an independent contractor to access all opportunity types. Each MSP has its own payment policy (some pay within days, others monthly). Aggregated email alerts and push notifications reduce spam from individual MSPs. Available in 8 languages (English, French, Portuguese, Spanish, Estonian, Latvian, Lithuanian, Thai).",
     "countries": [
       "USA"
     ],
     "regions": {
       "USA": {
-        "status": "Active",
-        "cities": []
+        "status": "Available",
+        "cities": [],
+        "coverageNote": "Nationwide — opportunities from thousands of companies; international assignments also available"
       }
     },
     "payModel": "per_task",
@@ -3541,14 +3546,14 @@
     "deliveryType": "task_based",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
       "official_website"
     ],
     "verificationStatus": "verified",
     "setupRequired": false,
-    "keyFeatures": "Job aggregator for multiple MSPs; mobile-first with geo-tags and photo capture; free registration; platform does not pay directly — MSPs handle payment.",
-    "userFeedback": "Clear payment responsibility statement; earnings and scheduling vary entirely by MSP and assignment."
+    "keyFeatures": "Largest mystery shopping aggregator (~1M registered shoppers); all MSP opportunities in one place; mystery shops, price audits, merchandising, market research, intercept interviews, overt audits; mobile app with geo-tags, timestamps, and photo capture; no smartphone required (desktop works too); aggregated email alerts reduce spam; 8-language support; powered by Prism Intelligence.",
+    "userFeedback": "Massive opportunity volume from thousands of companies in one login. Payment varies by MSP — some pay in days, others monthly. No application process (just register). Smartphone gives advantages but isn't required. Competitive for popular assignments."
   },
   {
     "id": "jackrabbit",
