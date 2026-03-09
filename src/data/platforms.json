@@ -3321,9 +3321,11 @@
     "id": "dropoff",
     "slug": "dropoff",
     "name": "Dropoff",
-    "description": "Dropoff is a same-day courier service with a strong healthcare focus. Couriers are HIPAA and bloodborne pathogen certified for medical deliveries. The platform offers API integrations for businesses and operates in 58+ cities with per-delivery pay.",
+    "description": "Dropoff is a same-day courier service founded in 2014, delivering packages for 270+ enterprise brands across healthcare, retail, and industrial sectors. Couriers drive packages not people, using their own vehicle. You're paid per delivery and know exactly how much you'll earn after each completed order. Flexible scheduling — tell Dropoff when you want to work and they find deliveries that fit. Currently operating in 21 states and 42 cities across the U.S.",
     "logoUrl": null,
     "websiteUrl": "https://www.dropoff.com",
+    "applyUrl": "https://dropoffinc.applytojob.com/apply/",
+    "applyButtonColor": "#F97316",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3332,7 +3334,7 @@
       "medical_courier",
       "healthcare_delivery"
     ],
-    "minAge": 18,
+    "minAge": 21,
     "backgroundCheckRequired": true,
     "vehicleTypes": [
       "car",
@@ -3342,34 +3344,39 @@
     "licenseRequired": true,
     "insuranceRequired": true,
     "equipmentNeeded": [
-      "smartphone"
+      "smartphone",
+      "registered, insured, and inspected vehicle"
     ],
+    "otherRequirements": "Must be 21 or older. Must be comfortable navigating the city you work in. Must be tech-savvy with smartphone and apps. Vehicle must be registered, insured, and inspected. Independent contractor (1099). Log into app at scheduled availability times.",
     "countries": [
       "USA"
     ],
     "regions": {
       "USA": {
-        "status": "Active",
-        "cities": []
+        "status": "Available",
+        "cities": [],
+        "coverageNote": "21 states, 42 cities — new markets opening monthly"
       }
     },
     "payModel": "per_delivery",
-    "estimatedHourlyMin": 18,
-    "estimatedHourlyMax": 30,
+    "estimatedHourlyMin": 20,
+    "estimatedHourlyMax": 29,
     "tipsAllowed": false,
-    "paymentFrequency": "varies",
+    "paymentFrequency": "per_completion",
     "instantPayAvailable": false,
     "deliveryType": "on_demand",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
-      "official_website"
+      "official_website",
+      "indeed",
+      "glassdoor"
     ],
     "verificationStatus": "verified",
     "setupRequired": true,
-    "keyFeatures": "HIPAA and bloodborne pathogen certified drivers; healthcare delivery specialization; API integrations; 58+ cities; per-delivery pay; after-hours/weekend surcharge for businesses.",
-    "userFeedback": "Strong healthcare compliance posture; API positioning; courier payout cadence less clearly documented."
+    "keyFeatures": "Drive packages not people; paid per delivery with upfront earnings visibility; flexible self-set schedule; 270+ enterprise clients including Quest, Labcorp, American Red Cross, McKesson, KPMG; healthcare, retail, and industrial verticals; 21 states and 42 cities; fixed route, scheduled, on-demand, express, STAT, and long-haul delivery types.",
+    "userFeedback": "Indeed avg ~$28/hr for courier drivers. Glassdoor shows $20-$29/hr with 3.3/5 compensation rating. Drivers appreciate flexibility and per-delivery pay transparency. Some note inconsistent delivery volume and 1099 contractor expectations (must log in at scheduled times)."
   },
   {
     "id": "fetch-package",
