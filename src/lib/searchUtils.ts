@@ -1096,6 +1096,9 @@ export const matchesSearch = (platform: Platform, query: string | undefined, all
   const lowerQuery = (query || '').trim().toLowerCase();
   // Strip state suffix like ", WA" or ", wa" for city matching
   const cleanCityQuery = lowerQuery.replace(/,\s*[a-z]{2}$/i, '').trim();
+  // Extract explicit state abbreviation from query if present (e.g. "West Hollywood, CA" → "CA")
+  const explicitStateMatch = (query || '').trim().match(/,\s*([A-Za-z]{2})$/);
+  const explicitState = explicitStateMatch ? explicitStateMatch[1].toUpperCase() : null;
 
   // Check if query is a city — use BOTH hardcoded dictionary AND dynamic platform data, allow partial matches
   const isHardcodedCity = lowerQuery.length > 0 && !!(CITY_TO_STATE[lowerQuery] || CITY_TO_STATE[cleanCityQuery] || US_CITY_TO_STATE[lowerQuery] || US_CITY_TO_STATE[cleanCityQuery]);
@@ -1151,7 +1154,7 @@ export const matchesSearch = (platform: Platform, query: string | undefined, all
 
     // STATE-LEVEL MATCHING: If the searched city is in a state where
     // this platform has ANY listed city, show it.
-    const searchedCityState = CITY_TO_STATE[cleanCityQuery] || US_CITY_TO_STATE[cleanCityQuery];
+    const searchedCityState = explicitState || CITY_TO_STATE[cleanCityQuery] || US_CITY_TO_STATE[cleanCityQuery];
     if (searchedCityState) {
       const platformStates = getPlatformStates(platform);
       if (platformStates.has(searchedCityState)) {
