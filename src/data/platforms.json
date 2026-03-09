@@ -420,6 +420,8 @@
     "description": "Food delivery service from Uber. Deliver restaurant orders on your schedule. Can combine with Uber rideshare driving for maximum flexibility.",
     "logoUrl": null,
     "websiteUrl": "https://www.uber.com",
+    "applyUrl": "https://www.uber.com/us/en/drive/?uclick_id=2b1b620f-b0e9-4729-96e9-644684b72837",
+    "applyButtonColor": "#00C9B1",
     "iosAppUrl": "https://apps.apple.com/us/app/uber-eats-driver",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.eats.driver",
     "categories": [
@@ -484,6 +486,8 @@
     "description": "Shop for and deliver groceries from popular stores. Choose between full-service shopping or delivery-only batches. Flexible hours and competitive pay.",
     "logoUrl": null,
     "websiteUrl": "https://shoppers.instacart.com/",
+    "applyUrl": "https://shoppers.instacart.com/",
+    "applyButtonColor": "#60B246",
     "iosAppUrl": "https://apps.apple.com/us/app/instacart-shopper",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.instacart.shopper",
     "categories": [
