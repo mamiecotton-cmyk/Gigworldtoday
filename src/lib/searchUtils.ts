@@ -1110,7 +1110,7 @@ export const matchesSearch = (platform: Platform, query: string | undefined, all
     const allCityNames = Array.from(buildDynamicCityIndex(allPlatforms).keys());
     isPartialCity = allCityNames.some(city => city.includes(lowerQuery));
   }
-  const isCityQuery = isHardcodedCity || isDynamicCity || isPartialCity;
+  const isCityQuery = isHardcodedCity || isDynamicCity || isPartialCity || !!explicitState;
 
   if (isCityQuery && platform.regions) {
     if (typeof window !== 'undefined' && window.localStorage.getItem('debugGigSearch')) {
