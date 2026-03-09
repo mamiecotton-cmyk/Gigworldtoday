@@ -3382,9 +3382,11 @@
     "id": "fetch-package",
     "slug": "fetch-package",
     "name": "Fetch Package",
-    "description": "Fetch Package is an apartment package delivery partner program. Delivery Partners earn $18-$25/hour estimated via pre-scheduled blocks, picking up batches of packages and delivering to apartment residents. Requires background check and ability to carry up to 70 lbs.",
+    "description": "Fetch is a last-mile logistics company delivering packages to multifamily apartment communities. Delivery Partners select 2-hour blocks up to a week in advance, pick up batches of packages from local Fetch facilities, and deliver to nearby apartments — typically only 2-3 stops per block. Guaranteed payout known before you drive. Earn an estimated $18-$25/hour (approx. $980/week). Fetch provides identifying gear including armbands, vests, and transport bags. 1099 independent contractor. Operating coast-to-coast.",
     "logoUrl": null,
-    "websiteUrl": "https://www.fetchpackage.com",
+    "websiteUrl": "https://fetchpackage.com",
+    "applyUrl": "https://fetchpackage.com/drive/",
+    "applyButtonColor": "#F97316",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3395,24 +3397,31 @@
     "backgroundCheckRequired": true,
     "vehicleTypes": [
       "car",
-      "suv",
-      "van"
+      "sedan",
+      "van",
+      "truck"
     ],
     "licenseRequired": true,
     "insuranceRequired": true,
     "equipmentNeeded": [
-      "smartphone"
+      "iPhone or Android smartphone",
+      "sedan, van, truck, or cargo vehicle",
+      "ability to handle 50+ lbs"
     ],
+    "otherRequirements": "Must pass background check. Valid US driver's license and auto insurance required. Fetch provides gear (armbands, vests, vehicle decals, transport bags) at your first block. Optional training available covering app usage, scheduling, and batch pickup. 1099 independent contractor. Spanish-language support available (Centro de Ayuda).",
     "countries": [
       "USA"
     ],
     "regions": {
       "USA": {
-        "status": "Active",
-        "cities": []
+        "status": "Available",
+        "cities": [],
+        "coverageNote": "Coast-to-coast — operating in multiple cities with substantial growth planned"
       }
     },
     "payModel": "per_block",
+    "estimatedPayMin": 36,
+    "estimatedPayMax": 50,
     "estimatedHourlyMin": 18,
     "estimatedHourlyMax": 25,
     "tipsAllowed": false,
@@ -3421,14 +3430,15 @@
     "deliveryType": "scheduled",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
-      "official_website"
+      "official_website",
+      "driver_portal"
     ],
     "verificationStatus": "verified",
-    "setupRequired": false,
-    "keyFeatures": "Block scheduling model; apartment community package delivery; batch pickup and drop-off; background checks required; must carry up to 70 lbs.",
-    "userFeedback": "Explicit earning range and physical requirements; payout schedule and city coverage not fully enumerated."
+    "setupRequired": true,
+    "keyFeatures": "2-hour block scheduling up to a week in advance; batch pickup from local Fetch facilities; only 2-3 apartment stops per block; guaranteed payout known before driving; Fetch-provided gear (vests, armbands, bags); apartment-focused last-mile delivery; ~$980/week estimated earnings; Spanish support available.",
+    "userFeedback": "Drivers appreciate short routes (2-3 stops), guaranteed upfront pay visibility, and flexible block selection. Physical demands moderate (50+ lbs). Earnings depend on location and block availability."
   },
   {
     "id": "gopher-go",
