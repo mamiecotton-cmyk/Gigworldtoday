@@ -2959,11 +2959,13 @@
     "id": "shiftnow",
     "slug": "shiftnow",
     "name": "shiftNOW",
-    "description": "shiftNOW is a hospitality and event staffing platform operating primarily in the Southeast U.S. Workers earn $19-$20/hr on most jobs across 40+ role types. Features a comprehensive profile with video, performance metrics, and Stripe-powered transfers. Pay within 48 hours or Instant Pay (1 hour for 3% fee).",
+    "description": "shiftNOW is a hospitality and event staffing platform based in Charleston, SC, expanding across the Southeast U.S. Workers earn competitive hourly rates across 40+ role types including servers, bartenders, cooks, event crew, and more. Features a comprehensive profile with video, performance metrics, and Stripe-powered transfers. Pay within 48 hours or Instant Pay (1 hour for 3% fee).",
     "logoUrl": null,
     "websiteUrl": "https://www.shiftnow.com",
-    "iosAppUrl": null,
-    "androidAppUrl": null,
+    "applyUrl": "https://www.shiftnow.com/shifters",
+    "applyButtonColor": "#F97316",
+    "iosAppUrl": "https://apps.apple.com/us/app/shiftnow/id1642741252",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.shiftnow.app",
     "categories": [
       "hospitality",
       "event_staffing",
@@ -2987,26 +2989,34 @@
       "USA": {
         "status": "Active",
         "cities": [
-          "Charleston",
-          "Atlanta",
-          "Nashville",
-          "Savannah",
-          "Memphis"
+          "Charleston, SC",
+          "Atlanta, GA",
+          "Nashville, TN",
+          "Savannah, GA",
+          "Memphis, TN",
+          "Columbia, SC",
+          "Greenville, SC",
+          "Hilton Head, SC",
+          "Myrtle Beach, SC",
+          "Beaufort, SC",
+          "Bluffton, SC"
         ]
       }
     },
     "payModel": "hourly",
-    "estimatedHourlyMin": 19,
-    "estimatedHourlyMax": 20,
+    "estimatedHourlyMin": 17,
+    "estimatedHourlyMax": 25,
     "tipsAllowed": true,
     "paymentFrequency": "within_48_hours",
     "instantPayAvailable": true,
     "deliveryType": "shift_based",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
-      "official_website"
+      "official_website",
+      "app_store",
+      "google_play"
     ],
     "verificationStatus": "verified",
     "setupRequired": false,
