@@ -300,7 +300,7 @@
     "name": "DeliverThat",
     "description": "Catering delivery platform focused on business meals and large orders. Requires larger vehicles and provides scheduled delivery windows.",
     "logoUrl": null,
-    "websiteUrl": "https://www.deliverthat.com/driver",
+    "websiteUrl": "https://www.deliverthat.com",
     "iosAppUrl": "https://apps.apple.com/us/app/deliverthat-driver",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.deliverthat.driver",
     "categories": [
@@ -350,7 +350,7 @@
     "name": "DoorDash",
     "description": "Leading food delivery platform connecting restaurants with customers. Flexible scheduling and widespread availability make it one of the most accessible gig opportunities.",
     "logoUrl": "/logos/doordash.png",
-    "websiteUrl": "https://www.doordash.com/dasher/signup",
+    "websiteUrl": "https://www.doordash.com",
     "iosAppUrl": "https://apps.apple.com/us/app/doordash-dasher",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.doordash.driver",
     "categories": [
@@ -417,7 +417,7 @@
     "name": "Uber Eats",
     "description": "Food delivery service from Uber. Deliver restaurant orders on your schedule. Can combine with Uber rideshare driving for maximum flexibility.",
     "logoUrl": null,
-    "websiteUrl": "https://www.uber.com/us/en/deliver/",
+    "websiteUrl": "https://www.uber.com",
     "iosAppUrl": "https://apps.apple.com/us/app/uber-eats-driver",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.eats.driver",
     "categories": [
@@ -544,7 +544,7 @@
     "name": "Expedite",
     "description": "Expedite (formerly Dlvrd) is a catering delivery and specialty logistics platform operating in 180 markets across the U.S. and Canada. Drivers earn $20-$60 per order with an average of $40-$50/hr. Features Emerald Elite tiers, corporate tip transparency, and the ability to stack orders. Same-day pay available via Everee.",
     "logoUrl": null,
-    "websiteUrl": "https://expedite.io/drivers/",
+    "websiteUrl": "https://expedite.io",
     "iosAppUrl": "https://apps.apple.com/us/app/expedite-for-drivers/id6648777219",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.dlivrd.expedite",
     "categories": [
@@ -975,8 +975,8 @@
     "name": "Gopuff",
     "description": "Gopuff delivers everyday essentials from micro-fulfillment centers in under 30 minutes. Work scheduled shifts with guaranteed hourly minimum plus commission per order and 100% of tips.",
     "logoUrl": null,
-    "websiteUrl": "https://gopuff.com/go/driver-signup",
-    "applyUrl": "https://gopuff.com/go/driver-signup",
+    "websiteUrl": "https://gopuff.com",
+    "applyUrl": "https://gopuff.com",
     "iosAppUrl": "https://apps.apple.com/app/gopuff-driver/id1471684979",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.gopuff.courier",
     "categories": [
@@ -1030,8 +1030,8 @@
     "name": "Uber",
     "description": "Uber is the world's leading rideshare platform. Drive on your own schedule, earn competitive pay plus tips, and cash out instantly up to 5 times daily.",
     "logoUrl": null,
-    "websiteUrl": "https://www.uber.com/us/en/drive/",
-    "applyUrl": "https://www.uber.com/us/en/drive/",
+    "websiteUrl": "https://www.uber.com",
+    "applyUrl": "https://www.uber.com",
     "iosAppUrl": "https://apps.apple.com/app/uber-driver/id1131342792",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.ubercab.driver",
     "categories": [
@@ -1323,7 +1323,7 @@
     "description": "Wag! connects dog walkers with pet owners for on-demand and scheduled dog walking services. Set your own schedule and earn $15-40/hour plus tips.",
     "logoUrl": null,
     "websiteUrl": "https://wagwalking.com/dog-walker",
-    "applyUrl": "https://wagwalking.com/dog-walking-job",
+    "applyUrl": "https://wagwalking.com/dog-walker",
     "iosAppUrl": "https://apps.apple.com/app/wag-dog-walking/id882131768",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.wagwalking.wag",
     "categories": [
@@ -1428,7 +1428,7 @@
     "description": "GoShare offers delivery and moving services with your own vehicle. Earn based on vehicle size: cars $45/hr, pickup trucks $70/hr, cargo vans $105/hr, box trucks $168/hr.",
     "logoUrl": null,
     "websiteUrl": "https://goshare.co/drivers/",
-    "applyUrl": "https://goshare.co/trucks/drivers/apply",
+    "applyUrl": "https://goshare.co/drivers/",
     "iosAppUrl": "https://apps.apple.com/us/app/goshare-driver-earn-money/id978279500",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=co.goshare.driver",
     "categories": [
@@ -1487,8 +1487,8 @@
     "name": "Caviar",
     "description": "Premium food delivery platform focused on high-end and Michelin-rated restaurants. Originally founded in 2012, acquired by Square, then sold to DoorDash in 2019 for $410 million. Caviar still exists as a separate app but all deliveries are now fulfilled by DoorDash drivers.",
     "logoUrl": null,
-    "websiteUrl": "https://www.doordash.com/dasher/signup/",
-    "applyUrl": "https://www.doordash.com/dasher/signup/",
+    "websiteUrl": "https://www.doordash.com",
+    "applyUrl": "https://www.doordash.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -1987,8 +1987,8 @@
     "name": "Spark Driver",
     "description": "Spark Driver delivers Walmart orders including groceries and packages. Earn $15-20+ per delivery with 100% of tips. Set your own schedule and see earnings before accepting orders.",
     "logoUrl": null,
-    "websiteUrl": "https://drive4spark.walmart.com/",
-    "applyUrl": "https://drive4spark.walmart.com/",
+    "websiteUrl": "https://www.walmart.com",
+    "applyUrl": "https://www.walmart.com",
     "iosAppUrl": "https://apps.apple.com/app/spark-driver/id1448878505",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.walmart.spark.driver",
     "categories": [
@@ -2166,7 +2166,7 @@
     "description": "Curri specializes in delivering construction materials and supplies from hardware stores to job sites. Earn $10-30/hour with same-day or next-day pay. Larger vehicles (pickup trucks, vans, box trucks) earn significantly more.",
     "logoUrl": null,
     "websiteUrl": "https://www.curri.com/",
-    "applyUrl": "https://drive.curri.com/",
+    "applyUrl": "https://curri.com",
     "iosAppUrl": "https://apps.apple.com/app/curri-driver/id1459372431",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.curri.driver",
     "categories": [
@@ -2540,7 +2540,7 @@
     "name": "American Expediting",
     "description": "American Expediting is a medical and specialized courier service operating nationwide with 50+ locations in the U.S. and Canada. Drivers handle time-sensitive deliveries including medical specimens, legal documents, and other critical materials. The platform offers TSA, HIPAA, and Bloodborne Pathogens certification access, fuel and insurance discounts, and digital management via Openforce.",
     "logoUrl": null,
-    "websiteUrl": "https://www.amexpediting.com",
+    "websiteUrl": "https://amexpediting.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -2653,7 +2653,7 @@
     "name": "Hyer",
     "description": "Hyer is an on-demand staffing platform focused on retail merchandising, admin tasks, and general labor. Workers pick up hourly shifts with in-app status updates, a rating system, and Hyer Profiles. Background check costs are covered via earnings. Active in 27 states with heavy concentration in the Midwest.",
     "logoUrl": null,
-    "websiteUrl": "https://www.gethyer.com",
+    "websiteUrl": "https://gethyer.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3918,7 +3918,7 @@
     "name": "Trado",
     "description": "Trado is a delivery driver marketplace where drivers keep 90% of the fare and are paid within 48 hours. Broad vehicle eligibility with any make, model, or year accepted. No DOT or commercial license needed for most deliveries.",
     "logoUrl": null,
-    "websiteUrl": "https://www.trado.com",
+    "websiteUrl": "https://trado.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -4027,7 +4027,7 @@
     "description": "BestMark is one of the largest mystery shopping companies in North America. Shoppers complete store, restaurant, and service evaluations and submit detailed reports. Assignments pay $10–$50 per shop depending on complexity, and some include reimbursement for purchases. A vehicle is sometimes required depending on the assignment location.",
     "logoUrl": null,
     "websiteUrl": "https://www.bestmark.com",
-    "applyUrl": "https://www.bestmark.com/become-a-shopper/",
+    "applyUrl": "https://www.bestmark.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -4289,7 +4289,7 @@
     "description": "Medical Couriers Inc provides route-based medical delivery services including lab specimens, pharmaceuticals, and medical supplies. Drivers operate on assigned routes between hospitals, clinics, and laboratories. Pay ranges from $20–$40 per hour depending on route complexity and region. A reliable vehicle and clean background are required.",
     "logoUrl": null,
     "websiteUrl": "https://medicalcouriers.com",
-    "applyUrl": "https://medicalcouriers.com/careers/",
+    "applyUrl": "https://medicalcouriers.com",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
