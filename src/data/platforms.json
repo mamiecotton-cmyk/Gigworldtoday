@@ -2549,7 +2549,9 @@
     "name": "American Expediting",
     "description": "American Expediting is a medical and specialized courier service operating nationwide with 50+ locations in the U.S. and Canada. Drivers handle time-sensitive deliveries including medical specimens, legal documents, and other critical materials. The platform offers TSA, HIPAA, and Bloodborne Pathogens certification access, fuel and insurance discounts, and digital management via Openforce.",
     "logoUrl": null,
-    "websiteUrl": "https://amexpediting.com",
+    "websiteUrl": "https://americanexpediting.com/become-a-driver",
+    "applyUrl": "https://americanexpediting.com/drive?hsCtaAttrib=192906532915",
+    "applyButtonColor": "#FF5A00",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
