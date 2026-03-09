@@ -301,6 +301,8 @@
     "description": "Catering delivery platform focused on business meals and large orders. Requires larger vehicles and provides scheduled delivery windows.",
     "logoUrl": null,
     "websiteUrl": "https://www.deliverthat.com",
+    "applyUrl": "https://www.ideliverthat.com/driver",
+    "applyButtonColor": "#FF5A00",
     "iosAppUrl": "https://apps.apple.com/us/app/deliverthat-driver",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.deliverthat.driver",
     "categories": [
