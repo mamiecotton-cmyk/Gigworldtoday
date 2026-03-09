@@ -3027,11 +3027,11 @@
     "id": "better-trucks",
     "slug": "better-trucks",
     "name": "Better Trucks",
-    "description": "Better Trucks is a regional last-mile parcel carrier with a driver-facing shift workflow offering route-based delivery work. Drivers earn an estimated $75-$175+ per route. The platform supports next-day, two-day, and same-day service and uses route optimization tooling. Coverage spans the Midwest with expansion into other regions.",
+    "description": "Better Trucks is a last-mile parcel delivery company that hires gig drivers to run package delivery routes. Earn an estimated $75-$175+ per route delivering retail goods to consumers. Routes are typically available Tuesday through Saturday. Coverage reaches 139 million people across 40%+ of U.S. households, primarily the Midwest with expansion into the Northeast, Southwest, Texas, and soon Florida and the Carolinas. Packages do not exceed 50 lbs. Based in Franklin Park, IL.",
     "logoUrl": null,
     "websiteUrl": "https://www.bettertrucks.com",
     "applyUrl": "https://www.bettertrucks.com/driver-registration",
-    "applyButtonColor": "#FF5A00",
+    "applyButtonColor": "#F97316",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
@@ -3049,34 +3049,40 @@
     "licenseRequired": true,
     "insuranceRequired": true,
     "equipmentNeeded": [
-      "smartphone"
+      "smartphone",
+      "ability to lift up to 50 lbs"
     ],
+    "otherRequirements": "Payment sent to digital wallet after route completion and return of undelivered packages. Delivery days vary by location, typically Tuesday through Saturday with some Monday availability.",
     "countries": [
       "USA"
     ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": []
+        "cities": [],
+        "coverageNote": "139 million people, 40%+ of U.S. households — Midwest, Northeast, Southwest, Texas, expanding to Florida and Carolinas"
       }
     },
     "payModel": "per_route",
+    "estimatedPayMin": 75,
+    "estimatedPayMax": 175,
     "estimatedHourlyMin": 18,
-    "estimatedHourlyMax": 30,
+    "estimatedHourlyMax": 35,
     "tipsAllowed": false,
-    "paymentFrequency": "varies",
+    "paymentFrequency": "per_completion",
     "instantPayAvailable": false,
     "deliveryType": "scheduled",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
-      "official_website"
+      "official_website",
+      "driver_registration_page"
     ],
     "verificationStatus": "verified",
-    "setupRequired": false,
-    "keyFeatures": "Route-based shift work; next-day/two-day/same-day service; route optimization; shipper integrations including ShipStation.",
-    "userFeedback": "Clear regional coverage messaging; driver-facing entry point; worker payout cadence partially documented."
+    "setupRequired": true,
+    "keyFeatures": "Route-based gig delivery; $75-$175+ per route; next-day/two-day/same-day service; digital wallet payouts; packages under 50 lbs; API integrations with ShipStation and Amazon.",
+    "userFeedback": "Clear per-route earnings advertised; broad coverage area; payout timing tied to route completion and package return scan."
   },
   {
     "id": "bring-it-now",
