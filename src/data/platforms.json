@@ -551,6 +551,8 @@
     "description": "Expedite (formerly Dlvrd) is a catering delivery and specialty logistics platform operating in 180 markets across the U.S. and Canada. Drivers earn $20-$60 per order with an average of $40-$50/hr. Features Emerald Elite tiers, corporate tip transparency, and the ability to stack orders. Same-day pay available via Everee.",
     "logoUrl": null,
     "websiteUrl": "https://expedite.io",
+    "applyUrl": "https://expedite.io/drivers/",
+    "applyButtonColor": "#FF5A00",
     "iosAppUrl": "https://apps.apple.com/us/app/expedite-for-drivers/id6648777219",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.dlivrd.expedite",
     "categories": [
