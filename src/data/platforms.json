@@ -3197,15 +3197,19 @@
     "id": "citizenshipper",
     "slug": "citizenshipper",
     "name": "CitizenShipper",
-    "description": "CitizenShipper is a marketplace for pet transport and long-distance specialty shipping. Transporters bid on jobs and get paid via Stripe Connect after delivery confirmation, with settlement in 2-5 business days. Background checks include criminal and MVR screening via Checkr.",
+    "description": "CitizenShipper is an auction-based peer-to-peer shipping marketplace specializing in pet transport, vehicle shipping, household moves, and specialty freight. Drivers bid on shipments and negotiate payment directly with customers (typically COD, PayPal, or credit card). Active drivers completing 15-20 shipments per month report $8,000-$10,000 in monthly revenue before expenses. Background checks include criminal and MVR screening via Checkr. Available nationwide — drivers can bid on jobs across every state.",
     "logoUrl": null,
     "websiteUrl": "https://www.citizenshipper.com",
+    "applyUrl": "https://citizenshipper.com/new-drivers",
+    "applyButtonColor": "#F97316",
     "iosAppUrl": null,
     "androidAppUrl": null,
     "categories": [
       "pet_transport",
       "specialty_shipping",
-      "long_distance"
+      "long_distance",
+      "vehicle_transport",
+      "moving"
     ],
     "minAge": 18,
     "backgroundCheckRequired": true,
@@ -3218,34 +3222,42 @@
     "licenseRequired": true,
     "insuranceRequired": true,
     "equipmentNeeded": [
-      "smartphone"
+      "smartphone",
+      "valid US ID",
+      "Social Security Number"
     ],
+    "otherRequirements": "Must pass ID verification and background check via Checkr (criminal + MVR). Drivers set their own rates and bid on shipments. Payment is arranged directly with customers. Newcomers typically submit 20+ bids before winning their first shipment. Veteran drivers average $0.50/mile as a starting bid. Over 30% of revenue goes to expenses (fuel, food, tolls, maintenance).",
     "countries": [
       "USA"
     ],
     "regions": {
       "USA": {
         "status": "Available",
-        "cities": []
+        "cities": [],
+        "coverageNote": "Nationwide — drivers bid on shipments across all 50 states"
       }
     },
     "payModel": "per_job",
+    "estimatedPayMin": 200,
+    "estimatedPayMax": 1500,
     "estimatedHourlyMin": 20,
     "estimatedHourlyMax": 50,
     "tipsAllowed": true,
-    "paymentFrequency": "per_delivery",
+    "paymentFrequency": "per_completion",
     "instantPayAvailable": false,
     "deliveryType": "scheduled",
     "usesThirdPartyDelivery": false,
     "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
-      "official_website"
+      "official_website",
+      "help_center",
+      "driver_reviews"
     ],
     "verificationStatus": "verified",
-    "setupRequired": false,
-    "keyFeatures": "Bid/quote marketplace; Stripe Connect payouts (2-5 day settlement); Checkr background screening; pet and specialty transport focus; escrow-like payment mediation.",
-    "userFeedback": "Clear payout release policy; explicit screening disclosures; vehicle requirements vary by shipment type."
+    "setupRequired": true,
+    "keyFeatures": "Auction-based bidding marketplace; drivers set own rates and payment terms; pet transport, vehicles, boats, household goods, heavy equipment, and freight; direct customer payment (COD, PayPal, credit card); Checkr background screening; nationwide coverage.",
+    "userFeedback": "Active drivers report $8,000-$10,000/month revenue (15-20 shipments); 30%+ goes to expenses; newcomers need persistence to build reputation and win early bids; experienced transporters can earn $20,000+/month with multiple vehicles."
   },
   {
     "id": "draiver",
