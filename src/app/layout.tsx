@@ -42,6 +42,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="fo-verify" content="1b6c9375-9cc9-4b2d-90a2-f950d0538677" />
+        <meta name='impact-site-verification' value='f2ede82b-bf8f-44d5-8217-48b16968b04c' />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-1DMN4WWE51" />
         <script
           dangerouslySetInnerHTML={{
