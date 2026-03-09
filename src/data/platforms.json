@@ -3760,15 +3760,15 @@
     "instantPayAvailable": false,
     "deliveryType": "scheduled",
     "usesThirdPartyDelivery": false,
-    "driverStatus": "active",
-    "lastUpdated": "2026-02-27",
+    "driverStatus": "unverified",
+    "lastUpdated": "2026-03-08",
     "dataSources": [
       "official_website"
     ],
-    "verificationStatus": "verified",
+    "verificationStatus": "needs_verification",
     "setupRequired": false,
-    "keyFeatures": "New items only (no junk); minimum $25/run; average $45/run; next-business-day payouts; no sign-up fees; pickup truck or van required.",
-    "userFeedback": "Strong payout clarity; explicit vehicle requirements; city availability not fully enumerated."
+    "keyFeatures": "New items only (no junk); minimum $25/run; average $45/run; next-business-day payouts; no sign-up fees; pickup truck or van required; retail partners include Walmart, Big Lots, At Home.",
+    "userFeedback": "⚠️ Website (pickupnow.com) appears compromised with spam/gambling links as of March 2026. An Assignments for Benefit of Creditors page is also present, suggesting possible financial distress. Platform may still be operating but cannot be verified. Use caution."
   },
   {
     "id": "pills2me",
