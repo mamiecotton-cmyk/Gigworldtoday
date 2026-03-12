@@ -46,12 +46,17 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     notFound();
   }
 
-  const images =
+  const isAmazonUrl = (url: string) =>
+    /amazon\.com|media-amazon\.com|ssl-images-amazon/i.test(url ?? "");
+
+  const rawImages =
     product.images && product.images.length > 0
       ? product.images
       : product.image
       ? [product.image]
       : [];
+  const images = rawImages.filter((img: string) => !isAmazonUrl(img));
+  const isAmazonProduct = isAmazonUrl(product.external_link ?? "");
 
   const description = product.long_description || product.short_description || "";
 
@@ -100,7 +105,13 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               </p>
 
               <div className="flex items-center gap-4 pt-2">
-                <span className="text-3xl font-bold text-white">{product.price}</span>
+                {isAmazonProduct ? (
+                  <span className="text-sm text-gray-300 italic">
+                    Price varies — check Amazon for current pricing.
+                  </span>
+                ) : (
+                  <span className="text-3xl font-bold text-white">{product.price}</span>
+                )}
               </div>
 
               <div className="flex flex-wrap gap-4 pt-2">
