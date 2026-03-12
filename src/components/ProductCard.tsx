@@ -41,11 +41,13 @@ export default function ProductCard({ product, detailsHref }: ProductCardProps) 
         {/* Price badge */}
         <div className="flex items-center justify-between">
           <h3 className={`${compact ? 'text-sm' : 'text-lg'} font-bold text-gray-900`}>{product.name}</h3>
-          {product.price && !isAmazonUrl(product.external_link ?? "") && (
+          {isAmazonUrl(product.external_link ?? "") ? (
+            <span className="text-xs text-gray-400 italic">Check Amazon for price</span>
+          ) : product.price ? (
             <span className={`${compact ? 'text-xs px-2 py-0.5' : 'text-sm px-3 py-1'} font-bold text-teal-700 bg-teal-100 rounded-full border border-teal-200`}>
               {product.price}
             </span>
-          )}
+          ) : null}
         </div>
         <p className={`text-sm text-gray-700 ${compact ? 'max-h-10 overflow-hidden' : 'leading-relaxed'}`}>{product.short_description}</p>
         <Link

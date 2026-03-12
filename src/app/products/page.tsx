@@ -112,11 +112,13 @@ export default async function ProductsPage() {
                   <div className="space-y-3 p-5">
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-bold text-gray-900">{product.name}</h3>
-                      {product.price && !isAmazonUrl(product.external_link ?? "") && (
+                      {isAmazonUrl(product.external_link ?? "") ? (
+                        <span className="text-xs text-gray-400 italic">Check Amazon for price</span>
+                      ) : product.price ? (
                         <span className="text-sm font-bold text-teal-700 bg-teal-100 rounded-full border border-teal-200 px-3 py-1">
                           {product.price}
                         </span>
-                      )}
+                      ) : null}
                     </div>
                     <p className="text-sm leading-relaxed text-gray-700 line-clamp-2">
                       {product.short_description}
