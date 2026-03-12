@@ -10,7 +10,10 @@ type ProductCardProps = {
 export default function ProductCard({ product, detailsHref }: ProductCardProps) {
   const href = detailsHref ?? `/products/${product.slug}`;
   const compact = (arguments[0] as any)?.compact ?? false;
-  const primaryImage = (product.images && product.images.length ? product.images[0] : product.image) || "/city-background.jpg";
+  const isAmazonUrl = (url: string) =>
+    /amazon\.com|media-amazon\.com|ssl-images-amazon/i.test(url);
+  const rawImage = (product.images && product.images.length ? product.images[0] : product.image) || "";
+  const primaryImage = rawImage && !isAmazonUrl(rawImage) ? rawImage : "/city-background.jpg";
 
   return (
     <article className={`relative group overflow-hidden rounded-2xl border border-teal-100 bg-gradient-to-br from-teal-50/60 via-white to-orange-50/40 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-teal-300 ${compact ? 'min-h-0' : ''}`}>
@@ -38,7 +41,7 @@ export default function ProductCard({ product, detailsHref }: ProductCardProps) 
         {/* Price badge */}
         <div className="flex items-center justify-between">
           <h3 className={`${compact ? 'text-sm' : 'text-lg'} font-bold text-gray-900`}>{product.name}</h3>
-          {product.price && (
+          {product.price && !isAmazonUrl(product.external_link ?? "") && (
             <span className={`${compact ? 'text-xs px-2 py-0.5' : 'text-sm px-3 py-1'} font-bold text-teal-700 bg-teal-100 rounded-full border border-teal-200`}>
               {product.price}
             </span>

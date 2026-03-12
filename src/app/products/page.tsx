@@ -82,7 +82,10 @@ export default async function ProductsPage() {
         ) : (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {orderedProducts.map((product: any) => {
-              const primaryImage = product.images?.[0] || product.image || "/city-background.jpg";
+              const isAmazonUrl = (url: string) =>
+                /amazon\.com|media-amazon\.com|ssl-images-amazon/i.test(url ?? "");
+              const rawImage = product.images?.[0] || product.image || "";
+              const primaryImage = rawImage && !isAmazonUrl(rawImage) ? rawImage : "/city-background.jpg";
               return (
                 <Link
                   key={product.id}
@@ -109,7 +112,7 @@ export default async function ProductsPage() {
                   <div className="space-y-3 p-5">
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-bold text-gray-900">{product.name}</h3>
-                      {product.price && (
+                      {product.price && !isAmazonUrl(product.external_link ?? "") && (
                         <span className="text-sm font-bold text-teal-700 bg-teal-100 rounded-full border border-teal-200 px-3 py-1">
                           {product.price}
                         </span>
