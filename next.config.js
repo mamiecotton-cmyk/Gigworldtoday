@@ -15,6 +15,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Set root for output file tracing to avoid workspace-root inference issues
+  outputFileTracingRoot: __dirname,
 }
 
 module.exports = nextConfig
