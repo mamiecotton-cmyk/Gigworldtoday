@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 
@@ -17,6 +17,24 @@ type TypeStat = { link_type: string; count: number };
 type PageStat = { source_page: string; count: number };
 type TopLink = { destination_url: string; label: string | null; count: number };
 
+const PAGE_SIZE = 25;
+
+function getDateRange(range: string): string | null {
+  const now = new Date();
+  switch (range) {
+    case "today":
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+    case "7d":
+      return new Date(now.getTime() - 7 * 86400000).toISOString();
+    case "30d":
+      return new Date(now.getTime() - 30 * 86400000).toISOString();
+    case "90d":
+      return new Date(now.getTime() - 90 * 86400000).toISOString();
+    default:
+      return null;
+  }
+}
+
 export default function OutboundClicksPage() {
   const [clicks, setClicks] = useState<ClickRow[]>([]);
   const [totalClicks, setTotalClicks] = useState(0);
@@ -24,44 +42,37 @@ export default function OutboundClicksPage() {
   const [pageStats, setPageStats] = useState<PageStat[]>([]);
   const [topLinks, setTopLinks] = useState<TopLink[]>([]);
   const [filterType, setFilterType] = useState("all");
+  const [dateRange, setDateRange] = useState("30d");
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchData();
-  }, [filterType]);
+  const fetchStats = useCallback(async () => {
+    const after = getDateRange(dateRange);
 
-  const fetchData = async () => {
-    setLoading(true);
-
-    // Total count
-    const { count } = await supabase
+    // Total count for date range
+    let countQuery = supabase
       .from("outbound_clicks")
       .select("id", { count: "exact", head: true });
+    if (after) countQuery = countQuery.gte("created_at", after);
+
+    const { count } = await countQuery;
     setTotalClicks(count || 0);
 
-    // Recent clicks (with optional filter)
-    let query = supabase
+    // Fetch limited set for aggregation (cap at 5000 for performance)
+    let aggQuery = supabase
       .from("outbound_clicks")
-      .select("*")
+      .select("link_type, source_page, destination_url, label")
       .order("created_at", { ascending: false })
-      .limit(50);
+      .limit(5000);
+    if (after) aggQuery = aggQuery.gte("created_at", after);
 
-    if (filterType !== "all") {
-      query = query.eq("link_type", filterType);
-    }
+    const { data: aggClicks } = await aggQuery;
 
-    const { data: recentClicks } = await query;
-    setClicks(recentClicks || []);
-
-    // All clicks for aggregation
-    const { data: allClicks } = await supabase
-      .from("outbound_clicks")
-      .select("link_type, source_page, destination_url, label");
-
-    if (allClicks) {
+    if (aggClicks) {
       // Clicks by type
       const typeMap = new Map<string, number>();
-      allClicks.forEach((c) => {
+      aggClicks.forEach((c) => {
         typeMap.set(c.link_type, (typeMap.get(c.link_type) || 0) + 1);
       });
       setTypeStats(
@@ -72,9 +83,9 @@ export default function OutboundClicksPage() {
 
       // Clicks by page
       const pageMap = new Map<string, number>();
-      allClicks.forEach((c) => {
-        const page = c.source_page || "unknown";
-        pageMap.set(page, (pageMap.get(page) || 0) + 1);
+      aggClicks.forEach((c) => {
+        const pg = c.source_page || "unknown";
+        pageMap.set(pg, (pageMap.get(pg) || 0) + 1);
       });
       setPageStats(
         Array.from(pageMap.entries())
@@ -84,7 +95,7 @@ export default function OutboundClicksPage() {
 
       // Top clicked links
       const urlMap = new Map<string, { label: string | null; count: number }>();
-      allClicks.forEach((c) => {
+      aggClicks.forEach((c) => {
         const existing = urlMap.get(c.destination_url);
         if (existing) {
           existing.count++;
@@ -103,25 +114,79 @@ export default function OutboundClicksPage() {
           .slice(0, 10)
       );
     }
+  }, [dateRange]);
 
-    setLoading(false);
-  };
+  const fetchPage = useCallback(async (pageNum: number) => {
+    const after = getDateRange(dateRange);
+    const from = pageNum * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
 
-  const uniqueTypes = Array.from(new Set(clicks.map((c) => c.link_type)));
+    let query = supabase
+      .from("outbound_clicks")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .range(from, to);
+
+    if (after) query = query.gte("created_at", after);
+    if (filterType !== "all") query = query.eq("link_type", filterType);
+
+    const { data } = await query;
+    const rows = data || [];
+    setClicks(rows);
+    setHasMore(rows.length === PAGE_SIZE);
+  }, [dateRange, filterType]);
+
+  useEffect(() => {
+    setLoading(true);
+    setPage(0);
+    Promise.all([fetchStats(), fetchPage(0)]).then(() => setLoading(false));
+  }, [dateRange, fetchStats, fetchPage]);
+
+  useEffect(() => {
+    fetchPage(page);
+  }, [page, filterType, fetchPage]);
+
+  const uniqueTypes = Array.from(new Set(typeStats.map((t) => t.link_type)));
 
   const truncateUrl = (url: string, maxLen = 50) =>
     url.length > maxLen ? url.slice(0, maxLen) + "…" : url;
 
+  const rangeLabel: Record<string, string> = {
+    today: "Today",
+    "7d": "Last 7 Days",
+    "30d": "Last 30 Days",
+    "90d": "Last 90 Days",
+    all: "All Time",
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-16 space-y-10">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <h1 className="text-3xl font-bold">Outbound Click Analytics</h1>
-        <Link
-          href="/admin"
-          className="text-sm text-gray-500 hover:text-black transition"
-        >
-          ← Back to Dashboard
-        </Link>
+        <div className="flex items-center gap-3">
+          {/* Date Range Selector */}
+          <div className="flex bg-gray-100 rounded-lg p-0.5">
+            {["today", "7d", "30d", "90d", "all"].map((r) => (
+              <button
+                key={r}
+                onClick={() => setDateRange(r)}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                  dateRange === r
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                {rangeLabel[r]}
+              </button>
+            ))}
+          </div>
+          <Link
+            href="/admin"
+            className="text-sm text-gray-500 hover:text-black transition"
+          >
+            ← Dashboard
+          </Link>
+        </div>
       </div>
 
       {loading ? (
@@ -132,7 +197,8 @@ export default function OutboundClicksPage() {
           <div className="grid md:grid-cols-4 gap-6">
             <div className="p-6 border rounded-lg">
               <p className="text-sm text-gray-500">Total Clicks</p>
-              <p className="text-2xl font-bold">{totalClicks}</p>
+              <p className="text-2xl font-bold">{totalClicks.toLocaleString()}</p>
+              <p className="text-xs text-gray-400 mt-1">{rangeLabel[dateRange]}</p>
             </div>
             <div className="p-6 border rounded-lg">
               <p className="text-sm text-gray-500">Link Types</p>
@@ -143,7 +209,7 @@ export default function OutboundClicksPage() {
               <p className="text-2xl font-bold">{pageStats.length}</p>
             </div>
             <div className="p-6 border rounded-lg">
-              <p className="text-sm text-gray-500">Unique Links</p>
+              <p className="text-sm text-gray-500">Top Links Tracked</p>
               <p className="text-2xl font-bold">{topLinks.length}</p>
             </div>
           </div>
@@ -245,30 +311,24 @@ export default function OutboundClicksPage() {
             )}
           </div>
 
-          {/* Recent Clicks Table */}
+          {/* Recent Clicks Table — Paginated */}
           <div className="border rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">Recent Clicks</h2>
               <select
                 value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
+                onChange={(e) => {
+                  setFilterType(e.target.value);
+                  setPage(0);
+                }}
                 className="text-sm border rounded-lg px-3 py-1.5 text-gray-700"
               >
                 <option value="all">All Types</option>
-                <option value="book">Book</option>
-                <option value="product">Product</option>
-                <option value="platform">Platform</option>
-                <option value="affiliate">Affiliate</option>
-                {uniqueTypes
-                  .filter(
-                    (t) =>
-                      !["book", "product", "platform", "affiliate"].includes(t)
-                  )
-                  .map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
+                {uniqueTypes.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -320,6 +380,29 @@ export default function OutboundClicksPage() {
                 </table>
               </div>
             )}
+
+            {/* Pagination */}
+            <div className="flex items-center justify-between mt-4 pt-4 border-t">
+              <p className="text-xs text-gray-400">
+                Page {page + 1} · Showing {clicks.length} result{clicks.length !== 1 ? "s" : ""}
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setPage((p) => Math.max(0, p - 1))}
+                  disabled={page === 0}
+                  className="px-3 py-1.5 text-xs font-medium border rounded-lg disabled:opacity-30 hover:bg-gray-50 transition"
+                >
+                  ← Previous
+                </button>
+                <button
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={!hasMore}
+                  className="px-3 py-1.5 text-xs font-medium border rounded-lg disabled:opacity-30 hover:bg-gray-50 transition"
+                >
+                  Next →
+                </button>
+              </div>
+            </div>
           </div>
         </>
       )}

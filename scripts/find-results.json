@@ -1,0 +1,390 @@
+{
+  "axlehire": {
+    "name": "AxleHire",
+    "base": "https://gojitsu.com/drivers",
+    "matches": []
+  },
+  "deliverthat": {
+    "name": "DeliverThat",
+    "base": "https://www.deliverthat.com",
+    "matches": []
+  },
+  "doordash": {
+    "name": "DoorDash",
+    "base": "https://www.doordash.com",
+    "matches": []
+  },
+  "ubereats": {
+    "name": "Uber Eats",
+    "base": "https://www.uber.com",
+    "matches": []
+  },
+  "instacart": {
+    "name": "Instacart",
+    "base": "https://shoppers.instacart.com",
+    "matches": [
+      {
+        "url": "https://shoppers.instacart.com/apply",
+        "status": 200
+      }
+    ]
+  },
+  "expedite": {
+    "name": "Expedite",
+    "base": "https://expedite.io",
+    "matches": [
+      {
+        "url": "https://expedite.io/signup/driver",
+        "status": 200
+      },
+      {
+        "url": "https://expedite.io/drivers",
+        "status": 200
+      },
+      {
+        "url": "https://expedite.io/driver",
+        "status": 200
+      },
+      {
+        "url": "https://expedite.io/apply/driver",
+        "status": 200
+      }
+    ]
+  },
+  "zifty": {
+    "name": "Zifty",
+    "base": "https://jobs.zifty.com",
+    "matches": []
+  },
+  "drizly": {
+    "name": "Drizly",
+    "base": "https://drizly.com",
+    "matches": []
+  },
+  "postmates": {
+    "name": "Postmates",
+    "base": "https://postmates.com",
+    "matches": []
+  },
+  "airspace": {
+    "name": "Airspace",
+    "base": "https://www.airspace.com/drive-with-us",
+    "matches": []
+  },
+  "american-expediting": {
+    "name": "American Expediting",
+    "base": "https://amexpediting.com",
+    "matches": []
+  },
+  "hyer": {
+    "name": "Hyer",
+    "base": "https://gethyer.com",
+    "matches": []
+  },
+  "qwick": {
+    "name": "Qwick",
+    "base": "https://www.qwick.com",
+    "matches": [
+      {
+        "url": "https://www.qwick.com/careers",
+        "status": 200
+      }
+    ]
+  },
+  "shiftnow": {
+    "name": "shiftNOW",
+    "base": "https://www.shiftnow.com",
+    "matches": [
+      {
+        "url": "https://www.shiftnow.com/careers",
+        "status": 200
+      }
+    ]
+  },
+  "better-trucks": {
+    "name": "Better Trucks",
+    "base": "https://www.bettertrucks.com",
+    "matches": [
+      {
+        "url": "https://www.bettertrucks.com/become-a-driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.bettertrucks.com/careers",
+        "status": 200
+      }
+    ]
+  },
+  "bungii": {
+    "name": "Bungii",
+    "base": "https://www.bungii.com",
+    "matches": [
+      {
+        "url": "https://www.bungii.com/careers",
+        "status": 200
+      },
+      {
+        "url": "https://www.bungii.com/jobs",
+        "status": 200
+      }
+    ]
+  },
+  "citizenshipper": {
+    "name": "CitizenShipper",
+    "base": "https://www.citizenshipper.com",
+    "matches": [
+      {
+        "url": "https://www.citizenshipper.com/drivers",
+        "status": 200
+      },
+      {
+        "url": "https://www.citizenshipper.com/become-a-driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.citizenshipper.com/drivers/apply",
+        "status": 200
+      }
+    ]
+  },
+  "draiver": {
+    "name": "Draiver",
+    "base": "https://www.draiver.com",
+    "matches": [
+      {
+        "url": "https://www.draiver.com/careers",
+        "status": 200
+      }
+    ]
+  },
+  "dropoff": {
+    "name": "Dropoff",
+    "base": "https://www.dropoff.com",
+    "matches": [
+      {
+        "url": "https://www.dropoff.com/drivers",
+        "status": 200
+      },
+      {
+        "url": "https://www.dropoff.com/careers",
+        "status": 200
+      }
+    ]
+  },
+  "fetch-package": {
+    "name": "Fetch Package",
+    "base": "https://www.fetchpackage.com",
+    "matches": []
+  },
+  "isecretshop": {
+    "name": "iSecretShop",
+    "base": "https://www.isecretshop.com/?redirect=no#firstPage",
+    "matches": [
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/apply",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/signup",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/signup/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/drivers",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/become-a-driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/join",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/driver-signup",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/join-us",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/deliver/signup",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/apply/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/drivers/apply",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/join-driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/careers",
+        "status": 200
+      },
+      {
+        "url": "https://www.isecretshop.com/?redirect=no#firstPage/jobs",
+        "status": 200
+      }
+    ]
+  },
+  "pickup-delivery": {
+    "name": "PICKUP",
+    "base": "https://www.pickupnow.com",
+    "matches": [
+      {
+        "url": "https://www.pickupnow.com/apply",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/signup",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/signup/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/drivers",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/become-a-driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/join",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/driver-signup",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/join-us",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/deliver/signup",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/apply/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/drivers/apply",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/join-driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/careers",
+        "status": 200
+      },
+      {
+        "url": "https://www.pickupnow.com/jobs",
+        "status": 200
+      }
+    ]
+  },
+  "pills2me": {
+    "name": "Pills2Me",
+    "base": "https://www.pills2me.com",
+    "matches": [
+      {
+        "url": "https://www.pills2me.com/careers",
+        "status": 200
+      }
+    ]
+  },
+  "redwagon": {
+    "name": "RedWagon Delivers",
+    "base": "https://www.redwagondelivers.com",
+    "matches": [
+      {
+        "url": "https://www.redwagondelivers.com/drivers",
+        "status": 200
+      },
+      {
+        "url": "https://www.redwagondelivers.com/drivers/apply",
+        "status": 200
+      }
+    ]
+  },
+  "relay-delivery": {
+    "name": "Relay Delivery",
+    "base": "https://www.relaydelivery.com",
+    "matches": [
+      {
+        "url": "https://www.relaydelivery.com/signup",
+        "status": 200
+      }
+    ]
+  },
+  "seimdei": {
+    "name": "SeimDei",
+    "base": "https://www.seimdei.com",
+    "matches": [
+      {
+        "url": "https://www.seimdei.com/apply",
+        "status": 200
+      },
+      {
+        "url": "https://www.seimdei.com/signup/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.seimdei.com/drivers",
+        "status": 200
+      },
+      {
+        "url": "https://www.seimdei.com/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.seimdei.com/apply/driver",
+        "status": 200
+      },
+      {
+        "url": "https://www.seimdei.com/drivers/apply",
+        "status": 200
+      }
+    ]
+  },
+  "trado": {
+    "name": "Trado",
+    "base": "https://trado.com",
+    "matches": []
+  },
+  "wonolo": {
+    "name": "Wonolo",
+    "base": "https://www.wonolo.com",
+    "matches": [
+      {
+        "url": "https://www.wonolo.com/careers",
+        "status": 200
+      }
+    ]
+  }
+}
