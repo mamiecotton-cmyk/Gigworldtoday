@@ -1996,8 +1996,8 @@
     "name": "Spark Driver",
     "description": "Spark Driver delivers Walmart orders including groceries and packages. Earn $15-20+ per delivery with 100% of tips. Set your own schedule and see earnings before accepting orders.",
     "logoUrl": null,
-    "websiteUrl": "https://www.walmart.com",
-    "applyUrl": "https://www.walmart.com",
+    "websiteUrl": "https://www.sparkdriverapp.com/en_us",
+    "applyUrl": "https://identity.walmart.com/account/login?client_id=9549c928-cabc-4b01-9ef6-bfa13aca3372&redirect_uri=https%3A%2F%2Fwww.sparkdriverapp.com%2Fverify&scope=openid+email+offline_access&tenant_id=t9ly8j&code_challenge=s_rfs7yzKYE9brTnLfwWXiHmYJSWy6BuahGztQm3kVg",
     "iosAppUrl": "https://apps.apple.com/app/spark-driver/id1448878505",
     "androidAppUrl": "https://play.google.com/store/apps/details?id=com.walmart.spark.driver",
     "categories": [
