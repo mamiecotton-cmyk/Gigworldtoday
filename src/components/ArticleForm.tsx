@@ -22,6 +22,12 @@ const CATEGORIES = [
   { slug: "industry-news", name: "Industry News" },
   { slug: "platform-analysis", name: "Platform Analysis" },
   { slug: "tutorials", name: "Tutorials" },
+  { slug: "recommended-tools", name: "Recommended Tools" },
+];
+
+const POST_TYPES = [
+  { slug: "informational-post", name: "Informational Post" },
+  { slug: "money-page", name: "Money Page" },
 ];
 
 export default function ArticleForm({
@@ -129,12 +135,21 @@ export default function ArticleForm({
     const sanitized = blocks.filter((block) => {
       if (block.type === "text") return block.content.trim() !== "";
       if (block.type === "image") return block.src.trim() !== "";
+      if (block.type === "amazonProduct") return block.html.trim() !== "";
       return false;
     });
 
     const plainContent = sanitized
-      .filter((b: any) => b.type === "text")
-      .map((b: any) => b.content.replace(/<[^>]*>/g, ""))
+      .map((b: any) => {
+        if (b.type === "text") {
+          return b.content.replace(/<[^>]*>/g, "");
+        }
+        if (b.type === "amazonProduct") {
+          return [b.heading, b.description].filter(Boolean).join("\n");
+        }
+        return "";
+      })
+      .filter(Boolean)
       .join("\n\n");
 
     const payload: any = {
@@ -405,6 +420,35 @@ export default function ArticleForm({
       </div>
 
       {/* Categories */}
+      <div>
+        <label className="block font-medium mb-2">Post Type</label>
+        <div className="flex flex-wrap gap-2">
+          {POST_TYPES.map((type) => (
+            <button
+              key={type.slug}
+              type="button"
+              onClick={() =>
+                setTags((prev) => {
+                  const withoutTypes = prev.filter(
+                    (tag) => !POST_TYPES.some((item) => item.slug === tag)
+                  );
+                  return prev.includes(type.slug)
+                    ? withoutTypes
+                    : [...withoutTypes, type.slug];
+                })
+              }
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                tags.includes(type.slug)
+                  ? "bg-slate-900 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {type.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div>
         <label className="block font-medium mb-2">Categories</label>
         <div className="flex flex-wrap gap-2">

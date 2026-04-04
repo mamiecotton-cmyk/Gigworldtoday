@@ -1,4 +1,5 @@
 import { Block } from "@/components/BlockEditor";
+import AmazonProductCard from "@/components/AmazonProductCard";
 
 interface Props {
   contentJson: Block[] | null;
@@ -24,6 +25,27 @@ export default function ArticleRenderer({ contentJson }: Props) {
         }
         if (block.type === "image") {
           return <ImageBlock key={block.id} block={block} />;
+        }
+        if (block.type === "amazonProduct") {
+          if (!block.html || block.html.trim() === "") return null;
+          return (
+            <section
+              key={block.id}
+              className="my-12 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 sm:p-6"
+            >
+              {block.heading.trim() !== "" && (
+                <h2 className="mb-3 text-2xl font-semibold tracking-tight text-slate-900">
+                  {block.heading}
+                </h2>
+              )}
+              {block.description.trim() !== "" && (
+                <p className="mb-6 text-base leading-8 text-slate-700">
+                  {block.description}
+                </p>
+              )}
+              <AmazonProductCard html={block.html} />
+            </section>
+          );
         }
         return null;
       })}

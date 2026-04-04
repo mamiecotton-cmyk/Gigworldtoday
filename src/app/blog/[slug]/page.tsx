@@ -1,10 +1,40 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+import type { Metadata } from "next";
 import ArticleRenderer from "@/components/ArticleRenderer";
 import ArticleComments from "@/components/ArticleComments";
 import SignupBanner from "@/components/SignupBanner";
 import { createServerSupabase } from "@/lib/supabaseServer";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = createServerSupabase();
+
+  const { data: article } = await supabase
+    .from("articles")
+    .select("title, excerpt, tags")
+    .eq("slug", slug)
+    .eq("published", true)
+    .is("deleted_at", null)
+    .maybeSingle();
+
+  if (!article) {
+    return {
+      title: "Blog Article",
+    };
+  }
+
+  return {
+    title: article.title,
+    description: article.excerpt || undefined,
+    keywords: Array.isArray(article.tags) ? article.tags : undefined,
+  };
+}
 
 export default async function BlogArticlePage({
   params,
@@ -21,9 +51,11 @@ export default async function BlogArticlePage({
       id,
       slug,
       title,
+      excerpt,
       featured_image,
       show_featured_on_detail,
       content_json,
+      tags,
       published,
       deleted_at
     `)

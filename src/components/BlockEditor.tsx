@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { supabase } from "@/lib/supabaseClient";
+import AmazonProductCard from "@/components/AmazonProductCard";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -31,6 +32,13 @@ export type Block =
       objectPosition?: string;
       alt: string;
       caption: string;
+    }
+  | {
+      id: string;
+      type: "amazonProduct";
+      heading: string;
+      description: string;
+      html: string;
     };
 
 interface Props {
@@ -441,6 +449,60 @@ function SortableBlock({
       {block.type === "image" && (
         <ResizableImageBlock block={block} setBlocks={setBlocks} />
       )}
+
+      {block.type === "amazonProduct" && (
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Section heading"
+            value={block.heading}
+            className="w-full rounded border px-3 py-2 text-sm"
+            onChange={(e) =>
+              setBlocks((prev) =>
+                prev.map((b) =>
+                  b.id === block.id ? { ...b, heading: e.target.value } : b
+                )
+              )
+            }
+          />
+          <textarea
+            placeholder="Short description for why this product matters"
+            value={block.description}
+            rows={3}
+            className="w-full rounded border px-3 py-2 text-sm"
+            onChange={(e) =>
+              setBlocks((prev) =>
+                prev.map((b) =>
+                  b.id === block.id
+                    ? { ...b, description: e.target.value }
+                    : b
+                )
+              )
+            }
+          />
+          <textarea
+            placeholder="Paste Amazon embed HTML"
+            value={block.html}
+            rows={8}
+            className="w-full rounded border px-3 py-2 font-mono text-xs"
+            onChange={(e) =>
+              setBlocks((prev) =>
+                prev.map((b) =>
+                  b.id === block.id ? { ...b, html: e.target.value } : b
+                )
+              )
+            }
+          />
+          {block.html.trim() !== "" && (
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="mb-3 text-xs font-medium uppercase tracking-wide text-slate-500">
+                Preview
+              </p>
+              <AmazonProductCard html={block.html} />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -463,6 +525,19 @@ export default function BlockEditor({ blocks, setBlocks }: Props) {
         layout: "full",
         alt: "",
         caption: "",
+      },
+    ]);
+  };
+
+  const addAmazonProductBlock = () => {
+    setBlocks((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        type: "amazonProduct",
+        heading: "",
+        description: "",
+        html: "",
       },
     ]);
   };
@@ -535,7 +610,7 @@ export default function BlockEditor({ blocks, setBlocks }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-3">
         <button
           type="button"
           onClick={addTextBlock}
@@ -551,7 +626,19 @@ export default function BlockEditor({ blocks, setBlocks }: Props) {
         >
           + Image Block
         </button>
+
+        <button
+          type="button"
+          onClick={addAmazonProductBlock}
+          className="bg-teal-600 text-white px-3 py-2 rounded"
+        >
+          + Product Section
+        </button>
       </div>
+
+      <p className="text-sm text-gray-500">
+        Use <span className="font-medium text-teal-700">+ Product Section</span> to insert an Amazon card with a heading and short explanation inside the article.
+      </p>
 
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext
