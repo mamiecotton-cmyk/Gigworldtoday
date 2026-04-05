@@ -105,6 +105,12 @@ export default function Footer() {
           © {new Date().getFullYear()} GigWorldToday. All rights reserved.
         </span>
       </div>
+
+      <div className="border-t py-4 px-6 text-center text-xs text-gray-400 max-w-3xl mx-auto">
+        GigWorldToday is a participant in the Amazon Services LLC Associates Program, an affiliate advertising
+        program designed to provide a means for sites to earn advertising fees by advertising and linking to
+        Amazon.com.
+      </div>
     </footer>
   );
 }
