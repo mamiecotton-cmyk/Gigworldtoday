@@ -42,6 +42,32 @@ export default function AdminProductsPage() {
   const [dragIdx, setDragIdx] = useState<number | null>(null);
   const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
   const [savingOrder, setSavingOrder] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleImageUpload = async (file: File) => {
+    setUploadingImage(true);
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `product-${Date.now()}.${fileExt}`;
+      const { error } = await supabase.storage
+        .from("article-images")
+        .upload(fileName, file);
+      if (error) throw error;
+      const { data } = supabase.storage
+        .from("article-images")
+        .getPublicUrl(fileName);
+      const url = data.publicUrl;
+      setForm((prev) => ({
+        ...prev,
+        image: url,
+        imagesText: url + (prev.imagesText ? "\n" + prev.imagesText : ""),
+      }));
+    } catch (err: any) {
+      alert(err.message || "Upload failed");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   const sortedProducts = useMemo(
     () => [...products].sort((a, b) => (a.sort_order ?? 999) - (b.sort_order ?? 999)),
@@ -259,12 +285,30 @@ export default function AdminProductsPage() {
             value={form.price}
             onChange={(e) => setForm({ ...form, price: e.target.value })}
           />
-          <input
-            className="border rounded px-3 py-2"
-            placeholder="Image path/url"
-            value={form.image}
-            onChange={(e) => setForm({ ...form, image: e.target.value })}
-          />
+          <div className="flex flex-col gap-2">
+            <input
+              className="border rounded px-3 py-2"
+              placeholder="Image path/url"
+              value={form.image}
+              onChange={(e) => setForm({ ...form, image: e.target.value })}
+            />
+            <label className={`flex items-center justify-center h-10 rounded border-2 border-dashed cursor-pointer text-sm transition-colors ${uploadingImage ? "border-gray-300 bg-gray-50 text-gray-400" : "border-teal-400 hover:bg-teal-50 text-teal-600"}`}>
+              {uploadingImage ? "Uploading..." : "📁 Upload Image File"}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                disabled={uploadingImage}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleImageUpload(file);
+                }}
+              />
+            </label>
+            {form.image && !form.image.includes("city-background") && (
+              <img src={form.image} alt="Preview" className="h-24 w-auto object-contain rounded border" />
+            )}
+          </div>
           <textarea
             className="border rounded px-3 py-2 md:col-span-2 min-h-[120px]"
             placeholder={"One image URL per line"}
