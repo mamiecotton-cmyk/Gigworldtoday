@@ -151,14 +151,6 @@ export default async function Page() {
       </section>
 
       <div className="max-w-6xl mx-auto px-6">
-      <section className="mb-10">
-        <div className="rounded-2xl bg-white/70 p-4 sm:p-6">
-          <h2 className="mb-4 text-xl font-bold text-slate-900">
-            Featured Delivery Tool
-          </h2>
-          <AmazonProductCard html={amazonEmbedHtml} />
-        </div>
-      </section>
       {/* Category Navigation */}
       <div className="flex flex-wrap gap-6 mt-8 mb-10 border-b border-neutral-200 pb-4">
         <Link
@@ -179,7 +171,7 @@ export default async function Page() {
       </div>
       {/* Article Grid */}
       <div id="articles" className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 pb-20">
-            {articles.map((article, index) => (
+            {articles.slice(0, 3).map((article, index) => (
           <Link
             key={article.id}
             href={`/blog/${article.slug}`}
@@ -212,7 +204,7 @@ export default async function Page() {
         ))}
 
         {/* Amazon Product Pick — full-width break after article 3 */}
-        {articles.length > 3 && (
+        {(
           <div className="md:col-span-2 lg:col-span-3">
             <a
               href="https://www.amazon.com/TIMBER-RIDGE-Extended-Collapsible-Adjustable/dp/B0C2C56L8G?tag=gigworldtoday-20"
@@ -237,6 +229,38 @@ export default async function Page() {
             <p className="text-xs text-gray-400 mt-1 text-right">*As an Amazon Associate I earn from qualifying purchases.</p>
           </div>
         )}
+
+        {articles.slice(3).map((article, index) => (
+          <Link
+            key={article.id}
+            href={`/blog/${article.slug}`}
+            className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-neutral-100"
+          >
+            {article.featured_image && article.show_featured_on_list !== false && (
+              <div className="relative h-[220px] w-full overflow-hidden">
+                <Image
+                  src={article.featured_image}
+                  alt={article.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-contain transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+            )}
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-neutral-900 group-hover:underline">
+                {article.title}
+              </h3>
+              <p className="mt-3 text-sm text-neutral-700 line-clamp-3">
+                {article.excerpt}
+              </p>
+              <p className="mt-4 text-xs text-neutral-600">
+                {article.published_at &&
+                  new Date(article.published_at).toLocaleDateString()}
+              </p>
+            </div>
+          </Link>
+        ))}
       </div>
       </div>
     </div>
