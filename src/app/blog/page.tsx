@@ -11,26 +11,24 @@ import AmazonProductCard from "@/components/AmazonProductCard";
 export default async function Page() {
   const amazonEmbedHtml = `
     <a
-      href="https://www.amazon.com/5-Star-Gig-Worker-Mastering-Platforms-ebook/dp/B0GHZLV2XG/"
+      href="https://www.amazon.com/s?k=folding+wagon+cart"
       target="_blank"
       rel="noopener noreferrer sponsored"
       class="block"
     >
       <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
-        <img
-          src="/5star-book-cover.png"
-          alt="The 5-Star Gig Worker"
-          style="width:96px;height:auto;border-radius:0.75rem;"
-        />
+        <div style="width:96px;height:96px;border-radius:0.75rem;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:2rem;line-height:1;">
+          wagon
+        </div>
         <div style="flex:1;min-width:200px;">
           <p style="margin:0 0 0.35rem;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#0f766e;">
             Amazon Pick
           </p>
           <h3 style="margin:0 0 0.5rem;font-size:1.125rem;color:#0f172a;">
-            The 5-Star Gig Worker
+            Folding Utility Wagon
           </h3>
           <p style="margin:0;color:#475569;line-height:1.6;">
-            A practical guide for drivers and delivery workers who want smarter systems, stronger ratings, and better earnings.
+            A collapsible wagon makes bulky grocery, catering, and apartment deliveries easier to handle with fewer trips and less strain.
           </p>
         </div>
       </div>
@@ -154,7 +152,7 @@ export default async function Page() {
       <section className="mb-10">
         <div className="rounded-2xl bg-white/70 p-4 sm:p-6">
           <h2 className="mb-4 text-xl font-bold text-slate-900">
-            Featured Amazon Recommendation
+            Featured Delivery Tool
           </h2>
           <AmazonProductCard html={amazonEmbedHtml} />
         </div>
