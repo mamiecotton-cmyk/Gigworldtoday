@@ -179,7 +179,7 @@ export default async function Page() {
       </div>
       {/* Article Grid */}
       <div id="articles" className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 pb-20">
-            {articles.map((article) => (
+            {articles.map((article, index) => (
           <Link
             key={article.id}
             href={`/blog/${article.slug}`}
@@ -210,6 +210,33 @@ export default async function Page() {
             </div>
           </Link>
         ))}
+
+        {/* Amazon Product Pick — full-width break after article 3 */}
+        {articles.length > 3 && (
+          <div className="md:col-span-2 lg:col-span-3">
+            <a
+              href="https://www.amazon.com/TIMBER-RIDGE-Extended-Collapsible-Adjustable/dp/B0C2C56L8G?tag=gigworldtoday-20"
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="flex items-center gap-6 bg-white rounded-xl border border-neutral-200 shadow-sm hover:shadow-md transition p-5"
+            >
+              <img
+                src="/wagon.jpg"
+                alt="Heavy Duty Folding Wagon for delivery drivers"
+                className="w-24 h-24 object-contain rounded-lg flex-shrink-0"
+              />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-1">Gear Pick</p>
+                <h3 className="text-base font-bold text-neutral-900">Heavy Duty Folding Wagon</h3>
+                <p className="text-sm text-neutral-600 mt-1">Carry more in one trip — a must-have for grocery and bulk delivery drivers.</p>
+              </div>
+              <span className="flex-shrink-0 bg-black text-white text-sm font-semibold px-4 py-2 rounded-lg whitespace-nowrap">
+                View on Amazon →
+              </span>
+            </a>
+            <p className="text-xs text-gray-400 mt-1 text-right">*As an Amazon Associate I earn from qualifying purchases.</p>
+          </div>
+        )}
       </div>
       </div>
     </div>
