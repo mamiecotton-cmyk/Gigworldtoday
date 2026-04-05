@@ -17,9 +17,11 @@ export default async function Page() {
       class="block"
     >
       <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
-        <div style="width:96px;height:96px;border-radius:0.75rem;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:2rem;line-height:1;">
-          wagon
-        </div>
+        <img
+          src="/wagon.jpg"
+          alt="Folding utility wagon"
+          style="width:96px;height:96px;border-radius:0.75rem;object-fit:cover;"
+        />
         <div style="flex:1;min-width:200px;">
           <p style="margin:0 0 0.35rem;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#0f766e;">
             Amazon Pick
