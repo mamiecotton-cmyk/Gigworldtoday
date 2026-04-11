@@ -175,7 +175,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 </h2>
                 {isHtml ? (
                   <div
-                    className="prose prose-lg max-w-none text-gray-600"
+                    className="prose prose-lg max-w-none text-gray-600 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
                     dangerouslySetInnerHTML={{ __html: description }}
                   />
                 ) : paragraphs.length > 0 ? (
