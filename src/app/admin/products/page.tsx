@@ -2,6 +2,9 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const QuillEditor = dynamic(() => import("@/components/QuillEditor"), { ssr: false });
 
 type ProductRow = {
   id: string;
@@ -380,22 +383,25 @@ export default function AdminProductsPage() {
               setForm({ ...form, external_link: e.target.value })
             }
           />
-          <textarea
-            className="border rounded px-3 py-2 md:col-span-2"
-            placeholder="Short description"
-            value={form.short_description}
-            onChange={(e) =>
-              setForm({ ...form, short_description: e.target.value })
-            }
-          />
-          <textarea
-            className="border rounded px-3 py-2 md:col-span-2 min-h-[120px]"
-            placeholder="Long description"
-            value={form.long_description}
-            onChange={(e) =>
-              setForm({ ...form, long_description: e.target.value })
-            }
-          />
+          <div className="md:col-span-2 space-y-1">
+            <label className="text-sm font-medium text-gray-700">Short Description</label>
+            <div className="border rounded overflow-hidden">
+              <QuillEditor
+                value={form.short_description}
+                onChange={(val) => setForm({ ...form, short_description: val })}
+              />
+            </div>
+          </div>
+
+          <div className="md:col-span-2 space-y-1">
+            <label className="text-sm font-medium text-gray-700">Long Description</label>
+            <div className="border rounded overflow-hidden min-h-[200px]">
+              <QuillEditor
+                value={form.long_description}
+                onChange={(val) => setForm({ ...form, long_description: val })}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex gap-6">
