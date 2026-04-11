@@ -65,7 +65,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       .replace(/<ol([^>]*)>([\s\S]*?)<\/ol>/g, (_, attrs, inner) => {
         const fixed = inner.replace(
           /<li([^>]*data-list="bullet"[^>]*)>([\s\S]*?)<\/li>/g,
-          (__, liAttrs, liContent) => `<li${liAttrs}>${liContent}</li>`
+          (_: string, liAttrs: string, liContent: string) => `<li${liAttrs}>${liContent}</li>`
         );
         if (fixed.includes('data-list="bullet"')) {
           return `<ul${attrs}>${fixed.replace(/<span class="ql-ui"[^>]*><\/span>/g, "")}</ul>`;
