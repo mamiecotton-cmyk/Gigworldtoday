@@ -388,7 +388,7 @@ export default function AdminProductsPage() {
             <div className="border rounded overflow-hidden">
               <QuillEditor
                 value={form.short_description}
-                onChange={(val) => setForm({ ...form, short_description: val })}
+                onChange={(val: string) => setForm({ ...form, short_description: val })}
               />
             </div>
           </div>
@@ -398,7 +398,7 @@ export default function AdminProductsPage() {
             <div className="border rounded overflow-hidden min-h-[200px]">
               <QuillEditor
                 value={form.long_description}
-                onChange={(val) => setForm({ ...form, long_description: val })}
+                onChange={(val: string) => setForm({ ...form, long_description: val })}
               />
             </div>
           </div>
