@@ -11,6 +11,22 @@ export const metadata: Metadata = {
     "Explore curated gear and tools built for gig drivers, delivery couriers, and rideshare workers.",
 };
 
+function getCardDescription(html: string) {
+  return html
+    .replace(/<span class="ql-ui"[^>]*><\/span>/g, " ")
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<\/(p|li|div|h[1-6])>/gi, " ")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 export default async function ProductsPage() {
   const supabase = createServerSupabase();
   const { data: productsData, error } = await supabase
@@ -121,7 +137,7 @@ export default async function ProductsPage() {
                       ) : null}
                     </div>
                     <p className="text-sm leading-relaxed text-gray-700 line-clamp-2">
-                      {product.short_description}
+                      {getCardDescription(product.short_description || "")}
                     </p>
                     <span className="inline-flex items-center rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 px-4 py-2 text-sm font-semibold text-white transition-all group-hover:from-teal-600 group-hover:to-teal-700 group-hover:shadow-md">
                       View Details →
