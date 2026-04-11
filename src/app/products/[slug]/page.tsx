@@ -60,17 +60,20 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
   const description = product.long_description || product.short_description || "";
 
-  const lines = description.split("\n").map((l: string) => l.trim()).filter(Boolean);
+  const isHtml = description.trim().startsWith("<");
+  const lines = isHtml ? [] : description.split("\n").map((l: string) => l.trim()).filter(Boolean);
   const paragraphs: string[] = [];
   const bulletPoints: string[] = [];
 
-  lines.forEach((line: string) => {
-    if (line.startsWith("•") || line.startsWith("—") || line.startsWith("-")) {
-      bulletPoints.push(line.replace(/^[•—-]\s*/, ""));
-    } else {
-      paragraphs.push(line);
-    }
-  });
+  if (!isHtml) {
+    lines.forEach((line: string) => {
+      if (line.startsWith("•") || line.startsWith("—") || line.startsWith("-")) {
+        bulletPoints.push(line.replace(/^[•—-]\s*/, ""));
+      } else {
+        paragraphs.push(line);
+      }
+    });
+  }
 
   const isFeatured = product.featured === true;
   const isBook = slug === "how-to-be-a-5-star-gig-worker";
@@ -169,7 +172,12 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                   {product.name}
                 </h2>
-                {paragraphs.length > 0 ? (
+                {isHtml ? (
+                  <div
+                    className="prose prose-lg max-w-none text-gray-600"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
+                ) : paragraphs.length > 0 ? (
                   <div className="space-y-3 text-gray-600 leading-relaxed">
                     {paragraphs.map((p, i) => (
                       <p key={i}>{p}</p>
@@ -180,7 +188,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 )}
               </div>
 
-              {bulletPoints.length > 0 && (
+              {!isHtml && bulletPoints.length > 0 && (
                 <div className="space-y-4 lg:pt-12">
                   {bulletPoints.map((point, idx) => (
                     <div key={idx} className="flex items-start gap-3">
