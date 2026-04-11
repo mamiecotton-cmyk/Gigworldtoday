@@ -60,6 +60,19 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
   const description = product.long_description || product.short_description || "";
 
+  const fixQuillLists = (html: string) => {
+    return html
+      .replace(/<ol([^>]*)>([\s\S]*?)<\/ol>/g, (_, attrs, inner) => {
+        const fixed = inner.replace(
+          /<li([^>]*data-list="bullet"[^>]*)>([\s\S]*?)<\/li>/g,
+          (__, liAttrs, liContent) => `<li${liAttrs}>${liContent}</li>`
+        );
+        if (fixed.includes('data-list="bullet"')) {
+          return `<ul${attrs}>${fixed.replace(/<span class="ql-ui"[^>]*><\/span>/g, "")}</ul>`;
+        }
+        return `<ol${attrs}>${inner.replace(/<span class="ql-ui"[^>]*><\/span>/g, "")}</ol>`;
+      });
+  };
   const isHtml = description.trim().startsWith("<");
   const lines = isHtml ? [] : description.split("\n").map((l: string) => l.trim()).filter(Boolean);
   const paragraphs: string[] = [];
@@ -176,7 +189,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 {isHtml ? (
                   <div
                     className="prose prose-lg max-w-none text-gray-600 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
-                    dangerouslySetInnerHTML={{ __html: description }}
+                    dangerouslySetInnerHTML={{ __html: fixQuillLists(description) }}
                   />
                 ) : paragraphs.length > 0 ? (
                   <div className="space-y-3 text-gray-600 leading-relaxed">
