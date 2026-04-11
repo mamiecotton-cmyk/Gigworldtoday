@@ -103,9 +103,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               <h1 className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
                 {product.name}
               </h1>
-              <p className="max-w-lg text-base leading-relaxed text-gray-300 sm:text-lg">
-                {product.short_description}
-              </p>
+              <p
+                className="max-w-lg text-base leading-relaxed text-gray-300 sm:text-lg prose prose-invert"
+                dangerouslySetInnerHTML={{ __html: product.short_description }}
+              />
 
               <div className="flex items-center gap-4 pt-2">
                 {isAmazonProduct ? (
