@@ -285,15 +285,12 @@ export default function AdminProductsPage() {
             value={form.price}
             onChange={(e) => setForm({ ...form, price: e.target.value })}
           />
-          <div className="flex flex-col gap-2">
-            <input
-              className="border rounded px-3 py-2"
-              placeholder="Image path/url"
-              value={form.image}
-              onChange={(e) => setForm({ ...form, image: e.target.value })}
-            />
+          <div className="flex flex-col gap-3 md:col-span-2">
+            <label className="text-sm font-medium text-gray-700">Product Images</label>
+
+            {/* Upload button */}
             <label className={`flex items-center justify-center h-10 rounded border-2 border-dashed cursor-pointer text-sm transition-colors ${uploadingImage ? "border-gray-300 bg-gray-50 text-gray-400" : "border-teal-400 hover:bg-teal-50 text-teal-600"}`}>
-              {uploadingImage ? "Uploading..." : "📁 Upload Image File"}
+              {uploadingImage ? "Uploading..." : "📁 Upload Image (click to add)"}
               <input
                 type="file"
                 accept="image/*"
@@ -302,21 +299,79 @@ export default function AdminProductsPage() {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) handleImageUpload(file);
+                  e.target.value = "";
                 }}
               />
             </label>
-            {form.image && !form.image.includes("city-background") && (
-              <img src={form.image} alt="Preview" className="h-24 w-auto object-contain rounded border" />
+
+            {/* Image list with reorder + delete */}
+            {form.imagesText && form.imagesText.trim() && (
+              <div className="space-y-2">
+                <p className="text-xs text-gray-400">Drag to reorder · First image is the main card image</p>
+                {form.imagesText.split("\n").filter(Boolean).map((url, idx, arr) => (
+                  <div
+                    key={url}
+                    className="flex items-center gap-3 border rounded-lg p-2 bg-white"
+                  >
+                    {/* Thumbnail */}
+                    <img src={url} alt={`Image ${idx + 1}`} className="w-16 h-16 object-contain rounded border flex-shrink-0" />
+
+                    {/* URL truncated */}
+                    <span className="text-xs text-gray-400 truncate flex-1 min-w-0">{url.split("/").pop()}</span>
+
+                    {/* Badge */}
+                    {idx === 0 && (
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-teal-600 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full flex-shrink-0">Main</span>
+                    )}
+
+                    {/* Move up */}
+                    <button
+                      type="button"
+                      disabled={idx === 0}
+                      onClick={() => {
+                        const imgs = form.imagesText!.split("\n").filter(Boolean);
+                        [imgs[idx - 1], imgs[idx]] = [imgs[idx], imgs[idx - 1]];
+                        setForm((prev) => ({ ...prev, imagesText: imgs.join("\n"), image: imgs[0] }));
+                      }}
+                      className="text-gray-400 hover:text-gray-700 disabled:opacity-20 flex-shrink-0"
+                      title="Move up"
+                    >▲</button>
+
+                    {/* Move down */}
+                    <button
+                      type="button"
+                      disabled={idx === arr.length - 1}
+                      onClick={() => {
+                        const imgs = form.imagesText!.split("\n").filter(Boolean);
+                        [imgs[idx], imgs[idx + 1]] = [imgs[idx + 1], imgs[idx]];
+                        setForm((prev) => ({ ...prev, imagesText: imgs.join("\n"), image: imgs[0] }));
+                      }}
+                      className="text-gray-400 hover:text-gray-700 disabled:opacity-20 flex-shrink-0"
+                      title="Move down"
+                    >▼</button>
+
+                    {/* Delete */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const imgs = form.imagesText!.split("\n").filter(Boolean).filter((_, i) => i !== idx);
+                        setForm((prev) => ({ ...prev, imagesText: imgs.join("\n"), image: imgs[0] ?? "" }));
+                      }}
+                      className="text-red-400 hover:text-red-600 flex-shrink-0 font-bold"
+                      title="Remove"
+                    >✕</button>
+                  </div>
+                ))}
+              </div>
             )}
+
+            {/* Hidden textarea still needed for the save logic */}
+            <textarea
+              className="hidden"
+              value={form.imagesText}
+              onChange={(e) => setForm({ ...form, imagesText: e.target.value })}
+            />
           </div>
-          <textarea
-            className="border rounded px-3 py-2 md:col-span-2 min-h-[120px]"
-            placeholder={"One image URL per line"}
-            value={form.imagesText}
-            onChange={(e) =>
-              setForm({ ...form, imagesText: e.target.value })
-            }
-          />
           <input
             className="border rounded px-3 py-2 md:col-span-2"
             placeholder="External link"
