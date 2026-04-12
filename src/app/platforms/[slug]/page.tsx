@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -20,6 +20,7 @@ import platformsData from "@/data/platforms.json";
 import { Platform } from "@/lib/types";
 import SignupBanner from "@/components/SignupBanner";
 import TrackedLink from "@/components/TrackedLink";
+import { supabase } from "@/lib/supabaseClient";
 
 const inactiveStatuses = [
   "no_longer_hiring",
@@ -38,6 +39,7 @@ const inactiveStatuses = [
 export default function PlatformDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
+  const [recentArticles, setRecentArticles] = useState<any[]>([]);
 
   const platforms = platformsData as unknown as Platform[];
   const platform = platforms.find(
@@ -98,6 +100,30 @@ export default function PlatformDetailPage() {
         p.categories?.some((c) => platform.categories?.includes(c))
     )
     .slice(0, 4);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadRecentArticles() {
+      const { data } = await supabase
+        .from("articles")
+        .select("slug, title")
+        .eq("published", true)
+        .is("deleted_at", null)
+        .order("published_at", { ascending: false })
+        .limit(3);
+
+      if (isMounted) {
+        setRecentArticles(data ?? []);
+      }
+    }
+
+    loadRecentArticles();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen py-12">
@@ -443,6 +469,24 @@ export default function PlatformDetailPage() {
           headline="Want Updates When New Platforms Are Added?"
           subtext="Subscribers get early access and weekly earning tips."
         />
+
+        {recentArticles && recentArticles.length > 0 && (
+          <div className="mt-10 pt-8 border-t border-gray-200">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">From the GigWorldToday Blog</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {recentArticles.map((a: any) => (
+                <Link
+                  key={a.slug}
+                  href={`/blog/${a.slug}`}
+                  className="block p-4 rounded-xl border border-gray-200 hover:border-teal-400 hover:shadow-md transition bg-white"
+                >
+                  <p className="font-semibold text-sm text-gray-900 line-clamp-2">{a.title}</p>
+                  <p className="text-xs text-teal-600 mt-2 font-medium">Read article →</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Related Platforms */}
         {relatedPlatforms.length > 0 && (
