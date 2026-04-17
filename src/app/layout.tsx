@@ -47,6 +47,7 @@ export default function RootLayout({
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-1DMN4WWE51" />
         <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false" async src="https://emrldtp.com/NTA3Mjg5.js?t=507289"></script>
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
