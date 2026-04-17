@@ -218,7 +218,7 @@ export default async function Page() {
                 className="w-24 h-24 object-contain rounded-lg flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-1">Gear Pick</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-1">GigSideKick Pick</p>
                 <h3 className="text-base font-bold text-neutral-900">Heavy Duty Folding Wagon</h3>
                 <p className="text-sm text-neutral-600 mt-1">Carry more in one trip — a must-have for grocery and bulk delivery drivers.</p>
               </div>

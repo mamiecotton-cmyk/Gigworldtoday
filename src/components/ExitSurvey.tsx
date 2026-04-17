@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function ExitSurvey() {
   const [visible, setVisible] = useState(false);
   const [rideIn, setRideIn] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const [step, setStep] = useState(1);
-  const sessionIdRef = useRef<string>("");
-  const shownKey = "gwt_exit_survey_shown_session";
+  const shownKey = "gwt_exit_survey_last_shown";
 
   // Step 1
   const [answer, setAnswer] = useState<"Yes" | "Not yet" | "Still exploring" | "">("");
@@ -22,19 +21,15 @@ export default function ExitSurvey() {
   const [thanks, setThanks] = useState("");
 
   useEffect(() => {
-    let sid = sessionStorage.getItem("gwt_session_id");
-    if (!sid) {
-      sid = Math.random().toString(36).slice(2);
-      sessionStorage.setItem("gwt_session_id", sid);
-    }
-    sessionIdRef.current = sid;
-
     const t = setTimeout(() => {
       try {
         const lastShown = localStorage.getItem(shownKey);
-        if (lastShown === sessionIdRef.current) return;
+        if (lastShown) {
+          const daysSince = (Date.now() - parseInt(lastShown)) / (1000 * 60 * 60 * 24);
+          if (daysSince < 30) return;
+        }
         setVisible(true);
-        localStorage.setItem(shownKey, sessionIdRef.current);
+        localStorage.setItem(shownKey, Date.now().toString());
         // Stagger: ride in first, then show card
         setTimeout(() => setRideIn(true), 100);
         setTimeout(() => setShowCard(true), 1200);
