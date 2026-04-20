@@ -288,6 +288,10 @@ export default function ExitSurvey() {
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
+        const allowedPaths = ["/", "/platforms"];
+        const currentPath = window.location.pathname;
+        if (!allowedPaths.includes(currentPath)) return;
+
         // Clear old survey key so returning users see the new quiz
         localStorage.removeItem('gwt_exit_survey_shown_session');
         const last = localStorage.getItem(COOLDOWN_KEY);
