@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ArticleForm from "@/components/ArticleForm";
 import DeleteArticleButton from "./DeleteArticleButton";
+import SendNewsletterButton from "./SendNewsletterButton";
 
 export default async function EditArticle({
   params,
@@ -40,6 +41,14 @@ export default async function EditArticle({
         initialPublished={article.published}
         initialFeaturedImage={article.featured_image}
         initialTags={article.tags || []}
+      />
+
+      <SendNewsletterButton
+        articleId={article.id}
+        title={article.title}
+        slug={article.slug}
+        excerpt={article.excerpt}
+        featuredImage={article.featured_image}
       />
 
       <DeleteArticleButton id={article.id} />
