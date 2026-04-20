@@ -135,6 +135,7 @@ export default function ArticleForm({
     const sanitized = blocks.filter((block) => {
       if (block.type === "text") return block.content.trim() !== "";
       if (block.type === "image") return block.src.trim() !== "";
+      if (block.type === "html") return block.content.trim() !== "";
       if (block.type === "amazonProduct") return block.html.trim() !== "";
       return false;
     });
