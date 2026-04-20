@@ -35,6 +35,11 @@ export type Block =
     }
   | {
       id: string;
+      type: "html";
+      content: string;
+    }
+  | {
+      id: string;
       type: "amazonProduct";
       heading: string;
       description: string;
@@ -450,6 +455,27 @@ function SortableBlock({
         <ResizableImageBlock block={block} setBlocks={setBlocks} />
       )}
 
+      {block.type === "html" && (
+        <div className="space-y-2">
+          <p className="text-xs text-gray-500 font-medium">
+            HTML Block — paste raw HTML below
+          </p>
+          <textarea
+            value={block.content}
+            onChange={(e) =>
+              setBlocks((prev) =>
+                prev.map((b) =>
+                  b.id === block.id ? { ...b, content: e.target.value } : b
+                )
+              )
+            }
+            rows={10}
+            placeholder="Paste your HTML here..."
+            className="w-full border rounded px-3 py-2 text-sm font-mono bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-400 resize-y"
+          />
+        </div>
+      )}
+
       {block.type === "amazonProduct" && (
         <div className="space-y-4">
           <input
@@ -512,6 +538,13 @@ export default function BlockEditor({ blocks, setBlocks }: Props) {
     setBlocks((prev) => [
       ...prev,
       { id: crypto.randomUUID(), type: "text", content: "" },
+    ]);
+  };
+
+  const addHtmlBlock = () => {
+    setBlocks((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), type: "html", content: "" },
     ]);
   };
 
@@ -625,6 +658,14 @@ export default function BlockEditor({ blocks, setBlocks }: Props) {
           className="bg-gray-700 text-white px-3 py-2 rounded"
         >
           + Image Block
+        </button>
+
+        <button
+          type="button"
+          onClick={addHtmlBlock}
+          className="bg-gray-700 text-white px-3 py-2 rounded"
+        >
+          + HTML Block
         </button>
 
         <button

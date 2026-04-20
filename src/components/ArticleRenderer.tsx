@@ -26,6 +26,15 @@ export default function ArticleRenderer({ contentJson }: Props) {
         if (block.type === "image") {
           return <ImageBlock key={block.id} block={block} />;
         }
+        if (block.type === "html") {
+          if (!block.content || block.content.trim() === "") return null;
+          return (
+            <div
+              key={block.id}
+              dangerouslySetInnerHTML={{ __html: block.content }}
+            />
+          );
+        }
         if (block.type === "amazonProduct") {
           if (!block.html || block.html.trim() === "") return null;
           return (
