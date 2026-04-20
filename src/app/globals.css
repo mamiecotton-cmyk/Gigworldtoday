@@ -156,3 +156,33 @@ body {
   color: #6b7280;
   font-style: italic;
 }
+
+/* ── HTML Block prose spacing ── */
+.article-html-block h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1A1A2E;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.article-html-block h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f3460;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.article-html-block p {
+  margin-bottom: 1.25em;
+  line-height: 1.75;
+  color: #374151;
+}
+
+.article-html-block ol,
+.article-html-block ul {
+  margin-bottom: 1.25em;
+}

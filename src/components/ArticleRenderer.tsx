@@ -31,6 +31,7 @@ export default function ArticleRenderer({ contentJson }: Props) {
           return (
             <div
               key={block.id}
+              className="article-html-block"
               dangerouslySetInnerHTML={{ __html: block.content }}
             />
           );
