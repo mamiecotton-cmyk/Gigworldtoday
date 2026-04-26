@@ -4470,5 +4470,70 @@
     "setupRequired": false,
     "keyFeatures": "Petition circulating; per-signature pay ($10–$25); no vehicle required; field canvassing for campaigns.",
     "userFeedback": "Pros: High earning potential for outgoing individuals. Cons: Seasonal and campaign-dependent availability."
+  },
+  {
+    "id": "mealsnow",
+    "slug": "mealsnow",
+    "name": "MealsNow",
+    "description": "MealsNow is a white-glove catering delivery company serving 30+ U.S. metro markets. Unlike typical gig apps, MealsNow drivers are brand-certified ambassadors who pick up large catering orders from premium restaurant partners and deliver and set up food at offices, schools, hospitals, and event venues. Drivers are independent contractors paid per order, ranked through a tiered performance system, and held to professional appearance and setup standards.",
+    "logoUrl": null,
+    "websiteUrl": "https://mealsnowfleet.com",
+    "applyUrl": "https://mealsnow.applytojob.com/apply",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "categories": [
+      "catering_delivery",
+      "food_delivery"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "van"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone with data",
+      "insulated catering bag",
+      "delivery cart",
+      "professional appearance"
+    ],
+    "otherRequirements": "Must complete 1–2 certification deliveries before going live. Catering bag and cart required (rental available). No gym clothes or casual attire. Available for weekday morning/lunch shifts. Must communicate via Slack with assigned VA. Light lifting required.",
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Available",
+        "cities": [],
+        "coverageNote": "30+ major U.S. metro markets. New cities can launch within 14 days."
+      }
+    },
+    "payModel": "per_order",
+    "estimatedPayMin": 18,
+    "estimatedPayMax": 50,
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 50,
+    "tipsAllowed": true,
+    "paymentFrequency": "daily",
+    "instantPayAvailable": true,
+    "instantPayMethod": "Gigsafe (next-day pay)",
+    "instantPayFee": null,
+    "deliveryType": "scheduled",
+    "setupRequired": true,
+    "driverStatus": "active",
+    "lastUpdated": "2026-04-26",
+    "dataSources": [
+      "official_website",
+      "job_postings"
+    ],
+    "verificationStatus": "verified",
+    "proTierProgram": "Driver Tier System",
+    "proTierBenefits": "Higher-priority order access, performance bonuses for on-time streaks and photo quality, weekly performance reviews. Top performers rewarded; low performers removed.",
+    "keyFeatures": "White-glove catering delivery only (no fast food or grocery stacking); professional setup required at delivery site; tiered driver ranking (Driver Consistency Index); Gigsafe next-day pay; 30+ metro markets; integrates with ezCater, Nash, Burq, Vromo.",
+    "userFeedback": "Catering delivery only — not for drivers seeking on-demand food or grocery gigs. High professional standards required. Pay per order ranges widely based on order size and market.",
+    "notes": "MealsNow positions itself as a premium alternative to gig apps. Drivers must follow strict setup/photo protocols and communicate through an assigned virtual assistant (VA) via Slack."
   }
 ]
