@@ -20,6 +20,7 @@ import platformsData from "@/data/platforms.json";
 import { Platform } from "@/lib/types";
 import SignupBanner from "@/components/SignupBanner";
 import TrackedLink from "@/components/TrackedLink";
+import PlatformShareButton from "@/components/PlatformShareButton";
 import { supabase } from "@/lib/supabaseClient";
 
 const inactiveStatuses = [
@@ -264,6 +265,7 @@ export default function PlatformDetailPage() {
                 <Smartphone size={16} /> Android App
               </TrackedLink>
             )}
+            <PlatformShareButton platformName={platform.name} slug={platform.slug} />
           </div>
         </div>
 
