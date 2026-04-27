@@ -24,6 +24,7 @@ export default function PlatformSetup({ onComplete }: Props) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const filtered = query.length > 0
     ? activePlatforms.filter((p) =>
@@ -45,23 +46,46 @@ export default function PlatformSetup({ onComplete }: Props) {
   const save = async () => {
     if (selected.length === 0) return;
     setSaving(true);
+    setSaveError(null);
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    try {
+      const authPromise = supabase.auth.getUser();
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        window.setTimeout(() => {
+          reject(new Error("Save request timed out. Please check your connection and try again."));
+        }, 10000);
+      });
 
-    const rows = selected.map((p, i) => ({
-      user_id: user.id,
-      platform_id: p.id,
-      platform_name: p.name,
-      display_order: i,
-    }));
+      const { data: { user } } = await Promise.race([authPromise, timeoutPromise]);
+      if (!user) {
+        setSaveError("Please sign in again before saving platforms.");
+        return;
+      }
 
-    await supabase.from("user_platforms").upsert(rows, {
-      onConflict: "user_id,platform_id",
-    });
+      const rows = selected.map((p, i) => ({
+        user_id: user.id,
+        platform_id: p.id,
+        platform_name: p.name,
+        display_order: i,
+      }));
 
-    setSaving(false);
-    onComplete();
+      const savePromise = supabase.from("user_platforms").upsert(rows, {
+        onConflict: "user_id,platform_id",
+      });
+
+      const { error } = await Promise.race([savePromise, timeoutPromise]);
+      if (error) {
+        setSaveError(error.message || "Could not save platforms. Please try again.");
+        return;
+      }
+
+      onComplete();
+    } catch (err) {
+      console.error("Save platforms failed:", err);
+      setSaveError(err instanceof Error ? err.message : "Could not save platforms. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -142,6 +166,9 @@ export default function PlatformSetup({ onComplete }: Props) {
         >
           {saving ? "Saving..." : `Save My Platforms (${selected.length})`}
         </button>
+        {saveError && (
+          <p className="text-xs text-red-500 text-center mt-3">{saveError}</p>
+        )}
       </div>
     </div>
   );

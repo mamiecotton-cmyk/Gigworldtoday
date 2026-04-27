@@ -14,6 +14,7 @@ interface EarningsData {
 export default function EarningsDashboard() {
   const [data, setData] = useState<EarningsData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<"week" | "month" | "year">("week");
 
   useEffect(() => {
@@ -22,31 +23,63 @@ export default function EarningsDashboard() {
 
   const fetchEarnings = async () => {
     setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    setError(null);
 
-    const now = new Date();
-    let startDate: string;
+    try {
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        window.setTimeout(() => {
+          reject(new Error("Earnings took too long to load. Please try again."));
+        }, 10000);
+      });
 
-    if (view === "week") {
-      const weekAgo = new Date(now);
-      weekAgo.setDate(weekAgo.getDate() - 7);
-      startDate = weekAgo.toISOString().split("T")[0];
-    } else if (view === "month") {
-      startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split("T")[0];
-    } else {
-      startDate = new Date(now.getFullYear(), 0, 1).toISOString().split("T")[0];
+      const { data: { user } } = await Promise.race([
+        supabase.auth.getUser(),
+        timeoutPromise,
+      ]);
+
+      if (!user) {
+        setError("Please sign in again to view earnings.");
+        setData([]);
+        return;
+      }
+
+      const now = new Date();
+      let startDate: string;
+
+      if (view === "week") {
+        const weekAgo = new Date(now);
+        weekAgo.setDate(weekAgo.getDate() - 7);
+        startDate = weekAgo.toISOString().split("T")[0];
+      } else if (view === "month") {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split("T")[0];
+      } else {
+        startDate = new Date(now.getFullYear(), 0, 1).toISOString().split("T")[0];
+      }
+
+      const { data: earnings, error: earningsError } = await Promise.race([
+        supabase
+          .from("earnings_log")
+          .select("*")
+          .eq("user_id", user.id)
+          .gte("date", startDate)
+          .order("date", { ascending: false }),
+        timeoutPromise,
+      ]);
+
+      if (earningsError) {
+        setError(earningsError.message || "Could not load earnings.");
+        setData([]);
+        return;
+      }
+
+      setData(earnings || []);
+    } catch (err) {
+      console.error("Fetch earnings failed:", err);
+      setError(err instanceof Error ? err.message : "Could not load earnings.");
+      setData([]);
+    } finally {
+      setLoading(false);
     }
-
-    const { data: earnings } = await supabase
-      .from("earnings_log")
-      .select("*")
-      .eq("user_id", user.id)
-      .gte("date", startDate)
-      .order("date", { ascending: false });
-
-    setData(earnings || []);
-    setLoading(false);
   };
 
   // Calculations
@@ -56,9 +89,11 @@ export default function EarningsDashboard() {
   const taxSetAside = totalEarnings * 0.25;
   const takeHome = totalEarnings - taxSetAside;
   const tipPercentage = totalEarnings > 0 ? (totalTips / totalEarnings) * 100 : 0;
+  const entryTotal = (entry: EarningsData) =>
+    entry.total_pay ?? (entry.base_pay || 0) + (entry.tips || 0);
 
   // YTD
-  const ytdTotal = data.reduce((s, e) => s + (e.total_pay || 0), 0);
+  const ytdTotal = data.reduce((s, e) => s + entryTotal(e), 0);
 
   // Per platform breakdown
   const byPlatform = data.reduce((acc, e) => {
@@ -67,7 +102,7 @@ export default function EarningsDashboard() {
     }
     acc[e.platform_name].base += e.base_pay || 0;
     acc[e.platform_name].tips += e.tips || 0;
-    acc[e.platform_name].total += e.total_pay || 0;
+    acc[e.platform_name].total += entryTotal(e);
     return acc;
   }, {} as Record<string, { base: number; tips: number; total: number }>);
 
@@ -81,7 +116,7 @@ export default function EarningsDashboard() {
     const dateStr = d.toISOString().split("T")[0];
     const dayEarnings = data
       .filter((e) => e.date === dateStr)
-      .reduce((s, e) => s + (e.total_pay || 0), 0);
+      .reduce((s, e) => s + entryTotal(e), 0);
     return {
       date: dateStr,
       label: d.toLocaleDateString("en-US", { weekday: "short" }),
@@ -95,6 +130,14 @@ export default function EarningsDashboard() {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="animate-spin text-2xl">⏳</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-10 text-red-500">
+        <p className="text-sm">{error}</p>
       </div>
     );
   }
