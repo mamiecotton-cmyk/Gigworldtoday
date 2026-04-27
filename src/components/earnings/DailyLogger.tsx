@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import platformsData from "@/data/platforms.json";
 
 const inactiveStatuses = [
@@ -17,6 +16,7 @@ const activePlatforms = (platformsData as any[]).filter(
 );
 
 interface EarningEntry {
+  id: string; // unique row id (allows same platform on different days)
   platform_id: string;
   platform_name: string;
   base_pay: string;
@@ -31,18 +31,11 @@ interface Props {
   accessToken?: string;
 }
 
+const newRowId = () => `row_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+
 export default function DailyLogger({ userPlatforms, onSaved, userId, accessToken }: Props) {
   const today = new Date().toISOString().split("T")[0];
-  const [date, setDate] = useState(today);
-  const [entries, setEntries] = useState<EarningEntry[]>(
-    userPlatforms.map((p) => ({
-      platform_id: p.platform_id,
-      platform_name: p.platform_name,
-      base_pay: "",
-      tips: "",
-      date: today,
-    }))
-  );
+  const [entries, setEntries] = useState<EarningEntry[]>([]);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -55,42 +48,37 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   const [addQuery, setAddQuery] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const updateEntry = (platformId: string, field: "base_pay" | "tips", value: string) => {
+  const addRow = (platform: { id?: string; platform_id?: string; name?: string; platform_name?: string }, prefill?: { base_pay?: string; tips?: string; date?: string }) => {
+    const platform_id = platform.id || platform.platform_id || "";
+    const platform_name = platform.name || platform.platform_name || "";
+    setEntries((prev) => [
+      ...prev,
+      {
+        id: newRowId(),
+        platform_id,
+        platform_name,
+        base_pay: prefill?.base_pay ?? "",
+        tips: prefill?.tips ?? "",
+        date: prefill?.date ?? today,
+      },
+    ]);
+  };
+
+  const updateEntry = (rowId: string, field: "base_pay" | "tips" | "date", value: string) => {
     setEntries((prev) =>
-      prev.map((e) =>
-        e.platform_id === platformId ? { ...e, [field]: value } : e
-      )
+      prev.map((e) => (e.id === rowId ? { ...e, [field]: value } : e))
     );
   };
 
-  const addPlatformToLog = (platform: any) => {
-    if (!entries.find((e) => e.platform_id === platform.id)) {
-      setEntries((prev) => [
-        ...prev,
-        {
-          platform_id: platform.id,
-          platform_name: platform.name,
-          base_pay: "",
-          tips: "",
-          date,
-        },
-      ]);
-    }
-    setAddQuery("");
-    setShowAddPlatform(false);
+  const removeEntry = (rowId: string) => {
+    setEntries((prev) => prev.filter((e) => e.id !== rowId));
   };
 
-  const removeEntry = (platformId: string) => {
-    setEntries((prev) => prev.filter((e) => e.platform_id !== platformId));
-  };
-
-  // Screenshot upload and parse
+  // Screenshot parsing
   const handleScreenshot = useCallback(async (file: File) => {
     setParsing(true);
     setParseError(null);
-
     try {
-      // Compress image before sending to stay under 4.5MB limit
       const base64 = await new Promise<string>((resolve, reject) => {
         const img = new Image();
         const url = URL.createObjectURL(file);
@@ -110,108 +98,52 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         img.src = url;
       });
 
-      // Verify base64 is clean before sending
-      console.log("Base64 length:", base64.length, "MimeType:", file.type);
-
-      const payload = JSON.stringify({
-        imageBase64: base64,
-        mimeType: "image/jpeg", // always jpeg after canvas compression
-      });
-
-      console.log("Payload size (bytes):", payload.length);
-
       const res = await fetch("/api/parse-screenshot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: payload,
+        body: JSON.stringify({ imageBase64: base64, mimeType: "image/jpeg" }),
       });
-
       const data = await res.json();
-
       if (!res.ok) {
         setParseError("Couldn't read the screenshot. Please enter values manually.");
         return;
       }
 
-      if (data.date) setDate(data.date);
+      const parsedDate = data.date || today;
 
       if (data.platform) {
-        // Find matching platform
         const match = activePlatforms.find(
-          (p) => p.name.toLowerCase().includes(data.platform.toLowerCase()) ||
-                 data.platform.toLowerCase().includes(p.name.toLowerCase())
+          (p) =>
+            p.name.toLowerCase().includes(data.platform.toLowerCase()) ||
+            data.platform.toLowerCase().includes(p.name.toLowerCase())
         );
-
         if (match) {
-          // Update or add entry for this platform
-          setEntries((prev) => {
-            const exists = prev.find((e) => e.platform_id === match.id);
-            if (exists) {
-              return prev.map((e) =>
-                e.platform_id === match.id
-                  ? {
-                      ...e,
-                      base_pay: data.base_pay?.toString() || e.base_pay,
-                      tips: data.tips?.toString() || e.tips,
-                    }
-                  : e
-              );
-            } else {
-              return [
-                ...prev,
-                {
-                  platform_id: match.id,
-                  platform_name: match.name,
-                  base_pay: data.base_pay?.toString() || "",
-                  tips: data.tips?.toString() || "",
-                  date,
-                },
-              ];
-            }
+          addRow(match, {
+            base_pay: data.base_pay?.toString() || "",
+            tips: data.tips?.toString() || "",
+            date: parsedDate,
           });
         } else {
-          // Platform detected but no match found
-          setPendingParse(data);
+          setPendingParse({ ...data, date: parsedDate });
           setNeedsPlatform(true);
         }
       } else {
-        // No platform detected — ask user
-        setPendingParse(data);
+        setPendingParse({ ...data, date: parsedDate });
         setNeedsPlatform(true);
       }
-    } catch (err) {
+    } catch {
       setParseError("Failed to process screenshot. Please enter values manually.");
     } finally {
       setParsing(false);
     }
-  }, [date]);
+  }, [today]);
 
   const applyPendingParse = (platform: any) => {
     if (!pendingParse) return;
-    setEntries((prev) => {
-      const exists = prev.find((e) => e.platform_id === platform.id);
-      if (exists) {
-        return prev.map((e) =>
-          e.platform_id === platform.id
-            ? {
-                ...e,
-                base_pay: pendingParse.base_pay?.toString() || e.base_pay,
-                tips: pendingParse.tips?.toString() || e.tips,
-              }
-            : e
-        );
-      } else {
-        return [
-          ...prev,
-          {
-            platform_id: platform.id,
-            platform_name: platform.name,
-            base_pay: pendingParse.base_pay?.toString() || "",
-            tips: pendingParse.tips?.toString() || "",
-            date,
-          },
-        ];
-      }
+    addRow(platform, {
+      base_pay: pendingParse.base_pay?.toString() || "",
+      tips: pendingParse.tips?.toString() || "",
+      date: pendingParse.date || today,
     });
     setPendingParse(null);
     setNeedsPlatform(false);
@@ -226,79 +158,60 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
 
   const addFilteredPlatforms = addQuery.length > 0
     ? activePlatforms.filter((p) =>
-        p.name.toLowerCase().includes(addQuery.toLowerCase()) &&
-        !entries.find((e) => e.platform_id === p.id)
+        p.name.toLowerCase().includes(addQuery.toLowerCase())
       ).slice(0, 6)
     : [];
 
   const save = async () => {
-    const validEntries = entries.filter(
-      (e) => e.base_pay !== "" || e.tips !== ""
-    );
-
+    const validEntries = entries.filter((e) => e.base_pay !== "" || e.tips !== "");
     if (validEntries.length === 0) return;
     setSaving(true);
     setSaveError(null);
 
-    const uid = userId;
-    console.log("Save userId:", uid);
-
-    if (!uid) {
-      console.log("No userId - cannot save");
+    if (!userId) {
       setSaving(false);
       setSaveError("Please sign in again before saving earnings.");
       return;
     }
+    if (!accessToken) {
+      setSaving(false);
+      setSaveError("Please refresh and sign in again before saving earnings.");
+      return;
+    }
 
-    const rows = validEntries.map((e) => {
-      const basePay = parseFloat(e.base_pay) || 0;
-      const tips = parseFloat(e.tips) || 0;
-
-      return {
-        user_id: uid,
-        platform_id: e.platform_id,
-        platform_name: e.platform_name,
-        date,
-        base_pay: basePay,
-        tips,
-      };
-    });
+    const rows = validEntries.map((e) => ({
+      user_id: userId,
+      platform_id: e.platform_id,
+      platform_name: e.platform_name,
+      date: e.date,
+      base_pay: parseFloat(e.base_pay) || 0,
+      tips: parseFloat(e.tips) || 0,
+    }));
 
     const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => {
-      controller.abort();
-    }, 15000);
+    const timeoutId = window.setTimeout(() => controller.abort(), 15000);
 
     try {
-      if (!accessToken) {
-        setSaveError("Please refresh and sign in again before saving earnings.");
-        return;
-      }
-
       const res = await fetch("/api/earnings-log", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ rows }),
         signal: controller.signal,
       });
-
       const data = await res.json().catch(() => ({}));
-
       if (!res.ok) {
         setSaveError(data.error || "Could not save earnings. Please try again.");
         return;
       }
-
       setSaved(true);
       window.setTimeout(() => {
         setSaved(false);
         onSaved();
       }, 800);
     } catch (err) {
-      console.error("Save earnings failed:", err);
       if (err instanceof DOMException && err.name === "AbortError") {
         setSaveError("Save request timed out. Please check your connection and try again.");
       } else {
@@ -310,28 +223,36 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     }
   };
 
-  const totalEarnings = entries.reduce((sum, e) => {
-    return sum + (parseFloat(e.base_pay) || 0) + (parseFloat(e.tips) || 0);
-  }, 0);
+  const totalEarnings = entries.reduce(
+    (sum, e) => sum + (parseFloat(e.base_pay) || 0) + (parseFloat(e.tips) || 0),
+    0
+  );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-bold text-[#1A1A2E]">Log Today's Earnings</h2>
-          <p className="text-xs text-gray-400">Enter your earnings per platform</p>
-        </div>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:border-[#00C9B1] outline-none"
-        />
+      <div>
+        <h2 className="text-base font-bold text-[#1A1A2E]">Log Earnings</h2>
+        <p className="text-xs text-gray-400">Tap a saved platform or add manually</p>
       </div>
 
-      {/* Screenshot upload */}
-      <div>
+      {/* Saved-platform quick chips */}
+      {userPlatforms.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {userPlatforms.map((p) => (
+            <button
+              key={p.platform_id}
+              onClick={() => addRow(p)}
+              className="px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-medium hover:bg-teal-100 transition-all border border-teal-100"
+            >
+              + {p.platform_name}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Screenshot + Manual add row */}
+      <div className="flex gap-2">
         <input
           ref={fileRef}
           type="file"
@@ -346,48 +267,70 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         <button
           onClick={() => fileRef.current?.click()}
           disabled={parsing}
-          className="w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-teal-200 rounded-xl text-sm text-teal-600 font-medium hover:border-teal-400 hover:bg-teal-50 transition-all disabled:opacity-50"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-dashed border-teal-200 rounded-lg text-xs text-teal-600 font-medium hover:border-teal-400 hover:bg-teal-50 transition-all disabled:opacity-50"
         >
-          {parsing ? (
-            <>
-              <span className="animate-spin">⏳</span>
-              Reading screenshot...
-            </>
-          ) : (
-            <>
-              📸 Upload Earnings Screenshot
-            </>
-          )}
+          {parsing ? <><span className="animate-spin">⏳</span> Reading…</> : <>📸 Screenshot</>}
         </button>
-        {parseError && (
-          <p className="text-xs text-red-500 mt-1">{parseError}</p>
-        )}
+        <button
+          onClick={() => setShowAddPlatform(true)}
+          className="flex-1 py-2 rounded-lg border border-dashed border-gray-300 text-xs text-gray-500 font-medium hover:border-teal-300 hover:text-teal-600 hover:bg-teal-50 transition-all"
+        >
+          + Manually Add Earnings
+        </button>
       </div>
 
-      {/* Platform not detected — ask user */}
+      {parseError && <p className="text-xs text-red-500">{parseError}</p>}
+
+      {/* Add platform search */}
+      {showAddPlatform && (
+        <div className="relative">
+          <input
+            type="text"
+            value={addQuery}
+            onChange={(e) => setAddQuery(e.target.value)}
+            placeholder="Search platforms..."
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:border-[#00C9B1] outline-none"
+            autoFocus
+            onBlur={() => setTimeout(() => { setShowAddPlatform(false); setAddQuery(""); }, 200)}
+          />
+          {addFilteredPlatforms.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 overflow-hidden">
+              {addFilteredPlatforms.map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => { addRow(p); setShowAddPlatform(false); setAddQuery(""); }}
+                  className="w-full px-3 py-2 hover:bg-teal-50 text-left text-sm font-medium text-gray-800"
+                >
+                  {p.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Pending screenshot — needs platform */}
       {needsPlatform && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-          <p className="text-sm font-medium text-amber-800 mb-2">
-            📍 Which platform is this screenshot from?
-          </p>
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+          <p className="text-xs font-medium text-amber-800 mb-2">📍 Which platform is this from?</p>
           <div className="relative">
             <input
               type="text"
               value={platformQuery}
               onChange={(e) => setPlatformQuery(e.target.value)}
               placeholder="Type platform name..."
-              className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm focus:border-amber-400 outline-none bg-white"
+              className="w-full border border-amber-200 rounded-lg px-3 py-1.5 text-sm focus:border-amber-400 outline-none bg-white"
               autoFocus
             />
             {filteredPlatforms.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-10 overflow-hidden">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 overflow-hidden">
                 {filteredPlatforms.map((p) => (
                   <button
                     key={p.id}
                     onClick={() => applyPendingParse(p)}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-teal-50 transition-colors text-left"
+                    className="w-full px-3 py-2 hover:bg-teal-50 text-left text-sm font-medium text-gray-800"
                   >
-                    <span className="text-sm font-medium text-gray-800">{p.name}</span>
+                    {p.name}
                   </button>
                 ))}
               </div>
@@ -396,129 +339,90 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         </div>
       )}
 
-      {/* Platform entries */}
-      <div className="space-y-3">
-        {entries.map((entry) => (
-          <div
-            key={entry.platform_id}
-            className="bg-gray-50 rounded-xl p-4 border border-gray-100"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="font-semibold text-sm text-[#1A1A2E]">
-                {entry.platform_name}
-              </span>
-              <button
-                onClick={() => removeEntry(entry.platform_id)}
-                className="text-gray-300 hover:text-red-400 transition-colors text-xs"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1 block">
-                  Base Pay
-                </label>
+      {/* Empty state */}
+      {entries.length === 0 && !needsPlatform && (
+        <div className="text-center py-6 text-xs text-gray-400">
+          No earnings to log yet — click + Manually Add Earnings to start
+        </div>
+      )}
+
+      {/* Entry rows */}
+      {entries.length > 0 && (
+        <div className="space-y-2">
+          {entries.map((entry) => (
+            <div key={entry.id} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-semibold text-sm text-[#1A1A2E] truncate">{entry.platform_name}</span>
+                <input
+                  type="date"
+                  value={entry.date}
+                  onChange={(e) => updateEntry(entry.id, "date", e.target.value)}
+                  className="text-xs border border-gray-200 rounded px-2 py-0.5 focus:border-[#00C9B1] outline-none"
+                />
+                <button
+                  onClick={() => removeEntry(entry.id)}
+                  className="text-gray-300 hover:text-red-400 transition-colors text-xs ml-2"
+                  aria-label="Remove"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
                   <input
                     type="number"
                     step="0.01"
                     min="0"
                     value={entry.base_pay}
-                    onChange={(e) => updateEntry(entry.platform_id, "base_pay", e.target.value)}
-                    placeholder="0.00"
-                    className="w-full pl-7 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#00C9B1] focus:ring-2 focus:ring-[#00C9B1]/20 outline-none transition-all bg-white"
+                    onChange={(e) => updateEntry(entry.id, "base_pay", e.target.value)}
+                    placeholder="Base"
+                    className="w-full pl-6 pr-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none bg-white"
                   />
                 </div>
-              </div>
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1 block">
-                  Tips
-                </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
                   <input
                     type="number"
                     step="0.01"
                     min="0"
                     value={entry.tips}
-                    onChange={(e) => updateEntry(entry.platform_id, "tips", e.target.value)}
-                    placeholder="0.00"
-                    className="w-full pl-7 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#00C9B1] focus:ring-2 focus:ring-[#00C9B1]/20 outline-none transition-all bg-white"
+                    onChange={(e) => updateEntry(entry.id, "tips", e.target.value)}
+                    placeholder="Tips"
+                    className="w-full pl-6 pr-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none bg-white"
                   />
                 </div>
               </div>
             </div>
-            {(entry.base_pay || entry.tips) && (
-              <p className="text-xs text-teal-600 font-semibold mt-2 text-right">
-                Total: ${((parseFloat(entry.base_pay) || 0) + (parseFloat(entry.tips) || 0)).toFixed(2)}
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Add another platform */}
-      <div className="relative">
-        {showAddPlatform ? (
-          <div>
-            <input
-              type="text"
-              value={addQuery}
-              onChange={(e) => setAddQuery(e.target.value)}
-              placeholder="Search platforms..."
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:border-[#00C9B1] outline-none"
-              autoFocus
-              onBlur={() => setTimeout(() => setShowAddPlatform(false), 200)}
-            />
-            {addFilteredPlatforms.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-10 overflow-hidden">
-                {addFilteredPlatforms.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => addPlatformToLog(p)}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-teal-50 transition-colors text-left"
-                  >
-                    <span className="text-sm font-medium text-gray-800">{p.name}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : (
-          <button
-            onClick={() => setShowAddPlatform(true)}
-            className="w-full py-2.5 rounded-xl border border-dashed border-gray-200 text-sm text-gray-400 hover:border-teal-300 hover:text-teal-500 transition-all"
-          >
-            + Add another platform
-          </button>
-        )}
-      </div>
-
-      {/* Total and save */}
-      {totalEarnings > 0 && (
-        <div className="bg-gradient-to-r from-[#1A1A2E] to-[#0f3460] rounded-xl p-4 flex items-center justify-between">
-          <div>
-            <p className="text-xs text-white/50">Total for {date}</p>
-            <p className="text-2xl font-bold text-white">${totalEarnings.toFixed(2)}</p>
-          </div>
-          <div className="text-right">
-            <p className="text-xs text-white/50">Set aside 25%</p>
-            <p className="text-sm font-semibold text-orange-400">${(totalEarnings * 0.25).toFixed(2)}</p>
-          </div>
+          ))}
         </div>
       )}
 
-      <button
-        onClick={save}
-        disabled={saving || saved || totalEarnings === 0}
-        className="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:opacity-90 disabled:opacity-40 transition-all shadow-lg shadow-orange-500/20"
-      >
-        {saved ? "✅ Saved!" : saving ? "Saving..." : "Save Day's Earnings"}
-      </button>
-      {saveError && (
-        <p className="text-xs text-red-500 text-center">{saveError}</p>
+      {/* Total + Save (only when there are rows) */}
+      {entries.length > 0 && (
+        <>
+          {totalEarnings > 0 && (
+            <div className="bg-gradient-to-r from-[#1A1A2E] to-[#0f3460] rounded-lg p-3 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] text-white/50 uppercase tracking-wide">Total ({entries.length} {entries.length === 1 ? "entry" : "entries"})</p>
+                <p className="text-xl font-bold text-white">${totalEarnings.toFixed(2)}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] text-white/50">Set aside 25%</p>
+                <p className="text-sm font-semibold text-orange-400">${(totalEarnings * 0.25).toFixed(2)}</p>
+              </div>
+            </div>
+          )}
+
+          <button
+            onClick={save}
+            disabled={saving || saved || totalEarnings === 0}
+            className="w-full py-3 rounded-lg font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:opacity-90 disabled:opacity-40 transition-all shadow-lg shadow-orange-500/20"
+          >
+            {saved ? "✅ Saved!" : saving ? "Saving..." : "Save Earnings"}
+          </button>
+          {saveError && <p className="text-xs text-red-500 text-center">{saveError}</p>}
+        </>
       )}
     </div>
   );
