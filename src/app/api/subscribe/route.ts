@@ -5,19 +5,17 @@ import { Resend } from "resend";
 const WELCOME_HTML = `
 <div style="max-width:600px;margin:auto;font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#333;">
 
-<div style="display:flex;align-items:center;margin-bottom:25px;border-bottom:1px solid #eee;padding-bottom:15px;">
-
-<img src="https://gigworldtoday.com/gigsidekick-avatar.png"
-alt="GigWorldToday Avatar"
-width="80"
-style="border-radius:10px;margin-right:12px;">
-
-<div>
-<h2 style="margin:0;">GigWorldToday</h2>
-<p style="margin:2px 0 0 0;color:#666;font-size:14px;">Weekly Newsletter for Gig Workers</p>
-</div>
-
-</div>
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:25px;border-bottom:1px solid #eee;padding-bottom:15px;">
+  <tr>
+    <td width="92" valign="middle" style="padding-right:12px;">
+      <img src="https://gigworldtoday.com/gigsidekick-avatar.png" alt="GigSidekick" width="80" style="border-radius:10px;display:block;">
+    </td>
+    <td valign="middle">
+      <img src="https://gigworldtoday.com/GigWorldLogoMain.png" alt="GigWorldToday" width="180" style="display:block;margin-bottom:4px;">
+      <p style="margin:0;color:#666;font-size:14px;">Weekly Newsletter for Gig Workers</p>
+    </td>
+  </tr>
+</table>
 
 <p>Hi <strong>5-Star Gig Worker Community ⭐</strong>,</p>
 

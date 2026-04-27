@@ -45,7 +45,6 @@ export default function RootLayout({
         <meta name="impact-site-verification" content="f2ede82b-bf8f-44d5-8217-48b16968b04c" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2135265147864365" crossOrigin="anonymous" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-1DMN4WWE51" />
-        <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false" async src="https://emrldtp.com/NTA3Mjg5.js?t=507289"></script>
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
