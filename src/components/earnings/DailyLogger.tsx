@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/lib/supabaseClient";
 import platformsData from "@/data/platforms.json";
 
 const inactiveStatuses = [
@@ -51,7 +51,6 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
   const [showAddPlatform, setShowAddPlatform] = useState(false);
   const [addQuery, setAddQuery] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
-  const supabase = createClientComponentClient();
 
   const updateEntry = (platformId: string, field: "base_pay" | "tips", value: string) => {
     setEntries((prev) =>

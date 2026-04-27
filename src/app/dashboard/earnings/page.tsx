@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import PlatformSetup from "@/components/earnings/PlatformSetup";
 import DailyLogger from "@/components/earnings/DailyLogger";
@@ -14,7 +14,6 @@ export default function EarningsPage() {
   const [needsSetup, setNeedsSetup] = useState(false);
   const [activeTab, setActiveTab] = useState<"log" | "dashboard">("log");
   const [refreshKey, setRefreshKey] = useState(0);
-  const supabase = createClientComponentClient();
   const router = useRouter();
 
   useEffect(() => {

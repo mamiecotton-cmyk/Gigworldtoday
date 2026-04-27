@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/lib/supabaseClient";
 import platformsData from "@/data/platforms.json";
 
 const inactiveStatuses = [
@@ -24,7 +24,6 @@ export default function PlatformSetup({ onComplete }: Props) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
-  const supabase = createClientComponentClient();
 
   const filtered = query.length > 0
     ? activePlatforms.filter((p) =>
