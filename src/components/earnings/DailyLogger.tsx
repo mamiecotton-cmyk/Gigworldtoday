@@ -87,11 +87,24 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
     setParseError(null);
 
     try {
+      // Compress image before sending to stay under 4.5MB limit
       const base64 = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve((reader.result as string).split(",")[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const maxWidth = 1200;
+          const scale = Math.min(1, maxWidth / img.width);
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext("2d")!;
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const compressed = canvas.toDataURL("image/jpeg", 0.7);
+          URL.revokeObjectURL(url);
+          resolve(compressed.split(",")[1]);
+        };
+        img.onerror = reject;
+        img.src = url;
       });
 
       const res = await fetch("/api/parse-screenshot", {
@@ -99,7 +112,7 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           imageBase64: base64,
-          mimeType: file.type,
+          mimeType: "image/jpeg",
         }),
       });
 
