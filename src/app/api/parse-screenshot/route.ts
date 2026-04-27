@@ -59,7 +59,7 @@ Rules:
     if (!response.ok) {
       const error = await response.text();
       console.error("Gemini API error:", error);
-      return NextResponse.json({ error: "Failed to parse screenshot" }, { status: 500 });
+      return NextResponse.json({ error: "Gemini API error", detail: error }, { status: 500 });
     }
 
     const data = await response.json();
@@ -78,6 +78,9 @@ Rules:
     });
   } catch (error) {
     console.error("Parse screenshot error:", error);
-    return NextResponse.json({ error: "Failed to process screenshot" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Failed to process screenshot",
+      detail: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
   }
 }
