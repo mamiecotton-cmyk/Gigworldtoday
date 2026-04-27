@@ -21,19 +21,19 @@ export default function EarningsPage() {
   }, []);
 
   const init = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { session } } = await supabase.auth.getSession();
 
-    if (!user) {
+    if (!session) {
       router.push("/login?redirectTo=/dashboard/earnings");
       return;
     }
 
-    setUser(user);
+    setUser(session.user);
 
     const { data: platforms } = await supabase
       .from("user_platforms")
       .select("*")
-      .eq("user_id", user.id)
+      .eq("user_id", session.user.id)
       .order("display_order");
 
     if (!platforms || platforms.length === 0) {
