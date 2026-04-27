@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import platformsData from "@/data/platforms.json";
 import EntrySheet from "./EntrySheet";
+import { computePHash } from "@/lib/phash";
 
 const inactiveStatuses = [
   "absorbed", "merged", "rebranded", "shut_down", "shutdown",
@@ -24,6 +25,13 @@ interface Recent {
   total: number;
 }
 
+interface PendingMapping {
+  type: "text" | "visual";
+  key: string; // parsed_text or phash
+  platform_id: string;
+  platform_name: string;
+}
+
 interface Props {
   userPlatforms: { platform_id: string; platform_name: string }[];
   onSaved: () => void;
@@ -33,19 +41,32 @@ interface Props {
 
 export default function DailyLogger({ userPlatforms, onSaved, userId, accessToken }: Props) {
   const today = new Date().toISOString().split("T")[0];
+
+  // Sheet state
   const [activePlatform, setActivePlatform] = useState<{ id: string; name: string } | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetPrefill, setSheetPrefill] = useState<{ base_pay?: string; tips?: string; date?: string } | null>(null);
+
+  // Other platform search
   const [showOther, setShowOther] = useState(false);
   const [otherQuery, setOtherQuery] = useState("");
+
+  // Screenshot
   const [parsing, setParsing] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
   const [needsPlatform, setNeedsPlatform] = useState(false);
   const [pendingParse, setPendingParse] = useState<any>(null);
+  const [pendingPhash, setPendingPhash] = useState<string | null>(null);
   const [platformQuery, setPlatformQuery] = useState("");
+
+  // Mapping confirmation
+  const [pendingMapping, setPendingMapping] = useState<PendingMapping | null>(null);
+
+  // Today total + recent
   const [todayTotal, setTodayTotal] = useState(0);
   const [recent, setRecent] = useState<Recent[]>([]);
   const [flashId, setFlashId] = useState<string | null>(null);
+
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Load today's total + recent entries
@@ -88,8 +109,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     loadRecent();
   }, [loadRecent]);
 
-  const openSheetFor = (id: string, name: string) => {
-    setSheetPrefill(null);
+  const openSheetFor = (id: string, name: string, prefill?: any) => {
+    setSheetPrefill(prefill || null);
     setActivePlatform({ id, name });
     setSheetOpen(true);
   };
@@ -130,11 +151,40 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     onSaved();
   };
 
-  // Screenshot
+  // Look up text mapping
+  const lookupTextMapping = async (parsedText: string) => {
+    if (!userId) return null;
+    const key = parsedText.trim().toLowerCase();
+    const { data } = await supabase
+      .from("screenshot_text_mappings")
+      .select("platform_id, platform_name")
+      .eq("user_id", userId)
+      .eq("parsed_text", key)
+      .maybeSingle();
+    return data;
+  };
+
+  // Look up visual mapping
+  const lookupVisualMapping = async (phash: string) => {
+    if (!userId) return null;
+    const { data } = await supabase
+      .from("screenshot_visual_mappings")
+      .select("platform_id, platform_name")
+      .eq("user_id", userId)
+      .eq("phash", phash)
+      .maybeSingle();
+    return data;
+  };
+
   const handleScreenshot = useCallback(async (file: File) => {
     setParsing(true);
     setParseError(null);
+
     try {
+      // Compute pHash in parallel with API call
+      const phashPromise = computePHash(file).catch(() => null);
+
+      // Compress and send to Gemini
       const base64 = await new Promise<string>((resolve, reject) => {
         const img = new Image();
         const url = URL.createObjectURL(file);
@@ -165,24 +215,46 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         return;
       }
 
+      const phash = await phashPromise;
+      setPendingPhash(phash);
+
+      const prefill = {
+        base_pay: data.base_pay?.toString() || "",
+        tips: data.tips?.toString() || "",
+        date: data.date || today,
+      };
+
+      // 1. Try text mapping first (if Gemini returned platform text)
       if (data.platform) {
-        const match = activePlatforms.find(
+        // Direct match against platforms.json
+        const directMatch = activePlatforms.find(
           (p) =>
             p.name.toLowerCase().includes(data.platform.toLowerCase()) ||
             data.platform.toLowerCase().includes(p.name.toLowerCase())
         );
-        if (match) {
-          setSheetPrefill({
-            base_pay: data.base_pay?.toString() || "",
-            tips: data.tips?.toString() || "",
-            date: data.date || today,
-          });
-          setActivePlatform({ id: match.id, name: match.name });
-          setSheetOpen(true);
+        if (directMatch) {
+          openSheetFor(directMatch.id, directMatch.name, prefill);
+          return;
+        }
+
+        // Saved text mapping
+        const textMatch = await lookupTextMapping(data.platform);
+        if (textMatch) {
+          openSheetFor(textMatch.platform_id, textMatch.platform_name, prefill);
           return;
         }
       }
 
+      // 2. Try visual mapping
+      if (phash) {
+        const visualMatch = await lookupVisualMapping(phash);
+        if (visualMatch) {
+          openSheetFor(visualMatch.platform_id, visualMatch.platform_name, prefill);
+          return;
+        }
+      }
+
+      // 3. No match — ask user
       setPendingParse(data);
       setNeedsPlatform(true);
     } catch {
@@ -190,21 +262,60 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     } finally {
       setParsing(false);
     }
-  }, []);
+  }, [userId, today]);
 
   const applyPendingParse = (platform: any) => {
-    if (pendingParse) {
-      setSheetPrefill({
-        base_pay: pendingParse.base_pay?.toString() || "",
-        tips: pendingParse.tips?.toString() || "",
-        date: pendingParse.date || today,
+    if (!pendingParse) return;
+
+    const prefill = {
+      base_pay: pendingParse.base_pay?.toString() || "",
+      tips: pendingParse.tips?.toString() || "",
+      date: pendingParse.date || today,
+    };
+
+    // Set up mapping confirmation
+    if (pendingParse.platform) {
+      setPendingMapping({
+        type: "text",
+        key: pendingParse.platform.trim().toLowerCase(),
+        platform_id: platform.id,
+        platform_name: platform.name,
+      });
+    } else if (pendingPhash) {
+      setPendingMapping({
+        type: "visual",
+        key: pendingPhash,
+        platform_id: platform.id,
+        platform_name: platform.name,
       });
     }
-    setActivePlatform({ id: platform.id, name: platform.name });
-    setSheetOpen(true);
+
+    openSheetFor(platform.id, platform.name, prefill);
+
     setPendingParse(null);
     setNeedsPlatform(false);
     setPlatformQuery("");
+  };
+
+  const saveMapping = async () => {
+    if (!pendingMapping || !userId) return;
+    const table = pendingMapping.type === "text" ? "screenshot_text_mappings" : "screenshot_visual_mappings";
+    const keyColumn = pendingMapping.type === "text" ? "parsed_text" : "phash";
+
+    await supabase.from(table).insert({
+      user_id: userId,
+      [keyColumn]: pendingMapping.key,
+      platform_id: pendingMapping.platform_id,
+      platform_name: pendingMapping.platform_name,
+    });
+
+    setPendingMapping(null);
+    setPendingPhash(null);
+  };
+
+  const dismissMapping = () => {
+    setPendingMapping(null);
+    setPendingPhash(null);
   };
 
   const otherFiltered = otherQuery.length > 0
@@ -258,7 +369,6 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
             </button>
           </div>
 
-          {/* Other platform search */}
           {showOther && (
             <div className="relative mt-2">
               <input
@@ -291,7 +401,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
           )}
         </div>
 
-        {/* Screenshot */}
+        {/* Screenshot upload */}
         <div>
           <input
             ref={fileRef}
@@ -340,6 +450,37 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Mapping confirmation prompt */}
+        {pendingMapping && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="text-xs text-blue-900 mb-2">
+              {pendingMapping.type === "text" ? (
+                <>
+                  Always use <strong>{pendingMapping.platform_name}</strong> when screenshots say "{pendingMapping.key}"?
+                </>
+              ) : (
+                <>
+                  Always use <strong>{pendingMapping.platform_name}</strong> for screenshots that look like this?
+                </>
+              )}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={saveMapping}
+                className="px-3 py-1 rounded-lg text-xs font-medium bg-blue-600 text-white hover:bg-blue-700"
+              >
+                Yes, remember
+              </button>
+              <button
+                onClick={dismissMapping}
+                className="px-3 py-1 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+              >
+                No thanks
+              </button>
             </div>
           </div>
         )}
