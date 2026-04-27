@@ -27,10 +27,11 @@ function LoginContent() {
   };
 
   const handleGoogleLogin = async () => {
+    const redirectTo = searchParams.get("redirectTo") ?? "/";
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
       },
     });
     if (error) setError(error.message);
