@@ -2,13 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { imageBase64, mimeType } = await req.json();
+    const body = await req.json();
+    const { imageBase64, mimeType } = body;
+
+    console.log("parse-screenshot called, has image:", !!imageBase64, "mimeType:", mimeType);
 
     if (!imageBase64) {
       return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
+    console.log("Gemini API key present:", !!apiKey, "key prefix:", apiKey?.substring(0, 8));
+
     if (!apiKey) {
       return NextResponse.json({ error: "Gemini API key not configured" }, { status: 500 });
     }
