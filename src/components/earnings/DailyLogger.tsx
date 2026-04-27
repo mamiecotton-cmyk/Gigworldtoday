@@ -107,13 +107,20 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
         img.src = url;
       });
 
+      // Verify base64 is clean before sending
+      console.log("Base64 length:", base64.length, "MimeType:", file.type);
+
+      const payload = JSON.stringify({
+        imageBase64: base64,
+        mimeType: "image/jpeg", // always jpeg after canvas compression
+      });
+
+      console.log("Payload size (bytes):", payload.length);
+
       const res = await fetch("/api/parse-screenshot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          imageBase64: base64,
-          mimeType: "image/jpeg",
-        }),
+        body: payload,
       });
 
       const data = await res.json();
