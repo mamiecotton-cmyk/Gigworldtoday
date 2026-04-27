@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/lib/supabaseClient";
 
 interface EarningsData {
   platform_name: string;
@@ -15,7 +15,6 @@ export default function EarningsDashboard() {
   const [data, setData] = useState<EarningsData[]>([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<"week" | "month" | "year">("week");
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
     fetchEarnings();
