@@ -5,36 +5,30 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { imageBase64, mimeType } = body;
 
-    console.log("parse-screenshot called, has image:", !!imageBase64, "mimeType:", mimeType);
-
     if (!imageBase64) {
       return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
-    console.log("Gemini API key present:", !!apiKey, "key prefix:", apiKey?.substring(0, 8));
-
     if (!apiKey) {
       return NextResponse.json({ error: "Gemini API key not configured" }, { status: 500 });
     }
 
-    const prompt = `You are analyzing a gig economy earnings screenshot. Extract the following information and return ONLY a valid JSON object with no additional text, markdown, or explanation:
+    const prompt = `Analyze this gig economy earnings screenshot and extract payment information.
 
-{
-  "platform": "platform name (e.g. DoorDash, Uber Eats, Instacart, Spark, Shipt, Amazon Flex, Lyft, Uber) or null if cannot determine",
-  "base_pay": number or null (base pay amount without tips, as a decimal number),
-  "tips": number or null (tips amount, as a decimal number),
-  "date": "YYYY-MM-DD format or null if cannot determine",
-  "confidence": "high | medium | low"
-}
+Return ONLY a raw JSON object (no markdown, no code blocks, no explanation):
+{"platform":null,"base_pay":null,"tips":null,"date":null,"confidence":"low"}
 
 Rules:
-- Extract only numbers, no currency symbols
-- If you see "Earnings" or "Pay" without tips broken out, put the full amount in base_pay and 0 in tips
-- If you cannot determine the platform, set platform to null
-- Return ONLY the JSON object, nothing else`;
+- platform: string name like "DoorDash", "Uber Eats", "Instacart" etc, or null
+- base_pay: number without currency symbol, or null  
+- tips: number without currency symbol, or null
+- date: "YYYY-MM-DD" format or null
+- confidence: "high", "medium", or "low"
 
-    const response = await fetch(
+Return ONLY the JSON. No other text.`;
+
+    const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
@@ -55,46 +49,86 @@ Rules:
           ],
           generationConfig: {
             temperature: 0.1,
-            maxOutputTokens: 256,
+            maxOutputTokens: 512,
+            responseMimeType: "application/json",
           },
         }),
       }
     );
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("Gemini API error:", error);
-      return NextResponse.json({ error: "Gemini API error", detail: error }, { status: 500 });
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text();
+      console.error("Gemini API error:", geminiRes.status, errText);
+      return NextResponse.json(
+        { error: "Gemini API error", detail: errText },
+        { status: 500 }
+      );
     }
 
-    const data = await response.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    console.log("Gemini raw response:", text);
+    const geminiData = await geminiRes.json();
+    console.log("Gemini response status:", geminiRes.status);
 
-    // Clean and parse the JSON response — handle various formats
-    let cleaned = text.trim();
-    // Remove markdown code blocks
-    cleaned = cleaned.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
-    // Extract JSON object if surrounded by other text
-    const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.error("No JSON found in Gemini response:", cleaned);
-      return NextResponse.json({ error: "Could not parse Gemini response" }, { status: 500 });
+    const rawText =
+      geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    console.log("Gemini raw text:", rawText);
+
+    if (!rawText) {
+      return NextResponse.json(
+        { error: "Empty response from Gemini" },
+        { status: 500 }
+      );
     }
-    const parsed = JSON.parse(jsonMatch[0]);
+
+    // Try multiple parsing strategies
+    let parsed: any = null;
+
+    // Strategy 1: direct parse
+    try {
+      parsed = JSON.parse(rawText.trim());
+    } catch {}
+
+    // Strategy 2: extract JSON object
+    if (!parsed) {
+      try {
+        const match = rawText.match(/\{[^{}]*\}/);
+        if (match) parsed = JSON.parse(match[0]);
+      } catch {}
+    }
+
+    // Strategy 3: strip markdown and parse
+    if (!parsed) {
+      try {
+        const cleaned = rawText
+          .replace(/```json/gi, "")
+          .replace(/```/g, "")
+          .trim();
+        parsed = JSON.parse(cleaned);
+      } catch {}
+    }
+
+    if (!parsed) {
+      console.error("Could not parse Gemini response:", rawText);
+      return NextResponse.json(
+        { error: "Could not parse response", raw: rawText },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       platform: parsed.platform || null,
-      base_pay: parsed.base_pay !== undefined ? Number(parsed.base_pay) : null,
-      tips: parsed.tips !== undefined ? Number(parsed.tips) : null,
+      base_pay: parsed.base_pay != null ? Number(parsed.base_pay) : null,
+      tips: parsed.tips != null ? Number(parsed.tips) : null,
       date: parsed.date || new Date().toISOString().split("T")[0],
       confidence: parsed.confidence || "low",
     });
   } catch (error) {
     console.error("Parse screenshot error:", error);
-    return NextResponse.json({ 
-      error: "Failed to process screenshot",
-      detail: error instanceof Error ? error.message : String(error)
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: "Failed to process screenshot",
+        detail: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
   }
 }
