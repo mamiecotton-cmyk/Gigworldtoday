@@ -50,23 +50,19 @@ Return ONLY the JSON. No other text.`;
           generationConfig: {
             temperature: 0.1,
             maxOutputTokens: 512,
-            responseMimeType: "application/json",
           },
         }),
       }
     );
 
+    console.log("Gemini response status:", geminiRes.status, geminiRes.ok);
     if (!geminiRes.ok) {
       const errText = await geminiRes.text();
-      console.error("Gemini API error:", geminiRes.status, errText);
-      return NextResponse.json(
-        { error: "Gemini API error", detail: errText },
-        { status: 500 }
-      );
+      console.error("Gemini error body:", errText);
+      return NextResponse.json({ error: "Gemini API error", detail: errText }, { status: 500 });
     }
 
     const geminiData = await geminiRes.json();
-    console.log("Gemini response status:", geminiRes.status);
 
     const rawText =
       geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
