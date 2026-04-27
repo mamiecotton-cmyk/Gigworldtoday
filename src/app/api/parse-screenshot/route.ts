@@ -69,10 +69,19 @@ Rules:
 
     const data = await response.json();
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    console.log("Gemini raw response:", text);
 
-    // Clean and parse the JSON response
-    const cleaned = text.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(cleaned);
+    // Clean and parse the JSON response — handle various formats
+    let cleaned = text.trim();
+    // Remove markdown code blocks
+    cleaned = cleaned.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+    // Extract JSON object if surrounded by other text
+    const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error("No JSON found in Gemini response:", cleaned);
+      return NextResponse.json({ error: "Could not parse Gemini response" }, { status: 500 });
+    }
+    const parsed = JSON.parse(jsonMatch[0]);
 
     return NextResponse.json({
       platform: parsed.platform || null,
