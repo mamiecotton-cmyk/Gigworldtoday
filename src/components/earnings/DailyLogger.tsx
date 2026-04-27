@@ -236,8 +236,15 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
     if (validEntries.length === 0) return;
     setSaving(true);
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    const { data: { session } } = await supabase.auth.getSession();
+    console.log("Save session:", session?.user?.id);
+
+    if (!session) {
+      console.log("No session found - cannot save");
+      setSaving(false);
+      return;
+    }
+    const user = session.user;
 
     const rows = validEntries.map((e) => ({
       user_id: user.id,
@@ -248,16 +255,19 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
       tips: parseFloat(e.tips) || 0,
     }));
 
-    await supabase.from("earnings_log").upsert(rows, {
+    const { error } = await supabase.from("earnings_log").upsert(rows, {
       onConflict: "user_id,platform_id,date",
     });
 
+    console.log("Save error:", error);
     setSaving(false);
-    setSaved(true);
-    setTimeout(() => {
-      setSaved(false);
-      onSaved();
-    }, 800);
+    if (!error) {
+      setSaved(true);
+      setTimeout(() => {
+        setSaved(false);
+        onSaved();
+      }, 800);
+    }
   };
 
   const totalEarnings = entries.reduce((sum, e) => {
