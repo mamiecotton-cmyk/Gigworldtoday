@@ -269,7 +269,17 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
     }, 15000);
 
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const sessionTimeout = new Promise<never>((_, reject) => {
+        window.setTimeout(() => {
+          reject(new Error("Session check timed out. Please refresh and sign in again."));
+        }, 5000);
+      });
+
+      const { data: { session }, error: sessionError } = await Promise.race([
+        supabase.auth.getSession(),
+        sessionTimeout,
+      ]);
+
       if (sessionError || !session?.access_token) {
         setSaveError(sessionError?.message || "Please sign in again before saving earnings.");
         return;
