@@ -71,53 +71,77 @@ Rules:
 
 Return ONLY the JSON. No other text.`;
 
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  inline_data: {
-                    mime_type: mimeType || "image/jpeg",
-                    data: imageBase64,
+    const callGemini = async () => {
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    inline_data: {
+                      mime_type: mimeType || "image/jpeg",
+                      data: imageBase64,
+                    },
                   },
-                },
-                { text: prompt },
-              ],
+                  { text: prompt },
+                ],
+              },
+            ],
+            generationConfig: {
+              temperature: 0.1,
+              maxOutputTokens: 2048,
+              responseMimeType: "application/json",
+              thinkingConfig: {
+                thinkingBudget: 0,
+              },
             },
-          ],
-          generationConfig: {
-            temperature: 0.1,
-            maxOutputTokens: 512,
-            responseMimeType: "application/json",
-          },
-        }),
-      }
-    );
+          }),
+        }
+      );
 
-    console.log("Gemini response status:", geminiRes.status, geminiRes.ok);
-    if (!geminiRes.ok) {
-      const errText = await geminiRes.text();
-      console.error("Gemini error body:", errText);
-      return NextResponse.json({ error: "Gemini API error", detail: errText }, { status: 500 });
+      console.log("Gemini response status:", geminiRes.status, geminiRes.ok);
+      if (!geminiRes.ok) {
+        const errText = await geminiRes.text();
+        console.error("Gemini error body:", errText);
+        return { error: errText };
+      }
+
+      const geminiData = await geminiRes.json();
+      const rawText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      console.log("Gemini raw text:", rawText.slice(0, 500));
+
+      return { rawText };
+    };
+
+    let attempt = await callGemini();
+    if (attempt.error) {
+      return NextResponse.json({ error: "Gemini API error", detail: attempt.error }, { status: 500 });
     }
 
-    const geminiData = await geminiRes.json();
+    let rawText = attempt.rawText || "";
+    let parsed = rawText ? parseJsonObject(rawText) : null;
 
-    const rawText =
-      geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    console.log("Gemini raw text:", rawText.slice(0, 500));
+    // Retry once if Gemini returns unparsable or empty text.
+    if (!rawText || !parsed) {
+      console.warn("Parse failed on first attempt, retrying Gemini once");
+      attempt = await callGemini();
+
+      if (attempt.error) {
+        return NextResponse.json({ error: "Gemini API error", detail: attempt.error }, { status: 500 });
+      }
+
+      rawText = attempt.rawText || "";
+      parsed = rawText ? parseJsonObject(rawText) : null;
+    }
 
     if (!rawText) {
       console.error("Empty response from Gemini");
       return NextResponse.json(fallbackParse());
     }
-
-    const parsed = parseJsonObject(rawText);
 
     if (!parsed) {
       console.error("Could not parse Gemini response:", rawText);
