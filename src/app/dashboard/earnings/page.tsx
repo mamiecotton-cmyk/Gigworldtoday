@@ -24,7 +24,7 @@ export default function EarningsPage() {
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
-      router.push("/login");
+      router.push("/login?redirectTo=/dashboard/earnings");
       return;
     }
 
