@@ -28,9 +28,10 @@ interface Props {
   userPlatforms: { platform_id: string; platform_name: string }[];
   onSaved: () => void;
   userId?: string;
+  accessToken?: string;
 }
 
-export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
+export default function DailyLogger({ userPlatforms, onSaved, userId, accessToken }: Props) {
   const today = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(today);
   const [entries, setEntries] = useState<EarningEntry[]>(
@@ -269,26 +270,15 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
     }, 15000);
 
     try {
-      const sessionTimeout = new Promise<never>((_, reject) => {
-        window.setTimeout(() => {
-          reject(new Error("Session check timed out. Please refresh and sign in again."));
-        }, 5000);
-      });
-
-      const { data: { session }, error: sessionError } = await Promise.race([
-        supabase.auth.getSession(),
-        sessionTimeout,
-      ]);
-
-      if (sessionError || !session?.access_token) {
-        setSaveError(sessionError?.message || "Please sign in again before saving earnings.");
+      if (!accessToken) {
+        setSaveError("Please refresh and sign in again before saving earnings.");
         return;
       }
 
       const res = await fetch("/api/earnings-log", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${session.access_token}`,
+          "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ rows }),

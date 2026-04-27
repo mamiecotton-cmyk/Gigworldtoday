@@ -9,6 +9,7 @@ import EarningsDashboard from "@/components/earnings/EarningsDashboard";
 
 export default function EarningsPage() {
   const [user, setUser] = useState<any>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [userPlatforms, setUserPlatforms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [needsSetup, setNeedsSetup] = useState(false);
@@ -28,6 +29,7 @@ export default function EarningsPage() {
       }
 
       setUser(session.user);
+      setAccessToken(session.access_token);
 
       const { data: platforms } = await supabase
         .from("user_platforms")
@@ -128,6 +130,7 @@ export default function EarningsPage() {
                 userPlatforms={userPlatforms}
                 onSaved={handleSaved}
                 userId={user?.id}
+                accessToken={accessToken || undefined}
               />
             ) : (
               <EarningsDashboard key={refreshKey} />
