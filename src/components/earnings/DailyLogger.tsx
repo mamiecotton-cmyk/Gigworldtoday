@@ -44,6 +44,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
   );
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [parsing, setParsing] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
   const [needsPlatform, setNeedsPlatform] = useState(false);
@@ -236,6 +237,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
 
     if (validEntries.length === 0) return;
     setSaving(true);
+    setSaveError(null);
 
     const uid = userId;
     console.log("Save userId:", uid);
@@ -243,30 +245,73 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
     if (!uid) {
       console.log("No userId - cannot save");
       setSaving(false);
+      setSaveError("Please sign in again before saving earnings.");
       return;
     }
 
-    const rows = validEntries.map((e) => ({
-      user_id: uid,
-      platform_id: e.platform_id,
-      platform_name: e.platform_name,
-      date,
-      base_pay: parseFloat(e.base_pay) || 0,
-      tips: parseFloat(e.tips) || 0,
-    }));
+    const rows = validEntries.map((e) => {
+      const basePay = parseFloat(e.base_pay) || 0;
+      const tips = parseFloat(e.tips) || 0;
 
-    const { error } = await supabase.from("earnings_log").upsert(rows, {
-      onConflict: "user_id,platform_id,date",
+      return {
+        user_id: uid,
+        platform_id: e.platform_id,
+        platform_name: e.platform_name,
+        date,
+        base_pay: basePay,
+        tips,
+      };
     });
 
-    console.log("Save error:", error);
-    setSaving(false);
-    if (!error) {
+    const rowsWithTotal = rows.map((row) => ({
+      ...row,
+      total_pay: row.base_pay + row.tips,
+    }));
+
+    const upsertRows = async (rowsToSave: typeof rows | typeof rowsWithTotal) => {
+      return supabase.from("earnings_log").upsert(rowsToSave, {
+        onConflict: "user_id,platform_id,date",
+      });
+    };
+
+    const saveWithTimeout = async (rowsToSave: typeof rows | typeof rowsWithTotal) => {
+      const savePromise = upsertRows(rowsToSave);
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        window.setTimeout(() => {
+          reject(new Error("Save request timed out. Please check your connection and try again."));
+        }, 15000);
+      });
+
+      return Promise.race([savePromise, timeoutPromise]);
+    };
+
+    try {
+      let { error } = await saveWithTimeout(rowsWithTotal);
+
+      if (
+        error &&
+        /total_pay|generated column|column .* does not exist/i.test(error.message || "")
+      ) {
+        console.warn("Retrying earnings save without total_pay:", error.message);
+        ({ error } = await saveWithTimeout(rows));
+      }
+
+      console.log("Save error:", error);
+      if (error) {
+        setSaveError(error.message || "Could not save earnings. Please try again.");
+        return;
+      }
+
       setSaved(true);
-      setTimeout(() => {
+      window.setTimeout(() => {
         setSaved(false);
         onSaved();
       }, 800);
+    } catch (err) {
+      console.error("Save earnings failed:", err);
+      setSaveError(err instanceof Error ? err.message : "Could not save earnings. Please try again.");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -477,6 +522,9 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
       >
         {saved ? "✅ Saved!" : saving ? "Saving..." : "Save Day's Earnings"}
       </button>
+      {saveError && (
+        <p className="text-xs text-red-500 text-center">{saveError}</p>
+      )}
     </div>
   );
 }

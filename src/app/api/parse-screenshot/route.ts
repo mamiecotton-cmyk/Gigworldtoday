@@ -1,5 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 
+function parseJsonObject(rawText: string) {
+  const cleaned = rawText
+    .replace(/```json/gi, "")
+    .replace(/```/g, "")
+    .trim();
+
+  try {
+    return JSON.parse(cleaned);
+  } catch {}
+
+  const firstBrace = cleaned.indexOf("{");
+  const lastBrace = cleaned.lastIndexOf("}");
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    try {
+      return JSON.parse(cleaned.slice(firstBrace, lastBrace + 1));
+    } catch {}
+  }
+
+  return null;
+}
+
+function numberOrNull(value: unknown) {
+  if (value == null || value === "") return null;
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  if (typeof value === "string") {
+    const normalized = value.replace(/[$,]/g, "").trim();
+    const parsed = Number(normalized);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -50,6 +82,7 @@ Return ONLY the JSON. No other text.`;
           generationConfig: {
             temperature: 0.1,
             maxOutputTokens: 512,
+            responseMimeType: "application/json",
           },
         }),
       }
@@ -75,32 +108,7 @@ Return ONLY the JSON. No other text.`;
       );
     }
 
-    // Try multiple parsing strategies
-    let parsed: any = null;
-
-    // Strategy 1: direct parse
-    try {
-      parsed = JSON.parse(rawText.trim());
-    } catch {}
-
-    // Strategy 2: extract JSON object
-    if (!parsed) {
-      try {
-        const match = rawText.match(/\{[^{}]*\}/);
-        if (match) parsed = JSON.parse(match[0]);
-      } catch {}
-    }
-
-    // Strategy 3: strip markdown and parse
-    if (!parsed) {
-      try {
-        const cleaned = rawText
-          .replace(/```json/gi, "")
-          .replace(/```/g, "")
-          .trim();
-        parsed = JSON.parse(cleaned);
-      } catch {}
-    }
+    const parsed = parseJsonObject(rawText);
 
     if (!parsed) {
       console.error("Could not parse Gemini response:", rawText);
@@ -112,8 +120,8 @@ Return ONLY the JSON. No other text.`;
 
     return NextResponse.json({
       platform: parsed.platform || null,
-      base_pay: parsed.base_pay != null ? Number(parsed.base_pay) : null,
-      tips: parsed.tips != null ? Number(parsed.tips) : null,
+      base_pay: numberOrNull(parsed.base_pay),
+      tips: numberOrNull(parsed.tips),
       date: parsed.date || new Date().toISOString().split("T")[0],
       confidence: parsed.confidence || "low",
     });
