@@ -263,42 +263,32 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
       };
     });
 
-    const rowsWithTotal = rows.map((row) => ({
-      ...row,
-      total_pay: row.base_pay + row.tips,
-    }));
-
-    const upsertRows = async (rowsToSave: typeof rows | typeof rowsWithTotal) => {
-      return supabase.from("earnings_log").upsert(rowsToSave, {
-        onConflict: "user_id,platform_id,date",
-      });
-    };
-
-    const saveWithTimeout = async (rowsToSave: typeof rows | typeof rowsWithTotal) => {
-      const savePromise = upsertRows(rowsToSave);
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        window.setTimeout(() => {
-          reject(new Error("Save request timed out. Please check your connection and try again."));
-        }, 15000);
-      });
-
-      return Promise.race([savePromise, timeoutPromise]);
-    };
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => {
+      controller.abort();
+    }, 15000);
 
     try {
-      let { error } = await saveWithTimeout(rowsWithTotal);
-
-      if (
-        error &&
-        /total_pay|generated column|column .* does not exist/i.test(error.message || "")
-      ) {
-        console.warn("Retrying earnings save without total_pay:", error.message);
-        ({ error } = await saveWithTimeout(rows));
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session?.access_token) {
+        setSaveError(sessionError?.message || "Please sign in again before saving earnings.");
+        return;
       }
 
-      console.log("Save error:", error);
-      if (error) {
-        setSaveError(error.message || "Could not save earnings. Please try again.");
+      const res = await fetch("/api/earnings-log", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${session.access_token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rows }),
+        signal: controller.signal,
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setSaveError(data.error || "Could not save earnings. Please try again.");
         return;
       }
 
@@ -309,8 +299,13 @@ export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
       }, 800);
     } catch (err) {
       console.error("Save earnings failed:", err);
-      setSaveError(err instanceof Error ? err.message : "Could not save earnings. Please try again.");
+      if (err instanceof DOMException && err.name === "AbortError") {
+        setSaveError("Save request timed out. Please check your connection and try again.");
+      } else {
+        setSaveError(err instanceof Error ? err.message : "Could not save earnings. Please try again.");
+      }
     } finally {
+      window.clearTimeout(timeoutId);
       setSaving(false);
     }
   };
