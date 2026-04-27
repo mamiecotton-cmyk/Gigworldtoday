@@ -17,37 +17,36 @@ export default function EarningsPage() {
   const router = useRouter();
 
   useEffect(() => {
-    init();
+    // Listen for auth state changes instead of calling getUser directly
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session) {
+          setUser(session.user);
+
+          const { data: platforms } = await supabase
+            .from("user_platforms")
+            .select("*")
+            .eq("user_id", session.user.id)
+            .order("display_order");
+
+          if (!platforms || platforms.length === 0) {
+            setNeedsSetup(true);
+          } else {
+            setUserPlatforms(platforms);
+          }
+          setLoading(false);
+        } else if (event === "SIGNED_OUT" || event === "INITIAL_SESSION") {
+          setLoading(false);
+          router.push("/login?redirectTo=/dashboard/earnings");
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
-
-  const init = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (!session) {
-      router.push("/login?redirectTo=/dashboard/earnings");
-      return;
-    }
-
-    setUser(session.user);
-
-    const { data: platforms } = await supabase
-      .from("user_platforms")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .order("display_order");
-
-    if (!platforms || platforms.length === 0) {
-      setNeedsSetup(true);
-    } else {
-      setUserPlatforms(platforms);
-    }
-
-    setLoading(false);
-  };
 
   const handleSetupComplete = async () => {
     setNeedsSetup(false);
-    await init();
   };
 
   const handleSaved = () => {
