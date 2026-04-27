@@ -127,6 +127,7 @@ export default function EarningsPage() {
               <DailyLogger
                 userPlatforms={userPlatforms}
                 onSaved={handleSaved}
+                userId={user?.id}
               />
             ) : (
               <EarningsDashboard key={refreshKey} />

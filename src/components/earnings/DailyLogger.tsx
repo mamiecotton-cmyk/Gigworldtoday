@@ -27,9 +27,10 @@ interface EarningEntry {
 interface Props {
   userPlatforms: { platform_id: string; platform_name: string }[];
   onSaved: () => void;
+  userId?: string;
 }
 
-export default function DailyLogger({ userPlatforms, onSaved }: Props) {
+export default function DailyLogger({ userPlatforms, onSaved, userId }: Props) {
   const today = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(today);
   const [entries, setEntries] = useState<EarningEntry[]>(
@@ -236,18 +237,17 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
     if (validEntries.length === 0) return;
     setSaving(true);
 
-    const { data: { session } } = await supabase.auth.getSession();
-    console.log("Save session:", session?.user?.id);
+    const uid = userId;
+    console.log("Save userId:", uid);
 
-    if (!session) {
-      console.log("No session found - cannot save");
+    if (!uid) {
+      console.log("No userId - cannot save");
       setSaving(false);
       return;
     }
-    const user = session.user;
 
     const rows = validEntries.map((e) => ({
-      user_id: user.id,
+      user_id: uid,
       platform_id: e.platform_id,
       platform_name: e.platform_name,
       date,
