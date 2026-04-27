@@ -250,7 +250,7 @@ export default function DailyLogger({ userPlatforms, onSaved }: Props) {
     setTimeout(() => {
       setSaved(false);
       onSaved();
-    }, 1500);
+    }, 800);
   };
 
   const totalEarnings = entries.reduce((sum, e) => {

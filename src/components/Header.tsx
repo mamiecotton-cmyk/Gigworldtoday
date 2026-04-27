@@ -130,7 +130,7 @@ export default function Header() {
                   </button>
 
                   {open && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-white border rounded-xl shadow-lg z-50">
                       {isAdmin && (
                         <Link
                           href="/admin"
@@ -140,6 +140,13 @@ export default function Header() {
                           Dashboard
                         </Link>
                       )}
+                      <Link
+                        href="/dashboard/earnings"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setOpen(false)}
+                      >
+                        💰 Earnings Tracker
+                      </Link>
                       <button
                         onClick={handleLogout}
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -239,6 +246,13 @@ export default function Header() {
                       Dashboard
                     </Link>
                   )}
+                  <Link
+                    href="/dashboard/earnings"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+                  >
+                    💰 Earnings Tracker
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className={`px-4 py-3 text-left text-sm font-medium rounded-lg transition-all ${linkColor}`}
