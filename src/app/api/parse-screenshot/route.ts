@@ -32,10 +32,21 @@ function numberOrNull(value: unknown) {
   return null;
 }
 
+function fallbackParse(confidence = "low") {
+  return {
+    platform: null,
+    base_pay: null,
+    tips: null,
+    date: new Date().toISOString().split("T")[0],
+    confidence,
+  };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { imageBase64, mimeType } = body;
+    console.log("parse-screenshot called, has image:", Boolean(imageBase64), "mimeType:", mimeType);
 
     if (!imageBase64) {
       return NextResponse.json({ error: "No image provided" }, { status: 400 });
@@ -99,23 +110,18 @@ Return ONLY the JSON. No other text.`;
 
     const rawText =
       geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    console.log("Gemini raw text:", rawText);
+    console.log("Gemini raw text:", rawText.slice(0, 500));
 
     if (!rawText) {
-      return NextResponse.json(
-        { error: "Empty response from Gemini" },
-        { status: 500 }
-      );
+      console.error("Empty response from Gemini");
+      return NextResponse.json(fallbackParse());
     }
 
     const parsed = parseJsonObject(rawText);
 
     if (!parsed) {
       console.error("Could not parse Gemini response:", rawText);
-      return NextResponse.json(
-        { error: "Could not parse response", raw: rawText },
-        { status: 500 }
-      );
+      return NextResponse.json(fallbackParse());
     }
 
     return NextResponse.json({
