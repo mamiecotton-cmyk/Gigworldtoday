@@ -35,6 +35,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   const today = new Date().toISOString().split("T")[0];
   const [activePlatform, setActivePlatform] = useState<{ id: string; name: string } | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetPrefill, setSheetPrefill] = useState<{ base_pay?: string; tips?: string; date?: string } | null>(null);
   const [showOther, setShowOther] = useState(false);
   const [otherQuery, setOtherQuery] = useState("");
   const [parsing, setParsing] = useState(false);
@@ -88,6 +89,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   }, [loadRecent]);
 
   const openSheetFor = (id: string, name: string) => {
+    setSheetPrefill(null);
     setActivePlatform({ id, name });
     setSheetOpen(true);
   };
@@ -170,9 +172,13 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
             data.platform.toLowerCase().includes(p.name.toLowerCase())
         );
         if (match) {
+          setSheetPrefill({
+            base_pay: data.base_pay?.toString() || "",
+            tips: data.tips?.toString() || "",
+            date: data.date || today,
+          });
           setActivePlatform({ id: match.id, name: match.name });
           setSheetOpen(true);
-          // Note: prefill not auto-applied. User can adjust in sheet.
           return;
         }
       }
@@ -187,6 +193,13 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   }, []);
 
   const applyPendingParse = (platform: any) => {
+    if (pendingParse) {
+      setSheetPrefill({
+        base_pay: pendingParse.base_pay?.toString() || "",
+        tips: pendingParse.tips?.toString() || "",
+        date: pendingParse.date || today,
+      });
+    }
     setActivePlatform({ id: platform.id, name: platform.name });
     setSheetOpen(true);
     setPendingParse(null);
@@ -359,7 +372,11 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         open={sheetOpen}
         platform={activePlatform}
         defaultDate={today}
-        onClose={() => setSheetOpen(false)}
+        prefill={sheetPrefill}
+        onClose={() => {
+          setSheetOpen(false);
+          setSheetPrefill(null);
+        }}
         onSave={handleSave}
       />
     </>

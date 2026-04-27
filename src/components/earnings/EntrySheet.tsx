@@ -6,11 +6,12 @@ interface Props {
   open: boolean;
   platform: { id: string; name: string } | null;
   defaultDate: string;
+  prefill?: { base_pay?: string; tips?: string; date?: string } | null;
   onClose: () => void;
   onSave: (values: { base_pay: string; tips: string; date: string }) => Promise<void>;
 }
 
-export default function EntrySheet({ open, platform, defaultDate, onClose, onSave }: Props) {
+export default function EntrySheet({ open, platform, defaultDate, prefill, onClose, onSave }: Props) {
   const [basePay, setBasePay] = useState("");
   const [tips, setTips] = useState("");
   const [date, setDate] = useState(defaultDate);
@@ -24,13 +25,13 @@ export default function EntrySheet({ open, platform, defaultDate, onClose, onSav
   // Reset on open
   useEffect(() => {
     if (open) {
-      setBasePay("");
-      setTips("");
-      setDate(defaultDate);
+      setBasePay(prefill?.base_pay ?? "");
+      setTips(prefill?.tips ?? "");
+      setDate(prefill?.date ?? defaultDate);
       setShowDate(false);
       setError(null);
     }
-  }, [open, defaultDate]);
+  }, [open, defaultDate, prefill]);
 
   // Lock body scroll when open
   useEffect(() => {
