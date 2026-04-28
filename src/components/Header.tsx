@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
@@ -11,6 +11,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function Header() {
     setUser(null);
     setOpen(false);
     setMobileMenuOpen(false);
+    router.push("/?signedOut=1");
   };
 
   const headerBg = "bg-white shadow-sm border-b border-gray-100";

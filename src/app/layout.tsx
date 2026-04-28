@@ -3,6 +3,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ExitSurvey from '@/components/ExitSurvey';
+import SignedOutModal from '@/components/SignedOutModal';
 
 export const metadata: Metadata = {
   title: "GigWorldToday – Gig Economy Intelligence",
@@ -85,6 +86,7 @@ export default function RootLayout({
         <main className="pt-20">{children}</main>
         <Footer />
         <ExitSurvey />
+        <SignedOutModal />
       </body>
     </html>
   );
