@@ -15,6 +15,7 @@ export default function EarningsPage() {
   const [needsSetup, setNeedsSetup] = useState(false);
   const [activeTab, setActiveTab] = useState<"log" | "dashboard">("log");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [deeplink, setDeeplink] = useState<{ platform_name: string; date: string } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -131,9 +132,17 @@ export default function EarningsPage() {
                 onSaved={handleSaved}
                 userId={user?.id}
                 accessToken={accessToken || undefined}
+                onOpenInDashboard={(platform_name, date) => {
+                  setDeeplink({ platform_name, date });
+                  setActiveTab("dashboard");
+                }}
               />
             ) : (
-              <EarningsDashboard key={refreshKey} />
+              <EarningsDashboard
+                key={refreshKey}
+                deeplink={deeplink}
+                onDeeplinkConsumed={() => setDeeplink(null)}
+              />
             )}
           </div>
         </div>

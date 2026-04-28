@@ -29,9 +29,10 @@ interface Props {
   onSaved: () => void;
   userId?: string;
   accessToken?: string;
+  onOpenInDashboard?: (platform_name: string, date: string) => void;
 }
 
-export default function DailyLogger({ userPlatforms, onSaved, userId, accessToken }: Props) {
+export default function DailyLogger({ userPlatforms, onSaved, userId, accessToken, onOpenInDashboard }: Props) {
   const today = new Date().toISOString().split("T")[0];
 
   // Sort alphabetically
@@ -553,16 +554,21 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
             {recent.map((r) => (
               <div
                 key={r.id}
-                className="flex justify-between items-center text-xs py-1.5 px-1"
+                className="flex justify-between items-center text-xs py-1.5 px-1 group"
               >
-                <span className="text-gray-700">
-                  <span className="font-medium">{r.platform_name}</span>
-                  <span className="text-gray-400">
-                    {" · "}
-                    {r.date === today ? "today" : formatLocalDate(r.date)}
+                <button
+                  onClick={() => onOpenInDashboard?.(r.platform_name, r.date)}
+                  className="flex-1 flex justify-between items-center text-left hover:bg-gray-50 rounded px-1 -mx-1 py-0.5 transition-colors"
+                >
+                  <span className="text-gray-700">
+                    <span className="font-medium">{r.platform_name}</span>
+                    <span className="text-gray-400">
+                      {" · "}
+                      {r.date === today ? "today" : formatLocalDate(r.date)}
+                    </span>
                   </span>
-                </span>
-                <span className="text-gray-700 font-medium">${r.total.toFixed(2)}</span>
+                  <span className="text-gray-700 font-medium">${r.total.toFixed(2)}</span>
+                </button>
               </div>
             ))}
           </div>

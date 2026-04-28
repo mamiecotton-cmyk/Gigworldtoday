@@ -13,7 +13,12 @@ interface EarningsData {
   date: string;
 }
 
-export default function EarningsDashboard() {
+interface Props {
+  deeplink?: { platform_name: string; date: string } | null;
+  onDeeplinkConsumed?: () => void;
+}
+
+export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Props = {}) {
   const [data, setData] = useState<EarningsData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -92,6 +97,33 @@ export default function EarningsDashboard() {
   useEffect(() => {
     fetchEarnings();
   }, [fetchEarnings]);
+
+  // Handle deeplink from Recent strip — auto-set view + open modal
+  useEffect(() => {
+    if (!deeplink) return;
+
+    // Determine which view contains the date
+    const entryDate = new Date(deeplink.date);
+    const now = new Date();
+    const sevenDaysAgo = new Date(now);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    if (entryDate >= sevenDaysAgo) {
+      setView("week");
+    } else if (
+      entryDate.getFullYear() === now.getFullYear() &&
+      entryDate.getMonth() === now.getMonth()
+    ) {
+      setView("month");
+    } else if (entryDate.getFullYear() === now.getFullYear()) {
+      setView("year");
+    } else {
+      setView("year");
+    }
+
+    setDrillPlatform(deeplink.platform_name);
+    onDeeplinkConsumed?.();
+  }, [deeplink, onDeeplinkConsumed]);
 
   const handleDelete = async (id: string) => {
     const { error: deleteErr } = await supabase
