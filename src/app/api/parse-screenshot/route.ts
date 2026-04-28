@@ -61,27 +61,37 @@ Return ONLY a raw JSON object (no markdown, no code blocks, no explanation):
 {
   "platform": null,
   "orders": [
-    {"base_pay": null, "tips": null, "date": null}
+    {"base_pay": null, "tips": null, "adjustments": null, "bonuses": null, "date": null}
   ],
   "confidence": "low"
 }
 
 Field rules:
 - platform: string name of the gig platform (e.g., "DoorDash", "Uber Eats", "Instacart", "Expedite", "Spark", "Senpex"), or null if unidentifiable.
-- orders: array of objects, ONE PER ORDER/DELIVERY visible in the screenshot. If only one order is shown, return an array with one item. If multiple orders are listed, return one item per order in the order they appear (top-to-bottom).
-  - base_pay: the driver's earnings excluding tips for THIS order. Look for any of:
-    - Labels: "Base Pay", "Base Fee", "Pay", "Base Earnings", "Order Pay", "Delivery Fee", "Payout", "Earnings", "Price"
-    - Inline format: "$X.XX + Tip $Y.YY" — first amount before "+ Tip" is base_pay
-    - Return as a number without currency symbol. Use null if not found.
-  - tips: customer tip for THIS order. Look for "Tip", "Tips", "Customer Tip", "Gratuity", or amount after "Tip" in inline format. Return as number, or null.
-  - date: order date for THIS order in "YYYY-MM-DD" format. Look for explicit dates like "04/25/2026" or "Apr 25". Convert to ISO format. Use null if not visible. Do NOT guess today's date.
-- confidence: "high" if labels were clearly visible, "medium" if inferred, "low" if guessed.
+- orders: array of objects, ONE PER ORDER/DELIVERY/PAY-PERIOD visible. Top-to-bottom order.
+  - base_pay: driver's earnings before tips and any extras. Look for: "Base Pay", "Base Fee", "Pay", "Base Earnings", "Order Pay", "Delivery Fee", "Payout", "Earnings", "Price", or first amount before "+ Tip" in inline format like "$X.XX + Tip $Y.YY". Number, no currency. null if not found.
+  - tips: customer tip. Look for: "Tip", "Tips", "Customer Tip", "Gratuity", or amount after "Tip" inline. Number or null.
+  - adjustments: STATE-MANDATED MINIMUM PAY top-ups ONLY. Look for these specific labels:
+    - "Earnings Standard", "Seattle Earnings Standard", "NYC Earnings Standard"
+    - "Pay Adjustment", "DoorDash Pay Adjustment"
+    - "Prop 22", "Prop 22 Earnings Guarantee"
+    - "Minimum Earnings Adjustment", "Minimum Pay"
+    - "Regulatory Adjustment"
+    Number or null. ONLY use this for state/city minimum-wage top-ups.
+  - bonuses: SUM of all OTHER positive earnings beyond base + tips + adjustments. Add together anything labeled:
+    - "Boost", "Peak Pay", "Promotion", "Promo", "Surge", "Surge Pay"
+    - "Challenge", "Quest", "Bonus", "Reward"
+    - "Reimbursement", "Mileage Reimbursement"
+    - "Referral", "Incentive"
+    - Any positive amount with a label NOT recognized as base/tip/adjustment/fee
+    Sum into a single number. null only if there are no such items.
+  - date: order date in "YYYY-MM-DD" format. Look for explicit dates ("04/25/2026", "Apr 25"). Convert to ISO. null if not visible. Do NOT guess today.
 
 Important:
-- Each order in the screenshot must be its own item in the orders array.
-- If an order has only a total amount with no base/tip breakdown, put the total in base_pay and tips: 0.
-- Ignore deductions or negative fees ("Safety & Admin Fee", "Service Fee") — never subtract them.
-- If no orders can be identified at all, return orders as an empty array [].
+- Each visible order or pay period gets its own item in the orders array.
+- IGNORE deductions/fees ("Safety & Admin Fee", "Service Fee", any negative amount). Never subtract them.
+- If a screenshot shows only a total with no breakdown, put the total in base_pay and leave others null.
+- Confidence: "high" if labels were clear, "medium" if inferred, "low" if guessed.
 - Return ONLY the JSON. No other text.`;
 
     const geminiRes = await fetch(
@@ -142,6 +152,8 @@ Important:
     const normalizedOrders = ordersArray.map((o: any) => ({
       base_pay: numberOrNull(o?.base_pay),
       tips: numberOrNull(o?.tips),
+      adjustments: numberOrNull(o?.adjustments),
+      bonuses: numberOrNull(o?.bonuses),
       date: o?.date || null,
     }));
 

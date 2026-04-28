@@ -47,6 +47,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   const [formOpen, setFormOpen] = useState(false);
   const [basePay, setBasePay] = useState("");
   const [tips, setTips] = useState("");
+  const [adjustments, setAdjustments] = useState("");
+  const [bonuses, setBonuses] = useState("");
   const [date, setDate] = useState(today);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -67,7 +69,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   const [parseError, setParseError] = useState<string | null>(null);
 
   // Multi-order state
-  const [parsedOrders, setParsedOrders] = useState<Array<{ base_pay: string; tips: string; date: string }>>([]);
+  const [parsedOrders, setParsedOrders] = useState<Array<{ base_pay: string; tips: string; adjustments: string; bonuses: string; date: string }>>([]); 
   const [orderIndex, setOrderIndex] = useState(0);
   const [savedCount, setSavedCount] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -81,7 +83,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     if (!userId) return;
     const { data } = await supabase
       .from("earnings_log")
-      .select("id, platform_id, platform_name, date, base_pay, tips")
+      .select("id, platform_id, platform_name, date, base_pay, tips, adjustments, bonuses")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       .limit(5);
@@ -93,20 +95,20 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
           platform_id: r.platform_id,
           platform_name: r.platform_name,
           date: r.date,
-          total: (r.base_pay || 0) + (r.tips || 0),
+          total: (r.base_pay || 0) + (r.tips || 0) + (r.adjustments || 0) + (r.bonuses || 0),
         }))
       );
     }
 
     const { data: todayData } = await supabase
       .from("earnings_log")
-      .select("base_pay, tips")
+      .select("base_pay, tips, adjustments, bonuses")
       .eq("user_id", userId)
       .eq("date", today);
 
     if (todayData) {
       const sum = todayData.reduce(
-        (acc: number, r: any) => acc + (r.base_pay || 0) + (r.tips || 0),
+        (acc: number, r: any) => acc + (r.base_pay || 0) + (r.tips || 0) + (r.adjustments || 0) + (r.bonuses || 0),
         0
       );
       setTodayTotal(sum);
@@ -191,12 +193,13 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       const orders = Array.isArray(data.orders) ? data.orders : [];
 
       if (orders.length === 0) {
-        // Fallback — open blank form so user can manually enter
         setParsedOrders([]);
         setOrderIndex(0);
         setSavedCount(0);
         setBasePay("");
         setTips("");
+        setAdjustments("");
+        setBonuses("");
         setDate(today);
         setFormOpen(true);
         return;
@@ -208,6 +211,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         return {
           base_pay: o.base_pay != null ? o.base_pay.toString() : "",
           tips: o.tips != null ? o.tips.toString() : "",
+          adjustments: o.adjustments != null ? o.adjustments.toString() : "",
+          bonuses: o.bonuses != null ? o.bonuses.toString() : "",
           date: validDate,
         };
       });
@@ -219,6 +224,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       // Pre-fill form with first order
       setBasePay(normalized[0].base_pay);
       setTips(normalized[0].tips);
+      setAdjustments(normalized[0].adjustments);
+      setBonuses(normalized[0].bonuses);
       setDate(normalized[0].date);
       setFormOpen(true);
     } catch {
@@ -241,6 +248,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     setFormOpen(false);
     setBasePay("");
     setTips("");
+    setAdjustments("");
+    setBonuses("");
     setDate(today);
     setSaveError(null);
     setDuplicatePrompt(false);
@@ -260,7 +269,6 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   const advanceToNextOrder = () => {
     const nextIdx = orderIndex + 1;
     if (nextIdx >= parsedOrders.length) {
-      // No more orders — close the flow
       setFormOpen(false);
       if (selectedPlatform) {
         setFlashId(selectedPlatform.id);
@@ -269,6 +277,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       setSelectedPlatform(null);
       setBasePay("");
       setTips("");
+      setAdjustments("");
+      setBonuses("");
       setDate(today);
       resetMultiOrderState();
       loadRecent();
@@ -278,6 +288,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       setOrderIndex(nextIdx);
       setBasePay(next.base_pay);
       setTips(next.tips);
+      setAdjustments(next.adjustments);
+      setBonuses(next.bonuses);
       setDate(next.date);
       setSaveError(null);
       setDuplicatePrompt(false);
@@ -298,6 +310,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       .eq("date", date)
       .eq("base_pay", parseFloat(basePay) || 0)
       .eq("tips", parseFloat(tips) || 0)
+      .eq("adjustments", parseFloat(adjustments) || 0)
+      .eq("bonuses", parseFloat(bonuses) || 0)
       .maybeSingle();
     return !!existing;
   };
@@ -315,6 +329,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       date,
       base_pay: parseFloat(basePay) || 0,
       tips: parseFloat(tips) || 0,
+      adjustments: parseFloat(adjustments) || 0,
+      bonuses: parseFloat(bonuses) || 0,
     };
 
     try {
@@ -343,8 +359,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
 
   const save = async () => {
     if (!selectedPlatform) return;
-    if (basePay === "" && tips === "") {
-      setSaveError("Enter base pay or tips");
+    if (basePay === "" && tips === "" && adjustments === "" && bonuses === "") {
+      setSaveError("Enter at least one amount");
       return;
     }
     if (!userId || !accessToken) {
@@ -606,6 +622,44 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
                 min="0"
                 value={tips}
                 onChange={(e) => setTips(e.target.value)}
+                placeholder="0.00"
+                className="w-full pl-7 pr-3 py-2 border border-gray-200 rounded-lg text-base focus:border-[#00C9B1] outline-none bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
+              Adjustments <span className="text-gray-400 normal-case font-normal">(state minimum top-ups)</span>
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+              <input
+                type="number"
+                inputMode="decimal"
+                step="0.01"
+                min="0"
+                value={adjustments}
+                onChange={(e) => setAdjustments(e.target.value)}
+                placeholder="0.00"
+                className="w-full pl-7 pr-3 py-2 border border-gray-200 rounded-lg text-base focus:border-[#00C9B1] outline-none bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
+              Bonuses <span className="text-gray-400 normal-case font-normal">(boosts, peak, promos, etc.)</span>
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+              <input
+                type="number"
+                inputMode="decimal"
+                step="0.01"
+                min="0"
+                value={bonuses}
+                onChange={(e) => setBonuses(e.target.value)}
                 placeholder="0.00"
                 className="w-full pl-7 pr-3 py-2 border border-gray-200 rounded-lg text-base focus:border-[#00C9B1] outline-none bg-white"
               />

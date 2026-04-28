@@ -11,6 +11,8 @@ interface EarningsData {
   platform_name: string;
   base_pay: number;
   tips: number;
+  adjustments?: number;
+  bonuses?: number;
   total_pay?: number;
   date: string;
 }
@@ -31,6 +33,8 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   const [editDate, setEditDate] = useState("");
   const [editBase, setEditBase] = useState("");
   const [editTips, setEditTips] = useState("");
+  const [editAdjustments, setEditAdjustments] = useState("");
+  const [editBonuses, setEditBonuses] = useState("");
   const [editSaving, setEditSaving] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
   const [editDuplicatePrompt, setEditDuplicatePrompt] = useState<string | null>(null);
@@ -73,7 +77,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
       const { data: earnings, error: earningsError } = await Promise.race([
         supabase
           .from("earnings_log")
-          .select("id, platform_id, platform_name, base_pay, tips, total_pay, date")
+          .select("id, platform_id, platform_name, base_pay, tips, adjustments, bonuses, total_pay, date")
           .eq("user_id", user.id)
           .gte("date", startDate)
           .order("date", { ascending: false }),
@@ -148,6 +152,8 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
     setEditDate(entry.date);
     setEditBase((entry.base_pay || 0).toString());
     setEditTips((entry.tips || 0).toString());
+    setEditAdjustments((entry.adjustments || 0).toString());
+    setEditBonuses((entry.bonuses || 0).toString());
     setEditError(null);
     setConfirmDeleteId(null);
   };
@@ -172,6 +178,8 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
       .eq("date", editDate)
       .eq("base_pay", parseFloat(editBase) || 0)
       .eq("tips", parseFloat(editTips) || 0)
+      .eq("adjustments", parseFloat(editAdjustments) || 0)
+      .eq("bonuses", parseFloat(editBonuses) || 0)
       .neq("id", id)
       .maybeSingle();
 
@@ -189,6 +197,8 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
         date: editDate,
         base_pay: parseFloat(editBase) || 0,
         tips: parseFloat(editTips) || 0,
+        adjustments: parseFloat(editAdjustments) || 0,
+        bonuses: parseFloat(editBonuses) || 0,
       })
       .eq("id", id);
 
@@ -215,24 +225,31 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
 
   // Calculations
   const entryTotal = (entry: EarningsData) =>
-    entry.total_pay ?? (entry.base_pay || 0) + (entry.tips || 0);
+    (entry.base_pay || 0) +
+    (entry.tips || 0) +
+    (entry.adjustments || 0) +
+    (entry.bonuses || 0);
 
   const totalBase = data.reduce((s, e) => s + (e.base_pay || 0), 0);
   const totalTips = data.reduce((s, e) => s + (e.tips || 0), 0);
-  const totalEarnings = totalBase + totalTips;
+  const totalAdjustments = data.reduce((s, e) => s + (e.adjustments || 0), 0);
+  const totalBonuses = data.reduce((s, e) => s + (e.bonuses || 0), 0);
+  const totalEarnings = totalBase + totalTips + totalAdjustments + totalBonuses;
   const taxSetAside = totalEarnings * 0.25;
   const takeHome = totalEarnings - taxSetAside;
   const tipPercentage = totalEarnings > 0 ? (totalTips / totalEarnings) * 100 : 0;
 
   const byPlatform = data.reduce((acc, e) => {
     if (!acc[e.platform_name]) {
-      acc[e.platform_name] = { platform_id: (e as any).platform_id || "", base: 0, tips: 0, total: 0 };
+      acc[e.platform_name] = { platform_id: (e as any).platform_id || "", base: 0, tips: 0, adjustments: 0, bonuses: 0, total: 0 };
     }
     acc[e.platform_name].base += e.base_pay || 0;
     acc[e.platform_name].tips += e.tips || 0;
+    acc[e.platform_name].adjustments += e.adjustments || 0;
+    acc[e.platform_name].bonuses += e.bonuses || 0;
     acc[e.platform_name].total += entryTotal(e);
     return acc;
-  }, {} as Record<string, { platform_id: string; base: number; tips: number; total: number }>);
+  }, {} as Record<string, { platform_id: string; base: number; tips: number; adjustments: number; bonuses: number; total: number }>);
 
   const platformRanking = Object.entries(byPlatform)
     .sort((a, b) => b[1].total - a[1].total);
@@ -308,17 +325,29 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
               <div className="bg-gradient-to-br from-[#1A1A2E] to-[#0f3460] rounded-2xl p-4 col-span-2">
                 <p className="text-xs text-white/50 mb-1">Total Earnings</p>
                 <p className="text-3xl font-bold text-white">${totalEarnings.toFixed(2)}</p>
-                <div className="flex gap-4 mt-2">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-3">
                   <div>
-                    <p className="text-xs text-white/40">Base Pay</p>
+                    <p className="text-[10px] text-white/40 uppercase tracking-wider">Base Pay</p>
                     <p className="text-sm font-semibold text-teal-400">${totalBase.toFixed(2)}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-white/40">Tips</p>
+                    <p className="text-[10px] text-white/40 uppercase tracking-wider">Tips</p>
                     <p className="text-sm font-semibold text-orange-400">${totalTips.toFixed(2)}</p>
                   </div>
+                  {totalAdjustments > 0 && (
+                    <div>
+                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Adjustments</p>
+                      <p className="text-sm font-semibold text-blue-300">${totalAdjustments.toFixed(2)}</p>
+                    </div>
+                  )}
+                  {totalBonuses > 0 && (
+                    <div>
+                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Bonuses</p>
+                      <p className="text-sm font-semibold text-purple-300">${totalBonuses.toFixed(2)}</p>
+                    </div>
+                  )}
                   <div>
-                    <p className="text-xs text-white/40">Tip %</p>
+                    <p className="text-[10px] text-white/40 uppercase tracking-wider">Tip %</p>
                     <p className="text-sm font-semibold text-white">{tipPercentage.toFixed(0)}%</p>
                   </div>
                 </div>
@@ -453,6 +482,8 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
                       </p>
                       <p className="text-xs text-gray-500 mt-0.5">
                         Base ${(entry.base_pay || 0).toFixed(2)} · Tips ${(entry.tips || 0).toFixed(2)}
+                        {(entry.adjustments || 0) > 0 && ` · Adj $${(entry.adjustments || 0).toFixed(2)}`}
+                        {(entry.bonuses || 0) > 0 && ` · Bonus $${(entry.bonuses || 0).toFixed(2)}`}
                       </p>
                     </div>
                     <p className="text-sm font-bold text-[#1A1A2E]">${entryTotal(entry).toFixed(2)}</p>
@@ -522,6 +553,38 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
                               min="0"
                               value={editTips}
                               onChange={(e) => setEditTips(e.target.value)}
+                              className="w-full pl-6 pr-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
+                            Adjustments
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={editAdjustments}
+                              onChange={(e) => setEditAdjustments(e.target.value)}
+                              className="w-full pl-6 pr-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
+                            Bonuses
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={editBonuses}
+                              onChange={(e) => setEditBonuses(e.target.value)}
                               className="w-full pl-6 pr-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none"
                             />
                           </div>
