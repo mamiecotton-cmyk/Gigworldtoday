@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import platformsData from "@/data/platforms.json";
+import { formatLocalDate } from "@/lib/dateUtils";
 
 const inactiveStatuses = [
   "absorbed", "merged", "rebranded", "shut_down", "shutdown",
@@ -507,9 +508,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
                   <span className="font-medium">{r.platform_name}</span>
                   <span className="text-gray-400">
                     {" · "}
-                    {r.date === today
-                      ? "today"
-                      : new Date(r.date).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+                    {r.date === today ? "today" : formatLocalDate(r.date)}
                   </span>
                 </span>
                 <span className="text-gray-700 font-medium">${r.total.toFixed(2)}</span>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { formatLocalDate } from "@/lib/dateUtils";
 
 interface EarningsData {
   id?: string;
@@ -19,6 +20,12 @@ export default function EarningsDashboard() {
   const [view, setView] = useState<"week" | "month" | "year">("week");
   const [drillPlatform, setDrillPlatform] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editDate, setEditDate] = useState("");
+  const [editBase, setEditBase] = useState("");
+  const [editTips, setEditTips] = useState("");
+  const [editSaving, setEditSaving] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
 
   const fetchEarnings = useCallback(async () => {
     setLoading(true);
@@ -100,6 +107,45 @@ export default function EarningsDashboard() {
     await fetchEarnings();
   };
 
+  const startEdit = (entry: EarningsData) => {
+    if (!entry.id) return;
+    setEditingId(entry.id);
+    setEditDate(entry.date);
+    setEditBase((entry.base_pay || 0).toString());
+    setEditTips((entry.tips || 0).toString());
+    setEditError(null);
+    setConfirmDeleteId(null);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditError(null);
+  };
+
+  const saveEdit = async (id: string) => {
+    setEditSaving(true);
+    setEditError(null);
+
+    const { error: updateErr } = await supabase
+      .from("earnings_log")
+      .update({
+        date: editDate,
+        base_pay: parseFloat(editBase) || 0,
+        tips: parseFloat(editTips) || 0,
+      })
+      .eq("id", id);
+
+    if (updateErr) {
+      setEditError(updateErr.message);
+      setEditSaving(false);
+      return;
+    }
+
+    setEditingId(null);
+    setEditSaving(false);
+    await fetchEarnings();
+  };
+
   // Calculations
   const entryTotal = (entry: EarningsData) =>
     entry.total_pay ?? (entry.base_pay || 0) + (entry.tips || 0);
@@ -140,7 +186,6 @@ export default function EarningsDashboard() {
 
   const maxDay = Math.max(...last7Days.map((d) => d.amount), 1);
 
-  // Entries for drill-down
   const drillEntries = drillPlatform
     ? data
         .filter((e) => e.platform_name === drillPlatform)
@@ -285,7 +330,11 @@ export default function EarningsDashboard() {
       {drillPlatform && (
         <div
           className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40"
-          onClick={() => setDrillPlatform(null)}
+          onClick={() => {
+            setDrillPlatform(null);
+            setEditingId(null);
+            setConfirmDeleteId(null);
+          }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -293,7 +342,11 @@ export default function EarningsDashboard() {
           >
             <div className="w-9 h-1 bg-gray-300 rounded-full mx-auto mb-3 sm:hidden" />
             <button
-              onClick={() => setDrillPlatform(null)}
+              onClick={() => {
+                setDrillPlatform(null);
+                setEditingId(null);
+                setConfirmDeleteId(null);
+              }}
               aria-label="Close"
               className="absolute top-3 right-4 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-700 text-lg"
             >
@@ -312,7 +365,7 @@ export default function EarningsDashboard() {
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <p className="text-sm font-medium text-[#1A1A2E]">
-                        {new Date(entry.date).toLocaleDateString(undefined, {
+                        {formatLocalDate(entry.date, {
                           weekday: "short",
                           month: "short",
                           day: "numeric",
@@ -326,7 +379,8 @@ export default function EarningsDashboard() {
                     <p className="text-sm font-bold text-[#1A1A2E]">${entryTotal(entry).toFixed(2)}</p>
                   </div>
 
-                  {confirmDeleteId === entry.id ? (
+                  {/* Confirm delete */}
+                  {confirmDeleteId === entry.id && (
                     <div className="flex items-center justify-between bg-red-50 border border-red-100 rounded-lg p-2">
                       <p className="text-xs text-red-700">Delete this entry?</p>
                       <div className="flex gap-1.5">
@@ -344,13 +398,92 @@ export default function EarningsDashboard() {
                         </button>
                       </div>
                     </div>
-                  ) : (
-                    <button
-                      onClick={() => entry.id && setConfirmDeleteId(entry.id)}
-                      className="text-xs text-gray-400 hover:text-red-500 transition-colors"
-                    >
-                      Delete entry
-                    </button>
+                  )}
+
+                  {/* Edit form */}
+                  {editingId === entry.id && (
+                    <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
+                      <div>
+                        <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
+                          Date
+                        </label>
+                        <input
+                          type="date"
+                          value={editDate}
+                          onChange={(e) => setEditDate(e.target.value)}
+                          className="w-full px-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
+                            Base Pay
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={editBase}
+                              onChange={(e) => setEditBase(e.target.value)}
+                              className="w-full pl-6 pr-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
+                            Tips
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={editTips}
+                              onChange={(e) => setEditTips(e.target.value)}
+                              className="w-full pl-6 pr-2 py-1.5 border border-gray-200 rounded text-sm focus:border-[#00C9B1] outline-none"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 pt-1">
+                        <button
+                          onClick={() => entry.id && saveEdit(entry.id)}
+                          disabled={editSaving}
+                          className="flex-1 py-1.5 bg-[#1A1A2E] text-white rounded text-xs font-semibold hover:opacity-90 disabled:opacity-40"
+                        >
+                          {editSaving ? "Saving..." : "Save"}
+                        </button>
+                        <button
+                          onClick={cancelEdit}
+                          disabled={editSaving}
+                          className="px-3 py-1.5 bg-white border border-gray-200 text-gray-600 rounded text-xs font-medium hover:bg-gray-50"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                      {editError && <p className="text-xs text-red-500">{editError}</p>}
+                    </div>
+                  )}
+
+                  {/* Action buttons (hidden during edit/delete confirm) */}
+                  {editingId !== entry.id && confirmDeleteId !== entry.id && (
+                    <div className="flex gap-3 text-xs">
+                      <button
+                        onClick={() => startEdit(entry)}
+                        className="text-gray-500 hover:text-teal-600 transition-colors"
+                      >
+                        ✏️ Edit
+                      </button>
+                      <button
+                        onClick={() => entry.id && setConfirmDeleteId(entry.id)}
+                        className="text-gray-500 hover:text-red-500 transition-colors"
+                      >
+                        🗑️ Delete
+                      </button>
+                    </div>
                   )}
                 </div>
               ))}
