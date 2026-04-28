@@ -29,12 +29,13 @@ interface Recent {
 interface Props {
   userPlatforms: { platform_id: string; platform_name: string }[];
   onSaved: () => void;
+  onPlatformsChanged?: () => void;
   userId?: string;
   accessToken?: string;
   onOpenInDashboard?: (platform_name: string, date: string) => void;
 }
 
-export default function DailyLogger({ userPlatforms, onSaved, userId, accessToken, onOpenInDashboard }: Props) {
+export default function DailyLogger({ userPlatforms, onSaved, onPlatformsChanged, userId, accessToken, onOpenInDashboard }: Props) {
   const today = new Date().toISOString().split("T")[0];
 
   // Sort alphabetically
@@ -412,7 +413,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
 
     setSelectedPlatform({ id: pendingOther.id, name: pendingOther.name });
     setPendingOther(null);
-    // Note: parent's userPlatforms won't update until refresh — that's OK for now
+    onPlatformsChanged?.(); // Trigger parent to reload userPlatforms (without switching tabs)
   };
 
   return (

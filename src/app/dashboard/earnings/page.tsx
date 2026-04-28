@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import PlatformSetup from "@/components/earnings/PlatformSetup";
@@ -52,6 +52,16 @@ export default function EarningsPage() {
   const handleSetupComplete = async () => {
     setNeedsSetup(false);
   };
+
+  const reloadPlatforms = useCallback(async () => {
+    if (!user?.id) return;
+    const { data: platforms } = await supabase
+      .from("user_platforms")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("display_order");
+    if (platforms) setUserPlatforms(platforms);
+  }, [user?.id]);
 
   const handleSaved = () => {
     setRefreshKey((k) => k + 1);
@@ -130,6 +140,7 @@ export default function EarningsPage() {
               <DailyLogger
                 userPlatforms={userPlatforms}
                 onSaved={handleSaved}
+                onPlatformsChanged={reloadPlatforms}
                 userId={user?.id}
                 accessToken={accessToken || undefined}
                 onOpenInDashboard={(platform_name, date) => {
