@@ -10,6 +10,7 @@ import US_CITY_TO_STATE from "@/data/us-city-to-state";
 import { CITY_TO_STATE, STATE_NAMES } from "@/lib/searchUtils";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import HomepageTrackerBanner from "@/components/HomepageTrackerBanner";
 
 async function getTopRated() {
   const { data } = await supabase
@@ -142,6 +143,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen font-sans">
+      <HomepageTrackerBanner />
       {/* HERO SECTION */}
       <section className="relative min-h-[20vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/90 z-0" />

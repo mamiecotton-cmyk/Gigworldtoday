@@ -100,6 +100,12 @@ export default function Header() {
               Categories
             </Link>
             <Link
+              href="/tracker"
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+            >
+              Track Earnings
+            </Link>
+            <Link
               href="/compare"
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
             >
@@ -205,6 +211,13 @@ export default function Header() {
                 className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
               >
                 Categories
+              </Link>
+              <Link
+                href="/tracker"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              >
+                Track Earnings
               </Link>
               <Link
                 href="/compare"
