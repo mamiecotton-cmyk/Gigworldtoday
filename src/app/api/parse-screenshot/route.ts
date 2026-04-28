@@ -63,15 +63,22 @@ Return ONLY a raw JSON object (no markdown, no code blocks, no explanation):
 {"platform":null,"base_pay":null,"tips":null,"date":null,"confidence":"low"}
 
 Field rules:
-- platform: string name of the gig platform (e.g., "DoorDash", "Uber Eats", "Instacart", "Expedite", "Spark"), or null if unidentifiable
-- base_pay: the driver's earnings excluding tips. Look for any of these labels: "Base Pay", "Base Fee", "Pay", "Base Earnings", "Order Pay", "Delivery Fee", "Payout", "Earnings". Return as a number without currency symbol. Use null if not found.
-- tips: customer tip amount. Look for any of these labels: "Tip", "Tips", "Customer Tip", "Gratuity". Return as a number without currency symbol. Use null if not found or if zero.
-- date: order or earnings date in "YYYY-MM-DD" format, or null if not visible
+- platform: string name of the gig platform (e.g., "DoorDash", "Uber Eats", "Instacart", "Expedite", "Spark", "Senpex"), or null if unidentifiable
+- base_pay: the driver's earnings excluding tips. Look for any of these labels OR inline formats:
+  - Labels: "Base Pay", "Base Fee", "Pay", "Base Earnings", "Order Pay", "Delivery Fee", "Payout", "Earnings", "Price"
+  - Inline format: "$X.XX + Tip $Y.YY" — the first dollar amount before "+ Tip" is base_pay, the amount after "Tip" is tips
+  - Return as a number without currency symbol. Use null if not found.
+- tips: customer tip amount. Look for: "Tip", "Tips", "Customer Tip", "Gratuity", or the amount after "Tip" in inline format. Return as number, or null.
+- date: order or earnings date in "YYYY-MM-DD" format. Look for explicit dates like "04/25/2026" or "Apr 25". Convert to ISO format. Use null if not visible. Do NOT guess today's date.
 - confidence: "high" if labels were clearly visible, "medium" if inferred, "low" if guessed
 
+Multi-order screens:
+- If the screenshot shows MULTIPLE orders/rows, extract ONLY the FIRST (topmost) order's values.
+- Use that order's date for the date field.
+
 Important:
-- Ignore deductions or negative fees (like "Safety & Admin Fee", "Service Fee") — never subtract them.
-- If the screenshot only shows a total earnings amount with no breakdown, put the total in base_pay and tips: 0.
+- Ignore deductions or negative fees ("Safety & Admin Fee", "Service Fee") — never subtract them.
+- If the screenshot only shows a single total earnings amount with no breakdown, put the total in base_pay and tips: 0.
 - Return ONLY the JSON. No other text.`;
 
     const callGemini = async () => {
