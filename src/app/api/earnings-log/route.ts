@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
         tips: Number(r.tips) || 0,
       adjustments: Number(r.adjustments) || 0,
       bonuses: Number(r.bonuses) || 0,
+    }));
 
     return NextResponse.json({ ok: true, inserted: safeRows.length });
   } catch (err) {
