@@ -48,7 +48,25 @@ export async function POST(req: NextRequest) {
       bonuses: Number(r.bonuses) || 0,
     }));
 
-    return NextResponse.json({ ok: true, inserted: safeRows.length });
+    const { data: inserted, error } = await supabase
+      .from("earnings_log")
+      .insert(safeRows)
+      .select();
+
+    if (error) {
+      console.error("Insert error:", error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    if (!inserted || inserted.length === 0) {
+      console.error("Insert returned 0 rows — likely RLS or constraint blocking");
+      return NextResponse.json(
+        { error: "Insert blocked. Check RLS policies and table constraints." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ ok: true, inserted: inserted.length });
   } catch (err) {
     console.error("earnings-log route error:", err);
     return NextResponse.json(
