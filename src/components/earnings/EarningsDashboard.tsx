@@ -28,7 +28,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<"week" | "month" | "year">("week");
   const [drillPlatform, setDrillPlatform] = useState<string | null>(null);
-  const [pendingDeeplinkPlatform, setPendingDeeplinkPlatform] = useState<string | null>(null);
+  const [pendingDeeplink, setPendingDeeplink] = useState<{ platform: string; view: "week" | "month" | "year" } | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editDate, setEditDate] = useState("");
@@ -128,12 +128,22 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
       nextView = "year";
     }
 
+    setPendingDeeplink({ platform: deeplink.platform_name, view: nextView });
     setView(nextView);
-    // Defer drill-modal opening until view change re-fetches data
-    const platform = deeplink.platform_name;
     onDeeplinkConsumed?.();
-    setTimeout(() => setDrillPlatform(platform), 50);
   }, [deeplink, onDeeplinkConsumed]);
+
+  // Open modal only when:
+  // - There's a pending deeplink
+  // - The view has actually updated to the expected view
+  // - The fetch for that view has completed (loading: false)
+  useEffect(() => {
+    if (!pendingDeeplink) return;
+    if (view !== pendingDeeplink.view) return;
+    if (loading) return;
+    setDrillPlatform(pendingDeeplink.platform);
+    setPendingDeeplink(null);
+  }, [pendingDeeplink, view, loading, data]);
 
   const handleDelete = async (id: string) => {
     const { error: deleteErr } = await supabase
