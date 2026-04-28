@@ -44,14 +44,8 @@ export async function POST(req: NextRequest) {
         date: r.date,
         base_pay: Number(r.base_pay) || 0,
         tips: Number(r.tips) || 0,
-      }));
-
-    const { error } = await supabase.from("earnings_log").insert(safeRows);
-
-    if (error) {
-      console.error("Insert error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+      adjustments: Number(r.adjustments) || 0,
+      bonuses: Number(r.bonuses) || 0,
 
     return NextResponse.json({ ok: true, inserted: safeRows.length });
   } catch (err) {
