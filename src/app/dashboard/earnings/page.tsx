@@ -79,6 +79,39 @@ export default function EarningsPage() {
     );
   }
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#1A1A2E] to-[#0f3460] flex items-center justify-center p-4">
+        <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center">
+          <img
+            src="/gigsidekick-avatar.png"
+            alt="GigSidekick"
+            className="w-20 h-20 object-contain mx-auto mb-3"
+          />
+          <h1 className="text-2xl font-bold text-[#1A1A2E] mb-2">Earnings Tracker</h1>
+          <p className="text-sm text-gray-500 mb-6">
+            Sign in to log and track your gig earnings across all platforms.
+          </p>
+          <a
+            href="/register?redirectTo=/dashboard/earnings"
+            className="block w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-[#00C9B1] to-teal-500 hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.98] transition-all shadow-lg shadow-teal-500/20"
+          >
+            Sign In
+          </a>
+          <p className="text-xs text-gray-400 mt-4">
+            New here?{" "}
+            <a
+              href="/register?redirectTo=/dashboard/earnings"
+              className="text-[#00C9B1] font-medium hover:underline"
+            >
+              Create an account
+            </a>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (needsSetup) {
     return <PlatformSetup onComplete={handleSetupComplete} />;
   }
