@@ -3,9 +3,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { formatLocalDate } from "@/lib/dateUtils";
+import PlatformLogo from "@/components/PlatformLogo";
 
 interface EarningsData {
   id?: string;
+  platform_id?: string;
   platform_name: string;
   base_pay: number;
   tips: number;
@@ -71,7 +73,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
       const { data: earnings, error: earningsError } = await Promise.race([
         supabase
           .from("earnings_log")
-          .select("id, platform_name, base_pay, tips, total_pay, date")
+          .select("id, platform_id, platform_name, base_pay, tips, total_pay, date")
           .eq("user_id", user.id)
           .gte("date", startDate)
           .order("date", { ascending: false }),
@@ -224,13 +226,13 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
 
   const byPlatform = data.reduce((acc, e) => {
     if (!acc[e.platform_name]) {
-      acc[e.platform_name] = { base: 0, tips: 0, total: 0 };
+      acc[e.platform_name] = { platform_id: (e as any).platform_id || "", base: 0, tips: 0, total: 0 };
     }
     acc[e.platform_name].base += e.base_pay || 0;
     acc[e.platform_name].tips += e.tips || 0;
     acc[e.platform_name].total += entryTotal(e);
     return acc;
-  }, {} as Record<string, { base: number; tips: number; total: number }>);
+  }, {} as Record<string, { platform_id: string; base: number; tips: number; total: number }>);
 
   const platformRanking = Object.entries(byPlatform)
     .sort((a, b) => b[1].total - a[1].total);
@@ -371,9 +373,14 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
                       onClick={() => setDrillPlatform(name)}
                       className="w-full flex items-center gap-3 bg-gray-50 hover:bg-teal-50 rounded-xl p-3 transition-colors text-left"
                     >
-                      <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center text-xs font-bold text-teal-600 flex-shrink-0">
+                      <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center text-[10px] font-bold text-teal-600 flex-shrink-0">
                         {i + 1}
                       </div>
+                      <PlatformLogo
+                        platform_id={stats.platform_id}
+                        platform_name={name}
+                        size={28}
+                      />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-gray-800 truncate">{name}</p>
                         <p className="text-xs text-gray-400">
@@ -418,7 +425,14 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
               ✕
             </button>
 
-            <h3 className="text-lg font-bold text-[#1A1A2E] mb-1">{drillPlatform}</h3>
+            <div className="flex items-center gap-3 mb-1">
+              <PlatformLogo
+                platform_id={byPlatform[drillPlatform]?.platform_id || ""}
+                platform_name={drillPlatform}
+                size={36}
+              />
+              <h3 className="text-lg font-bold text-[#1A1A2E]">{drillPlatform}</h3>
+            </div>
             <p className="text-xs text-gray-500 mb-4">
               {drillEntries.length} {drillEntries.length === 1 ? "entry" : "entries"} ·{" "}
               {view === "week" ? "Last 7 days" : view === "month" ? "This month" : "This year"}

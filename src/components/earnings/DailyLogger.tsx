@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import platformsData from "@/data/platforms.json";
 import { formatLocalDate } from "@/lib/dateUtils";
+import PlatformLogo from "@/components/PlatformLogo";
 
 const inactiveStatuses = [
   "absorbed", "merged", "rebranded", "shut_down", "shutdown",
@@ -19,6 +20,7 @@ const activePlatforms = (platformsData as any[]).filter(
 
 interface Recent {
   id: string;
+  platform_id: string;
   platform_name: string;
   date: string;
   total: number;
@@ -79,7 +81,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     if (!userId) return;
     const { data } = await supabase
       .from("earnings_log")
-      .select("id, platform_name, date, base_pay, tips")
+      .select("id, platform_id, platform_name, date, base_pay, tips")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       .limit(5);
@@ -88,6 +90,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       setRecent(
         data.map((r: any) => ({
           id: r.id,
+          platform_id: r.platform_id,
           platform_name: r.platform_name,
           date: r.date,
           total: (r.base_pay || 0) + (r.tips || 0),
@@ -431,7 +434,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
                 key={p.platform_id}
                 onClick={() => selectChip(p.platform_id, p.platform_name)}
                 disabled={formOpen}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border disabled:opacity-50 ${
+                className={`flex items-center gap-1.5 pl-1 pr-3 py-1 rounded-full text-xs font-medium transition-all border disabled:opacity-50 ${
                   isFlashing
                     ? "bg-green-100 text-green-700 border-green-200"
                     : isSelected
@@ -439,7 +442,14 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
                     : "bg-teal-50 text-teal-700 border-teal-100 hover:bg-teal-100"
                 }`}
               >
-                {isFlashing ? "✓ Logged" : p.platform_name}
+                {!isFlashing && (
+                  <PlatformLogo
+                    platform_id={p.platform_id}
+                    platform_name={p.platform_name}
+                    size={20}
+                  />
+                )}
+                <span>{isFlashing ? "✓ Logged" : p.platform_name}</span>
               </button>
             );
           })}
@@ -671,16 +681,23 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
               >
                 <button
                   onClick={() => onOpenInDashboard?.(r.platform_name, r.date)}
-                  className="flex-1 flex justify-between items-center text-left hover:bg-gray-50 rounded px-1 -mx-1 py-0.5 transition-colors"
+                  className="flex-1 flex items-center justify-between text-left hover:bg-gray-50 rounded px-1 -mx-1 py-0.5 transition-colors gap-2"
                 >
-                  <span className="text-gray-700">
-                    <span className="font-medium">{r.platform_name}</span>
-                    <span className="text-gray-400">
-                      {" · "}
-                      {r.date === today ? "today" : formatLocalDate(r.date)}
+                  <span className="flex items-center gap-2 min-w-0 flex-1">
+                    <PlatformLogo
+                      platform_id={r.platform_id}
+                      platform_name={r.platform_name}
+                      size={18}
+                    />
+                    <span className="text-gray-700 truncate">
+                      <span className="font-medium">{r.platform_name}</span>
+                      <span className="text-gray-400">
+                        {" · "}
+                        {r.date === today ? "today" : formatLocalDate(r.date)}
+                      </span>
                     </span>
                   </span>
-                  <span className="text-gray-700 font-medium">${r.total.toFixed(2)}</span>
+                  <span className="text-gray-700 font-medium flex-shrink-0">${r.total.toFixed(2)}</span>
                 </button>
               </div>
             ))}
