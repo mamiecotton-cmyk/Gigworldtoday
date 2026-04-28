@@ -28,6 +28,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<"week" | "month" | "year">("week");
   const [drillPlatform, setDrillPlatform] = useState<string | null>(null);
+  const [pendingDeeplinkPlatform, setPendingDeeplinkPlatform] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editDate, setEditDate] = useState("");
@@ -480,6 +481,12 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
             </p>
 
             <div className="space-y-2">
+              {loading && drillEntries.length === 0 && (
+                <div className="flex items-center justify-center py-8 text-gray-400">
+                  <span className="animate-spin mr-2">⏳</span>
+                  <span className="text-sm">Loading entries...</span>
+                </div>
+              )}
               {drillEntries.map((entry) => (
                 <div key={entry.id} className="bg-gray-50 rounded-lg p-3">
                   <div className="flex justify-between items-start mb-2">
