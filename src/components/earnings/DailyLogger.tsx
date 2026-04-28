@@ -63,6 +63,11 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   // Screenshot
   const [parsing, setParsing] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
+
+  // Multi-order state
+  const [parsedOrders, setParsedOrders] = useState<Array<{ base_pay: string; tips: string; date: string }>>([]);
+  const [orderIndex, setOrderIndex] = useState(0);
+  const [savedCount, setSavedCount] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Recent + today total
@@ -180,10 +185,38 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         return;
       }
 
-      // Pre-fill form, open it
-      setBasePay(data.base_pay?.toString() || "");
-      setTips(data.tips?.toString() || "");
-      setDate(data.date || today);
+      const orders = Array.isArray(data.orders) ? data.orders : [];
+
+      if (orders.length === 0) {
+        // Fallback — open blank form so user can manually enter
+        setParsedOrders([]);
+        setOrderIndex(0);
+        setSavedCount(0);
+        setBasePay("");
+        setTips("");
+        setDate(today);
+        setFormOpen(true);
+        return;
+      }
+
+      // Normalize each order — coerce values to strings, fall back to today for invalid dates
+      const normalized = orders.map((o: any) => {
+        const validDate = o.date && /^\d{4}-\d{2}-\d{2}$/.test(o.date) ? o.date : today;
+        return {
+          base_pay: o.base_pay != null ? o.base_pay.toString() : "",
+          tips: o.tips != null ? o.tips.toString() : "",
+          date: validDate,
+        };
+      });
+
+      setParsedOrders(normalized);
+      setOrderIndex(0);
+      setSavedCount(0);
+
+      // Pre-fill form with first order
+      setBasePay(normalized[0].base_pay);
+      setTips(normalized[0].tips);
+      setDate(normalized[0].date);
       setFormOpen(true);
     } catch {
       setParseError("Failed to process screenshot. Try manual entry.");
@@ -192,12 +225,64 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     }
   }, [selectedPlatform, today]);
 
+  const isMultiOrder = parsedOrders.length > 1;
+  const hasMoreOrders = parsedOrders.length > 0 && orderIndex < parsedOrders.length - 1;
+
+  const resetMultiOrderState = () => {
+    setParsedOrders([]);
+    setOrderIndex(0);
+    setSavedCount(0);
+  };
+
   const cancelForm = () => {
     setFormOpen(false);
     setBasePay("");
     setTips("");
     setDate(today);
     setSaveError(null);
+    setDuplicatePrompt(false);
+    resetMultiOrderState();
+    if (savedCount > 0) {
+      // Some orders were saved before cancel — flash chip and refresh recent
+      if (selectedPlatform) {
+        setFlashId(selectedPlatform.id);
+        setTimeout(() => setFlashId(null), 1500);
+      }
+      setSelectedPlatform(null);
+      loadRecent();
+      onSaved();
+    }
+  };
+
+  const advanceToNextOrder = () => {
+    const nextIdx = orderIndex + 1;
+    if (nextIdx >= parsedOrders.length) {
+      // No more orders — close the flow
+      setFormOpen(false);
+      if (selectedPlatform) {
+        setFlashId(selectedPlatform.id);
+        setTimeout(() => setFlashId(null), 1500);
+      }
+      setSelectedPlatform(null);
+      setBasePay("");
+      setTips("");
+      setDate(today);
+      resetMultiOrderState();
+      loadRecent();
+      onSaved();
+    } else {
+      const next = parsedOrders[nextIdx];
+      setOrderIndex(nextIdx);
+      setBasePay(next.base_pay);
+      setTips(next.tips);
+      setDate(next.date);
+      setSaveError(null);
+      setDuplicatePrompt(false);
+    }
+  };
+
+  const skipCurrentOrder = () => {
+    advanceToNextOrder();
   };
 
   const checkForDuplicate = async (): Promise<boolean> => {
@@ -244,18 +329,8 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
         return;
       }
 
-      const flashedId = selectedPlatform.id;
-      setFlashId(flashedId);
-      setTimeout(() => setFlashId(null), 1500);
-
-      setFormOpen(false);
-      setSelectedPlatform(null);
-      setBasePay("");
-      setTips("");
-      setDate(today);
-
-      await loadRecent();
-      onSaved();
+      setSavedCount((c) => c + 1);
+      advanceToNextOrder();
     } catch (err) {
       setSaveError(err instanceof Error ? err.message : "Could not save");
     } finally {
@@ -451,8 +526,14 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       {/* Inline entry form */}
       {formOpen && selectedPlatform && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-[#1A1A2E]">{selectedPlatform.name}</p>
+          {/* Header with order banner */}
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-sm font-semibold text-[#1A1A2E] flex-1">{selectedPlatform.name}</p>
+            {isMultiOrder && (
+              <span className="text-[10px] px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full font-medium">
+                Order {orderIndex + 1} of {parsedOrders.length}
+              </span>
+            )}
             <input
               type="date"
               value={date}
@@ -460,6 +541,27 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
               className="text-xs border border-gray-200 rounded px-2 py-1 focus:border-[#00C9B1] outline-none bg-white"
             />
           </div>
+
+          {/* Progress bar for multi-order */}
+          {isMultiOrder && (
+            <div className="flex gap-1">
+              {parsedOrders.map((_, i) => (
+                <div
+                  key={i}
+                  className={`flex-1 h-1 rounded-full transition-colors ${
+                    i < orderIndex ? "bg-green-500" : i === orderIndex ? "bg-[#00C9B1]" : "bg-gray-200"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Saved-so-far indicator */}
+          {isMultiOrder && savedCount > 0 && (
+            <p className="text-xs text-green-600">
+              ✓ {savedCount} {savedCount === 1 ? "order" : "orders"} saved
+            </p>
+          )}
 
           <div>
             <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">
@@ -506,16 +608,27 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
               disabled={saving}
               className="flex-1 py-2.5 rounded-lg font-semibold text-white bg-[#1A1A2E] hover:bg-[#0f3460] disabled:opacity-40 transition-all text-sm"
             >
-              {saving ? "Saving..." : "Save"}
+              {saving ? "Saving..." : hasMoreOrders ? "Save & Next" : "Save"}
             </button>
             <button
               onClick={cancelForm}
               disabled={saving}
               className="px-4 py-2.5 rounded-lg font-medium text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 text-sm"
             >
-              Cancel
+              {savedCount > 0 ? "Done" : "Cancel"}
             </button>
           </div>
+
+          {/* Skip button — only when multi-order and we have more orders to process */}
+          {isMultiOrder && hasMoreOrders && (
+            <button
+              onClick={skipCurrentOrder}
+              disabled={saving}
+              className="w-full text-xs text-gray-500 hover:text-teal-600 transition-colors disabled:opacity-50"
+            >
+              Skip this order →
+            </button>
+          )}
 
           {saveError && <p className="text-xs text-red-500 text-center">{saveError}</p>}
 

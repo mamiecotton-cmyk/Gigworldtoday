@@ -32,13 +32,11 @@ function numberOrNull(value: unknown) {
   return null;
 }
 
-function fallbackParse(confidence = "low") {
+function fallbackParse() {
   return {
     platform: null,
-    base_pay: null,
-    tips: null,
-    date: new Date().toISOString().split("T")[0],
-    confidence,
+    orders: [],
+    confidence: "low",
   };
 }
 
@@ -57,112 +55,99 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Gemini API key not configured" }, { status: 500 });
     }
 
-    const prompt = `Analyze this gig economy earnings screenshot and extract payment information.
+    const prompt = `Analyze this gig economy earnings screenshot and extract payment information for ALL orders/deliveries visible.
 
 Return ONLY a raw JSON object (no markdown, no code blocks, no explanation):
-{"platform":null,"base_pay":null,"tips":null,"date":null,"confidence":"low"}
+{
+  "platform": null,
+  "orders": [
+    {"base_pay": null, "tips": null, "date": null}
+  ],
+  "confidence": "low"
+}
 
 Field rules:
-- platform: string name of the gig platform (e.g., "DoorDash", "Uber Eats", "Instacart", "Expedite", "Spark", "Senpex"), or null if unidentifiable
-- base_pay: the driver's earnings excluding tips. Look for any of these labels OR inline formats:
-  - Labels: "Base Pay", "Base Fee", "Pay", "Base Earnings", "Order Pay", "Delivery Fee", "Payout", "Earnings", "Price"
-  - Inline format: "$X.XX + Tip $Y.YY" — the first dollar amount before "+ Tip" is base_pay, the amount after "Tip" is tips
-  - Return as a number without currency symbol. Use null if not found.
-- tips: customer tip amount. Look for: "Tip", "Tips", "Customer Tip", "Gratuity", or the amount after "Tip" in inline format. Return as number, or null.
-- date: order or earnings date in "YYYY-MM-DD" format. Look for explicit dates like "04/25/2026" or "Apr 25". Convert to ISO format. Use null if not visible. Do NOT guess today's date.
-- confidence: "high" if labels were clearly visible, "medium" if inferred, "low" if guessed
-
-Multi-order screens:
-- If the screenshot shows MULTIPLE orders/rows, extract ONLY the FIRST (topmost) order's values.
-- Use that order's date for the date field.
+- platform: string name of the gig platform (e.g., "DoorDash", "Uber Eats", "Instacart", "Expedite", "Spark", "Senpex"), or null if unidentifiable.
+- orders: array of objects, ONE PER ORDER/DELIVERY visible in the screenshot. If only one order is shown, return an array with one item. If multiple orders are listed, return one item per order in the order they appear (top-to-bottom).
+  - base_pay: the driver's earnings excluding tips for THIS order. Look for any of:
+    - Labels: "Base Pay", "Base Fee", "Pay", "Base Earnings", "Order Pay", "Delivery Fee", "Payout", "Earnings", "Price"
+    - Inline format: "$X.XX + Tip $Y.YY" — first amount before "+ Tip" is base_pay
+    - Return as a number without currency symbol. Use null if not found.
+  - tips: customer tip for THIS order. Look for "Tip", "Tips", "Customer Tip", "Gratuity", or amount after "Tip" in inline format. Return as number, or null.
+  - date: order date for THIS order in "YYYY-MM-DD" format. Look for explicit dates like "04/25/2026" or "Apr 25". Convert to ISO format. Use null if not visible. Do NOT guess today's date.
+- confidence: "high" if labels were clearly visible, "medium" if inferred, "low" if guessed.
 
 Important:
+- Each order in the screenshot must be its own item in the orders array.
+- If an order has only a total amount with no base/tip breakdown, put the total in base_pay and tips: 0.
 - Ignore deductions or negative fees ("Safety & Admin Fee", "Service Fee") — never subtract them.
-- If the screenshot only shows a single total earnings amount with no breakdown, put the total in base_pay and tips: 0.
+- If no orders can be identified at all, return orders as an empty array [].
 - Return ONLY the JSON. No other text.`;
 
-    const callGemini = async () => {
-      const geminiRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  {
-                    inline_data: {
-                      mime_type: mimeType || "image/jpeg",
-                      data: imageBase64,
-                    },
+    const geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  inline_data: {
+                    mime_type: mimeType || "image/jpeg",
+                    data: imageBase64,
                   },
-                  { text: prompt },
-                ],
-              },
-            ],
-            generationConfig: {
-              temperature: 0.1,
-              maxOutputTokens: 2048,
-              responseMimeType: "application/json",
-              thinkingConfig: {
-                thinkingBudget: 0,
-              },
+                },
+                { text: prompt },
+              ],
             },
-          }),
-        }
-      );
-
-      console.log("Gemini response status:", geminiRes.status, geminiRes.ok);
-      if (!geminiRes.ok) {
-        const errText = await geminiRes.text();
-        console.error("Gemini error body:", errText);
-        return { error: errText };
+          ],
+          generationConfig: {
+            temperature: 0.1,
+            maxOutputTokens: 2048,
+            responseMimeType: "application/json",
+            thinkingConfig: {
+              thinkingBudget: 0,
+            },
+          },
+        }),
       }
+    );
 
-      const geminiData = await geminiRes.json();
-      const rawText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-      console.log("Gemini raw text:", rawText.slice(0, 500));
-
-      return { rawText };
-    };
-
-    let attempt = await callGemini();
-    if (attempt.error) {
-      return NextResponse.json({ error: "Gemini API error", detail: attempt.error }, { status: 500 });
+    console.log("Gemini response status:", geminiRes.status, geminiRes.ok);
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text();
+      console.error("Gemini error body:", errText);
+      return NextResponse.json({ error: "Gemini API error", detail: errText }, { status: 500 });
     }
 
-    let rawText = attempt.rawText || "";
-    let parsed = rawText ? parseJsonObject(rawText) : null;
-
-    // Retry once if Gemini returns unparsable or empty text.
-    if (!rawText || !parsed) {
-      console.warn("Parse failed on first attempt, retrying Gemini once");
-      attempt = await callGemini();
-
-      if (attempt.error) {
-        return NextResponse.json({ error: "Gemini API error", detail: attempt.error }, { status: 500 });
-      }
-
-      rawText = attempt.rawText || "";
-      parsed = rawText ? parseJsonObject(rawText) : null;
-    }
+    const geminiData = await geminiRes.json();
+    const rawText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    console.log("Gemini raw text:", rawText.slice(0, 500));
 
     if (!rawText) {
       console.error("Empty response from Gemini");
       return NextResponse.json(fallbackParse());
     }
 
+    const parsed = parseJsonObject(rawText);
     if (!parsed) {
       console.error("Could not parse Gemini response:", rawText);
       return NextResponse.json(fallbackParse());
     }
 
+    // Normalize the orders array
+    const ordersArray = Array.isArray(parsed.orders) ? parsed.orders : [];
+    const normalizedOrders = ordersArray.map((o: any) => ({
+      base_pay: numberOrNull(o?.base_pay),
+      tips: numberOrNull(o?.tips),
+      date: o?.date || null,
+    }));
+
     return NextResponse.json({
       platform: parsed.platform || null,
-      base_pay: numberOrNull(parsed.base_pay),
-      tips: numberOrNull(parsed.tips),
-      date: parsed.date || new Date().toISOString().split("T")[0],
+      orders: normalizedOrders,
       confidence: parsed.confidence || "low",
     });
   } catch (error) {
