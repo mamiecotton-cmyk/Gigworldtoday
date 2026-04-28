@@ -108,27 +108,30 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   useEffect(() => {
     if (!deeplink) return;
 
-    // Determine which view contains the date
-    const entryDate = new Date(deeplink.date);
+    // Parse date as local (avoids UTC off-by-one)
+    const [y, m, d] = deeplink.date.split("-").map(Number);
+    const entryDate = new Date(y, m - 1, d);
     const now = new Date();
     const sevenDaysAgo = new Date(now);
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
+    let nextView: "week" | "month" | "year" = "year";
     if (entryDate >= sevenDaysAgo) {
-      setView("week");
+      nextView = "week";
     } else if (
       entryDate.getFullYear() === now.getFullYear() &&
       entryDate.getMonth() === now.getMonth()
     ) {
-      setView("month");
+      nextView = "month";
     } else if (entryDate.getFullYear() === now.getFullYear()) {
-      setView("year");
-    } else {
-      setView("year");
+      nextView = "year";
     }
 
-    setDrillPlatform(deeplink.platform_name);
+    setView(nextView);
+    // Defer drill-modal opening until view change re-fetches data
+    const platform = deeplink.platform_name;
     onDeeplinkConsumed?.();
+    setTimeout(() => setDrillPlatform(platform), 50);
   }, [deeplink, onDeeplinkConsumed]);
 
   const handleDelete = async (id: string) => {
