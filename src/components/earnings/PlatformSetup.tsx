@@ -291,7 +291,7 @@ export default function PlatformSetup({ onComplete }: Props) {
         <button
           onClick={onComplete}
           disabled={isFirstRun && saved.length === 0}
-          className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-[#00C9B1] to-teal-500 hover:opacity-90 disabled:opacity-40 transition-all shadow-lg shadow-teal-500/20"
+          className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-[#00C9B1] to-teal-500 hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-40 disabled:hover:translate-y-0 transition-all shadow-lg shadow-teal-500/20"
         >
           {isFirstRun ? `Save My Platforms (${saved.length})` : "Done"}
         </button>

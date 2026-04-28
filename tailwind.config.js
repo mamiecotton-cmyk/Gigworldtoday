@@ -6,6 +6,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        "pulse-glow": "pulseGlow 2s ease-in-out infinite",
+      },
+      keyframes: {
+        pulseGlow: {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(0, 201, 177, 0.6)" },
+          "50%": { boxShadow: "0 0 0 8px rgba(0, 201, 177, 0)" },
+        },
+      },
       colors: {
         primary: {
           50: '#eff6ff',

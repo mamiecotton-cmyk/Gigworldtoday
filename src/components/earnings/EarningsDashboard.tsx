@@ -288,9 +288,18 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   }
 
   if (error) {
+    const isAuthError = error.toLowerCase().includes("sign in");
     return (
-      <div className="text-center py-10 text-red-500">
-        <p className="text-sm">{error}</p>
+      <div className="text-center py-10">
+        <p className="text-sm text-red-500 mb-3">{error}</p>
+        {isAuthError && (
+          <a
+            href="/register?redirectTo=/dashboard/earnings"
+            className="inline-block px-4 py-2 bg-[#1A1A2E] text-white rounded-lg text-sm font-semibold hover:opacity-90"
+          >
+            Sign in
+          </a>
+        )}
       </div>
     );
   }
@@ -403,7 +412,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
                     <button
                       key={name}
                       onClick={() => setDrillPlatform(name)}
-                      className="w-full flex items-center gap-3 bg-gray-50 hover:bg-teal-50 rounded-xl p-3 transition-colors text-left"
+                      className="w-full flex items-center gap-3 bg-gray-50 hover:bg-teal-50 hover:-translate-y-0.5 active:scale-[0.98] rounded-xl p-3 transition-all text-left"
                     >
                       <div className="w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center text-[10px] font-bold text-teal-600 flex-shrink-0">
                         {i + 1}
@@ -597,7 +606,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
                         <button
                           onClick={() => entry.id && saveEdit(entry.id)}
                           disabled={editSaving}
-                          className="flex-1 py-1.5 bg-[#1A1A2E] text-white rounded text-xs font-semibold hover:opacity-90 disabled:opacity-40"
+                          className="flex-1 py-1.5 bg-[#1A1A2E] text-white rounded text-xs font-semibold hover:opacity-90 hover:-translate-y-0.5 active:scale-95 disabled:opacity-40 disabled:hover:translate-y-0 transition-all"
                         >
                           {editSaving ? "Saving..." : "Save"}
                         </button>

@@ -451,12 +451,12 @@ export default function DailyLogger({ userPlatforms, onSaved, onPlatformsChanged
                 key={p.platform_id}
                 onClick={() => selectChip(p.platform_id, p.platform_name)}
                 disabled={formOpen}
-                className={`flex items-center gap-1.5 pl-1 pr-3 py-1 rounded-full text-xs font-medium transition-all border disabled:opacity-50 ${
+                className={`flex items-center gap-1.5 pl-1 pr-3 py-1 rounded-full text-xs font-medium transition-all border disabled:opacity-50 active:scale-95 ${
                   isFlashing
                     ? "bg-green-100 text-green-700 border-green-200"
                     : isSelected
-                    ? "bg-teal-500 text-white border-teal-500"
-                    : "bg-teal-50 text-teal-700 border-teal-100 hover:bg-teal-100"
+                    ? "bg-teal-500 text-white border-teal-500 animate-pulse-glow"
+                    : "bg-teal-50 text-teal-700 border-teal-100 hover:bg-teal-100 hover:-translate-y-0.5"
                 }`}
               >
                 {!isFlashing && (
@@ -535,14 +535,14 @@ export default function DailyLogger({ userPlatforms, onSaved, onPlatformsChanged
         <button
           onClick={openUpload}
           disabled={parsing || formOpen}
-          className="py-2.5 border border-dashed border-teal-200 rounded-lg text-xs text-teal-600 font-medium hover:border-teal-400 hover:bg-teal-50 transition-all disabled:opacity-50"
+          className="py-2.5 border border-dashed border-teal-200 rounded-lg text-xs text-teal-600 font-medium hover:border-teal-400 hover:bg-teal-50 hover:-translate-y-0.5 active:scale-95 transition-all disabled:opacity-50"
         >
           {parsing ? "⏳ Reading..." : "📸 Upload Screenshot"}
         </button>
         <button
           onClick={openManual}
           disabled={formOpen}
-          className="py-2.5 border border-dashed border-gray-300 rounded-lg text-xs text-gray-600 font-medium hover:border-teal-300 hover:text-teal-600 transition-all disabled:opacity-50"
+          className="py-2.5 border border-dashed border-gray-300 rounded-lg text-xs text-gray-600 font-medium hover:border-teal-300 hover:text-teal-600 hover:-translate-y-0.5 active:scale-95 transition-all disabled:opacity-50"
         >
           ✍️ Manual Entry
         </button>
@@ -671,7 +671,7 @@ export default function DailyLogger({ userPlatforms, onSaved, onPlatformsChanged
             <button
               onClick={save}
               disabled={saving}
-              className="flex-1 py-2.5 rounded-lg font-semibold text-white bg-[#1A1A2E] hover:bg-[#0f3460] disabled:opacity-40 transition-all text-sm"
+              className="flex-1 py-2.5 rounded-lg font-semibold text-white bg-[#1A1A2E] hover:bg-[#0f3460] hover:-translate-y-0.5 active:scale-95 disabled:opacity-40 disabled:hover:translate-y-0 transition-all text-sm"
             >
               {saving ? "Saving..." : hasMoreOrders ? "Save & Next" : "Save"}
             </button>
