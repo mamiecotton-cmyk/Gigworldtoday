@@ -26,7 +26,15 @@ export default function EarningsPage() {
 
       if (!session) {
         setLoading(false);
-        return; // Don't redirect — just show nothing
+        return;
+      }
+
+      // Verify token is still valid server-side
+      const { data: { user: verifiedUser } } = await supabase.auth.getUser();
+      if (!verifiedUser) {
+        await supabase.auth.signOut();
+        setLoading(false);
+        return;
       }
 
       setUser(session.user);
