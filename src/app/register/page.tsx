@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 /* ── SVG Icons ─────────────────────────────────────── */
 
@@ -34,6 +34,7 @@ function GoogleIcon() {
 
 function AuthContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(false);
@@ -44,10 +45,11 @@ function AuthContent() {
 
   const handleOAuth = async (provider: "google") => {
     setError("");
+    const next = searchParams.get("redirectTo") ?? "/";
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
       },
     });
     if (error) setError(error.message);
@@ -70,7 +72,8 @@ function AuthContent() {
         return;
       }
 
-      router.push("/");
+      const redirectTo = searchParams.get("redirectTo") ?? "/";
+      router.push(redirectTo);
       return;
     }
 
