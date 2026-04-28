@@ -62,14 +62,17 @@ export async function POST(req: NextRequest) {
 Return ONLY a raw JSON object (no markdown, no code blocks, no explanation):
 {"platform":null,"base_pay":null,"tips":null,"date":null,"confidence":"low"}
 
-Rules:
-- platform: string name like "DoorDash", "Uber Eats", "Instacart" etc, or null
-- base_pay: number without currency symbol, or null  
-- tips: number without currency symbol, or null
-- date: "YYYY-MM-DD" format or null
-- confidence: "high", "medium", or "low"
+Field rules:
+- platform: string name of the gig platform (e.g., "DoorDash", "Uber Eats", "Instacart", "Expedite", "Spark"), or null if unidentifiable
+- base_pay: the driver's earnings excluding tips. Look for any of these labels: "Base Pay", "Base Fee", "Pay", "Base Earnings", "Order Pay", "Delivery Fee", "Payout", "Earnings". Return as a number without currency symbol. Use null if not found.
+- tips: customer tip amount. Look for any of these labels: "Tip", "Tips", "Customer Tip", "Gratuity". Return as a number without currency symbol. Use null if not found or if zero.
+- date: order or earnings date in "YYYY-MM-DD" format, or null if not visible
+- confidence: "high" if labels were clearly visible, "medium" if inferred, "low" if guessed
 
-Return ONLY the JSON. No other text.`;
+Important:
+- Ignore deductions or negative fees (like "Safety & Admin Fee", "Service Fee") — never subtract them.
+- If the screenshot only shows a total earnings amount with no breakdown, put the total in base_pay and tips: 0.
+- Return ONLY the JSON. No other text.`;
 
     const callGemini = async () => {
       const geminiRes = await fetch(
