@@ -9,6 +9,21 @@ export const metadata: Metadata = {
   description:
     "News, platform comparisons, tutorials, and ratings for modern gig workers.",
   metadataBase: new URL("https://www.gigworldtoday.com"),
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Earnings Tracker",
+    statusBarStyle: "black-translucent",
+  },
   openGraph: {
     title: "GigWorldToday",
     description:
