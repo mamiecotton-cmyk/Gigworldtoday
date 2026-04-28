@@ -47,6 +47,7 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
   const [date, setDate] = useState(today);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [duplicatePrompt, setDuplicatePrompt] = useState(false);
 
   // Hint when buttons tapped without a chip selected
   const [hint, setHint] = useState<string | null>(null);
@@ -198,18 +199,25 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     setSaveError(null);
   };
 
-  const save = async () => {
-    if (!selectedPlatform) return;
-    if (basePay === "" && tips === "") {
-      setSaveError("Enter base pay or tips");
-      return;
-    }
-    if (!userId || !accessToken) {
-      setSaveError("Please sign in again before saving");
-      return;
-    }
+  const checkForDuplicate = async (): Promise<boolean> => {
+    if (!userId || !selectedPlatform) return false;
+    const { data: existing } = await supabase
+      .from("earnings_log")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("platform_id", selectedPlatform.id)
+      .eq("date", date)
+      .eq("base_pay", parseFloat(basePay) || 0)
+      .eq("tips", parseFloat(tips) || 0)
+      .maybeSingle();
+    return !!existing;
+  };
+
+  const performSave = async () => {
+    if (!selectedPlatform || !userId || !accessToken) return;
     setSaving(true);
     setSaveError(null);
+    setDuplicatePrompt(false);
 
     const row = {
       user_id: userId,
@@ -239,7 +247,6 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
       setFlashId(flashedId);
       setTimeout(() => setFlashId(null), 1500);
 
-      // Reset
       setFormOpen(false);
       setSelectedPlatform(null);
       setBasePay("");
@@ -253,6 +260,27 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
     } finally {
       setSaving(false);
     }
+  };
+
+  const save = async () => {
+    if (!selectedPlatform) return;
+    if (basePay === "" && tips === "") {
+      setSaveError("Enter base pay or tips");
+      return;
+    }
+    if (!userId || !accessToken) {
+      setSaveError("Please sign in again before saving");
+      return;
+    }
+
+    setSaveError(null);
+    const isDuplicate = await checkForDuplicate();
+    if (isDuplicate) {
+      setDuplicatePrompt(true);
+      return;
+    }
+
+    await performSave();
   };
 
   // + Other
@@ -489,6 +517,29 @@ export default function DailyLogger({ userPlatforms, onSaved, userId, accessToke
           </div>
 
           {saveError && <p className="text-xs text-red-500 text-center">{saveError}</p>}
+
+          {duplicatePrompt && (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+              <p className="text-xs text-amber-900 mb-2">
+                This looks like a duplicate of an existing entry. Save anyway?
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={performSave}
+                  disabled={saving}
+                  className="flex-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-600 text-white hover:bg-amber-700 disabled:opacity-50"
+                >
+                  Yes, save anyway
+                </button>
+                <button
+                  onClick={() => setDuplicatePrompt(false)}
+                  className="flex-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-amber-200 text-amber-700 hover:bg-amber-100"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

@@ -26,6 +26,7 @@ export default function EarningsDashboard() {
   const [editTips, setEditTips] = useState("");
   const [editSaving, setEditSaving] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
+  const [editDuplicatePrompt, setEditDuplicatePrompt] = useState<string | null>(null);
 
   const fetchEarnings = useCallback(async () => {
     setLoading(true);
@@ -122,9 +123,31 @@ export default function EarningsDashboard() {
     setEditError(null);
   };
 
-  const saveEdit = async (id: string) => {
+  const checkEditDuplicate = async (id: string): Promise<boolean> => {
+    const editing = data.find((e) => e.id === id);
+    if (!editing) return false;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return false;
+
+    const { data: existing } = await supabase
+      .from("earnings_log")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("platform_name", editing.platform_name)
+      .eq("date", editDate)
+      .eq("base_pay", parseFloat(editBase) || 0)
+      .eq("tips", parseFloat(editTips) || 0)
+      .neq("id", id)
+      .maybeSingle();
+
+    return !!existing;
+  };
+
+  const performEditSave = async (id: string) => {
     setEditSaving(true);
     setEditError(null);
+    setEditDuplicatePrompt(null);
 
     const { error: updateErr } = await supabase
       .from("earnings_log")
@@ -144,6 +167,16 @@ export default function EarningsDashboard() {
     setEditingId(null);
     setEditSaving(false);
     await fetchEarnings();
+  };
+
+  const saveEdit = async (id: string) => {
+    setEditError(null);
+    const isDuplicate = await checkEditDuplicate(id);
+    if (isDuplicate) {
+      setEditDuplicatePrompt(id);
+      return;
+    }
+    await performEditSave(id);
   };
 
   // Calculations
@@ -465,6 +498,29 @@ export default function EarningsDashboard() {
                         </button>
                       </div>
                       {editError && <p className="text-xs text-red-500">{editError}</p>}
+
+                      {editDuplicatePrompt === entry.id && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-2">
+                          <p className="text-xs text-amber-900 mb-2">
+                            This looks like a duplicate. Save anyway?
+                          </p>
+                          <div className="flex gap-1.5">
+                            <button
+                              onClick={() => entry.id && performEditSave(entry.id)}
+                              disabled={editSaving}
+                              className="flex-1 px-2 py-1 rounded text-xs font-medium bg-amber-600 text-white hover:bg-amber-700 disabled:opacity-50"
+                            >
+                              Yes, save
+                            </button>
+                            <button
+                              onClick={() => setEditDuplicatePrompt(null)}
+                              className="flex-1 px-2 py-1 rounded text-xs font-medium bg-white border border-amber-200 text-amber-700 hover:bg-amber-100"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
