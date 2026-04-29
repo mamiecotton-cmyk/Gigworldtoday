@@ -10,9 +10,15 @@ export const metadata: Metadata = {
 
 export default function TrackerLandingPage() {
   return (
-    <div className="bg-white min-h-screen overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden" style={{ background: "linear-gradient(180deg, #0A0F1C 0%, #0F172A 100%)" }}>
+      {/* Dark urban atmosphere overlays */}
+      <div className="fixed inset-0 pointer-events-none" style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15))", zIndex: 0 }} />
+      <div className="fixed inset-0 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0) 1px, rgba(255,255,255,0) 60px, rgba(255,255,255,0.04) 60px), repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0) 1px, rgba(255,255,255,0) 60px, rgba(255,255,255,0.04) 60px)", zIndex: 0 }} />
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0, opacity: 0.05 }}>
+        <div className="tracker-rise-line" />
+      </div>
       {/* Hero — full viewport, dark navy, energetic */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-[#1A1A2E] via-[#0f3460] to-[#1A1A2E] overflow-hidden pt-20">
+      <section className="relative z-10 min-h-screen flex items-center bg-gradient-to-br from-[#1A1A2E] via-[#0f3460] to-[#1A1A2E] overflow-hidden pt-20">
 
         {/* Animated background orbs */}
         <div className="absolute inset-0 pointer-events-none">
@@ -134,12 +140,12 @@ export default function TrackerLandingPage() {
       </section>
 
       {/* Trust strip */}
-      <section className="py-8 px-4 bg-gray-50 border-y border-gray-100">
+      <section className="relative z-10 py-8 px-4 border-y border-white/10" style={{ background: "rgba(15,23,42,0.6)", backdropFilter: "blur(10px)" }}>
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-xs uppercase tracking-wider text-gray-400 mb-3 font-semibold">
             Works with
           </p>
-          <p className="text-sm sm:text-base text-gray-600 font-medium">
+          <p className="text-sm sm:text-base text-gray-300 font-medium">
             DoorDash · Uber · Uber Eats · Instacart · Lyft · Spark · Shipt ·
             Amazon Flex · Grubhub · Senpex{" "}
             <span className="text-[#00C9B1] font-bold">+ 70 more</span>
@@ -148,14 +154,14 @@ export default function TrackerLandingPage() {
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+      <section id="how-it-works" className="relative z-10 py-20 px-4">
+        <div className="max-w-6xl mx-auto rounded-2xl p-8" style={{ background: "rgba(15,23,42,0.6)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.08)" }}>
           <div className="text-center mb-14">
             <p className="text-xs uppercase tracking-widest text-[#00C9B1] font-bold mb-3">How it works</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1A2E] mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
               Log a shift in 30 seconds
             </h2>
-            <p className="text-lg text-gray-500 max-w-xl mx-auto">
+            <p className="text-lg text-white/60 max-w-xl mx-auto">
               No manual entry required. Just snap a screenshot.
             </p>
           </div>
@@ -164,14 +170,14 @@ export default function TrackerLandingPage() {
       </section>
 
       {/* Features grid */}
-      <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative z-10 py-20 px-4">
+        <div className="max-w-6xl mx-auto rounded-2xl p-8" style={{ background: "rgba(15,23,42,0.6)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.08)" }}>
           <div className="text-center mb-14">
             <p className="text-xs uppercase tracking-widest text-[#00C9B1] font-bold mb-3">Features</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1A2E] mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
               Built by a gig worker, for gig workers
             </h2>
-            <p className="text-lg text-gray-500">Everything you need. Nothing you don&apos;t.</p>
+            <p className="text-lg text-white/60">Everything you need. Nothing you don&apos;t.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -186,7 +192,7 @@ export default function TrackerLandingPage() {
       </section>
 
       {/* Why */}
-      <section className="py-20 px-4">
+      <section className="relative z-10 py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="bg-gradient-to-br from-[#1A1A2E] to-[#0f3460] rounded-3xl p-8 sm:p-12 text-white text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ background: "#00C9B1" }} />
@@ -208,12 +214,12 @@ export default function TrackerLandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-4 bg-gradient-to-br from-[#00C9B1]/10 to-teal-50">
+      <section className="relative z-10 py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1A2E] mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             Start tracking your earnings today
           </h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-white/60 mb-8">
             Free. Sign up in under a minute.
           </p>
           <Link
@@ -230,15 +236,15 @@ export default function TrackerLandingPage() {
 
 function FeatureCard({ icon, title, text, accent }: { icon: string; title: string; text: string; accent: string }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all group">
+    <div className="rounded-2xl p-6 hover:-translate-y-1 transition-all group" style={{ background: "rgba(15,23,42,0.6)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.08)" }}>
       <div
         className="w-10 h-10 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"
-        style={{ background: `${accent}15` }}
+        style={{ background: `${accent}25` }}
       >
         {icon}
       </div>
-      <h3 className="text-base font-bold text-[#1A1A2E] mb-2">{title}</h3>
-      <p className="text-sm text-gray-500 leading-relaxed">{text}</p>
+      <h3 className="text-base font-bold text-white mb-2">{title}</h3>
+      <p className="text-sm text-white/60 leading-relaxed">{text}</p>
     </div>
   );
 }

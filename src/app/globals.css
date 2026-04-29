@@ -18,6 +18,21 @@
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
+
+@keyframes riseUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+.tracker-rise-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 200%;
+  background: linear-gradient(to top, transparent 0%, #00C9B1 50%, transparent 100%);
+  animation: riseUp 20s linear infinite;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
