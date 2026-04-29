@@ -111,7 +111,7 @@ export default function TrackerLandingPage() {
             <FeatureCard
               icon="📲"
               title="Add to home screen"
-              text="Install as a phone app for one-tap access. Works on iPhone and Android."
+              text="Save to home screen for one-tap access. Works on iPhone and Android."
             />
             <FeatureCard
               icon="🆓"
