@@ -179,10 +179,14 @@ export default function DailyLogger({ userPlatforms, onSaved, onPlatformsChanged
         img.src = url;
       });
 
+      // Get user's local date (avoids UTC server timezone mismatch)
+      const now = new Date();
+      const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
       const res = await fetch("/api/parse-screenshot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64: base64, mimeType: "image/jpeg" }),
+        body: JSON.stringify({ imageBase64: base64, mimeType: "image/jpeg", localDate }),
       });
       const data = await res.json();
 

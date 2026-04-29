@@ -44,6 +44,8 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { imageBase64, mimeType } = body;
+    const localDate = (body.localDate as string) || new Date().toISOString().split("T")[0];
+    const localYear = localDate.split("-")[0];
     console.log("parse-screenshot called, has image:", Boolean(imageBase64), "mimeType:", mimeType);
 
     if (!imageBase64) {
@@ -85,7 +87,7 @@ Field rules:
     - "Referral", "Incentive"
     - Any positive amount with a label NOT recognized as base/tip/adjustment/fee
     Sum into a single number. null only if there are no such items.
-  - date: order date in "YYYY-MM-DD" format. Look for explicit dates ("04/25/2026", "Apr 25", "Tue, Apr 14"). Convert to ISO. If the year is not visible in the screenshot, ASSUME THE CURRENT YEAR (${new Date().getFullYear()}). Do NOT guess random past years like 2020 or 2021. Do NOT guess future dates — today is ${new Date().toISOString().split("T")[0]} and dates must be on or before today. If no date is visible at all, return null.
+  - date: order date in "YYYY-MM-DD" format. Look for explicit dates ("04/25/2026", "Apr 25", "Tue, Apr 14"). Convert to ISO. If the year is not visible in the screenshot, ASSUME THE CURRENT YEAR (${localYear}). Do NOT guess random past years like 2020 or 2021. Do NOT guess future dates — today is ${localDate} (user's local date) and dates must be on or before today. If no date is visible at all, return null.
 
 Important:
 - Each visible order or pay period gets its own item in the orders array.
