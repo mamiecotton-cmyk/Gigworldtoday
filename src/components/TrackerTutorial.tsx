@@ -5,48 +5,57 @@ import { useState } from "react";
 const steps = [
   {
     number: 1,
-    title: "Select your platform",
+    title: "Add your platforms",
     description:
-      "Tap the platform you drove for — DoorDash, Uber, Expedite, or any of 70+ others. Then tap 'Upload Screenshot' to get started.",
+      "When you first sign up, search for the platforms you drive for and add them. You can always add more later — we support 70+ gig platforms.",
     image: "/tracker/step-1.jpg",
-    callout: { text: "Tap a platform chip", position: "top-[30%] -left-2" },
+    callout: { text: "Search & add platforms", position: "top-[24%] -left-2" },
     accent: "#00C9B1",
   },
   {
     number: 2,
-    title: "Upload your screenshot",
+    title: "Select your platform",
     description:
-      "Take a screenshot from any gig platform app — weekly summary, order receipt, or pay statement. Our AI reads it automatically.",
+      "Tap the platform you drove for from your saved chips. Then choose to upload a screenshot or enter earnings manually.",
     image: "/tracker/step-2.jpg",
-    callout: { text: "AI reading your screenshot", position: "top-[30%] -left-2" },
+    callout: { text: "Tap a platform chip", position: "top-[36%] -left-2" },
     accent: "#F97316",
   },
   {
     number: 3,
-    title: "Review & save",
+    title: "Upload your screenshot",
     description:
-      "We pre-fill base pay, tips, bonuses, and state adjustments automatically. Review the numbers, make any edits, then hit Save.",
+      "Take a screenshot from any gig platform app — weekly summary, order receipt, or pay statement. Our AI reads it automatically.",
     image: "/tracker/step-3.jpg",
-    callout: { text: "Numbers auto-extracted", position: "top-[28%] -left-2" },
+    callout: { text: "AI reading screenshot", position: "top-[36%] -left-2" },
     accent: "#1A1A2E",
   },
   {
     number: 4,
-    title: "See your weekly earnings",
+    title: "Review & save",
     description:
-      "Your dashboard shows total earnings broken down by base pay, tips, and bonuses — plus tax estimates and estimated take-home.",
+      "We pre-fill base pay, tips, bonuses, and state adjustments automatically. Review the numbers, make any edits, then hit Save.",
     image: "/tracker/step-4.jpg",
-    callout: { text: "Tax + take-home calculated", position: "top-[42%] -left-2" },
+    callout: { text: "Numbers auto-extracted", position: "top-[28%] -left-2" },
     accent: "#00C9B1",
   },
   {
     number: 5,
+    title: "See your weekly earnings",
+    description:
+      "Your dashboard shows total earnings broken down by base pay, tips, and bonuses — plus tax estimates and estimated take-home pay.",
+    image: "/tracker/step-5.jpg",
+    callout: { text: "Tax + take-home calculated", position: "top-[42%] -left-2" },
+    accent: "#F97316",
+  },
+  {
+    number: 6,
     title: "Compare by platform",
     description:
-      "See which platforms pay the most. Tap any platform row to drill into individual entries, edit amounts, or delete entries.",
-    image: "/tracker/step-5.jpg",
+      "See which platforms pay you the most. Tap any platform row to drill into individual entries, edit amounts, or delete entries.",
+    image: "/tracker/step-6.jpg",
     callout: { text: "Tap to drill down", position: "top-[72%] -left-2" },
-    accent: "#F97316",
+    accent: "#1A1A2E",
   },
 ];
 
