@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import TrackerTutorial from "@/components/TrackerTutorial";
 
 export const metadata: Metadata = {
   title: "Earnings Tracker — GigWorldToday",
@@ -70,58 +71,7 @@ export default function TrackerLandingPage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="text-center">
-              <div className="bg-gradient-to-br from-teal-50 to-teal-100 aspect-square rounded-3xl flex items-center justify-center mb-5 text-teal-300 text-sm font-medium border-2 border-dashed border-teal-200">
-                [Screenshot of upload screen]
-              </div>
-              <div className="bg-[#00C9B1] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center mx-auto mb-3">
-                1
-              </div>
-              <h3 className="text-lg font-bold text-[#1A1A2E] mb-2">
-                Snap a screenshot
-              </h3>
-              <p className="text-sm text-gray-600">
-                Take a screenshot of your earnings from any gig platform — your
-                weekly summary, an order receipt, or a payout statement.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="text-center">
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 aspect-square rounded-3xl flex items-center justify-center mb-5 text-orange-300 text-sm font-medium border-2 border-dashed border-orange-200">
-                [Screenshot of parsing]
-              </div>
-              <div className="bg-[#F97316] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center mx-auto mb-3">
-                2
-              </div>
-              <h3 className="text-lg font-bold text-[#1A1A2E] mb-2">
-                We extract the numbers
-              </h3>
-              <p className="text-sm text-gray-600">
-                Our system reads the screenshot and pulls out base pay, tips,
-                bonuses, and state-mandated adjustments — automatically.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="text-center">
-              <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 aspect-square rounded-3xl flex items-center justify-center mb-5 text-indigo-300 text-sm font-medium border-2 border-dashed border-indigo-200">
-                [Screenshot of dashboard]
-              </div>
-              <div className="bg-[#1A1A2E] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center mx-auto mb-3">
-                3
-              </div>
-              <h3 className="text-lg font-bold text-[#1A1A2E] mb-2">
-                See your real earnings
-              </h3>
-              <p className="text-sm text-gray-600">
-                View totals by week, month, or year. Compare platforms side by
-                side. Tax estimates included. Stop guessing what you actually made.
-              </p>
-            </div>
-          </div>
+          <TrackerTutorial />
         </div>
       </section>
 
