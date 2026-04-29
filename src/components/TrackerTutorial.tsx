@@ -73,13 +73,13 @@ export default function TrackerTutorial() {
             onClick={() => setCurrent(i)}
             className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-semibold transition-all ${
               i === current
-                ? "bg-[#1A1A2E] text-white shadow-lg scale-105"
-                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                ? "bg-[#00C9B1] text-white shadow-lg scale-105"
+                : "bg-white/10 text-white/60 hover:bg-white/20"
             }`}
           >
             <span
               className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
-                i === current ? "bg-[#00C9B1] text-white" : "bg-gray-300 text-gray-600"
+                i === current ? "bg-white text-[#00C9B1]" : "bg-white/20 text-white/60"
               }`}
             >
               {s.number}
@@ -138,11 +138,11 @@ export default function TrackerTutorial() {
             Step {step.number} of {steps.length}
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-bold text-[#1A1A2E] mb-4">
+          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
             {step.title}
           </h3>
 
-          <p className="text-base text-gray-600 leading-relaxed mb-8">
+          <p className="text-base text-white/70 leading-relaxed mb-8">
             {step.description}
           </p>
 
@@ -150,7 +150,7 @@ export default function TrackerTutorial() {
             <button
               onClick={() => setCurrent((c) => Math.max(0, c - 1))}
               disabled={current === 0}
-              className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 rounded-xl border border-white/20 text-sm font-semibold text-white/70 hover:bg-white/10 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
             >
               ← Back
             </button>
@@ -181,7 +181,7 @@ export default function TrackerTutorial() {
                 key={i}
                 onClick={() => setCurrent(i)}
                 className={`rounded-full transition-all duration-300 ${
-                  i === current ? "w-6 h-2.5" : "w-2.5 h-2.5 bg-gray-200 hover:bg-gray-300"
+                  i === current ? "w-6 h-2.5" : "w-2.5 h-2.5 bg-white/20 hover:bg-white/30"
                 }`}
                 style={i === current ? { background: step.accent } : {}}
               />
