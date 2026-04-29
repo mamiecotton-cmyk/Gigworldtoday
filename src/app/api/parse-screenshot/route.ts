@@ -85,7 +85,7 @@ Field rules:
     - "Referral", "Incentive"
     - Any positive amount with a label NOT recognized as base/tip/adjustment/fee
     Sum into a single number. null only if there are no such items.
-  - date: order date in "YYYY-MM-DD" format. Look for explicit dates ("04/25/2026", "Apr 25", "Tue, Apr 14"). Convert to ISO. If the year is not visible in the screenshot, ASSUME THE CURRENT YEAR (${new Date().getFullYear()}). Do NOT guess random past years like 2020 or 2021. If no date is visible at all, return null. Do NOT default to today.
+  - date: order date in "YYYY-MM-DD" format. Look for explicit dates ("04/25/2026", "Apr 25", "Tue, Apr 14"). Convert to ISO. If the year is not visible in the screenshot, ASSUME THE CURRENT YEAR (${new Date().getFullYear()}). Do NOT guess random past years like 2020 or 2021. Do NOT guess future dates — today is ${new Date().toISOString().split("T")[0]} and dates must be on or before today. If no date is visible at all, return null.
 
 Important:
 - Each visible order or pay period gets its own item in the orders array.
