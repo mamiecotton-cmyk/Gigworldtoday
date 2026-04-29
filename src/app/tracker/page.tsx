@@ -54,7 +54,7 @@ export default function TrackerLandingPage() {
           <p className="text-base sm:text-lg text-gray-700 font-medium">
             DoorDash · Uber · Uber Eats · Instacart · Lyft · Spark · Shipt ·
             Amazon Flex · Grubhub · Senpex{" "}
-            <span className="text-[#00C9B1] font-bold">+ 70 more</span>
+            <span className="text-[#00C9B1] font-bold">+ 60 more</span>
           </p>
         </div>
       </section>
@@ -135,14 +135,14 @@ export default function TrackerLandingPage() {
           </p>
           <p className="text-lg text-gray-600 mb-4 leading-relaxed">
             Every gig worker I know struggles with the same thing: knowing what
-            you actually earned across all the apps you drive for. Spreadsheets
-            get abandoned. Apps charge subscription fees. The platforms don&apos;t
+            you actually earned across all the apps you contract with. Flipping back and forth between multiple apps gets old.
+            Apps charge subscription fees. The platforms don&apos;t
             help you compare.
           </p>
           <p className="text-lg text-gray-600 leading-relaxed">
             So I built a tool that makes tracking as simple as taking a
             screenshot. It&apos;s free, it&apos;ll stay free, and it&apos;s built around how
-            real drivers actually work — not how an MBA thinks we work.
+            real drivers actually work — not how a MBA thinks we work.
           </p>
         </div>
       </section>
