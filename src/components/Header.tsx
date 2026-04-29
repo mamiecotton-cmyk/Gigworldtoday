@@ -86,40 +86,40 @@ export default function Header() {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5">
             <Link
               href="/platforms"
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
             >
               Browse Platforms
             </Link>
             <Link
               href="/categories"
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
             >
               Categories
             </Link>
             <Link
               href="/tracker"
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              className={`px-3 py-2 text-xs font-semibold rounded-lg transition-all ${linkColor}`}
             >
               Track Earnings
             </Link>
             <Link
               href="/compare"
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
             >
               Compare
             </Link>
             <Link
               href="/about"
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
             >
               About
             </Link>
             <Link
               href="/products"
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-all ${linkColor}`}
             >
               Products
             </Link>
@@ -132,7 +132,7 @@ export default function Header() {
                 <>
                   <button
                     onClick={() => setOpen(!open)}
-                    className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-all ${accountBorder}`}
+                    className={`px-3 py-2 rounded-xl border text-sm font-semibold transition-all whitespace-nowrap ${accountBorder}`}
                   >
                     Account ▾
                   </button>
@@ -167,7 +167,7 @@ export default function Header() {
               ) : (
                 <Link
                   href="/register"
-                  className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-all ${accountBorder}`}
+                  className={`px-3 py-2 rounded-xl border text-sm font-semibold transition-all whitespace-nowrap ${accountBorder}`}
                 >
                   Sign In
                 </Link>
