@@ -212,7 +212,13 @@ export default function DailyLogger({ userPlatforms, onSaved, onPlatformsChanged
 
       // Normalize each order — coerce values to strings, fall back to today for invalid dates
       const normalized = orders.map((o: any) => {
-        const validDate = o.date && /^\d{4}-\d{2}-\d{2}$/.test(o.date) ? o.date : today;
+        // Only trust Gemini's date if it's a valid past or present date
+        // If Gemini returns a future date or null, fall back to today
+        let parsedDate = o.date && /^\d{4}-\d{2}-\d{2}$/.test(o.date) ? o.date : null;
+        if (parsedDate && parsedDate > today) {
+          parsedDate = null; // Reject future dates
+        }
+        const validDate = parsedDate || today;
         return {
           base_pay: o.base_pay != null ? o.base_pay.toString() : "",
           tips: o.tips != null ? o.tips.toString() : "",
