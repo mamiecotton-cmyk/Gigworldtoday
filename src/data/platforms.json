@@ -4535,5 +4535,81 @@
     "keyFeatures": "White-glove catering delivery only (no fast food or grocery stacking); professional setup required at delivery site; tiered driver ranking (Driver Consistency Index); Gigsafe next-day pay; 30+ metro markets; integrates with ezCater, Nash, Burq, Vromo.",
     "userFeedback": "Catering delivery only — not for drivers seeking on-demand food or grocery gigs. High professional standards required. Pay per order ranges widely based on order size and market.",
     "notes": "MealsNow positions itself as a premium alternative to gig apps. Drivers must follow strict setup/photo protocols and communicate through an assigned virtual assistant (VA) via Slack."
+  },
+  {
+    "id": "skipcart",
+    "slug": "skipcart",
+    "name": "Skipcart",
+    "description": "Skipcart is an on-demand delivery platform specializing in catering, retail, pharmaceutical, food and beverage, restaurant, and e-commerce deliveries for business clients. Drivers pick up prepaid orders from business locations and deliver them using their own vehicle. Order availability varies by market and depends on active business partnerships in your area. Skipcart is best positioned as a secondary gig app that occasionally offers higher-value catering and business deliveries rather than a primary income source.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.skipcart.com",
+    "iosAppUrl": null,
+    "androidAppUrl": null,
+    "applyUrl": "https://www.skipcart.com/driver",
+    "categories": [
+      "delivery",
+      "catering_delivery",
+      "retail_delivery",
+      "same_day_delivery",
+      "logistics",
+      "ecommerce_delivery"
+    ],
+    "tags": [
+      "Catering",
+      "Retail Delivery",
+      "Same-Day Delivery",
+      "Logistics",
+      "Prepaid Orders"
+    ],
+    "minAge": 21,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "suv",
+      "truck",
+      "van"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": true,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "physicalRequirements": "Must be able to lift up to 50 lbs",
+    "otherRequirements": "Must be 21 or older. Valid U.S. driver's license, reliable personal vehicle, current auto insurance, and a background check required.",
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Limited Availability",
+        "cities": []
+      }
+    },
+    "availability_notes": "Skipcart operates in select U.S. cities based on business partnerships. Availability varies by market, with stronger presence in Texas and select Midwest regions.",
+    "payModel": "per_delivery",
+    "estimatedHourlyMin": null,
+    "estimatedHourlyMax": null,
+    "tipsAllowed": false,
+    "paymentFrequency": "daily_or_weekly",
+    "instantPayAvailable": false,
+    "deliveryType": "on_demand",
+    "orderType": "prepaid_business_orders",
+    "clientVerticals": [
+      "catering",
+      "retail",
+      "pharmaceutical",
+      "food_and_beverage",
+      "restaurants",
+      "ecommerce"
+    ],
+    "driverStatus": "active",
+    "lastUpdated": "2026-04-30",
+    "dataSources": [
+      "official_website",
+      "job_postings"
+    ],
+    "verificationStatus": "verified",
+    "notes": "Order volume is inconsistent and market-dependent. Best used as a supplemental gig alongside higher-volume apps. No guaranteed order minimums or catering volume.",
+    "setupRequired": false
   }
 ]

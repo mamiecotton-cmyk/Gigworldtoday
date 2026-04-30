@@ -409,6 +409,12 @@ export default function PlatformDetailPage() {
                   </div>
                 </div>
               )}
+              {(platform as any).availability_notes && (
+                <div className="pt-2 border-t">
+                  <span className="text-gray-500 block mb-1">Availability Notes</span>
+                  <span className="text-gray-700 text-xs leading-relaxed">{(platform as any).availability_notes}</span>
+                </div>
+              )}
             </div>
           </div>
 

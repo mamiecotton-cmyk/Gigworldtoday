@@ -114,6 +114,17 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
             Background check
           </span>
         )}
+        {(() => {
+          const usaStatus = (platform as any).regions?.USA?.status || (platform as any).regions?.US?.status;
+          if (usaStatus === 'Limited Availability') {
+            return (
+              <span className="rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs px-2.5 py-1 font-medium">
+                Limited Availability
+              </span>
+            );
+          }
+          return null;
+        })()}
       </div>
 
       {/* Description */}

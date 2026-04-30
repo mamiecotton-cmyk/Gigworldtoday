@@ -25,6 +25,7 @@ export interface Platform {
   otherRequirements?: string;
 
   // Availability
+  availability_notes?: string;
   countries: string[];
   regions: {
     [country: string]: {
