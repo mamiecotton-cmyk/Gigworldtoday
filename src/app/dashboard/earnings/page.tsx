@@ -58,6 +58,15 @@ export default function EarningsPage() {
   }, []);
 
   const handleSetupComplete = async () => {
+    // Re-fetch platforms so DailyLogger has them immediately without a page refresh
+    if (user?.id) {
+      const { data: platforms } = await supabase
+        .from("user_platforms")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("display_order");
+      if (platforms) setUserPlatforms(platforms);
+    }
     setNeedsSetup(false);
   };
 
