@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabaseClient";
 import platformsData from "@/data/platforms.json";
 import { formatLocalDate } from "@/lib/dateUtils";
 import PlatformLogo from "@/components/PlatformLogo";
+import HowItWorksModal from "@/components/earnings/HowItWorksModal";
 
 const inactiveStatuses = [
   "absorbed", "merged", "rebranded", "shut_down", "shutdown",
@@ -449,9 +450,12 @@ export default function DailyLogger({ userPlatforms, onSaved, onPlatformsChanged
 
       {/* Platform chips */}
       <div>
-        <p className="text-[10px] text-gray-500 uppercase tracking-wider font-medium mb-2">
-          Tap a platform
-        </p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-[10px] text-gray-500 uppercase tracking-wider font-medium">
+            Tap a platform
+          </p>
+          <HowItWorksModal />
+        </div>
         <div className="flex flex-wrap gap-1.5">
           {sortedPlatforms.map((p) => {
             const isSelected = selectedPlatform?.id === p.platform_id;
