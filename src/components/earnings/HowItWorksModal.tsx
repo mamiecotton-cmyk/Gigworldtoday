@@ -61,42 +61,42 @@ export default function HowItWorksModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden"
+        className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <p className="text-sm font-bold text-[#1A1A2E]">How it works</p>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <p className="text-base font-bold text-[#1A1A2E]">How it works</p>
           <button
             onClick={() => setOpen(false)}
             className="text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
         {/* Phone mockup + content */}
-        <div className="p-5">
-          <div className="flex gap-5 items-start">
+        <div className="p-6">
+          <div className="flex gap-6 items-start">
             {/* Mini phone mockup */}
-            <div className="flex-shrink-0 relative w-[110px]">
-              <div className="relative rounded-[24px] p-2 shadow-lg" style={{ background: "#1A1A2E" }}>
-                <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-10 h-3 bg-[#1A1A2E] rounded-full z-10" />
-                <div className="rounded-[18px] overflow-hidden bg-white">
+            <div className="flex-shrink-0 relative w-[160px]">
+              <div className="relative rounded-[28px] p-2.5 shadow-lg" style={{ background: "#1A1A2E" }}>
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-3.5 bg-[#1A1A2E] rounded-full z-10" />
+                <div className="rounded-[20px] overflow-hidden bg-white">
                   <img
                     key={step.image}
                     src={step.image}
                     alt={step.title}
                     className="w-full object-cover object-top"
-                    style={{ maxHeight: "200px" }}
+                    style={{ maxHeight: "300px" }}
                   />
                 </div>
-                <div className="flex justify-center mt-1">
-                  <div className="w-8 h-0.5 bg-white/30 rounded-full" />
+                <div className="flex justify-center mt-1.5">
+                  <div className="w-10 h-1 bg-white/30 rounded-full" />
                 </div>
               </div>
               {/* Callout */}
               <div
-                className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-white text-[9px] font-bold px-2 py-1 rounded-full shadow whitespace-nowrap"
+                className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow whitespace-nowrap"
                 style={{ background: step.accent }}
               >
                 Step {step.number} of {steps.length}
@@ -106,38 +106,38 @@ export default function HowItWorksModal() {
             {/* Text */}
             <div className="flex-1 min-w-0">
               <div
-                className="inline-block text-white text-[10px] font-bold px-2 py-1 rounded-full mb-2"
+                className="inline-block text-white text-xs font-bold px-3 py-1 rounded-full mb-3"
                 style={{ background: step.accent }}
               >
                 Step {step.number} of {steps.length}
               </div>
-              <h3 className="text-base font-bold text-[#1A1A2E] mb-2 leading-tight">
+              <h3 className="text-lg font-bold text-[#1A1A2E] mb-3 leading-tight">
                 {step.title}
               </h3>
-              <p className="text-xs text-gray-500 leading-relaxed">
+              <p className="text-sm text-gray-500 leading-relaxed">
                 {step.description}
               </p>
             </div>
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between mt-5">
+          <div className="flex items-center justify-between mt-6">
             <button
               onClick={() => setCurrent((c) => Math.max(0, c - 1))}
               disabled={current === 0}
-              className="px-4 py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-600 hover:bg-gray-50 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
             >
               ← Back
             </button>
 
             {/* Dots */}
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               {steps.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
                   className={`rounded-full transition-all duration-300 ${
-                    i === current ? "w-5 h-2" : "w-2 h-2 bg-gray-200"
+                    i === current ? "w-6 h-2.5" : "w-2.5 h-2.5 bg-gray-200"
                   }`}
                   style={i === current ? { background: step.accent } : {}}
                 />
@@ -147,7 +147,7 @@ export default function HowItWorksModal() {
             {current < steps.length - 1 ? (
               <button
                 onClick={() => setCurrent((c) => c + 1)}
-                className="px-4 py-2 rounded-xl text-white text-xs font-bold active:scale-95 transition-all shadow"
+                className="px-5 py-2.5 rounded-xl text-white text-sm font-bold active:scale-95 transition-all shadow"
                 style={{ background: step.accent }}
               >
                 Next →
@@ -155,7 +155,7 @@ export default function HowItWorksModal() {
             ) : (
               <button
                 onClick={() => setOpen(false)}
-                className="px-4 py-2 rounded-xl text-white text-xs font-bold active:scale-95 transition-all shadow"
+                className="px-5 py-2.5 rounded-xl text-white text-sm font-bold active:scale-95 transition-all shadow"
                 style={{ background: "#00C9B1" }}
               >
                 Got it ✓
