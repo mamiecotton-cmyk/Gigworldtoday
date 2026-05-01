@@ -53,6 +53,11 @@ export default function RootLayout({
           href="/city-bg.webp"
           fetchPriority="high"
         />
+
+        {/* Preconnect to third-party origins */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://emrldtp.com" />
       </head>
       <body>
         {/* Background — Next.js Image for automatic WebP + CDN optimization */}
