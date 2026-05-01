@@ -53,7 +53,7 @@ export default async function ProductsPage() {
         {/* Background */}
         <div className="absolute inset-0">
           <Image
-            src="/productsbackground.jpeg"
+            src="/productsbackground.webp"
             alt="City skyline background"
             fill
             priority
@@ -67,7 +67,7 @@ export default async function ProductsPage() {
         {/* Character — adjusted to avoid overlapping the hero text */}
         <div className="absolute bottom-0 right-[2%] h-[80%] md:right-[19%] md:h-[95%] pointer-events-none transform-gpu z-0">
           <Image
-            src="/ProductCharacter.png"
+            src="/ProductCharacter.webp"
             alt="Delivery rider"
             width={1100}
             height={1050}

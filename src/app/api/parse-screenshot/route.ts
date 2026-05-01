@@ -91,7 +91,7 @@ Field rules:
 
 Important:
 - Each visible order or pay period gets its own item in the orders array.
-- IGNORE deductions/fees ("Safety & Admin Fee", "Service Fee", any negative amount). Never subtract them.
+- Platform deductions like "Safety & Admin Fee", "Service Fee", or any other negative fee shown on the receipt MUST be subtracted from base_pay. Net base_pay = base_pay shown - sum of all such deductions. Never add deductions to other fields; always reduce base_pay.
 - If a screenshot shows only a total with no breakdown, put the total in base_pay and leave others null.
 - Confidence: "high" if labels were clear, "medium" if inferred, "low" if guessed.
 - Return ONLY the JSON. No other text.`;

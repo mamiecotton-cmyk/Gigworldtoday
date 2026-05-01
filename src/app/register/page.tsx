@@ -50,6 +50,7 @@ function AuthContent() {
       provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+        queryParams: { prompt: "select_account" },
       },
     });
     if (error) setError(error.message);

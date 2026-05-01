@@ -50,7 +50,7 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
-          href="/city-bg.png"
+          href="/city-bg.webp"
           fetchPriority="high"
         />
       </head>
@@ -58,14 +58,16 @@ export default function RootLayout({
         {/* Background — Next.js Image for automatic WebP + CDN optimization */}
         <div className="fixed inset-0 -z-10" aria-hidden="true">
           <Image
-            src="/city-bg.png"
+            src="/city-bg.webp"
             alt=""
             fill
             priority
             quality={75}
             sizes="100vw"
             className="object-cover"
-            fetchPriority="high"
+            // @ts-ignore — forces fetchpriority on the underlying <img>
+            fetchpriority="high"
+            decoding="sync"
           />
           <div className="absolute inset-0 bg-white/30" />
         </div>

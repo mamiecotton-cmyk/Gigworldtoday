@@ -29,10 +29,9 @@ export default function EarningsPage() {
         return;
       }
 
-      // Verify token is still valid server-side
+      // Verify token is still valid server-side (don't sign out on transient failures)
       const { data: { user: verifiedUser } } = await supabase.auth.getUser();
       if (!verifiedUser) {
-        await supabase.auth.signOut();
         router.push("/register?redirectTo=/dashboard/earnings");
         return;
       }
@@ -82,7 +81,6 @@ export default function EarningsPage() {
 
   const handleSaved = () => {
     setRefreshKey((k) => k + 1);
-    setActiveTab("dashboard");
   };
 
   if (loading) {

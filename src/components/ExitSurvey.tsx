@@ -407,7 +407,7 @@ export default function ExitSurvey() {
             }
           >
             <img
-              src="/gigsidekick-avatar.png"
+              src="/gigsidekick-avatar.webp"
               alt="GigSidekick"
               className="h-64 w-auto object-contain drop-shadow-2xl -mr-6 mb-1"
             />
@@ -448,7 +448,7 @@ export default function ExitSurvey() {
               {/* Mobile avatar */}
               <div className="sm:hidden flex justify-center mb-3">
                 <img
-                  src="/gigsidekick-avatar.png"
+                  src="/gigsidekick-avatar.webp"
                   alt="GigSidekick"
                   className="h-20 w-auto object-contain drop-shadow-lg"
                 />

@@ -32,6 +32,7 @@ function LoginContent() {
       provider: "google",
       options: {
         redirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
+        queryParams: { prompt: "select_account" },
       },
     });
     if (error) setError(error.message);
