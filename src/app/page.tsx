@@ -149,7 +149,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/90 z-0" />
         <div className="absolute inset-0 z-0">
           <Image
-            src="/city-background.jpg"
+            src="/city-background.webp"
             alt="City"
             fill
             className="object-cover brightness-[0.6]"
