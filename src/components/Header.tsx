@@ -73,7 +73,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-0">
             <img
-              src="/gigsidekick-avatar.png"
+              src="/gigsidekick-avatar.webp"
               alt=""
               className="h-20 w-auto object-contain -mr-2"
             />
