@@ -110,6 +110,27 @@ export default async function BlogArticlePage({
 
       <ArticleRenderer contentJson={article.content_json} />
 
+      {/* Upside Affiliate Ad */}
+      <div className="my-6 p-4 rounded-xl border border-teal-100 bg-teal-50/50 text-center">
+        <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">Sponsored</p>
+        <h3 id="3887861">
+          <a
+            rel="sponsored"
+            href="https://upside.sjv.io/c/7066741/3887861/39811?param1=gigworld25"
+            className="text-teal-700 font-semibold hover:underline"
+          >
+            Download the free Upside app — earn Extra 25¢/gal on gas
+          </a>
+        </h3>
+        <img
+          height="0"
+          width="0"
+          src="https://imp.pxf.io/i/7066741/3887861/39811"
+          style={{ position: "absolute", visibility: "hidden" }}
+          border="0"
+        />
+      </div>
+
       <SignupBanner
         headline="Want More Weekly Operator Tips?"
         subtext="Get strategies to boost earnings delivered to your inbox."

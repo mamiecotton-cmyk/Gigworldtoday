@@ -2,6 +2,9 @@
 // for third-party modules without shipped type definitions or when
 // the IDE has trouble resolving Next.js built-in types.
 
+// Allow importing CSS files as side effects
+declare module '*.css';
+
 declare module 'next/navigation' {
   export function useRouter(...args: any[]): any;
   export function usePathname(...args: any[]): any;

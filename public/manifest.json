@@ -3,6 +3,7 @@
   "short_name": "Earnings Tracker",
   "description": "Track your gig earnings across all platforms",
   "start_url": "/dashboard/earnings",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#1A1A2E",

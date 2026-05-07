@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import dynamic from 'next/dynamic';
 import Script from 'next/script';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ExitSurvey from '@/components/ExitSurvey';
+
+const ExitSurvey = dynamic(() => import('@/components/ExitSurvey'), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "GigWorldToday – Gig Economy Intelligence",
