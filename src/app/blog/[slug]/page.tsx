@@ -126,8 +126,7 @@ export default async function BlogArticlePage({
           height="0"
           width="0"
           src="https://imp.pxf.io/i/7066741/3887861/39811"
-          style={{ position: "absolute", visibility: "hidden" }}
-          border="0"
+          style={{ position: "absolute", visibility: "hidden", border: 0 }}
         />
       </div>
 
