@@ -1,14 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import dynamic from 'next/dynamic';
 import Script from 'next/script';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-const ExitSurvey = dynamic(() => import('@/components/ExitSurvey'), {
-  ssr: false,
-});
+import ExitSurveyWrapper from '@/components/ExitSurveyWrapper';
 
 export const metadata: Metadata = {
   title: "GigWorldToday – Gig Economy Intelligence",
@@ -84,7 +80,7 @@ export default function RootLayout({
         <Header />
         <main className="pt-20">{children}</main>
         <Footer />
-        <ExitSurvey />
+        <ExitSurveyWrapper />
 
         {/* Google Tag Manager — afterInteractive keeps it off the critical path */}
         <Script
