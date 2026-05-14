@@ -70,8 +70,7 @@ export default function RootLayout({
             quality={75}
             sizes="100vw"
             className="object-cover"
-            // @ts-ignore — forces fetchpriority on the underlying <img>
-            fetchpriority="high"
+            fetchPriority={"high"}
             decoding="sync"
           />
           <div className="absolute inset-0 bg-white/30" />
