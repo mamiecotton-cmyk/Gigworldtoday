@@ -123,6 +123,12 @@ export default function Header() {
             >
               Products
             </Link>
+            <Link
+              href="/gig-worker-faq-2026.html"
+              className={`px-3 py-2 text-sm font-semibold rounded-lg transition-all ${linkColor}`}
+            >
+              FAQ
+            </Link>
 
             <div className={`w-px h-6 mx-2 ${dividerColor}`} />
 
@@ -246,6 +252,13 @@ export default function Header() {
                 className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
               >
                 Blog
+              </Link>
+              <Link
+                href="/gig-worker-faq-2026.html"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
+              >
+                Gig Worker FAQ
               </Link>
 
               <div className={`h-px mx-4 my-2 ${dividerColor}`} />

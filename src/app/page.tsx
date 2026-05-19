@@ -400,7 +400,28 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {latestArticles.length > 0 ? latestArticles.map((article: any) => (
+            <Link
+              href="/gig-worker-faq-2026.html"
+              className="group relative overflow-hidden rounded-2xl border border-orange-300/40 bg-gradient-to-br from-orange-500/20 via-white/10 to-teal-900/20 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-orange-300"
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-teal-400 to-teal-500" />
+              <div className="space-y-3 p-5">
+                <span className="inline-flex rounded-full bg-orange-400/15 px-3 py-1 text-xs font-semibold text-orange-200">
+                  Featured Guide
+                </span>
+                <h3 className="text-lg font-bold text-white group-hover:text-orange-200 transition-colors">
+                  Gig Worker FAQ 2026
+                </h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Answers on apps, earnings, expenses, multi-apping, risk, and tools for working smarter.
+                </p>
+                <span className="inline-flex text-sm font-semibold text-teal-300 group-hover:text-teal-200 transition-colors">
+                  Read the FAQ →
+                </span>
+              </div>
+            </Link>
+
+            {latestArticles.length > 0 ? latestArticles.slice(0, 2).map((article: any) => (
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
