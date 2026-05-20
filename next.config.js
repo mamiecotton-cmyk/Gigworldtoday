@@ -15,6 +15,15 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/gig-worker-faq-2026.html',
+        destination: '/gig-worker-faq-2026',
+        permanent: true,
+      },
+    ];
+  },
   // Set root for output file tracing to avoid workspace-root inference issues
   outputFileTracingRoot: __dirname,
 }

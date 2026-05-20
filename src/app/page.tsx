@@ -401,7 +401,7 @@ export default function HomePage() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             <Link
-              href="/gig-worker-faq-2026.html"
+              href="/gig-worker-faq-2026"
               className="group relative overflow-hidden rounded-2xl border border-orange-300/40 bg-gradient-to-br from-orange-500/20 via-white/10 to-teal-900/20 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-orange-300"
             >
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-teal-400 to-teal-500" />

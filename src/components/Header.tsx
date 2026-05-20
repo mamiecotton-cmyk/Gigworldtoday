@@ -124,7 +124,7 @@ export default function Header() {
               Products
             </Link>
             <Link
-              href="/gig-worker-faq-2026.html"
+              href="/gig-worker-faq-2026"
               className={`px-3 py-2 text-sm font-semibold rounded-lg transition-all ${linkColor}`}
             >
               FAQ
@@ -254,7 +254,7 @@ export default function Header() {
                 Blog
               </Link>
               <Link
-                href="/gig-worker-faq-2026.html"
+                href="/gig-worker-faq-2026"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`px-4 py-3 text-sm font-medium rounded-lg transition-all ${linkColor}`}
               >
