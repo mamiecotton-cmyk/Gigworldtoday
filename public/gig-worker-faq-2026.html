@@ -97,6 +97,13 @@
 
     h3{ margin:0 0 8px 0; font-size:15px; font-weight:700; color:#e8fbf8 }
     p{ margin:0 0 12px 0; color:#cfe7ea; font-size:15px }
+    a{ color:var(--accent); text-decoration:none }
+    a:hover{ text-decoration:underline }
+    .app-list{ display:grid; gap:12px; margin:14px 0 4px 0; padding:0; list-style:none }
+    .app-list li{ display:grid; gap:6px; padding:14px; border-radius:12px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.05) }
+    .app-name{ display:flex; align-items:center; gap:8px; font-weight:800; color:#fff }
+    .rank{ display:inline-grid; place-items:center; width:26px; height:26px; border-radius:999px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#032b2a; font-family:'JetBrains Mono',monospace; font-size:13px }
+    .app-note{ color:var(--muted); font-size:13px; margin:0 }
 
     .cta-card{ padding:16px; border-radius:12px; background:linear-gradient(90deg, rgba(6,98,100,0.08), rgba(1,18,22,0.06)); border-left:6px solid var(--accent); }
 
@@ -156,12 +163,47 @@
               <h2 id="getting-started-heading">Getting Started</h2>
               <h3>Which apps should I begin with?</h3>
               <p>
-                Start with the major platforms that operate in your area. Balance demand, pickup density, and pay models. Try one food app and one delivery or rideshare app to compare earnings on the same shift.
+                Start with the major platforms that operate in your area, then add one or two specialized courier apps. Balance demand, pickup density, vehicle requirements, and pay model before committing to long shifts.
               </p>
 
               <h3>How do I set a sustainable schedule?</h3>
               <p>
                 Track demand windows, note peak hours in your markets, and protect at least one day off per week. Use short shifts that let you evaluate pay versus wear-and-tear.
+              </p>
+            </div>
+
+            <div class="faq-card">
+              <h2 id="top-apps-heading">Top 5 Apps That Travel With You</h2>
+              <h3>Which gig apps can I turn on when I am away from home?</h3>
+              <p>
+                These are apps to keep on your phone if you work in more than one city, travel often, or drive through multiple markets. The key advantage is portability: once your account is active, you can open the app in a covered area and look for nearby work without starting a brand-new local application. Local demand, waitlists, vehicle rules, certifications, and account status can still affect what you see.
+              </p>
+              <ul class="app-list">
+                <li>
+                  <div class="app-name"><span class="rank">1</span><a href="/platforms/doordash">DoorDash</a></div>
+                  <p class="app-note">Best portable food-delivery app for many drivers. If DoorDash is available where you are, you can usually open Dasher, switch to the local zone, and start or schedule a dash when the area has availability.</p>
+                </li>
+                <li>
+                  <div class="app-name"><span class="rank">2</span><a href="/platforms/instacart">Instacart</a></div>
+                  <p class="app-note">Useful when you travel near grocery-heavy suburbs or dense retail corridors. Open the Shopper app near Instacart-enabled stores and watch for batches where shopper demand and store coverage are active.</p>
+                </li>
+                <li>
+                  <div class="app-name"><span class="rank">3</span><a href="/platforms/senpex">Senpex</a></div>
+                  <p class="app-note">A good travel companion for same-day courier, catering, and business deliveries. It is especially worth checking if you are moving through larger metro areas or have a vehicle that can handle non-food delivery work.</p>
+                </li>
+                <li>
+                  <div class="app-name"><span class="rank">4</span><a href="/platforms/courial">Courial</a></div>
+                  <p class="app-note">A concierge-style option for errands, documents, retail items, and scheduled deliveries. Keep it available when traveling, but expect offer volume to depend heavily on the city and partner demand.</p>
+                </li>
+                <li>
+                  <div class="app-name"><span class="rank">5</span><a href="/platforms/roadie">Roadie</a></div>
+                  <p class="app-note">One of the strongest travel-friendly add-on apps because gigs are tied to pickup locations and routes. Check it when passing airports, retailers, warehouses, or hardware stores, especially if you can handle bigger items.</p>
+                </li>
+              </ul>
+
+              <h3>How should I use travel-friendly apps?</h3>
+              <p>
+                Before a trip, make sure your driver account, payment method, ID, background check, and app permissions are current. When you arrive, turn on one app at a time to read local demand, then layer in courier apps like Roadie, Senpex, and Courial when a route or pickup location makes sense.
               </p>
             </div>
 
