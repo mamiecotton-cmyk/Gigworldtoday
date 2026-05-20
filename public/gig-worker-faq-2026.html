@@ -104,6 +104,14 @@
     .app-name{ display:flex; align-items:center; gap:8px; font-weight:800; color:#fff }
     .rank{ display:inline-grid; place-items:center; width:26px; height:26px; border-radius:999px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#032b2a; font-family:'JetBrains Mono',monospace; font-size:13px }
     .app-note{ color:var(--muted); font-size:13px; margin:0 }
+    .collapsible{ padding:0; overflow:hidden }
+    .collapsible summary{ cursor:pointer; list-style:none; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px }
+    .collapsible summary::-webkit-details-marker{ display:none }
+    .summary-copy h2{ margin:0 0 6px 0 }
+    .summary-copy p{ margin:0; color:var(--muted); font-size:13px }
+    .summary-icon{ flex:0 0 auto; width:32px; height:32px; border-radius:999px; display:grid; place-items:center; border:1px solid rgba(20,243,208,0.25); color:var(--accent); transition:transform .18s ease, background .18s ease }
+    details[open] .summary-icon{ transform:rotate(45deg); background:rgba(20,243,208,0.08) }
+    .collapsible-body{ padding:0 20px 20px 20px }
 
     .cta-card{ padding:16px; border-radius:12px; background:linear-gradient(90deg, rgba(6,98,100,0.08), rgba(1,18,22,0.06)); border-left:6px solid var(--accent); }
 
@@ -172,40 +180,48 @@
               </p>
             </div>
 
-            <div class="faq-card">
-              <h2 id="top-apps-heading">Top 5 Apps That Travel With You</h2>
-              <h3>Which gig apps can I turn on when I am away from home?</h3>
-              <p>
-                These are apps to keep on your phone if you work in more than one city, travel often, or drive through multiple markets. The key advantage is portability: once your account is active, you can open the app in a covered area and look for nearby work without starting a brand-new local application. Local demand, waitlists, vehicle rules, certifications, and account status can still affect what you see.
-              </p>
-              <ul class="app-list">
-                <li>
-                  <div class="app-name"><span class="rank">1</span><a href="/platforms/doordash">DoorDash</a></div>
-                  <p class="app-note">Best portable food-delivery app for many drivers. If DoorDash is available where you are, you can usually open Dasher, switch to the local zone, and start or schedule a dash when the area has availability.</p>
-                </li>
-                <li>
-                  <div class="app-name"><span class="rank">2</span><a href="/platforms/instacart">Instacart</a></div>
-                  <p class="app-note">Useful when you travel near grocery-heavy suburbs or dense retail corridors. Open the Shopper app near Instacart-enabled stores and watch for batches where shopper demand and store coverage are active.</p>
-                </li>
-                <li>
-                  <div class="app-name"><span class="rank">3</span><a href="/platforms/senpex">Senpex</a></div>
-                  <p class="app-note">A good travel companion for same-day courier, catering, and business deliveries. It is especially worth checking if you are moving through larger metro areas or have a vehicle that can handle non-food delivery work.</p>
-                </li>
-                <li>
-                  <div class="app-name"><span class="rank">4</span><a href="/platforms/courial">Courial</a></div>
-                  <p class="app-note">A concierge-style option for errands, documents, retail items, and scheduled deliveries. Keep it available when traveling, but expect offer volume to depend heavily on the city and partner demand.</p>
-                </li>
-                <li>
-                  <div class="app-name"><span class="rank">5</span><a href="/platforms/roadie">Roadie</a></div>
-                  <p class="app-note">One of the strongest travel-friendly add-on apps because gigs are tied to pickup locations and routes. Check it when passing airports, retailers, warehouses, or hardware stores, especially if you can handle bigger items.</p>
-                </li>
-              </ul>
+            <details class="faq-card collapsible">
+              <summary>
+                <div class="summary-copy">
+                  <h2 id="top-apps-heading">Top 5 Apps That Travel With You</h2>
+                  <p>DoorDash, Instacart, Senpex, Courial, and Roadie for drivers who work across cities.</p>
+                </div>
+                <span class="summary-icon" aria-hidden="true">+</span>
+              </summary>
+              <div class="collapsible-body">
+                <h3>Which gig apps can I turn on when I am away from home?</h3>
+                <p>
+                  These are apps to keep on your phone if you work in more than one city, travel often, or drive through multiple markets. The key advantage is portability: once your account is active, you can open the app in a covered area and look for nearby work without starting a brand-new local application. Local demand, waitlists, vehicle rules, certifications, and account status can still affect what you see.
+                </p>
+                <ul class="app-list">
+                  <li>
+                    <div class="app-name"><span class="rank">1</span><a href="/platforms/doordash">DoorDash</a></div>
+                    <p class="app-note">Best portable food-delivery app for many drivers. If DoorDash is available where you are, you can usually open Dasher, switch to the local zone, and start or schedule a dash when the area has availability.</p>
+                  </li>
+                  <li>
+                    <div class="app-name"><span class="rank">2</span><a href="/platforms/instacart">Instacart</a></div>
+                    <p class="app-note">Useful when you travel near grocery-heavy suburbs or dense retail corridors. Open the Shopper app near Instacart-enabled stores and watch for batches where shopper demand and store coverage are active.</p>
+                  </li>
+                  <li>
+                    <div class="app-name"><span class="rank">3</span><a href="/platforms/senpex">Senpex</a></div>
+                    <p class="app-note">A good travel companion for same-day courier, catering, and business deliveries. It is especially worth checking if you are moving through larger metro areas or have a vehicle that can handle non-food delivery work.</p>
+                  </li>
+                  <li>
+                    <div class="app-name"><span class="rank">4</span><a href="/platforms/courial">Courial</a></div>
+                    <p class="app-note">A concierge-style option for errands, documents, retail items, and scheduled deliveries. Keep it available when traveling, but expect offer volume to depend heavily on the city and partner demand.</p>
+                  </li>
+                  <li>
+                    <div class="app-name"><span class="rank">5</span><a href="/platforms/roadie">Roadie</a></div>
+                    <p class="app-note">One of the strongest travel-friendly add-on apps because gigs are tied to pickup locations and routes. Check it when passing airports, retailers, warehouses, or hardware stores, especially if you can handle bigger items.</p>
+                  </li>
+                </ul>
 
-              <h3>How should I use travel-friendly apps?</h3>
-              <p>
-                Before a trip, make sure your driver account, payment method, ID, background check, and app permissions are current. When you arrive, turn on one app at a time to read local demand, then layer in courier apps like Roadie, Senpex, and Courial when a route or pickup location makes sense.
-              </p>
-            </div>
+                <h3>How should I use travel-friendly apps?</h3>
+                <p>
+                  Before a trip, make sure your driver account, payment method, ID, background check, and app permissions are current. When you arrive, turn on one app at a time to read local demand, then layer in courier apps like Roadie, Senpex, and Courial when a route or pickup location makes sense.
+                </p>
+              </div>
+            </details>
 
             <div class="faq-card">
               <h2 id="earnings-heading">Earnings & Pay</h2>
