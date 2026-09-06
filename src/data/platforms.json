@@ -4629,11 +4629,10 @@
     "minAge": 18,
     "backgroundCheckRequired": true,
     "vehicleTypes": [
-      "car",
-      "none"
+      "car"
     ],
     "licenseRequired": true,
-    "insuranceRequired": false,
+    "insuranceRequired": true,
     "equipmentNeeded": [
       "smartphone"
     ],
