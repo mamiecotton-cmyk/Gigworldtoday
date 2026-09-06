@@ -4611,5 +4611,61 @@
     "verificationStatus": "verified",
     "notes": "Order volume is inconsistent and market-dependent. Best used as a supplemental gig alongside higher-volume apps. No guaranteed order minimums or catering volume.",
     "setupRequired": false
+  },
+  {
+    "id": "canmonkey",
+    "slug": "canmonkey",
+    "name": "CanMonkey",
+    "description": "CanMonkey is a home services platform where CanRunners take homeowners' trash and recycling cans to the curb and back on pickup day. Also offers on-demand trash removal requests. Set your own schedule, accept routes in the app, and get paid the next day after completing a route. Active in 25+ states and 50+ markets, with background checks required.",
+    "logoUrl": null,
+    "websiteUrl": "https://www.canmonkey.com",
+    "applyUrl": "https://www.canmonkey.com/earn-canrunning",
+    "iosAppUrl": "https://apps.apple.com/us/app/canmonkey-canrunner/id1664605127",
+    "androidAppUrl": "https://play.google.com/store/apps/details?id=com.canmonkey.canrunnerapp",
+    "categories": [
+      "home_services",
+      "errands"
+    ],
+    "minAge": 18,
+    "backgroundCheckRequired": true,
+    "vehicleTypes": [
+      "car",
+      "none"
+    ],
+    "licenseRequired": true,
+    "insuranceRequired": false,
+    "equipmentNeeded": [
+      "smartphone"
+    ],
+    "otherRequirements": "Must be able to physically move trash and recycling cans to and from the curb.",
+    "countries": [
+      "USA"
+    ],
+    "regions": {
+      "USA": {
+        "status": "Active",
+        "cities": []
+      }
+    },
+    "payModel": "per_route",
+    "estimatedHourlyMin": 18,
+    "estimatedHourlyMax": 20,
+    "tipsAllowed": false,
+    "paymentFrequency": "daily",
+    "instantPayAvailable": true,
+    "instantPayMethod": "next-day payout after route completion",
+    "deliveryType": "scheduled",
+    "usesThirdPartyDelivery": false,
+    "driverStatus": "active",
+    "lastUpdated": "2026-09-06",
+    "dataSources": [
+      "official_website",
+      "app_store_listing",
+      "job_listing"
+    ],
+    "verificationStatus": "verified",
+    "setupRequired": true,
+    "keyFeatures": "Set your own schedule; accept routes in the CanRunner app; get paid the next day after completing a route; simple can-to-curb-and-back task; no delivery experience needed.",
+    "userFeedback": "Indeed-listed CanRunner driver pay in the $18-$20/hr range (single market sample); daily payout after route completion; niche, low-competition category compared to food/rideshare gigs."
   }
 ]

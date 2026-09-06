@@ -93,7 +93,7 @@ export default async function BlogArticlePage({
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10">
+      <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-5 md:p-10">
       <h1 className="text-4xl font-bold mb-6">
         {article.title}
       </h1>

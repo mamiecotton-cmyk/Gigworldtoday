@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
-      <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-10">
+      <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-5 md:p-10">
         <h1 className="text-3xl font-bold capitalize mb-8">{categoryName}</h1>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
