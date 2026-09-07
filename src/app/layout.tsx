@@ -106,14 +106,6 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
-        {/* emrldtp — lazyOnload, zero render impact */}
-        <Script
-          src="https://emrldtp.com/NTA3Mjg5.js?t=507289"
-          strategy="lazyOnload"
-          data-noptimize="1"
-          data-cfasync="false"
-          data-wpfc-render="false"
-        />
       </body>
     </html>
   );

@@ -38,7 +38,7 @@ export default async function ProductsPage() {
   const products = productsData ?? [];
 
   // Ensure featured products surface to the top (limit to top 3 featured)
-  const featured = (products as any[]).filter((p) => p.featured).slice(0, 3);
+  const featured = (products as any[]).filter((p) => p.featured);
   const featuredIds = new Set(featured.map((f) => f.id));
   const orderedProducts = [...featured, ...((products as any[]).filter((p) => !featuredIds.has(p.id)))];
 
