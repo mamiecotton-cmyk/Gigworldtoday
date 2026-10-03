@@ -23,6 +23,7 @@ const CATEGORIES = [
   { slug: "platform-analysis", name: "Platform Analysis" },
   { slug: "tutorials", name: "Tutorials" },
   { slug: "recommended-tools", name: "Recommended Tools" },
+  { slug: "gig-spotlight", name: "Gig Spotlight" },
 ];
 
 const POST_TYPES = [
