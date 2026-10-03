@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabaseServer";
 import { Resend } from "resend";
+import {
+  ensureUnsubscribeFooter,
+  personalizeUnsubscribe,
+  unsubscribeHeaders,
+  unsubscribeUrl,
+} from "@/lib/unsubscribe";
 import fs from "fs";
 import path from "path";
 
@@ -57,6 +63,9 @@ ${htmlContent}
     }
   }
 
+  // Make sure every email has an unsubscribe link (adds a footer if the content has none)
+  html = ensureUnsubscribeFooter(html);
+
   /* ── 3. Determine recipients ─────────────────────────── */
   const resend = new Resend(apiKey);
   const results: { email: string; status: "sent" | "failed"; error?: string }[] = [];
@@ -64,11 +73,13 @@ ${htmlContent}
   if (testOnly) {
     // Send only to the admin/test address
     try {
+      const testUnsubUrl = unsubscribeUrl("test");
       await resend.emails.send({
         from: FROM,
         to: TEST_RECIPIENT,
         subject: `[TEST] ${subject}`,
-        html,
+        html: personalizeUnsubscribe(html, testUnsubUrl),
+        headers: unsubscribeHeaders(testUnsubUrl),
       });
       console.log(`[send-newsletter] ✓ Test sent to ${TEST_RECIPIENT}`);
       results.push({ email: TEST_RECIPIENT, status: "sent" });
@@ -102,7 +113,7 @@ ${htmlContent}
   const supabase = createServerSupabase();
   const { data: subscribers, error: dbError } = await supabase
     .from("email_subscribers")
-    .select("email")
+    .select("id, email")
     .neq("status", "unsubscribed");
 
   if (dbError) {
@@ -121,11 +132,13 @@ ${htmlContent}
 
   for (const sub of subscribers) {
     try {
+      const unsubUrl = unsubscribeUrl(sub.id);
       await resend.emails.send({
         from: FROM,
         to: sub.email,
         subject,
-        html,
+        html: personalizeUnsubscribe(html, unsubUrl),
+        headers: unsubscribeHeaders(unsubUrl),
       });
       console.log(`[send-newsletter] ✓ Sent to ${sub.email}`);
       results.push({ email: sub.email, status: "sent" });

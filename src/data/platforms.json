@@ -1911,6 +1911,9 @@
       "MC number (for long-distance)"
     ],
     "otherRequirements": "Must be registered with DOT and hold MC number for interstate work. No heavy lifting - movers handle that. Set your own schedule via app. Weekly pay.",
+    "recommendedEquipment": [
+      {"label": "Dash cam", "productSlug": "rexing-v3c-dual-dash-cam-rideshare-delivery"}
+    ],
     "countries": [
       "USA"
     ],

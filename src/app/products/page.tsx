@@ -149,6 +149,10 @@ export default async function ProductsPage() {
           </div>
         )}
       </section>
+      <p className="mx-auto max-w-7xl px-6 pb-6 text-sm leading-relaxed text-gray-600 lg:px-8">
+        <strong>Affiliate disclosure:</strong> Product pages may contain affiliate links.
+        If you buy through these links, GigWorldToday may earn a commission at no extra cost to you.
+      </p>
     </div>
   );
 }

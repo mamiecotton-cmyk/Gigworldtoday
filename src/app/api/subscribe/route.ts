@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabaseServer";
 import { Resend } from "resend";
+import {
+  ensureUnsubscribeFooter,
+  personalizeUnsubscribe,
+  unsubscribeHeaders,
+  unsubscribeUrl,
+} from "@/lib/unsubscribe";
 
 const WELCOME_HTML = `
 <div style="max-width:600px;margin:auto;font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#333;">
@@ -133,18 +139,20 @@ Founder, GigWorldToday
 </div>
 `;
 
-async function sendWelcomeEmail(email: string) {
+async function sendWelcomeEmail(email: string, subscriberId: string) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("[subscribe] RESEND_API_KEY not set — skipping welcome email");
     return;
   }
   const resend = new Resend(apiKey);
+  const unsubUrl = unsubscribeUrl(subscriberId);
   await resend.emails.send({
     from: "GigWorldToday <newsletter@gigworldtoday.com>",
     to: email,
     subject: "Welcome to GigWorldToday ⭐",
-    html: WELCOME_HTML,
+    html: personalizeUnsubscribe(ensureUnsubscribeFooter(WELCOME_HTML), unsubUrl),
+    headers: unsubscribeHeaders(unsubUrl),
   });
   console.log(`[subscribe] Welcome email sent to ${email}`);
 }
@@ -182,7 +190,7 @@ export async function POST(req: Request) {
       // If welcome email hasn't been sent yet, send it now and mark column
       if (!existing.welcome_email_sent) {
         try {
-          await sendWelcomeEmail(email);
+          await sendWelcomeEmail(email, existing.id);
           await supabase
             .from("email_subscribers")
             .update({ welcome_email_sent: true })
@@ -201,7 +209,7 @@ export async function POST(req: Request) {
   // If inserted successfully, send welcome email
   try {
     if (!inserted.welcome_email_sent) {
-      await sendWelcomeEmail(email);
+      await sendWelcomeEmail(email, inserted.id);
       await supabase
         .from("email_subscribers")
         .update({ welcome_email_sent: true })

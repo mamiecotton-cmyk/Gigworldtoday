@@ -245,6 +245,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </Link>
         </div>
       </section>
+      <p className="mx-auto max-w-6xl px-6 pb-6 text-sm leading-relaxed text-gray-600 lg:px-8">
+        <strong>Affiliate disclosure:</strong> This page may contain affiliate links.
+        If you buy through these links, GigWorldToday may earn a commission at no extra cost to you.
+      </p>
     </div>
   );
 }

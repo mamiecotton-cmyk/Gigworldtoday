@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { CalendarDays } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { formatLocalDate } from "@/lib/dateUtils";
 import PlatformLogo from "@/components/PlatformLogo";
+
+type DashboardView = "day" | "week" | "month" | "year";
 
 interface EarningsData {
   id?: string;
@@ -22,13 +25,18 @@ interface Props {
   onDeeplinkConsumed?: () => void;
 }
 
+const localDateInputValue = (date: Date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
 export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Props = {}) {
+  const today = localDateInputValue(new Date());
   const [data, setData] = useState<EarningsData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [view, setView] = useState<"week" | "month" | "year">("week");
+  const [view, setView] = useState<DashboardView>("week");
+  const [selectedDate, setSelectedDate] = useState(today);
   const [drillPlatform, setDrillPlatform] = useState<string | null>(null);
-  const [pendingDeeplink, setPendingDeeplink] = useState<{ platform: string; view: "week" | "month" | "year" } | null>(null);
+  const [pendingDeeplink, setPendingDeeplink] = useState<{ platform: string; view: DashboardView } | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editDate, setEditDate] = useState("");
@@ -63,25 +71,28 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
       }
 
       const now = new Date();
-      let startDate: string;
+      let query = supabase
+        .from("earnings_log")
+        .select("id, platform_id, platform_name, base_pay, tips, adjustments, bonuses, total_pay, date")
+        .eq("user_id", user.id);
 
-      if (view === "week") {
+      if (view === "day") {
+        query = query.eq("date", selectedDate);
+      } else if (view === "week") {
         const weekAgo = new Date(now);
         weekAgo.setDate(weekAgo.getDate() - 7);
-        startDate = weekAgo.toISOString().split("T")[0];
+        const startDate = localDateInputValue(weekAgo);
+        query = query.gte("date", startDate);
       } else if (view === "month") {
-        startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split("T")[0];
+        const startDate = localDateInputValue(new Date(now.getFullYear(), now.getMonth(), 1));
+        query = query.gte("date", startDate);
       } else {
-        startDate = new Date(now.getFullYear(), 0, 1).toISOString().split("T")[0];
+        const startDate = localDateInputValue(new Date(now.getFullYear(), 0, 1));
+        query = query.gte("date", startDate);
       }
 
       const { data: earnings, error: earningsError } = await Promise.race([
-        supabase
-          .from("earnings_log")
-          .select("id, platform_id, platform_name, base_pay, tips, adjustments, bonuses, total_pay, date")
-          .eq("user_id", user.id)
-          .gte("date", startDate)
-          .order("date", { ascending: false }),
+        query.order("date", { ascending: false }),
         timeoutPromise,
       ]);
 
@@ -99,7 +110,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
     } finally {
       setLoading(false);
     }
-  }, [view]);
+  }, [view, selectedDate]);
 
   useEffect(() => {
     fetchEarnings();
@@ -109,26 +120,10 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   useEffect(() => {
     if (!deeplink) return;
 
-    // Parse date as local (avoids UTC off-by-one)
-    const [y, m, d] = deeplink.date.split("-").map(Number);
-    const entryDate = new Date(y, m - 1, d);
-    const now = new Date();
-    const sevenDaysAgo = new Date(now);
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-    let nextView: "week" | "month" | "year" = "year";
-    if (entryDate >= sevenDaysAgo) {
-      nextView = "week";
-    } else if (
-      entryDate.getFullYear() === now.getFullYear() &&
-      entryDate.getMonth() === now.getMonth()
-    ) {
-      nextView = "month";
-    } else if (entryDate.getFullYear() === now.getFullYear()) {
-      nextView = "year";
-    }
+    const nextView: DashboardView = "day";
 
     setPendingDeeplink({ platform: deeplink.platform_name, view: nextView });
+    setSelectedDate(deeplink.date);
     setView(nextView);
     onDeeplinkConsumed?.();
   }, [deeplink, onDeeplinkConsumed]);
@@ -271,7 +266,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   const last7Days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (6 - i));
-    const dateStr = d.toISOString().split("T")[0];
+    const dateStr = localDateInputValue(d);
     const dayEarnings = data
       .filter((e) => e.date === dateStr)
       .reduce((s, e) => s + entryTotal(e), 0);
@@ -283,6 +278,20 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   });
 
   const maxDay = Math.max(...last7Days.map((d) => d.amount), 1);
+
+  const periodLabel =
+    view === "day"
+      ? formatLocalDate(selectedDate, {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+      : view === "week"
+      ? "Last 7 days"
+      : view === "month"
+      ? "This month"
+      : "This year";
 
   const drillEntries = drillPlatform
     ? data
@@ -319,8 +328,8 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
     <>
       <div className="space-y-5">
         {/* View toggle */}
-        <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
-          {(["week", "month", "year"] as const).map((v) => (
+        <div className="grid grid-cols-4 gap-1 bg-gray-100 rounded-xl p-1">
+          {(["day", "week", "month", "year"] as const).map((v) => (
             <button
               key={v}
               onClick={() => setView(v)}
@@ -328,25 +337,63 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
                 view === v
                   ? "bg-white text-[#1A1A2E] shadow-sm"
                   : "text-gray-400 hover:text-gray-600"
-              }`}
+                }`}
             >
-              {v === "week" ? "This Week" : v === "month" ? "This Month" : "This Year"}
+              {v === "day" ? "Day" : v === "week" ? "Week" : v === "month" ? "Month" : "Year"}
             </button>
           ))}
         </div>
 
+        <label className="flex items-center gap-3 bg-teal-50 border border-teal-100 rounded-xl px-3 py-2.5">
+          <span className="w-8 h-8 rounded-lg bg-white text-teal-600 flex items-center justify-center flex-shrink-0">
+            <CalendarDays size={17} strokeWidth={2.2} aria-hidden="true" />
+          </span>
+          <span className="flex-1 min-w-0">
+            <span className="block text-[10px] text-teal-700/70 uppercase tracking-wider font-bold">
+              Pick a day
+            </span>
+            <span className="block text-sm font-semibold text-[#1A1A2E] truncate">
+              {view === "day"
+                ? `Showing ${formatLocalDate(selectedDate, {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}`
+                : "Choose a date to see daily totals"}
+            </span>
+          </span>
+          <input
+            type="date"
+            value={selectedDate}
+            max={today}
+            onChange={(e) => {
+              if (!e.target.value) return;
+              setSelectedDate(e.target.value);
+              setView("day");
+            }}
+            className="w-[8.4rem] text-xs border border-teal-200 rounded-lg px-2 py-1.5 focus:border-[#00C9B1] outline-none bg-white text-gray-700"
+          />
+        </label>
+
         {data.length === 0 ? (
           <div className="text-center py-10 text-gray-400">
             <p className="text-3xl mb-2">📊</p>
-            <p className="text-sm">No earnings logged yet for this period.</p>
-            <p className="text-xs mt-1">Start logging your daily earnings above.</p>
+            <p className="text-sm">
+              {view === "day" ? "No earnings logged for this day." : "No earnings logged yet for this period."}
+            </p>
+            <p className="text-xs mt-1">
+              {view === "day" ? "Pick another date or log earnings above." : "Start logging your daily earnings above."}
+            </p>
           </div>
         ) : (
           <>
             {/* Main stats */}
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gradient-to-br from-[#1A1A2E] to-[#0f3460] rounded-2xl p-4 col-span-2">
-                <p className="text-xs text-white/50 mb-1">Total Earnings</p>
+                <p className="text-xs text-white/50 mb-1">
+                  {view === "day" ? "Daily Earnings" : "Total Earnings"} · {periodLabel}
+                </p>
                 <p className="text-3xl font-bold text-white">${totalEarnings.toFixed(2)}</p>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-3">
                   <div>
@@ -487,7 +534,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
             </div>
             <p className="text-xs text-gray-500 mb-4">
               {drillEntries.length} {drillEntries.length === 1 ? "entry" : "entries"} ·{" "}
-              {view === "week" ? "Last 7 days" : view === "month" ? "This month" : "This year"}
+              {periodLabel}
             </p>
 
             <div className="space-y-2">

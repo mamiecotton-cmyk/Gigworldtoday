@@ -19,6 +19,7 @@ import {
 import platformsData from "@/data/platforms.json";
 import { Platform } from "@/lib/types";
 import SignupBanner from "@/components/SignupBanner";
+import RecommendedEquipment from "@/components/RecommendedEquipment";
 import TrackedLink from "@/components/TrackedLink";
 import PlatformShareButton from "@/components/PlatformShareButton";
 import { supabase } from "@/lib/supabaseClient";
@@ -271,46 +272,58 @@ export default function PlatformDetailPage() {
 
         {/* Info Grid */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">
-          {/* Pay & Compensation */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
-              <DollarSign size={20} className="text-[#00C9B1]" />
-              Pay & Compensation
-            </h2>
-            <div className="space-y-3 text-sm">
-              {payRange && (
+          {/* Pay & Compensation + Recommended Equipment */}
+          <div className="flex flex-col gap-6">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
+                <DollarSign size={20} className="text-[#00C9B1]" />
+                Pay & Compensation
+              </h2>
+              <div className="space-y-3 text-sm">
+                {payRange && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Estimated Pay</span>
+                    <span className="font-medium text-gray-900">{payRange}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Estimated Pay</span>
-                  <span className="font-medium text-gray-900">{payRange}</span>
-                </div>
-              )}
-              <div className="flex justify-between">
-                <span className="text-gray-500">Pay Model</span>
-                <span className="font-medium text-gray-900">
-                  {platform.payModel || "Not specified"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">Tips</span>
-                <span className="font-medium text-gray-900">
-                  {platform.tipsAllowed ? "Yes" : "No"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">Payment Frequency</span>
-                <span className="font-medium text-gray-900">
-                  {platform.paymentFrequency || "Not specified"}
-                </span>
-              </div>
-              {platform.instantPayAvailable && (
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Instant Pay</span>
-                  <span className="font-medium text-green-700">
-                    Available{platform.instantPayLimit && ` (${platform.instantPayLimit})`}
+                  <span className="text-gray-500">Pay Model</span>
+                  <span className="font-medium text-gray-900">
+                    {platform.payModel || "Not specified"}
                   </span>
                 </div>
-              )}
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Tips</span>
+                  <span className="font-medium text-gray-900">
+                    {platform.tipsAllowed ? "Yes" : "No"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Payment Frequency</span>
+                  <span className="font-medium text-gray-900">
+                    {platform.paymentFrequency || "Not specified"}
+                  </span>
+                </div>
+                {platform.instantPayAvailable && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Instant Pay</span>
+                    <span className="font-medium text-green-700">
+                      Available{platform.instantPayLimit && ` (${platform.instantPayLimit})`}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
+
+            {platform.recommendedEquipment && platform.recommendedEquipment.length > 0 && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h2 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
+                  <Shield size={20} className="text-[#00C9B1]" />
+                  Recommended Equipment
+                </h2>
+                <RecommendedEquipment items={platform.recommendedEquipment} />
+              </div>
+            )}
           </div>
 
           {/* Requirements */}
@@ -358,14 +371,16 @@ export default function PlatformDetailPage() {
                   {platform.insuranceRequired ? "Yes" : "No"}
                 </span>
               </div>
-              {platform.equipmentNeeded && platform.equipmentNeeded.length > 0 && (
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Equipment</span>
-                  <span className="font-medium text-gray-900">
-                    {platform.equipmentNeeded.join(", ")}
-                  </span>
-                </div>
-              )}
+              <div className="flex justify-between">
+                <span className="text-gray-500">Smartphone</span>
+                <span className="font-medium text-gray-900">
+                  {platform.equipmentNeeded?.some((e) =>
+                    e.toLowerCase().includes("smartphone")
+                  )
+                    ? "Yes"
+                    : "No"}
+                </span>
+              </div>
               {platform.otherRequirements && (
                 <div className="pt-2 border-t">
                   <span className="text-gray-500 block mb-1">Other</span>

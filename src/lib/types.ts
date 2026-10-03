@@ -23,6 +23,7 @@ export interface Platform {
   insuranceRequired: boolean;
   equipmentNeeded: string[];
   otherRequirements?: string;
+  recommendedEquipment?: { label: string; productSlug?: string }[];
 
   // Availability
   availability_notes?: string;
