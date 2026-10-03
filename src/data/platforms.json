@@ -2318,7 +2318,7 @@
     "insuranceRequired": true,
     "equipmentNeeded": [
       "Smartphone with internet",
-      "Ability to carry items up to 40 lbs"
+      "Ability to carry items up to 50 lbs"
     ],
     "otherRequirements": "Vehicle must be clean and in good working condition. Sedans and pickup trucks are NOT eligible. Rental vehicles are not allowed. Weekly pay via direct deposit through Stripe. Must connect bank account to receive payment.",
     "countries": [
@@ -2328,13 +2328,20 @@
       "USA": {
         "status": "Available in major cities",
         "cities": [
-          "New York City, NY",
-          "Boston, MA",
-          "Los Angeles, CA",
-          "Chicago, IL",
-          "Miami, FL",
           "Atlanta, GA",
-          "Houston, TX"
+          "Austin, TX",
+          "Baltimore, MD",
+          "Boston, MA",
+          "Charlotte, NC",
+          "Chicago, IL",
+          "Dallas, TX",
+          "Denver, CO",
+          "Houston, TX",
+          "Los Angeles, CA",
+          "Miami, FL",
+          "New York City, NY",
+          "Newark, NJ",
+          "Washington, DC"
         ],
         "waitlistStatus": "open"
       }
@@ -2348,7 +2355,7 @@
     "paymentFrequency": "weekly",
     "deliveryType": "scheduled",
     "setupRequired": true,
-    "lastUpdated": "2026-02-27",
+    "lastUpdated": "2026-10-03",
     "dataSources": [
       "https://metrobi.com/driver/",
       "Job listings"

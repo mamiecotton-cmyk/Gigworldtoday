@@ -19,7 +19,7 @@ export async function generateMetadata({
 
   const { data: article } = await supabase
     .from("articles")
-    .select("title, excerpt, tags")
+    .select("title, excerpt, tags, featured_image, published_at, updated_at, seo_title, seo_description")
     .eq("slug", slug)
     .eq("published", true)
     .is("deleted_at", null)
@@ -31,10 +31,31 @@ export async function generateMetadata({
     };
   }
 
+  const title = article.seo_title || article.title;
+  const description = article.seo_description || article.excerpt || undefined;
+  const image = article.featured_image || "https://www.gigworldtoday.com/og-image.png";
+
   return {
-    title: article.title,
-    description: article.excerpt || undefined,
+    title,
+    description,
     keywords: Array.isArray(article.tags) ? article.tags : undefined,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: `/blog/${slug}`,
+      siteName: "GigWorldToday",
+      publishedTime: article.published_at ?? undefined,
+      modifiedTime: article.updated_at ?? undefined,
+      images: [{ url: image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
   };
 }
 
@@ -59,6 +80,8 @@ export default async function BlogArticlePage({
       content_json,
       tags,
       published,
+      published_at,
+      updated_at,
       deleted_at
     `)
     .eq("slug", slug)
@@ -91,8 +114,39 @@ export default async function BlogArticlePage({
     return <div className="p-6">Not found</div>;
   }
 
+  const articleUrl = `https://www.gigworldtoday.com/blog/${article.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.excerpt || undefined,
+    image: article.featured_image ? [article.featured_image] : undefined,
+    datePublished: article.published_at || undefined,
+    dateModified: article.updated_at || article.published_at || undefined,
+    author: {
+      "@type": "Person",
+      name: "Mamie",
+      url: "https://www.gigworldtoday.com/about",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "GigWorldToday",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.gigworldtoday.com/GigWorldLogoMain.png",
+      },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+  };
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="bg-white/85 rounded-3xl shadow-2xl border border-white/40 p-5 md:p-10">
       <h1 className="text-4xl font-bold mb-6">
         {article.title}
