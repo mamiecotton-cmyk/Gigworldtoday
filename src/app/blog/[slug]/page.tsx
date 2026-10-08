@@ -185,7 +185,15 @@ export default async function BlogArticlePage({
                 className="w-full h-full"
               />
             </div>
-            <p className="text-center text-xs text-gray-500 mt-2">📹 Watch the video version</p>
+            <div className="flex items-center justify-center gap-4 mt-3">
+              <p className="text-xs text-gray-500">📹 Watch the video version</p>
+              <iframe
+                src="https://www.youtube.com/subscribe_embed?channelid=UCnvYW8_sApy-_TKaBqDfbmQ"
+                className="rounded"
+                style={{ width: 174, height: 30, border: 'none', overflow: 'hidden' }}
+                title="Subscribe to GigWorldToday on YouTube"
+              />
+            </div>
           </div>
         );
       })()}
