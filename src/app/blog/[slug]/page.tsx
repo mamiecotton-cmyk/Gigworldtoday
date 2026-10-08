@@ -78,6 +78,7 @@ export default async function BlogArticlePage({
       featured_image,
       show_featured_on_detail,
       content_json,
+      video_url,
       tags,
       published,
       published_at,
@@ -161,6 +162,33 @@ export default async function BlogArticlePage({
           />
         </div>
       )}
+
+      {article.video_url && (() => {
+        const url = article.video_url;
+        const isShort = url.includes('/shorts/');
+        const videoId = isShort
+          ? url.split('/shorts/')[1]?.split(/[?&]/)[0]
+          : url.includes('youtu.be/')
+            ? url.split('youtu.be/')[1]?.split(/[?&]/)[0]
+            : url.includes('v=')
+              ? url.split('v=')[1]?.split(/[?&]/)[0]
+              : null;
+        if (!videoId) return null;
+        return (
+          <div className={`mb-8 ${isShort ? 'flex justify-center' : ''}`}>
+            <div className="bg-gray-900 rounded-xl overflow-hidden" style={isShort ? { width: 280, height: 498 } : { width: '100%', aspectRatio: '16/9' }}>
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}`}
+                title="Video version of this article"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+            <p className="text-center text-xs text-gray-500 mt-2">📹 Watch the video version</p>
+          </div>
+        );
+      })()}
 
       <ArticleRenderer contentJson={article.content_json} />
 

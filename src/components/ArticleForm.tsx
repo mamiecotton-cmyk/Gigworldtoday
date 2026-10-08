@@ -15,6 +15,7 @@ interface Props {
   initialPublished?: boolean;
   initialFeaturedImage?: string | null;
   initialTags?: string[];
+  initialVideoUrl?: string | null;
 }
 
 const CATEGORIES = [
@@ -40,6 +41,7 @@ export default function ArticleForm({
   initialPublished = false,
   initialFeaturedImage = null,
   initialTags = [],
+  initialVideoUrl = null,
 }: Props) {
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
@@ -53,6 +55,7 @@ export default function ArticleForm({
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [tags, setTags] = useState<string[]>(initialTags);
+  const [videoUrl, setVideoUrl] = useState<string | null>(initialVideoUrl);
 
   // Featured image state
   const [featuredImageUrl, setFeaturedImageUrl] = useState<string | null>(initialFeaturedImage);
@@ -164,6 +167,7 @@ export default function ArticleForm({
       show_featured_on_list: showFeaturedOnList,
       show_featured_on_detail: showFeaturedOnDetail,
       tags,
+      video_url: videoUrl,
     };
 
     if (publish) {
@@ -421,6 +425,20 @@ export default function ArticleForm({
         <BlockEditor blocks={blocks} setBlocks={setBlocks} />
       </div>
 
+      {/* YouTube Video */}
+      <div>
+        <label className="block font-medium mb-1">YouTube Video URL</label>
+        <input
+          className="w-full border rounded px-3 py-2 text-sm"
+          value={videoUrl || ""}
+          onChange={(e) => setVideoUrl(e.target.value || null)}
+          placeholder="https://youtube.com/shorts/... or https://youtu.be/..."
+        />
+        {videoUrl && (
+          <p className="text-xs text-green-600 mt-1">✓ Video will be embedded on the article page</p>
+        )}
+      </div>
+
       {/* Categories */}
       <div>
         <label className="block font-medium mb-2">Post Type</label>
@@ -508,6 +526,7 @@ export default function ArticleForm({
             setBlocks(initialContent.length ? [...initialContent] : []);
             setFeaturedImageUrl(initialFeaturedImage);
             setTags(initialTags);
+            setVideoUrl(initialVideoUrl);
             setShowFeaturedOnList(true);
             setShowFeaturedOnDetail(true);
             setPublished(typeof initialPublished === "boolean" ? initialPublished : false);

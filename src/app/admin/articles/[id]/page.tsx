@@ -14,7 +14,7 @@ export default async function EditArticle({
 
   const { data: article } = await supabase
     .from("articles")
-    .select("id, title, slug, excerpt, content_json, content_version, published, featured_image, tags")
+    .select("id, title, slug, excerpt, content_json, content_version, published, featured_image, tags, video_url")
     .eq("id", id)
     .single();
 
@@ -41,6 +41,7 @@ export default async function EditArticle({
         initialPublished={article.published}
         initialFeaturedImage={article.featured_image}
         initialTags={article.tags || []}
+        initialVideoUrl={article.video_url || null}
       />
 
       <SendNewsletterButton
