@@ -175,7 +175,7 @@ export default async function BlogArticlePage({
               : null;
         if (!videoId) return null;
         return (
-          <div className={`mb-8 ${isShort ? 'flex justify-center' : ''}`}>
+          <div className={`mb-8 ${isShort ? 'flex flex-col items-center' : ''}`}>
             <div className="bg-gray-900 rounded-xl overflow-hidden" style={isShort ? { width: 280, height: 498 } : { width: '100%', aspectRatio: '16/9' }}>
               <iframe
                 src={`https://www.youtube.com/embed/${videoId}`}
@@ -185,14 +185,16 @@ export default async function BlogArticlePage({
                 className="w-full h-full"
               />
             </div>
-            <div className="flex items-center justify-center gap-4 mt-3">
+            <div className="flex flex-wrap items-center justify-center gap-4 mt-3">
               <p className="text-xs text-gray-500">📹 Watch the video version</p>
-              <iframe
-                src="https://www.youtube.com/subscribe_embed?channelid=UCnvYW8_sApy-_TKaBqDfbmQ"
-                className="rounded"
-                style={{ width: 174, height: 30, border: 'none', overflow: 'hidden' }}
-                title="Subscribe to GigWorldToday on YouTube"
-              />
+              <a
+                href="https://www.youtube.com/channel/UCnvYW8_sApy-_TKaBqDfbmQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              >
+                Subscribe on YouTube
+              </a>
             </div>
           </div>
         );
