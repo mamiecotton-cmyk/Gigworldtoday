@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { formatLocalDate } from "@/lib/dateUtils";
 import PlatformLogo from "@/components/PlatformLogo";
@@ -28,6 +28,37 @@ interface Props {
 const localDateInputValue = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
+const getWeekRange = (offset: number) => {
+  const end = new Date();
+  end.setDate(end.getDate() - offset * 7);
+  const start = new Date(end);
+  start.setDate(start.getDate() - 6);
+  return { start, end };
+};
+
+const getMonthRange = (offset: number) => {
+  const now = new Date();
+  return {
+    start: new Date(now.getFullYear(), now.getMonth() - offset, 1),
+    end: new Date(now.getFullYear(), now.getMonth() - offset + 1, 0),
+  };
+};
+
+const getYearRange = (offset: number) => {
+  const year = new Date().getFullYear() - offset;
+  return { start: new Date(year, 0, 1), end: new Date(year, 11, 31) };
+};
+
+const shiftDate = (dateStr: string, days: number) => {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  date.setDate(date.getDate() + days);
+  return localDateInputValue(date);
+};
+
+const shortDate = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
 export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Props = {}) {
   const today = localDateInputValue(new Date());
   const [data, setData] = useState<EarningsData[]>([]);
@@ -35,6 +66,9 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<DashboardView>("week");
   const [selectedDate, setSelectedDate] = useState(today);
+  const [weekOffset, setWeekOffset] = useState(0);
+  const [monthOffset, setMonthOffset] = useState(0);
+  const [yearOffset, setYearOffset] = useState(0);
   const [drillPlatform, setDrillPlatform] = useState<string | null>(null);
   const [pendingDeeplink, setPendingDeeplink] = useState<{ platform: string; view: DashboardView } | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -70,7 +104,6 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
         return;
       }
 
-      const now = new Date();
       let query = supabase
         .from("earnings_log")
         .select("id, platform_id, platform_name, base_pay, tips, adjustments, bonuses, total_pay, date")
@@ -78,17 +111,15 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
 
       if (view === "day") {
         query = query.eq("date", selectedDate);
-      } else if (view === "week") {
-        const weekAgo = new Date(now);
-        weekAgo.setDate(weekAgo.getDate() - 7);
-        const startDate = localDateInputValue(weekAgo);
-        query = query.gte("date", startDate);
-      } else if (view === "month") {
-        const startDate = localDateInputValue(new Date(now.getFullYear(), now.getMonth(), 1));
-        query = query.gte("date", startDate);
       } else {
-        const startDate = localDateInputValue(new Date(now.getFullYear(), 0, 1));
-        query = query.gte("date", startDate);
+        const { start, end } = view === "week"
+          ? getWeekRange(weekOffset)
+          : view === "month"
+          ? getMonthRange(monthOffset)
+          : getYearRange(yearOffset);
+        query = query
+          .gte("date", localDateInputValue(start))
+          .lte("date", localDateInputValue(end));
       }
 
       const { data: earnings, error: earningsError } = await Promise.race([
@@ -110,7 +141,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
     } finally {
       setLoading(false);
     }
-  }, [view, selectedDate]);
+  }, [view, selectedDate, weekOffset, monthOffset, yearOffset]);
 
   useEffect(() => {
     fetchEarnings();
@@ -263,8 +294,9 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
   const platformRanking = Object.entries(byPlatform)
     .sort((a, b) => b[1].total - a[1].total);
 
+  const weekRange = getWeekRange(weekOffset);
   const last7Days = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
+    const d = new Date(weekRange.end);
     d.setDate(d.getDate() - (6 - i));
     const dateStr = localDateInputValue(d);
     const dayEarnings = data
@@ -288,10 +320,45 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
           year: "numeric",
         })
       : view === "week"
-      ? "Last 7 days"
+      ? weekOffset === 0
+        ? "Last 7 days"
+        : `${shortDate(weekRange.start)} – ${shortDate(weekRange.end)}`
       : view === "month"
-      ? "This month"
-      : "This year";
+      ? monthOffset === 0
+        ? "This month"
+        : getMonthRange(monthOffset).start.toLocaleDateString("en-US", { month: "long", year: "numeric" })
+      : yearOffset === 0
+      ? "This year"
+      : String(getYearRange(yearOffset).start.getFullYear());
+
+  const navLabel = view === "month"
+    ? getMonthRange(monthOffset).start.toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    : view === "year"
+    ? String(getYearRange(yearOffset).start.getFullYear())
+    : periodLabel;
+
+  const nextDisabled = view === "day"
+    ? selectedDate >= today
+    : view === "week"
+    ? weekOffset === 0
+    : view === "month"
+    ? monthOffset === 0
+    : yearOffset === 0;
+
+  const goPrev = () => {
+    if (view === "day") setSelectedDate((date) => shiftDate(date, -1));
+    else if (view === "week") setWeekOffset((offset) => offset + 1);
+    else if (view === "month") setMonthOffset((offset) => offset + 1);
+    else setYearOffset((offset) => offset + 1);
+  };
+
+  const goNext = () => {
+    if (nextDisabled) return;
+    if (view === "day") setSelectedDate((date) => shiftDate(date, 1));
+    else if (view === "week") setWeekOffset((offset) => Math.max(0, offset - 1));
+    else if (view === "month") setMonthOffset((offset) => Math.max(0, offset - 1));
+    else setYearOffset((offset) => Math.max(0, offset - 1));
+  };
 
   const drillEntries = drillPlatform
     ? data
@@ -342,6 +409,27 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
               {v === "day" ? "Day" : v === "week" ? "Week" : v === "month" ? "Month" : "Year"}
             </button>
           ))}
+        </div>
+
+        <div className="flex items-center justify-between bg-gray-50 rounded-xl px-2 py-1.5">
+          <button
+            type="button"
+            onClick={goPrev}
+            aria-label="Previous period"
+            className="w-9 h-9 rounded-lg text-gray-500 hover:bg-white flex items-center justify-center"
+          >
+            <ChevronLeft size={18} aria-hidden="true" />
+          </button>
+          <span className="text-center text-sm font-semibold text-[#1A1A2E]">{navLabel}</span>
+          <button
+            type="button"
+            onClick={goNext}
+            disabled={nextDisabled}
+            aria-label="Next period"
+            className="w-9 h-9 rounded-lg text-gray-500 hover:bg-white disabled:opacity-25 disabled:cursor-not-allowed flex items-center justify-center"
+          >
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
         </div>
 
         <label className="flex items-center gap-3 bg-teal-50 border border-teal-100 rounded-xl px-3 py-2.5">
@@ -438,7 +526,7 @@ export default function EarningsDashboard({ deeplink, onDeeplinkConsumed }: Prop
             {view === "week" && (
               <div>
                 <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
-                  Last 7 Days
+                  {periodLabel}
                 </p>
                 <div className="flex items-end gap-2 h-24">
                   {last7Days.map((day) => (
