@@ -7,6 +7,11 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://gigworldtoday.com"
 
 // GET so a signed-out visitor can be sent through login and land back here.
 export async function GET(req: Request) {
+  // Keep checkout closed until the full guide is ready (set NEXT_PUBLIC_BLUEPRINT_LIVE=true in Vercel).
+  if (process.env.NEXT_PUBLIC_BLUEPRINT_LIVE !== "true") {
+    return NextResponse.redirect(new URL("/rental-blueprint", SITE_URL), 303);
+  }
+
   const secret = process.env.STRIPE_SECRET_KEY;
   if (!secret) {
     return NextResponse.json({ error: "Checkout is not configured" }, { status: 500 });
