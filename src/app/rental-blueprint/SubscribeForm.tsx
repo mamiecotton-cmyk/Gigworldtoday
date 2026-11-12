@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 
-export default function SubscribeForm() {
+type Props = {
+  /** Shown as a download button once the visitor has signed up. */
+  downloadHref?: string;
+};
+
+export default function SubscribeForm({ downloadHref }: Props) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -33,7 +38,20 @@ export default function SubscribeForm() {
   };
 
   if (status === "done") {
-    return <p className="text-green-700 font-semibold">{message}</p>;
+    return (
+      <div>
+        <p className="text-green-700 font-semibold mb-3">{message}</p>
+        {downloadHref ? (
+          <a
+            href={downloadHref}
+            download
+            className="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-lg"
+          >
+            Download your free overview (PDF)
+          </a>
+        ) : null}
+      </div>
+    );
   }
 
   return (
@@ -51,7 +69,7 @@ export default function SubscribeForm() {
         disabled={status === "loading"}
         className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-5 py-2.5 rounded-lg disabled:opacity-60"
       >
-        {status === "loading" ? "Joining..." : "Get Weekly Gig Tips"}
+        {status === "loading" ? "Sending..." : "Send me the free overview"}
       </button>
       {status === "error" && <p className="text-red-600 text-sm">{message}</p>}
     </form>
